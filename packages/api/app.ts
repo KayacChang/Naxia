@@ -15,7 +15,7 @@ server.use(
   logger,
 );
 
-server.get("/items", Item.get);
+server.get("/items", Item.getAll);
 
 server.listen(8080, () => {
   console.log(`🦕 ${server.name} running at ${server.url} 🦕`);
