@@ -1,12 +1,7 @@
 // @ts-ignore
 import { MagicItems } from "fantasy-content-generator";
 import { map, pipe, range, reduce, values } from "ramda";
-
-interface Item {
-  type: string;
-  name: string;
-  description: string;
-}
+import { Item } from "../model";
 
 function toItem(item: any): Item {
   return {

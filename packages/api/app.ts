@@ -16,6 +16,7 @@ server.use(
 );
 
 server.get("/items", Item.getAll);
+server.get("/items/random", Item.getRandom);
 
 server.listen(8080, () => {
   console.log(`🦕 ${server.name} running at ${server.url} 🦕`);
