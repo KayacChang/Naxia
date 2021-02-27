@@ -1,8 +1,6 @@
 import { Next, Request, Response } from "restify";
-import { Random } from "random-js";
-import * as Item from "../data/items";
-
-const random = new Random();
+import { random } from "../utils";
+import * as Item from "../database/items";
 
 export function getAll(req: Request, res: Response, next: Next) {
   res.send(Item.getAll());

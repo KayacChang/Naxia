@@ -17,6 +17,12 @@ server.use(
 
 server.get("/items", Item.getAll);
 server.get("/items/random", Item.getRandom);
+server.get(
+  "/items/images/*",
+  plugins.serveStaticFiles(
+    "static/items",
+  ),
+);
 
 server.listen(8080, () => {
   console.log(`🦕 ${server.name} running at ${server.url} 🦕`);
