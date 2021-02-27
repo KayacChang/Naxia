@@ -1,0 +1,27 @@
+* {
+  pointer-events: none;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  background: #222;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: inherit;
+}
+
+label,
+input,
+a,
+button,
+canvas {
+  pointer-events: auto;
+}

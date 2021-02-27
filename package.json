@@ -1,0 +1,17 @@
+{
+  "name": "@kayac/naxia",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start-client": "yarn workspace @kayac/naxia-client run start",
+    "start-api": "yarn workspace @kayac/naxia-api run start",
+    "start": "concurrently -k 'yarn:start-client' 'yarn:start-api'"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
