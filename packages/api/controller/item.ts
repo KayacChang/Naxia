@@ -9,9 +9,11 @@ export function getAll(req: Request, res: Response, next: Next) {
 }
 
 export function getRandom(req: Request, res: Response, next: Next) {
-  const item = random.pick(Item.getAll());
+  const count = req.query.count || 1;
 
-  res.send(item);
+  const items = random.shuffle(Item.getAll()).slice(0, count);
+
+  res.send(items);
 
   return next();
 }
