@@ -15,11 +15,12 @@ function toItem(id: number, item: any): Item {
   };
 }
 
-const items: Record<string, Item> = range(0, 256).reduce((store, id) => {
-  const item = MagicItems.generate();
-
-  return { ...store, [item.seed]: toItem(id, item) };
-}, {});
+const items: Record<string, Item> = range(0, 256)
+  .map(() => MagicItems.generate())
+  .reduce(
+    (store, item, id) => ({ ...store, [item.seed]: toItem(id, item) }),
+    {},
+  );
 
 export function getAll() {
   return values(items);
