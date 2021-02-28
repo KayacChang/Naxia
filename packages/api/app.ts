@@ -19,6 +19,7 @@ server.use(
 
 // Items
 server.get("/items", Item.getAll);
+server.get("/items/:id", Item.getByID);
 server.get("/items/random", Item.getRandom);
 server.get(
   "/items/images/*",

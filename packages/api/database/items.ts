@@ -18,9 +18,13 @@ function toItem(id: number, item: any): Item {
 const items: Record<string, Item> = range(0, 256)
   .map(() => MagicItems.generate())
   .reduce(
-    (store, item, id) => ({ ...store, [item.seed]: toItem(id, item) }),
+    (store, item, id) => ({ ...store, [id]: toItem(id, item) }),
     {},
   );
+
+export function getByID(id: string) {
+  return items[id];
+}
 
 export function getAll() {
   return values(items);
