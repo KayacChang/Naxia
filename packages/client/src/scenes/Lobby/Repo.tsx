@@ -1,20 +1,13 @@
 import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-
-interface Item {
-  id: number;
-  img: string;
-  level: number;
-  name: string;
-  price: number;
-}
+import { useItems } from "api";
+import { Item } from "types";
 
 type ItemProps = Item & {
   onClick?: () => void;
 };
-function Item({ onClick, img }: ItemProps) {
+function ItemSlot({ onClick, img }: ItemProps) {
   return (
     <button
       className="w-full h-14 bg-purple-500 relative text-white"
@@ -97,15 +90,10 @@ function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
   );
 }
 
-function fetchItems(): Promise<Item[]> {
-  return fetch("/items").then((res) => res.json());
-}
-
 export default function Repo() {
   const [currentActive, setCurrentActive] = useState<Item | undefined>();
   const [openExchange, setOpenExchange] = useState(false);
-
-  const { data } = useQuery("items", fetchItems);
+  const { data } = useItems();
 
   useEffect(() => {
     !currentActive && setOpenExchange(false);
@@ -122,7 +110,7 @@ export default function Repo() {
       <section className="bg-pink-400 max-h-48 overflow-scroll  pointer-events-auto">
         <div className="grid grid-cols-5 gap-2 p-2">
           {data?.map((item) => (
-            <Item
+            <ItemSlot
               key={item.id}
               onClick={() => setCurrentActive(item)}
               {...item}
@@ -133,17 +121,15 @@ export default function Repo() {
 
       {data && currentActive && (
         <Modal>
-          {openExchange || (
+          {openExchange ? (
+            <Exchange
+              {...currentActive}
+              onClose={() => setCurrentActive(undefined)}
+            />
+          ) : (
             <Detail
               {...currentActive}
               onConfirm={() => setOpenExchange(true)}
-              onClose={() => setCurrentActive(undefined)}
-            />
-          )}
-
-          {openExchange && (
-            <Exchange
-              {...currentActive}
               onClose={() => setCurrentActive(undefined)}
             />
           )}
