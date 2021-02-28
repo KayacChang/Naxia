@@ -8,7 +8,7 @@ import { always, propEq } from "ramda";
 type ItemProps = Item & {
   onClick?: () => void;
 };
-function ItemSlot({ onClick, img }: ItemProps) {
+function Grid({ onClick, img }: ItemProps) {
   return (
     <button
       className="w-full h-14 bg-purple-500 relative text-white"
@@ -111,10 +111,10 @@ export default function Repo() {
         <Button onClick={() => setFilter("chip")}>Chip</Button>
       </nav>
 
-      <section className="bg-pink-400 max-h-48 overflow-scroll  pointer-events-auto">
+      <section className="bg-pink-400 max-h-48 overflow-scroll pointer-events-auto">
         <div className="grid grid-cols-5 gap-2 p-2">
           {items.filter(pred).map((item) => (
-            <ItemSlot
+            <Grid
               key={item.id}
               onClick={() => setCurrentActive(item)}
               {...item}
