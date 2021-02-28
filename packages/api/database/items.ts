@@ -7,6 +7,7 @@ import { random } from "../utils";
 function toItem(id: number, item: any): Item {
   return {
     id,
+    type: random.pick(["card", "chip"]),
     name: item.formattedData.title,
     level: random.integer(0, 99),
     img: `/items/images/${String(id + 1).padStart(3, "0")}.png`,
