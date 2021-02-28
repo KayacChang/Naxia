@@ -1,5 +1,5 @@
 export interface Item {
-  id: number;
+  id: string;
   type: "card" | "chip";
   name: string;
   img: string;
