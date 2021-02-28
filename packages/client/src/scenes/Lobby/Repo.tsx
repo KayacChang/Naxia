@@ -3,6 +3,7 @@ import { Modal } from "components/Modal";
 import { useEffect, useState } from "react";
 import { useItems } from "api";
 import { Item } from "types";
+import { always, propEq } from "ramda";
 
 type ItemProps = Item & {
   onClick?: () => void;
@@ -91,9 +92,12 @@ function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
 }
 
 export default function Repo() {
+  const items = useItems();
   const [currentActive, setCurrentActive] = useState<Item | undefined>();
   const [openExchange, setOpenExchange] = useState(false);
-  const { data } = useItems();
+
+  const [filter, setFilter] = useState<"card" | "chip" | undefined>();
+  const pred = filter ? propEq("type", filter) : always(true);
 
   useEffect(() => {
     !currentActive && setOpenExchange(false);
@@ -102,14 +106,14 @@ export default function Repo() {
   return (
     <article className="bg-white w-full flex flex-col">
       <nav className="bg-blue-300">
-        <Button>All</Button>
-        <Button>Card</Button>
-        <Button>Chip</Button>
+        <Button onClick={() => setFilter(undefined)}>All</Button>
+        <Button onClick={() => setFilter("card")}>Card</Button>
+        <Button onClick={() => setFilter("chip")}>Chip</Button>
       </nav>
 
       <section className="bg-pink-400 max-h-48 overflow-scroll  pointer-events-auto">
         <div className="grid grid-cols-5 gap-2 p-2">
-          {data?.map((item) => (
+          {items.filter(pred).map((item) => (
             <ItemSlot
               key={item.id}
               onClick={() => setCurrentActive(item)}
@@ -119,7 +123,7 @@ export default function Repo() {
         </div>
       </section>
 
-      {data && currentActive && (
+      {currentActive && (
         <Modal>
           {openExchange ? (
             <Exchange

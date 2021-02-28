@@ -6,5 +6,7 @@ function fetchItems(): Promise<Item[]> {
 }
 
 export function useItems() {
-  return useQuery("items", fetchItems);
+  const { data } = useQuery("items", fetchItems);
+
+  return data || [];
 }
