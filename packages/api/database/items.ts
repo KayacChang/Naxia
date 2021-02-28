@@ -9,7 +9,7 @@ function toItem(id: number, item: any): Item {
     id,
     name: item.formattedData.title,
     level: random.integer(0, 99),
-    img: `/items/images/${String(id).padStart(3, "0")}.png`,
+    img: `/items/images/${String(id + 1).padStart(3, "0")}.png`,
     price: random.integer(0, 2000),
   };
 }
