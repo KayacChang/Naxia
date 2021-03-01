@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.ts"
+    "start": "nodemon src/app.ts"
   },
   "devDependencies": {
     "@types/ramda": "^0.27.38",

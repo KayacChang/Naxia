@@ -1,0 +1,45 @@
+
+@protocol = http
+@hostname = localhost
+@port = 3001
+@host = {{protocol}}://{{hostname}}:{{port}}
+@contentType = application/json
+@userID = {{user.response.body.$.data.id}}
+@itemID = {{item.response.body.$.data.id}}
+
+### Get Random User
+# @name user
+GET {{host}}/users/random HTTP/1.1
+content-type: {{contentType}}
+### Get User by ID
+GET {{host}}/users/{{userID}} HTTP/1.1
+content-type: {{contentType}}
+
+### 
+
+### Get All Items
+GET {{host}}/items HTTP/1.1
+content-type: {{contentType}}
+
+### Get Random Item
+# @name item
+GET {{host}}/items/random HTTP/1.1
+content-type: {{contentType}}
+
+### Get Item by ID 
+GET {{host}}/items/{{itemID}} HTTP/1.1
+content-type: {{contentType}}
+
+### Get All Achievements
+# @name achievement
+GET {{host}}/achievements HTTP/1.1
+content-typ: {{contentType}}
+
+### Get Achievement by ID
+@achievementID = 12875a4d-bd94-4d63-816b-decdeaed58ab
+GET {{host}}/achievements/{{achievementID}} HTTP/1.1
+content-typ: {{contentType}}
+
+### Get History by userID
+GET {{host}}/history?userID={{userID}} HTTP/1.1
+content-typ: {{contentType}}

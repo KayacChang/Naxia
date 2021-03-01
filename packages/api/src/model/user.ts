@@ -1,13 +1,17 @@
 import { Achievement } from "./achievement";
+import { Item } from "./item";
 
 export interface User {
   id: string;
   name: string;
   avatar: string;
-  createdAt: Date;
+  created: Date;
 
   balance: number;
   achievements: Achievement["id"][];
 
-  // @TODO record
+  repository: {
+    itemID: Item["id"];
+    count: number;
+  }[];
 }

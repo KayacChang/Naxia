@@ -4,6 +4,7 @@ import logger from "./middleware/logger";
 import * as Item from "./controller/item";
 import * as Achievement from "./controller/achievement";
 import * as User from "./controller/user";
+import * as History from "./controller/history";
 
 const server = createServer();
 
@@ -33,6 +34,9 @@ server.get(
 // Achievements
 server.get("/achievements", Achievement.getAll);
 server.get("/achievements/:id", Achievement.getByID);
+
+// History
+server.get("/history", History.get);
 
 // RUN
 server.listen(3001, () => {
