@@ -3,11 +3,9 @@ import { createServer, plugins } from "restify";
 import logger from "./middleware/logger";
 import * as Item from "./controller/item";
 import * as Achievement from "./controller/achievement";
+import * as User from "./controller/user";
 
-const server = createServer({
-  name: "item service",
-  version: "1.0.0",
-});
+const server = createServer();
 
 // Plugins
 server.use(
@@ -16,6 +14,10 @@ server.use(
   plugins.bodyParser(),
   logger,
 );
+
+// User
+server.get("/users/:id", User.getByID);
+server.get("/users/random", User.getRandom);
 
 // Items
 server.get("/items", Item.getAll);
@@ -30,8 +32,9 @@ server.get(
 
 // Achievements
 server.get("/achievements", Achievement.getAll);
+server.get("/achievements/:id", Achievement.getByID);
 
 // RUN
 server.listen(3001, () => {
-  console.log(`🦕 ${server.name} running at ${server.url} 🦕`);
+  console.log(`🦕 API Server running at ${server.url} 🦕`);
 });

@@ -1,22 +1,15 @@
 import { Next, Request, Response } from "restify";
 import { BadRequestError, NotFoundError } from "restify-errors";
-import * as Achievements from "../database/achievements";
+import * as Users from "../database/users";
+import { draw } from "../utils";
 
 const Error = {
   NotInclude: (param: string) =>
     new BadRequestError(`Required parameter ${param} is not present`),
 
   NotFound: (id: string) =>
-    new NotFoundError(`Request achievement ${id} is not found`),
+    new NotFoundError(`Request user ${id} is not found`),
 };
-
-export function getAll(req: Request, res: Response, next: Next) {
-  const achievements = Achievements.getAll();
-
-  res.send(achievements);
-
-  return next();
-}
 
 export function getByID(req: Request, res: Response, next: Next) {
   if (!req.params.id) {
@@ -25,15 +18,25 @@ export function getByID(req: Request, res: Response, next: Next) {
     return next();
   }
 
-  const achievement = Achievements.getByID(req.params.id);
+  const user = Users.getByID(req.params.id);
 
-  if (!achievement) {
-    res.send(Error.NotInclude(req.params.id));
+  if (!user) {
+    res.send(Error.NotFound(req.params.id));
 
     return next();
   }
 
-  res.send(achievement);
+  res.send(user);
+
+  return next();
+}
+
+export function getRandom(req: Request, res: Response, next: Next) {
+  const count = req.query.count || 1;
+
+  const users = draw(Users.getAll(), count);
+
+  res.send(users);
 
   return next();
 }

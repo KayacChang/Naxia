@@ -1,31 +1,30 @@
-// @ts-ignore
-import { MagicItems } from "fantasy-content-generator";
-import { range, values } from "ramda";
+import { range } from "ramda";
 import { Item } from "../model";
-import { random } from "../utils";
+import { fakeMagicItem, pick, randomNumber, uuid } from "../utils";
 
-function toItem(id: number, item: any): Item {
-  return {
-    id: String(id),
-    type: random.pick(["card", "chip"]),
-    name: item.formattedData.title,
-    level: random.integer(0, 99),
-    img: `/items/images/${String(id + 1).padStart(3, "0")}.png`,
-    price: random.integer(0, 2000),
-  };
+function randomItemImage() {
+  const id = randomNumber({ min: 1, max: 256 });
+
+  return `/items/images/${String(id).padStart(3, "0")}.png`;
 }
 
-const items: Record<string, Item> = range(0, 256)
-  .map(() => MagicItems.generate())
-  .reduce(
-    (store, item, id) => ({ ...store, [id]: toItem(id, item) }),
-    {},
-  );
+function generateItem(): Item {
+  const id = uuid();
+  const name = fakeMagicItem().formattedData.title;
+  const level = randomNumber({ min: 0, max: 99 });
+  const img = randomItemImage();
+  const price = randomNumber({ min: 0, max: 2000 });
+
+  return { id, type: pick(["card", "chip"]), name, level, img, price };
+}
+
+const COUNT = 100;
+const items = range(0, COUNT).map(generateItem);
 
 export function getByID(id: string) {
-  return items[id];
+  return items.find((item) => item.id === id);
 }
 
 export function getAll() {
-  return values(items);
+  return Array.from(items);
 }
