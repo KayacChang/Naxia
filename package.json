@@ -8,7 +8,8 @@
   "scripts": {
     "start-client": "yarn workspace @kayac/naxia-client run start",
     "start-api": "yarn workspace @kayac/naxia-api run start",
-    "start": "concurrently -k 'yarn:start-client' 'yarn:start-api'"
+    "start-ws": "yarn workspace @kayac/naxia-ws run start",
+    "start": "concurrently -k 'yarn:start-client' 'yarn:start-api' 'yarn:start-ws'"
   },
   "license": "MIT",
   "devDependencies": {

@@ -32,6 +32,6 @@ server.get(
 server.get("/achievements", Achievement.getAll);
 
 // RUN
-server.listen(8080, () => {
+server.listen(3001, () => {
   console.log(`🦕 ${server.name} running at ${server.url} 🦕`);
 });
