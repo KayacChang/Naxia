@@ -20,13 +20,6 @@ server.use(
 server.get("/users/:id", User.getByID);
 server.get("/users/random", User.getRandom);
 
-// @TODO User Items
-server.get("/users/:id/items");
-// @TODO User Messages
-server.get("/users/:id/messages");
-// @TODO User Achievements
-server.get("/users/:id/achievements");
-
 // Items
 server.get("/items", Item.getAll);
 server.get("/items/:id", Item.getByID);
@@ -46,31 +39,31 @@ server.get("/achievements/:id", Achievement.getByID);
 server.get("/history", History.get);
 
 // @TODO Standings
-server.get("/standings");
+// server.get("/standings");
 
 // @TODO Announcements
-server.get("/announcements");
+// server.get("/announcements");
 
 // @TODO Notifications
-server.post("/notifications");
+// server.post("/notifications");
 
 // @TODO Areas
-server.get("/areas");
-server.get("/areas/:areaID");
-server.get(
-  "/areas/images/*",
-  plugins.serveStaticFiles(
-    "static/areas",
-  ),
-);
+// server.get("/areas");
+// server.get("/areas/:areaID");
+// server.get(
+//   "/areas/images/*",
+//   plugins.serveStaticFiles(
+//     "static/areas",
+//   ),
+// );
 
 // @TODO Products
-server.get("/products");
-server.put("/products/:id");
+// server.get("/products");
+// server.put("/products/:id");
 
 // @TODO Dungeons
-server.get("/areas/:areaID/dungeons");
-server.get("/areas/:areaID/dungeons/:dungeonID");
+// server.get("/areas/:areaID/dungeons");
+// server.get("/areas/:areaID/dungeons/:dungeonID");
 
 // RUN
 server.listen(3001, () => {
