@@ -1,11 +1,11 @@
 import Channel from "./core.ts";
 
-const channel = new Channel<{
-  echo: (data: { message: string }) => void;
-}>();
+type Subscribe = {};
+type Publish = "profile_info";
+const channel = new Channel<Subscribe, Publish>();
 
-channel.subscribe("echo", ({ message }) => {
-  console.log(message);
+channel.on("connect", () => {
+  channel.publish("profile_info");
 });
 
 const port = Number(Deno.args[0] || "3002");
