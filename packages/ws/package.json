@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "denon run --allow-net app.ts"
+    "start": "denon run --allow-net src/app.ts"
   }
 }
