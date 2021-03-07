@@ -1,19 +1,19 @@
-import { AssetsLoader, Canvas } from "core";
+import { AssetsLoader, Canvas, useViewport } from "core";
 import { PlaceHolder } from "components";
 import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
+import { useWebSocket } from "api";
 
 import UI from "./UI";
 
 import BG from "assets/map.jpg";
 import Tachie from "assets/tachie.png";
+import { useEffect } from "react";
 
 type MapProps = {
-  width: number;
-  height: number;
   resources: Record<string, Texture | Spritesheet>;
 };
-function Map({ resources, width, height }: MapProps) {
+function Map({ resources }: MapProps) {
   return (
     <>
       <Sprite texture={resources[BG] as Texture} />
@@ -29,27 +29,44 @@ function Map({ resources, width, height }: MapProps) {
   );
 }
 
-type Props = {
-  width: number;
-  height: number;
+type LayoutProps = {
+  resources: Record<string, Texture | Spritesheet>;
 };
-export function Lobby({ width, height }: Props) {
+function Layout({ resources }: LayoutProps) {
+  const { width, height } = useViewport();
+  const [state, send] = useWebSocket();
+
+  console.log(state);
+
+  useEffect(() => {
+    send(
+      JSON.stringify({
+        type: "login",
+        id: "bb92ee87-bd0a-44c6-8b16-ae0f3a894102",
+      })
+    );
+  }, []);
+
+  return (
+    <div className="relative mx-auto">
+      <Canvas className="max-w-full" width={width} height={height}>
+        <Map resources={resources} />
+      </Canvas>
+
+      <UI className="absolute top-0 w-full h-full" />
+    </div>
+  );
+}
+
+export function Lobby() {
   return (
     <AssetsLoader tasks={[BG, Tachie]}>
       {({ status, resources }) => {
         if (status !== "resolved") {
-          return <PlaceHolder width={width} height={height} />;
+          return <PlaceHolder />;
         }
 
-        return (
-          <div className="relative mx-auto">
-            <Canvas className="max-w-full" width={width} height={height}>
-              <Map width={width} height={height} resources={resources} />
-            </Canvas>
-
-            <UI className="absolute top-0 w-full h-full" />
-          </div>
-        );
+        return <Layout resources={resources} />;
       }}
     </AssetsLoader>
   );

@@ -1,11 +1,9 @@
-import { Canvas } from "core";
+import { Canvas, useViewport } from "core";
 import { ReactComponent as IconSpin } from "assets/spin.svg";
 
-type Props = {
-  width: number;
-  height: number;
-};
-export function PlaceHolder({ width, height }: Props) {
+export function PlaceHolder() {
+  const { width, height } = useViewport();
+
   return (
     <div className="relative mx-auto">
       <Canvas className="max-w-full" width={width} height={height} />
