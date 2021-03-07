@@ -2,7 +2,7 @@ import { AssetsLoader, Canvas, useViewport } from "core";
 import { PlaceHolder } from "components";
 import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
-import { useWebSocket } from "api";
+import { useNetwork } from "network";
 
 import UI from "./UI";
 
@@ -34,18 +34,14 @@ type LayoutProps = {
 };
 function Layout({ resources }: LayoutProps) {
   const { width, height } = useViewport();
-  const [state, send] = useWebSocket();
-
-  console.log(state);
+  const send = useNetwork();
 
   useEffect(() => {
-    send(
-      JSON.stringify({
-        type: "login",
-        id: "bb92ee87-bd0a-44c6-8b16-ae0f3a894102",
-      })
-    );
-  }, []);
+    send?.({
+      type: "login",
+      id: "bb92ee87-bd0a-44c6-8b16-ae0f3a894102",
+    });
+  }, [send]);
 
   return (
     <div className="relative mx-auto">

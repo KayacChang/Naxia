@@ -5,6 +5,7 @@ import {
   useEffect,
   useReducer,
   useState,
+  useCallback,
 } from "react";
 import invariant from "tiny-invariant";
 
@@ -18,7 +19,7 @@ type WebSocketState = {
   message?: string;
   error?: string;
 };
-type WebSocketSend = (data: string) => void;
+type WebSocketSend = (data: string | object) => void;
 
 const WebSocketContext = createContext<
   [WebSocketState | undefined, WebSocketSend | undefined]
@@ -80,9 +81,20 @@ export function WebSocketProvider({ url, children }: WebSocketProviderProps) {
     return () => ws.close();
   }, [ws]);
 
-  function send(data: string) {
-    ws.send(data);
-  }
+  const send = useCallback(
+    (data: string | object) => {
+      if (typeof data === "object") {
+        return ws.send(JSON.stringify(data));
+      }
+
+      if (typeof data === "string") {
+        return ws.send(data);
+      }
+
+      throw new Error(`Data type ${typeof data} not supported.`);
+    },
+    [ws]
+  );
 
   return (
     <WebSocketContext.Provider value={[state, send]}>

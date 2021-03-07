@@ -10,5 +10,3 @@ export function useItems() {
 
   return data || [];
 }
-
-export * from "./websocket";

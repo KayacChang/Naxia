@@ -11,7 +11,10 @@ channel.on("connect", (connection) => {
     if (proto.type === "login") {
       const user = await User.getByID(proto.id);
 
-      connection.send(JSON.stringify(user));
+      connection.send(JSON.stringify({
+        type: "user",
+        data: user,
+      }));
     }
   });
 });

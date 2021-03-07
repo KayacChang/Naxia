@@ -1,7 +1,6 @@
 import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { useEffect, useState } from "react";
-import { useItems } from "api";
 import { Item } from "types";
 import { always, propEq } from "ramda";
 
@@ -92,7 +91,7 @@ function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
 }
 
 export default function Repo() {
-  const items = useItems();
+  const items: Item[] = [];
   const [currentActive, setCurrentActive] = useState<Item | undefined>();
   const [openExchange, setOpenExchange] = useState(false);
 

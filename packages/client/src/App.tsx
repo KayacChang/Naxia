@@ -1,25 +1,47 @@
 import { Lobby } from "scenes";
 import { Router, Switch, Route } from "core";
-import { StoreProvider } from "store";
-import { QueryClientProvider, QueryClient } from "react-query";
-import { WebSocketProvider } from "api";
+import { StoreProvider, useDispatch, User } from "store";
+import { NetworkProvider, useSubscript } from "network";
+import { ReactNode, useEffect } from "react";
+import * as Type from "types";
 
-const queryClient = new QueryClient();
+type UserObserverProps = {
+  children: ReactNode;
+};
+function UserObserver({ children }: UserObserverProps) {
+  const user = useSubscript<Type.User>("user");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    user && dispatch(User.actions.login(user));
+  }, [user]);
+
+  return <>{children}</>;
+}
+
+type SystemProps = {
+  children: ReactNode;
+};
+function System({ children }: SystemProps) {
+  return (
+    <StoreProvider>
+      <NetworkProvider>
+        <UserObserver>{children}</UserObserver>
+      </NetworkProvider>
+    </StoreProvider>
+  );
+}
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <WebSocketProvider url={process.env.REACT_APP_WS || ""}>
-        <StoreProvider>
-          <Router>
-            <Switch>
-              <Route path="/lobby">
-                <Lobby />
-              </Route>
-            </Switch>
-          </Router>
-        </StoreProvider>
-      </WebSocketProvider>
-    </QueryClientProvider>
+    <System>
+      <Router>
+        <Switch>
+          <Route path="/lobby">
+            <Lobby />
+          </Route>
+        </Switch>
+      </Router>
+    </System>
   );
 }

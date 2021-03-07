@@ -6,3 +6,12 @@ export interface Item {
   name: string;
   price: number;
 }
+
+export interface User {
+  id: string;
+  name: string;
+  avatar: string;
+  balance: number;
+  achievements: string[];
+  repository: { itemID: string; count: number }[];
+}
