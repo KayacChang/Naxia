@@ -1,11 +1,19 @@
 import Channel from "./core.ts";
 
-type Subscribe = {};
-type Publish = "profile_info";
-const channel = new Channel<Subscribe, Publish>();
+import * as User from "./data/user.ts";
 
-channel.on("connect", () => {
-  channel.publish("profile_info");
+const channel = new Channel();
+
+channel.on("connect", (connection) => {
+  connection.on("message", async (message) => {
+    const proto = JSON.parse(message);
+
+    if (proto.type === "login") {
+      const user = await User.getByID(proto.id);
+
+      connection.send(JSON.stringify(user));
+    }
+  });
 });
 
 const port = Number(Deno.args[0] || "3002");

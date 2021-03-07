@@ -83,11 +83,7 @@ class Connection extends EventEmitter<ConnectionEvents> {
 type ChannelEvents = {
   connect: [Connection];
 };
-export default class Channel<Subscribe, Publish>
-  extends EventEmitter<ChannelEvents> {
-  #listeners = Object.create(null);
-  #connections: Connection[] = [];
-
+export default class Channel extends EventEmitter<ChannelEvents> {
   async listen(addr: Parameters<typeof serve>[0]) {
     for await (const req of serve(addr)) {
       if (!acceptable(req)) {
@@ -103,30 +99,7 @@ export default class Channel<Subscribe, Publish>
         headers: req.headers,
       });
 
-      const connection = new Connection(socket);
-
-      connection.on("message", (str) => {
-        const { type, ...message } = JSON.parse(str);
-
-        for (const callback of this.#listeners[type] || []) {
-          callback(message);
-        }
-      });
-
-      this.#connections = [...this.#connections, connection];
-      this.emit("connect", connection);
+      this.emit("connect", new Connection(socket));
     }
-  }
-
-  publish(event: Publish) {
-    for (const connection of this.#connections) {
-      connection.send(JSON.stringify({ type: event }));
-    }
-  }
-
-  subscribe<E extends keyof Subscribe>(event: E, listener: Subscribe[E]) {
-    this.#listeners[event] = this.#listeners[event]
-      ? [...this.#listeners[event], listener]
-      : [listener];
   }
 }
