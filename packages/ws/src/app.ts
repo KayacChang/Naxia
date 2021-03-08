@@ -11,6 +11,15 @@ channel.on("connect", (connection) => {
     if (proto.type === "login") {
       const user = await User.getByID(proto.id);
 
+      if (!user) {
+        connection.send(JSON.stringify({
+          type: "error",
+          error: `User not found by this user id ${proto.id}`,
+        }));
+
+        return;
+      }
+
       connection.send(JSON.stringify({
         type: "user",
         data: user,

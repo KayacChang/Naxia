@@ -37,10 +37,12 @@ function Layout({ resources }: LayoutProps) {
   const send = useNetwork();
 
   useEffect(() => {
-    send?.({
-      type: "login",
-      id: "bb92ee87-bd0a-44c6-8b16-ae0f3a894102",
-    });
+    send?.(
+      JSON.stringify({
+        type: "login",
+        id: "bb92ee87-bd0a-44c6-8b16-ae0f3a894102",
+      })
+    );
   }, [send]);
 
   return (

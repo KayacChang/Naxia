@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
-import { useWebSocket, WebSocketProvider } from "./websocket";
+import { useWebSocket, WebSocketProvider, ReadyState } from "./websocket";
 
 const queryClient = new QueryClient();
 
@@ -17,30 +17,34 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
   );
 }
 
-interface Response<T> {
-  type: string;
-  data: T;
-}
+export function useSubscript(type: string) {
+  const {
+    state: { readyState, lastMessage },
+  } = useWebSocket();
 
-export function useSubscript<T>(type: string) {
-  const [{ status, message }] = useWebSocket();
-
-  if (status === "close" || !message) {
+  if (readyState !== ReadyState.OPEN || !lastMessage) {
     return;
   }
 
-  const res = JSON.parse(message) as Response<T>;
+  const res = JSON.parse(lastMessage);
   if (res.type !== type) {
     return;
+  }
+
+  if (res.type === "error") {
+    return res.error;
   }
 
   return res.data;
 }
 
 export function useNetwork() {
-  const [{ status }, send] = useWebSocket();
+  const {
+    state: { readyState },
+    send,
+  } = useWebSocket();
 
-  if (status === "close") {
+  if (readyState !== ReadyState.OPEN) {
     return;
   }
 

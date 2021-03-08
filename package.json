@@ -6,13 +6,13 @@
     "packages/*"
   ],
   "scripts": {
-    "start-client": "yarn workspace @kayac/naxia-client run start",
-    "start-api": "yarn workspace @kayac/naxia-api run start",
-    "start-ws": "yarn workspace @kayac/naxia-ws run start",
-    "start": "concurrently -k 'yarn:start-client' 'yarn:start-api' 'yarn:start-ws'"
+    "start:client": "yarn workspace @kayac/naxia-client run start",
+    "start:api": "yarn workspace @kayac/naxia-api run start",
+    "start:ws": "yarn workspace @kayac/naxia-ws run start",
+    "start": "run-p start:*"
   },
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^6.0.0"
+    "npm-run-all": "^4.1.5"
   }
 }

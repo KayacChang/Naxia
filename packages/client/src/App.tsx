@@ -3,18 +3,30 @@ import { Router, Switch, Route } from "core";
 import { StoreProvider, useDispatch, User } from "store";
 import { NetworkProvider, useSubscript } from "network";
 import { ReactNode, useEffect } from "react";
-import * as Type from "types";
 
 type UserObserverProps = {
   children: ReactNode;
 };
 function UserObserver({ children }: UserObserverProps) {
-  const user = useSubscript<Type.User>("user");
+  const user = useSubscript("user");
   const dispatch = useDispatch();
 
   useEffect(() => {
     user && dispatch(User.actions.login(user));
   }, [user]);
+
+  return <>{children}</>;
+}
+
+type ErrorObserverProps = {
+  children: ReactNode;
+};
+function ErrorObserver({ children }: ErrorObserverProps) {
+  const error = useSubscript("error");
+
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
   return <>{children}</>;
 }
@@ -26,7 +38,9 @@ function System({ children }: SystemProps) {
   return (
     <StoreProvider>
       <NetworkProvider>
-        <UserObserver>{children}</UserObserver>
+        <ErrorObserver>
+          <UserObserver>{children}</UserObserver>
+        </ErrorObserver>
       </NetworkProvider>
     </StoreProvider>
   );
