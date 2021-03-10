@@ -25,7 +25,7 @@ function ErrorObserver({ children }: ErrorObserverProps) {
   const error = useSubscript("error");
 
   useEffect(() => {
-    console.error(error);
+    error && console.error(error);
   }, [error]);
 
   return <>{children}</>;
