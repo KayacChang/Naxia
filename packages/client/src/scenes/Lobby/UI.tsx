@@ -1,12 +1,12 @@
 import { Switch, Route, Link } from "core";
-import { StatusField, Avatar, Navbar, Icon } from "components";
+import { StatusField, Profile, Navbar, Icon } from "components";
 import clsx from "clsx";
 
 import Repo from "./Repo";
 import Book from "./Book";
 
 import Coin from "assets/icons/Coin.png";
-import AvatarIMG from "assets/avatar.png";
+import IMG_Avatar from "assets/profile/avatar.png";
 
 function Sidebar() {
   return (
@@ -29,7 +29,7 @@ function Sidebar() {
 function Header() {
   return (
     <header className="flex justify-between items-center py-2 px-4">
-      <Avatar className="w-48" img={AvatarIMG} name="Name" level="lv45" />
+      <Profile avatar={IMG_Avatar} name="名稱" level="LV.42" />
 
       <StatusField className="w-40 h-10" img={Coin} value="12345" />
     </header>
