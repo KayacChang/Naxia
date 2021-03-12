@@ -6,7 +6,7 @@ import { useNetwork } from "network";
 
 import UI from "./UI";
 
-import BG from "assets/map.jpg";
+import BG from "assets/map.png";
 import Tachie from "assets/tachie.png";
 import { useEffect } from "react";
 
