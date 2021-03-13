@@ -1,21 +1,24 @@
 import { Button } from "components/Button";
-import { Modal } from "components/Modal";
-import { useEffect, useState } from "react";
 import { Item } from "types";
-import { always, propEq } from "ramda";
+import { range } from "ramda";
 
-type ItemProps = Item & {
+import IMG_Frame_Outer from "assets/repository/frame_outer.png";
+import IMG_Frame_Inner from "assets/repository/frame_inner.png";
+
+import IMG_Tab_Normal from "assets/repository/tab_normal.png";
+import IMG_Tab_Active from "assets/repository/tab_active.png";
+
+import IMG_Item_Rare from "assets/repository/item_rare.png";
+
+type ItemGridProps = {
   onClick?: () => void;
 };
-function Grid({ onClick, img }: ItemProps) {
+function ItemGrid({ onClick }: ItemGridProps) {
   return (
-    <button
-      className="w-full h-14 bg-purple-500 relative text-white"
-      onClick={onClick}
-    >
-      <img src={img} alt="items" />
+    <button className="relative text-white" onClick={onClick}>
+      <img src={IMG_Item_Rare} alt="Item frame" />
 
-      <span className="absolute bottom-0 right-0">X3</span>
+      <span className="absolute bottom-0 right-0 text-xs mx-1">3</span>
     </button>
   );
 }
@@ -90,54 +93,60 @@ function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
   );
 }
 
-export default function Repo() {
-  const items: Item[] = [];
-  const [currentActive, setCurrentActive] = useState<Item | undefined>();
-  const [openExchange, setOpenExchange] = useState(false);
+type TabProps = {
+  label: string;
+};
+function Tab({ label }: TabProps) {
+  return (
+    <button className="w-16 text-white text-xs relative z-20">
+      <img className="w-full" src={IMG_Tab_Normal} alt="tab normal" />
 
-  const [filter, setFilter] = useState<"card" | "chip" | undefined>();
-  const pred = filter ? propEq("type", filter) : always(true);
+      <img
+        className="absolute top-1/2 left-0 transform -translate-y-1/2"
+        src={IMG_Tab_Active}
+        alt="tab active"
+      />
 
-  useEffect(() => {
-    !currentActive && setOpenExchange(false);
-  }, [currentActive]);
+      <span className="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        {label}
+      </span>
+    </button>
+  );
+}
+
+export default function Repository() {
+  // const items: Item[] = [];
+  // const [currentActive, setCurrentActive] = useState<Item | undefined>();
+  // const [openExchange, setOpenExchange] = useState(false);
+
+  // const [filter, setFilter] = useState<"card" | "chip" | undefined>();
+  // const pred = filter ? propEq("type", filter) : always(true);
+
+  // useEffect(() => {
+  //   !currentActive && setOpenExchange(false);
+  // }, [currentActive]);
 
   return (
-    <article className="bg-white w-full flex flex-col">
-      <nav className="bg-blue-300">
-        <Button onClick={() => setFilter(undefined)}>All</Button>
-        <Button onClick={() => setFilter("card")}>Card</Button>
-        <Button onClick={() => setFilter("chip")}>Chip</Button>
-      </nav>
+    <article className="relative">
+      <img src={IMG_Frame_Outer} alt="repository frame outer" />
 
-      <section className="bg-pink-400 max-h-48 overflow-scroll pointer-events-auto">
-        <div className="grid grid-cols-5 gap-2 p-2">
-          {items.filter(pred).map((item) => (
-            <Grid
-              key={item.id}
-              onClick={() => setCurrentActive(item)}
-              {...item}
-            />
-          ))}
+      <div className="absolute top-0 w-full h-full pt-10 pb-6 px-6">
+        <nav>
+          <Tab label="全部" />
+          <Tab label="卡牌" />
+          <Tab label="碎片" />
+        </nav>
+
+        <div className="relative">
+          <img src={IMG_Frame_Inner} alt="repository frame inner" />
+
+          <div className="absolute top-0 w-full h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
+            {range(0, 30).map((i) => (
+              <ItemGrid key={i} />
+            ))}
+          </div>
         </div>
-      </section>
-
-      {currentActive && (
-        <Modal>
-          {openExchange ? (
-            <Exchange
-              {...currentActive}
-              onClose={() => setCurrentActive(undefined)}
-            />
-          ) : (
-            <Detail
-              {...currentActive}
-              onConfirm={() => setOpenExchange(true)}
-              onClose={() => setCurrentActive(undefined)}
-            />
-          )}
-        </Modal>
-      )}
+      </div>
     </article>
   );
 }

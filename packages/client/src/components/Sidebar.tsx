@@ -34,7 +34,7 @@ const links = [
 
 export function Sidebar() {
   return (
-    <aside className="w-12">
+    <aside className="w-12 py-4 mr-2">
       {links.map(({ key, icons: { normal }, href }) => (
         <Link key={key} to={href}>
           <img src={normal} alt={key} />

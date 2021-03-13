@@ -6,10 +6,10 @@ type ChatboxProps = {
 };
 export function Chatbox({ from, message }: ChatboxProps) {
   return (
-    <div className="w-56 mt-auto mb-4 mx-2 text-white relative text-xs">
+    <div className="w-52 mt-auto mb-4 mx-2 text-white relative text-xs">
       <img src={IMG_Frame} alt="chatbox frame" />
 
-      <h3 className="absolute top-0 w-20 py-1  flex justify-center ml-7">
+      <h3 className="absolute top-0 w-20 py-1 flex justify-center ml-6">
         {from}
       </h3>
 

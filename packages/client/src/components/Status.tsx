@@ -5,7 +5,7 @@ type StatusProps = {
 };
 export function Status({ value }: StatusProps) {
   return (
-    <div>
+    <div className="absolute right-0 p-2">
       <div className="relative w-44 text-white text-sm">
         <img src={IMG_Frame} alt="status frame" />
 

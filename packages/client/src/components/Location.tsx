@@ -5,7 +5,7 @@ type LocationProps = {
 };
 export function Location({ value }: LocationProps) {
   return (
-    <div>
+    <div className="absolute left-1/2 transform -translate-x-1/2">
       <div className="relative w-48 text-white">
         <img src={IMG_Frame} alt="world frame" />
 

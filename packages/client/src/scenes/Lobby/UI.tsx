@@ -9,14 +9,14 @@ import {
 } from "components";
 import clsx from "clsx";
 
-import Repo from "./Repo";
+import Repository from "./Repo";
 import Book from "./Book";
 
 import IMG_Avatar from "assets/profile/avatar.png";
 
 function Header() {
   return (
-    <header className="flex justify-between">
+    <header className="h-10">
       <Profile avatar={IMG_Avatar} name="名稱" level="LV.42" />
 
       <Location value="娜希雅大陸" />
@@ -30,8 +30,8 @@ function Main() {
   return (
     <main className="flex-1">
       <Switch>
-        <Route path="/lobby/repo">
-          <Repo />
+        <Route path="/lobby/repository">
+          <Repository />
         </Route>
         <Route path="/lobby/book">
           <Book />
