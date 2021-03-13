@@ -63,17 +63,13 @@ export function Navbar() {
   const location = useLocation();
   return (
     <nav className="relative z-10">
-      <img
-        className="absolute left-0 bottom-0 -z-10"
-        src={IMG_Frame}
-        alt="nav frame"
-      />
+      <img src={IMG_Frame} alt="nav frame" />
 
       <Link to="#" className="absolute bottom-0 left-0 w-28">
         <img src={IMG_Back} alt="back to home" />
       </Link>
 
-      <div className="flex justify-end space-x-2">
+      <div className="absolute bottom-0 w-full px-2 flex justify-end space-x-2">
         {links.map(({ key, icons: { active, normal }, href }) => (
           <Link key={key} to={href} className="w-16">
             <img src={location.pathname === href ? active : normal} alt={key} />

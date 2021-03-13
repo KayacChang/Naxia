@@ -14,13 +14,16 @@ type MapProps = {
   resources: Record<string, Texture | Spritesheet>;
 };
 function Map({ resources }: MapProps) {
+  const { height } = useViewport();
+
   return (
     <>
       <Sprite texture={resources[BG] as Texture} />
 
       <Container>
         <Sprite
-          y={50}
+          y={height}
+          anchor={{ x: 0, y: 1 }}
           texture={resources[Tachie] as Texture}
           scale={1 / window.devicePixelRatio}
         />
