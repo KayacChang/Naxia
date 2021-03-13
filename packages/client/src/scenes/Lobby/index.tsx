@@ -2,13 +2,11 @@ import { AssetsLoader, Canvas, useViewport } from "core";
 import { PlaceHolder } from "components";
 import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
-import { useNetwork } from "network";
 
 import UI from "./UI";
 
 import BG from "assets/map.png";
 import Tachie from "assets/tachie.png";
-import { useEffect } from "react";
 
 type MapProps = {
   resources: Record<string, Texture | Spritesheet>;
@@ -37,16 +35,6 @@ type LayoutProps = {
 };
 function Layout({ resources }: LayoutProps) {
   const { width, height } = useViewport();
-  const send = useNetwork();
-
-  useEffect(() => {
-    send?.(
-      JSON.stringify({
-        type: "login",
-        id: process.env.REACT_APP_TOKEN,
-      })
-    );
-  }, [send]);
 
   return (
     <div className="relative mx-auto">
