@@ -1,5 +1,5 @@
-import { Switch, Route, Link } from "core";
-import { StatusField, Profile, Navbar, Icon } from "components";
+import { Switch, Route } from "core";
+import { StatusField, Profile, Navbar, Sidebar } from "components";
 import clsx from "clsx";
 
 import Repo from "./Repo";
@@ -7,24 +7,6 @@ import Book from "./Book";
 
 import Coin from "assets/icons/Coin.png";
 import IMG_Avatar from "assets/profile/avatar.png";
-
-function Sidebar() {
-  return (
-    <aside className="w-12">
-      <Link to="#">
-        <Icon.SpeakerPhone />
-      </Link>
-
-      <Link to="#">
-        <Icon.Mail />
-      </Link>
-
-      <Link to="#">
-        <Icon.Cog />
-      </Link>
-    </aside>
-  );
-}
 
 function Header() {
   return (
