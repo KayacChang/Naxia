@@ -1,6 +1,9 @@
 import { Link } from "core";
 import { useLocation } from "react-router";
 
+import IMG_Frame from "assets/navbar/frame.png";
+import IMG_Back from "assets/navbar/back.png";
+
 import IMG_Dungeon_Normal from "assets/navbar/dungeon_normal.png";
 import IMG_Ranking_Normal from "assets/navbar/ranking_normal.png";
 import IMG_Repository_Normal from "assets/navbar/repository_normal.png";
@@ -59,12 +62,24 @@ const links = [
 export function Navbar() {
   const location = useLocation();
   return (
-    <nav className="flex justify-end py-2 px-4 space-x-2">
-      {links.map(({ key, icons: { active, normal }, href }) => (
-        <Link key={key} to={href} className="w-16">
-          <img src={location.pathname === href ? active : normal} alt={key} />
-        </Link>
-      ))}
+    <nav className="relative z-10">
+      <img
+        className="absolute left-0 bottom-0 -z-10"
+        src={IMG_Frame}
+        alt="nav frame"
+      />
+
+      <Link to="#" className="absolute bottom-0 left-0 w-28">
+        <img src={IMG_Back} alt="back to home" />
+      </Link>
+
+      <div className="flex justify-end space-x-2">
+        {links.map(({ key, icons: { active, normal }, href }) => (
+          <Link key={key} to={href} className="w-16">
+            <img src={location.pathname === href ? active : normal} alt={key} />
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }
