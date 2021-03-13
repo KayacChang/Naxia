@@ -7,15 +7,17 @@ type ProfileProps = {
 };
 export function Profile({ avatar, name, level }: ProfileProps) {
   return (
-    <div className="relative z-10 text-white w-52">
+    <div className="relative z-10 text-white w-48">
       <img src={IMG_Frame} alt="profile frame" />
 
-      <div className="absolute top-0 my-1 mx-2 -z-10 w-16 rounded-full overflow-hidden">
+      <div className="absolute top-0 m-1 -z-10 w-16 rounded-full overflow-hidden">
         <img src={avatar} alt={`${name}'s avatar`} />
       </div>
 
-      <h2 className="absolute top-2 left-16 py-0.5 px-3 text-sm">{name}</h2>
-      <h3 className="absolute top-8 left-20 py-1 text-xxs">{level}</h3>
+      <div className="absolute top-0 w-full pl-16 m-2 flex flex-col space-y-1">
+        <h2 className="text-sm">{name}</h2>
+        <h3 className="text-xxs">{level}</h3>
+      </div>
     </div>
   );
 }
