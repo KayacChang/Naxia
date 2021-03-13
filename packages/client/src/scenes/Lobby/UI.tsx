@@ -1,5 +1,5 @@
 import { Switch, Route } from "core";
-import { Status, Profile, Navbar, Sidebar } from "components";
+import { Status, Profile, Navbar, Sidebar, Location } from "components";
 import clsx from "clsx";
 
 import Repo from "./Repo";
@@ -9,8 +9,10 @@ import IMG_Avatar from "assets/profile/avatar.png";
 
 function Header() {
   return (
-    <header className="flex justify-between py-2 px-4">
+    <header className="flex justify-between">
       <Profile avatar={IMG_Avatar} name="名稱" level="LV.42" />
+
+      <Location value="娜希雅大陸" />
 
       <Status value="666,666,666.66" />
     </header>

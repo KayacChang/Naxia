@@ -1,4 +1,5 @@
 import { Link } from "core";
+import { useLocation } from "react-router";
 
 import IMG_Dungeon_Normal from "assets/navbar/dungeon_normal.png";
 import IMG_Ranking_Normal from "assets/navbar/ranking_normal.png";
@@ -11,7 +12,6 @@ import IMG_Repository_Active from "assets/navbar/repository_active.png";
 import IMG_Achievement_Active from "assets/navbar/achievement_active.png";
 import IMG_Ranking_Active from "assets/navbar/ranking_active.png";
 import IMG_Store_Active from "assets/navbar/store_active.png";
-import { useLocation } from "react-router";
 
 const links = [
   {
