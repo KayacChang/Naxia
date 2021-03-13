@@ -1,5 +1,12 @@
 import { Switch, Route } from "core";
-import { Status, Profile, Navbar, Sidebar, Location } from "components";
+import {
+  Status,
+  Profile,
+  Navbar,
+  Sidebar,
+  Location,
+  Chatbox,
+} from "components";
 import clsx from "clsx";
 
 import Repo from "./Repo";
@@ -21,7 +28,7 @@ function Header() {
 
 function Main() {
   return (
-    <main className="w-1/2">
+    <main className="flex-1">
       <Switch>
         <Route path="/lobby/repo">
           <Repo />
@@ -45,6 +52,8 @@ export default function UI({ className }: UIProps) {
       <Header />
 
       <div className="flex-1 flex justify-end">
+        <Chatbox from="勝利天使" message="你就是那傳說中的勇者嗎?" />
+
         <Main />
 
         <Sidebar />
