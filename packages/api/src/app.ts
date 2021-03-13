@@ -20,6 +20,8 @@ server.use(
 server.get("/users/:id", User.getByID);
 server.get("/users/random", User.getRandom);
 
+server.get("/users/:id/items", User.getItemsByUserID);
+
 // Items
 server.get("/items", Item.getAll);
 server.get("/items/:id", Item.getByID);

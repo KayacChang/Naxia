@@ -15,6 +15,10 @@ content-type: {{contentType}}
 GET {{host}}/users/{{userID}} HTTP/1.1
 content-type: {{contentType}}
 
+### Get Items by User ID
+GET {{host}}/users/{{userID}}/items HTTP/1.1
+content-type: {{contentType}}
+
 ### 
 
 ### Get All Items

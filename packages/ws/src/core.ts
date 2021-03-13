@@ -36,7 +36,7 @@ type ConnectionEvents = {
   ping: [];
   message: [string];
 };
-class Connection extends EventEmitter<ConnectionEvents> {
+export class Connection extends EventEmitter<ConnectionEvents> {
   constructor(private socket: WebSocket) {
     super();
     this.heartbeat(socket);

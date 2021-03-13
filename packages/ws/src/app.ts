@@ -1,29 +1,19 @@
 import Channel from "./core.ts";
-
-import * as User from "./data/user.ts";
+import login from "./logic/login.ts";
+import getRepositoryByUserID from "./logic/repository.ts";
 
 const channel = new Channel();
 
 channel.on("connect", (connection) => {
-  connection.on("message", async (message) => {
+  connection.on("message", (message) => {
     const proto = JSON.parse(message);
 
     if (proto.type === "login") {
-      const user = await User.getByID(proto.id);
+      return login(connection, proto);
+    }
 
-      if (!user) {
-        connection.send(JSON.stringify({
-          type: "error",
-          error: `User not found by this user id ${proto.id}`,
-        }));
-
-        return;
-      }
-
-      connection.send(JSON.stringify({
-        type: "user",
-        data: user,
-      }));
+    if (proto.type === "repository") {
+      return getRepositoryByUserID(connection, proto);
     }
   });
 });

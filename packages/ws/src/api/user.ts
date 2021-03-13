@@ -1,6 +1,6 @@
-const API = "http://localhost:3001";
+import { API } from "../constants.ts";
 
-export function getByID(id: string) {
+export function getUserByID(id: string) {
   return fetch(`${API}/users/${id}`)
     .then((res) => res.json())
     .then(({ data }) => data);

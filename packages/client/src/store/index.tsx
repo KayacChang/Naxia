@@ -1,11 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { PropsWithChildren } from "react";
-import { Provider, useDispatch as _useDispatch } from "react-redux";
+import {
+  Provider,
+  useDispatch as _useDispatch,
+  useSelector as _useSelector,
+} from "react-redux";
 import * as User from "./user";
+import * as Items from "./items";
 
 const store = configureStore({
   reducer: {
     user: User.reducer,
+    items: Items.reducer,
   },
 });
 
@@ -19,4 +25,9 @@ export function useDispatch() {
   return _useDispatch<typeof store.dispatch>();
 }
 
-export { User };
+type Selector<T> = (state: RootState) => T;
+export function useSelector<T>(selector: Selector<T>) {
+  return _useSelector<RootState, T>(selector);
+}
+
+export { User, Items };
