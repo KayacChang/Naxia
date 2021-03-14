@@ -16,14 +16,21 @@ function customDisplayObject({ screenWidth, screenHeight }: ViewportProps) {
 
 function customApplyProps() {}
 
-function customDidAttach(instance: _Viewport) {
-  const root = instance.children[0] as TContainer;
+function customDidAttach(viewport: _Viewport) {
+  const root = viewport.children[0] as TContainer;
 
-  instance.worldWidth = root.width;
-  instance.worldHeight = root.height;
+  viewport.worldWidth = root.width;
+  viewport.worldHeight = root.height;
 
-  instance.clamp({ direction: "all" });
-  instance.drag().pinch().wheel().decelerate();
+  viewport.clamp({ direction: "all" });
+  viewport.clampZoom({
+    maxScale: 0.7,
+    minScale: Math.max(
+      viewport.screenWidth / root.width,
+      viewport.screenHeight / root.height
+    ),
+  });
+  viewport.drag().pinch().wheel().decelerate();
 }
 
 const Viewport = CustomPIXIComponent(

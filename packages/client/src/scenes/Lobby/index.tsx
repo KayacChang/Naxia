@@ -1,4 +1,12 @@
-import { AssetsLoader, Game, useViewport, Switch, Route, UI } from "core";
+import {
+  AssetsLoader,
+  Game,
+  useViewport,
+  Switch,
+  Route,
+  UI,
+  Camera,
+} from "core";
 import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
 
@@ -51,11 +59,13 @@ type MapProps = {
   resources: Record<string, Texture | Spritesheet>;
 };
 function Map({ resources }: MapProps) {
-  const { height } = useViewport();
+  const { width, height } = useViewport();
 
   return (
     <>
-      <Sprite texture={resources[BG] as Texture} />
+      <Camera screenWidth={width} screenHeight={height}>
+        <Sprite texture={resources[BG] as Texture} />
+      </Camera>
 
       <Container>
         <Sprite
