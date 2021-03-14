@@ -33,32 +33,6 @@ export function ItemSerivce({ children }: ItemServiceProps) {
   return <>{children}</>;
 }
 
-type UserServiceProps = {
-  children: ReactNode;
-};
-export function UserService({ children }: UserServiceProps) {
-  const user = useSubscript("user");
-  const dispatch = useDispatch();
-  const send = useNetwork();
-  const match = Boolean(useRouteMatch("/lobby"));
-
-  useEffect(() => {
-    if (!user && send && match) {
-      send(
-        JSON.stringify({
-          type: "login",
-          id: "07d07238-f5f5-4ead-b82e-dcc196580aaf",
-        })
-      );
-      return;
-    }
-
-    user && dispatch(User.actions.login(user));
-  }, [user, send, match]);
-
-  return <>{children}</>;
-}
-
 type ErrorServiceProps = {
   children: ReactNode;
 };
@@ -71,3 +45,5 @@ export function ErrorService({ children }: ErrorServiceProps) {
 
   return <>{children}</>;
 }
+
+export * from "./user";

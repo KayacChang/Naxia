@@ -14,7 +14,7 @@ function System({ children }: SystemProps) {
       <Router>
         <NetworkProvider>
           <ErrorService>
-            <UserService>
+            <UserService id="24a28518-4c5d-4032-961b-47fb87a3eb35">
               <ItemSerivce>{children}</ItemSerivce>
             </UserService>
           </ErrorService>

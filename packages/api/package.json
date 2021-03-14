@@ -7,6 +7,7 @@
     "start": "nodemon src/app.ts"
   },
   "devDependencies": {
+    "@types/faker": "^5.1.7",
     "@types/ramda": "^0.27.38",
     "@types/restify": "^8.5.0",
     "@types/restify-errors": "^4.3.3",
