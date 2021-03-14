@@ -1,12 +1,11 @@
 import { useNetwork, useSubscript } from "network";
 import { ReactNode, useEffect } from "react";
-import { useDispatch, useSelector, Items, User } from "store";
-import { useRouteMatch } from "react-router";
+import { useDispatch, useSelector, Items } from "store";
 
 type ItemServiceProps = {
   children: ReactNode;
 };
-export function ItemSerivce({ children }: ItemServiceProps) {
+export default function ItemSerivce({ children }: ItemServiceProps) {
   const items = useSubscript("repository");
   const send = useNetwork();
   const dispatch = useDispatch();
@@ -32,18 +31,3 @@ export function ItemSerivce({ children }: ItemServiceProps) {
 
   return <>{children}</>;
 }
-
-type ErrorServiceProps = {
-  children: ReactNode;
-};
-export function ErrorService({ children }: ErrorServiceProps) {
-  const error = useSubscript("error");
-
-  useEffect(() => {
-    error && console.error(error);
-  }, [error]);
-
-  return <>{children}</>;
-}
-
-export * from "./user";

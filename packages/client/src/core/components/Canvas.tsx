@@ -1,5 +1,5 @@
-import { useRef, useEffect, ReactNode } from "react";
-import { UPDATE_PRIORITY, settings, ENV, Application } from "pixi.js";
+import { ReactNode, useEffect, useRef } from "react";
+import { settings, ENV, Application, UPDATE_PRIORITY } from "pixi.js";
 import * as PIXI from "pixi.js";
 import { render } from "react-pixi-fiber";
 
@@ -15,17 +15,11 @@ if (process.env.NODE_ENV === "development") {
 settings.PREFER_ENV = ENV.WEBGL2;
 
 type CanvasProps = {
-  className?: string;
   width?: number;
   height?: number;
   children?: ReactNode;
 };
-export function Canvas({
-  width = 800,
-  height = 600,
-  className,
-  children,
-}: CanvasProps) {
+export function Canvas({ width = 800, height = 600, children }: CanvasProps) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -54,5 +48,5 @@ export function Canvas({
     };
   }, [ref, width, height, children]);
 
-  return <canvas className={className} ref={ref} />;
+  return <canvas ref={ref} />;
 }

@@ -48,7 +48,7 @@ type UserServiceProps = {
   id: string;
   children: ReactNode;
 };
-export function UserService({ id, children }: UserServiceProps) {
+export default function UserService({ id, children }: UserServiceProps) {
   const post = useNetwork();
   const user = useSubscript("user");
   const dispatch = useDispatch();

@@ -1,12 +1,51 @@
-import { AssetsLoader, Canvas, useViewport } from "core";
-import { PlaceHolder } from "components";
+import { AssetsLoader, Game, useViewport, Switch, Route, UI } from "core";
 import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
 
-import UI from "./UI";
+import {
+  Status,
+  Profile,
+  Navbar,
+  Sidebar,
+  Location,
+  Chatbox,
+} from "components";
+
+import Repository from "./Repo";
+import Book from "./Book";
 
 import BG from "assets/map.png";
 import Tachie from "assets/tachie.png";
+import IMG_Avatar from "assets/profile/avatar.png";
+
+function Header() {
+  return (
+    <header className="h-10">
+      <Profile avatar={IMG_Avatar} name="名稱" level="LV.42" />
+
+      <Location value="娜希雅大陸" />
+
+      <Status value="666,666,666.66" />
+    </header>
+  );
+}
+
+function Main() {
+  return (
+    <main className="flex-1">
+      <Switch>
+        <Route path="/lobby/repository">
+          <Repository />
+        </Route>
+        <Route path="/lobby/book">
+          <Book />
+        </Route>
+        <Route path="/lobby/rank">Rank</Route>
+        <Route path="/lobby/shop">Shop</Route>
+      </Switch>
+    </main>
+  );
+}
 
 type MapProps = {
   resources: Record<string, Texture | Spritesheet>;
@@ -30,32 +69,35 @@ function Map({ resources }: MapProps) {
   );
 }
 
-type LayoutProps = {
-  resources: Record<string, Texture | Spritesheet>;
-};
-function Layout({ resources }: LayoutProps) {
-  const { width, height } = useViewport();
-
-  return (
-    <div className="relative mx-auto">
-      <Canvas className="max-w-full" width={width} height={height}>
-        <Map resources={resources} />
-      </Canvas>
-
-      <UI className="absolute top-0 w-full h-full" />
-    </div>
-  );
-}
-
 export function Lobby() {
   return (
     <AssetsLoader tasks={[BG, Tachie]}>
       {({ status, resources }) => {
         if (status !== "resolved") {
-          return <PlaceHolder />;
+          return <></>;
         }
 
-        return <Layout resources={resources} />;
+        return (
+          <>
+            <Game>
+              <Map resources={resources} />
+            </Game>
+
+            <UI className="flex flex-col">
+              <Header />
+
+              <div className="flex-1 flex justify-end">
+                <Chatbox from="勝利天使" message="你就是那傳說中的勇者嗎?" />
+
+                <Main />
+
+                <Sidebar />
+              </div>
+
+              <Navbar />
+            </UI>
+          </>
+        );
       }}
     </AssetsLoader>
   );
