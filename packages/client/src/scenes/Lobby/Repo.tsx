@@ -1,6 +1,5 @@
 import { Button } from "components/Button";
 import { Item } from "types";
-import { range } from "ramda";
 
 import IMG_Frame_Outer from "assets/repository/frame_outer.png";
 import IMG_Frame_Inner from "assets/repository/frame_inner.png";
@@ -9,14 +8,20 @@ import IMG_Tab_Normal from "assets/repository/tab_normal.png";
 import IMG_Tab_Active from "assets/repository/tab_active.png";
 
 import IMG_Item_Rare from "assets/repository/item_rare.png";
+import { useSelector } from "store";
+import { useState } from "react";
 
-type ItemGridProps = {
+const IMG_HOST = "http://localhost:3001";
+
+type ItemGridProps = Item & {
   onClick?: () => void;
 };
-function ItemGrid({ onClick }: ItemGridProps) {
+function ItemGrid({ onClick, name, img }: ItemGridProps) {
   return (
     <button className="relative text-white" onClick={onClick}>
       <img src={IMG_Item_Rare} alt="Item frame" />
+
+      <img className="absolute top-0" src={`${IMG_HOST}${img}`} alt={name} />
 
       <span className="absolute bottom-0 right-0 text-xs mx-1">3</span>
     </button>
@@ -95,17 +100,21 @@ function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
 
 type TabProps = {
   label: string;
+  active?: boolean;
+  onClick?: () => void;
 };
-function Tab({ label }: TabProps) {
+function Tab({ label, active, onClick }: TabProps) {
   return (
-    <button className="w-16 text-white text-xs relative z-20">
+    <button className="w-16 text-white text-xs relative z-20" onClick={onClick}>
       <img className="w-full" src={IMG_Tab_Normal} alt="tab normal" />
 
-      <img
-        className="absolute top-1/2 left-0 transform -translate-y-1/2"
-        src={IMG_Tab_Active}
-        alt="tab active"
-      />
+      {active && (
+        <img
+          className="absolute top-1/2 left-0 transform -translate-y-1/2"
+          src={IMG_Tab_Active}
+          alt="tab active"
+        />
+      )}
 
       <span className="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         {label}
@@ -115,16 +124,21 @@ function Tab({ label }: TabProps) {
 }
 
 export default function Repository() {
-  // const items: Item[] = [];
-  // const [currentActive, setCurrentActive] = useState<Item | undefined>();
-  // const [openExchange, setOpenExchange] = useState(false);
+  const user = useSelector((state) => state.user);
+  const items = useSelector((state) =>
+    user.repository.map(({ itemID, count }) => ({
+      ...state.items[itemID],
+      count,
+    }))
+  );
 
-  // const [filter, setFilter] = useState<"card" | "chip" | undefined>();
-  // const pred = filter ? propEq("type", filter) : always(true);
+  const filters = [
+    { key: "all", label: "全部" },
+    { key: "card", label: "卡牌" },
+    { key: "chip", label: "碎片" },
+  ];
 
-  // useEffect(() => {
-  //   !currentActive && setOpenExchange(false);
-  // }, [currentActive]);
+  const [active, setActive] = useState(filters[0].key);
 
   return (
     <article className="relative">
@@ -132,18 +146,27 @@ export default function Repository() {
 
       <div className="absolute top-0 w-full h-full pt-10 pb-6 px-6">
         <nav>
-          <Tab label="全部" />
-          <Tab label="卡牌" />
-          <Tab label="碎片" />
+          {filters.map(({ key, label }) => (
+            <Tab
+              key={key}
+              label={label}
+              active={key === active}
+              onClick={() => setActive(key)}
+            />
+          ))}
         </nav>
 
         <div className="relative">
           <img src={IMG_Frame_Inner} alt="repository frame inner" />
 
-          <div className="absolute top-0 w-full h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
-            {range(0, 30).map((i) => (
-              <ItemGrid key={i} />
-            ))}
+          <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
+            {items
+              .filter(
+                active === "all" ? () => true : ({ type }) => type === active
+              )
+              .map((item) => (
+                <ItemGrid key={item.id} {...item} />
+              ))}
           </div>
         </div>
       </div>
