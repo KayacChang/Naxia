@@ -10,8 +10,9 @@ import IMG_Tab_Active from "assets/repository/tab_active.png";
 import IMG_Item_Rare from "assets/repository/item_rare.png";
 import { useSelector } from "store";
 import { useState } from "react";
+import { Modal } from "components";
 
-const IMG_HOST = "http://localhost:3001";
+const IMG = (src: string) => `http://localhost:3001${src}`;
 
 type ItemGridProps = Item & {
   onClick?: () => void;
@@ -21,7 +22,7 @@ function ItemGrid({ onClick, name, img }: ItemGridProps) {
     <button className="relative text-white" onClick={onClick}>
       <img src={IMG_Item_Rare} alt="Item frame" />
 
-      <img className="absolute top-0" src={`${IMG_HOST}${img}`} alt={name} />
+      <img className="absolute top-0" src={IMG(img)} alt={name} />
 
       <span className="absolute bottom-0 right-0 text-xs mx-1">3</span>
     </button>
@@ -37,7 +38,7 @@ function Detail({ name, img, onConfirm, onClose }: DetailProps) {
     <div className="text-white flex justify-center">
       <div className="flex flex-col space-y-2 absolute top-1/3 w-1/3">
         <div className="flex w-20 h-20 bg-white mx-auto">
-          <img src={img} alt="items" />
+          <img src={IMG(img)} alt="items" />
         </div>
 
         <div className="text-center space-y-1">
@@ -86,11 +87,11 @@ function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
         </form>
 
         <div className="flex justify-center space-x-4">
-          <Button className="border" onClick={onClose}>
-            Cancel
-          </Button>
           <Button className="border" onClick={onConfirm}>
             Confirm
+          </Button>
+          <Button className="border" onClick={onClose}>
+            Cancel
           </Button>
         </div>
       </div>
@@ -133,43 +134,63 @@ export default function Repository() {
   );
 
   const filters = [
-    { key: "all", label: "全部" },
-    { key: "card", label: "卡牌" },
-    { key: "chip", label: "碎片" },
+    { key: "all", label: "全部", cond: () => true },
+    { key: "card", label: "卡牌", cond: ({ type }: Item) => type === "card" },
+    { key: "chip", label: "碎片", cond: ({ type }: Item) => type === "chip" },
   ];
+  const [active, setActive] = useState(filters[0]);
 
-  const [active, setActive] = useState(filters[0].key);
+  const [item, setItem] = useState<Item | undefined>();
+  const [exchange, setExchange] = useState<Item | undefined>();
 
   return (
-    <article className="relative">
-      <img src={IMG_Frame_Outer} alt="repository frame outer" />
+    <>
+      <article className="relative">
+        <img src={IMG_Frame_Outer} alt="repository frame outer" />
 
-      <div className="absolute top-0 w-full h-full pt-10 pb-6 px-6">
-        <nav>
-          {filters.map(({ key, label }) => (
-            <Tab
-              key={key}
-              label={label}
-              active={key === active}
-              onClick={() => setActive(key)}
-            />
-          ))}
-        </nav>
+        <div className="absolute top-0 w-full h-full pt-10 pb-6 px-6">
+          <nav>
+            {filters.map((tab) => (
+              <Tab
+                key={tab.key}
+                label={tab.label}
+                active={tab.key === active.key}
+                onClick={() => setActive(tab)}
+              />
+            ))}
+          </nav>
 
-        <div className="relative">
-          <img src={IMG_Frame_Inner} alt="repository frame inner" />
+          <div className="relative">
+            <img src={IMG_Frame_Inner} alt="repository frame inner" />
 
-          <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
-            {items
-              .filter(
-                active === "all" ? () => true : ({ type }) => type === active
-              )
-              .map((item) => (
-                <ItemGrid key={item.id} {...item} />
+            <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
+              {items.filter(active.cond).map((item) => (
+                <ItemGrid
+                  key={item.id}
+                  {...item}
+                  onClick={() => setItem(item)}
+                />
               ))}
+            </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+
+      {item && (
+        <Modal className="z-20">
+          <Detail
+            {...item}
+            onConfirm={() => setExchange(item)}
+            onClose={() => setItem(undefined)}
+          />
+        </Modal>
+      )}
+
+      {exchange && (
+        <Modal className="z-20">
+          <Exchange {...exchange} onClose={() => setExchange(undefined)} />
+        </Modal>
+      )}
+    </>
   );
 }
