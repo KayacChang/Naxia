@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
+import { Items, useDispatch } from "store";
 
 function fetchItemList() {
   return fetch(`${process.env.REACT_APP_API}/items`)
@@ -12,11 +13,12 @@ type ItemServiceProps = {
 };
 export default function ItemSerivce({ children }: ItemServiceProps) {
   const { status, data } = useQuery("items", fetchItemList);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (status !== "success") return;
 
-    console.log(data);
+    dispatch(Items.actions.add(data));
   }, [status]);
 
   return <>{children}</>;
