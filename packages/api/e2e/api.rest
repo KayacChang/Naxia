@@ -47,3 +47,21 @@ content-typ: {{contentType}}
 ### Get History by userID
 GET {{host}}/history?userID={{userID}} HTTP/1.1
 content-typ: {{contentType}}
+
+### Get All Areas
+GET {{host}}/areas HTTP/1.1
+content-typ: {{contentType}}
+
+### Get Areas by ID
+@areaID = b9e853c5-e7e7-47e2-a710-51e0146b5915
+GET {{host}}/areas/{{areaID}} HTTP/1.1
+content-typ: {{contentType}}
+
+### Get All Dungeons 
+GET {{host}}/dungeons HTTP/1.1
+content-typ: {{contentType}}
+
+### Get Dungeons by ID
+@dungeonID = 5299c270-cfd6-4f42-ae9d-5137d8076c5e
+GET {{host}}/dungeons/{{dungeonID}} HTTP/1.1
+content-typ: {{contentType}}

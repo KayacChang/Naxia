@@ -2,9 +2,10 @@ import { StoreProvider } from "store";
 import { NetworkProvider } from "network";
 import { ReactNode } from "react";
 
-import ErrorService from "./error";
-import UserService from "./user";
-import ItemService from "./item";
+import Error from "./error";
+import User from "./user";
+import Item from "./item";
+import Area from "./area";
 
 type SystemProps = {
   children: ReactNode;
@@ -13,11 +14,13 @@ export default function System({ children }: SystemProps) {
   return (
     <StoreProvider>
       <NetworkProvider>
-        <ErrorService>
-          <UserService id="4fd23a49-90f3-4b2b-8989-fde1eb5fec61">
-            <ItemService>{children}</ItemService>
-          </UserService>
-        </ErrorService>
+        <Error>
+          <User id="69234c07-4e29-4dd4-8da2-cef32e850c83">
+            <Area>
+              <Item>{children}</Item>
+            </Area>
+          </User>
+        </Error>
       </NetworkProvider>
     </StoreProvider>
   );

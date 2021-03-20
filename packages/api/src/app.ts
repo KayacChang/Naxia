@@ -5,6 +5,8 @@ import * as Item from "./controller/item";
 import * as Achievement from "./controller/achievement";
 import * as User from "./controller/user";
 import * as History from "./controller/history";
+import * as Area from "./controller/area";
+import * as Dungeon from "./controller/dungeon";
 
 const server = createServer();
 
@@ -49,9 +51,9 @@ server.get("/history", History.get);
 // @TODO Notifications
 // server.post("/notifications");
 
-// @TODO Areas
-// server.get("/areas");
-// server.get("/areas/:areaID");
+// Areas
+server.get("/areas", Area.getAll);
+server.get("/areas/:areaID", Area.getByID);
 // server.get(
 //   "/areas/images/*",
 //   plugins.serveStaticFiles(
@@ -59,13 +61,13 @@ server.get("/history", History.get);
 //   ),
 // );
 
+// Dungeons
+server.get("/dungeons", Dungeon.getAll);
+server.get("/dungeons/:id", Dungeon.getByID);
+
 // @TODO Products
 // server.get("/products");
 // server.put("/products/:id");
-
-// @TODO Dungeons
-// server.get("/areas/:areaID/dungeons");
-// server.get("/areas/:areaID/dungeons/:dungeonID");
 
 // RUN
 server.listen(3001, () => {
