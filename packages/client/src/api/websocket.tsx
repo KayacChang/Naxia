@@ -10,24 +10,16 @@ import {
 import invariant from "tiny-invariant";
 
 export enum ReadyState {
-  /** Socket has been created. The connection is not yet open. */
   CONNECTING = 0,
-  /** The connection is open and ready to communicate. */
   OPEN = 1,
-  /** The connection is in the process of closing. */
   CLOSING = 2,
-  /** The connection is closed or couldn't be opened. */
   CLOSED = 3,
 }
 
 export enum Event {
-  /** Fired when a connection with a WebSocket is opened. */
   OPEN = "open",
-  /** Fired when data is received through a WebSocket. */
   MESSAGE = "message",
-  /** Fired when a connection with a WebSocket has been closed because of an error, such as when some data couldn't be sent. */
   ERROR = "error",
-  /** Fired when a connection with a WebSocket is closed. */
   CLOSE = "close",
 }
 
@@ -54,13 +46,13 @@ type WebSocketAction =
 
 type WebSocketState = {
   readyState: ReadyState;
-  lastMessage?: string;
+  lastMessage?: any;
   error?: Error;
   number?: number;
 };
 
 type WebSocketSendFunction = (
-  data: string | ArrayBufferLike | Blob | ArrayBufferView
+  data: string | ArrayBufferLike | Blob | ArrayBufferView | Object
 ) => void;
 
 type WebSocketCloseFunction = (
@@ -123,7 +115,7 @@ export function WebSocketProvider({ url, children }: WebSocketProviderProps) {
       dispatch({
         type: Event.MESSAGE,
         readyState: toReadyState(ws.readyState),
-        message: String(event.data),
+        message: JSON.parse(event.data),
       })
     );
 
@@ -146,7 +138,16 @@ export function WebSocketProvider({ url, children }: WebSocketProviderProps) {
     return () => ws.close();
   }, [ws]);
 
-  const send: WebSocketSendFunction = useCallback(ws.send.bind(ws), [ws]);
+  const send: WebSocketSendFunction = useCallback(
+    (data) => {
+      if (typeof data === "object") {
+        return ws.send(JSON.stringify(data));
+      }
+
+      ws.send(data);
+    },
+    [ws]
+  );
   const close: WebSocketCloseFunction = useCallback(ws.close.bind(ws), [ws]);
 
   return (

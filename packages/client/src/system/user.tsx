@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 import { useMachine } from "@xstate/react";
 import { ReactNode, useEffect } from "react";
-import { useNetwork, useSubscript } from "network";
+import { useWebSocket, ReadyState } from "api";
 import { useDispatch, User } from "store";
 
 type UserContext = {};
@@ -41,6 +41,9 @@ const machine = createMachine<UserContext, UserEvent, UserState>({
     success: {
       type: "final",
     },
+    failure: {
+      type: "final",
+    },
   },
 });
 
@@ -49,33 +52,25 @@ type UserServiceProps = {
   children: ReactNode;
 };
 export default function UserService({ id, children }: UserServiceProps) {
-  const post = useNetwork();
-  const user = useSubscript("user");
-  const dispatch = useDispatch();
+  const ws = useWebSocket();
   const [state, send] = useMachine(machine);
+  const dispatch = useDispatch();
+  const readyState = ws.state.readyState;
+  const lastMessage = ws.state.lastMessage;
 
   useEffect(() => {
-    if (state.matches("idle") && post) {
-      post(
-        JSON.stringify({
-          type: "login",
-          id,
-        })
-      );
+    if (state.matches("idle") && readyState === ReadyState.OPEN) {
+      ws.send({ type: "login", id });
 
       send("FETCH");
 
       return;
     }
 
-    if (state.matches("loading") && user) {
-      dispatch(User.actions.login(user));
-
-      send("RESOLVE");
-
-      return;
+    if (state.matches("loading") && lastMessage?.type === "user") {
+      dispatch(User.actions.login(lastMessage.data));
     }
-  }, [state, send, post, user]);
+  }, [ws, readyState, lastMessage, state, send]);
 
   return <>{children}</>;
 }
