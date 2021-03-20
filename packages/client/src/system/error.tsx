@@ -10,7 +10,11 @@ export default function ErrorService({ children }: ErrorServiceProps) {
   const lastMessage = ws.state.lastMessage;
 
   useEffect(() => {
-    if (readyState !== ReadyState.OPEN) {
+    if (
+      readyState !== ReadyState.OPEN ||
+      !lastMessage ||
+      lastMessage.type !== "error"
+    ) {
       return;
     }
 

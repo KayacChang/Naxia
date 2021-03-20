@@ -21,6 +21,7 @@
     "ramda": "^0.27.1",
     "random-js": "^2.1.0",
     "restify": "^8.5.1",
+    "restify-cors-middleware2": "^2.1.2",
     "restify-errors": "^8.0.2"
   }
 }

@@ -1,4 +1,5 @@
 import { createServer, plugins } from "restify";
+import corsMiddleware from "restify-cors-middleware2";
 
 import logger from "./middleware/logger";
 import * as Item from "./controller/item";
@@ -10,8 +11,15 @@ import * as Dungeon from "./controller/dungeon";
 
 const server = createServer();
 
+const cors = corsMiddleware({
+  origins: ["*"],
+});
+
+server.pre(cors.preflight);
+
 // Plugins
 server.use(
+  cors.actual,
   plugins.acceptParser(server.acceptable),
   plugins.queryParser(),
   plugins.bodyParser(),
