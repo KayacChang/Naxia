@@ -8,7 +8,7 @@ export default async function login(connection: Connection, proto: any) {
   if (!user) {
     connection.send(JSON.stringify({
       type: "error",
-      error: `User not found by this user id ${proto.id}`,
+      error: `User ${proto.id} not existed`,
     }));
 
     return;

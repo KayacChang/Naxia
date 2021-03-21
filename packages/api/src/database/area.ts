@@ -9,7 +9,7 @@ function generate(): Area {
   return {
     id: uuid(),
     name: randomWord(),
-    image: "",
+    img: "",
     dungeons: draw(dungeons, 3).map(({ id }) => id),
   };
 }

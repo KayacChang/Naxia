@@ -6,7 +6,7 @@ function generate(): Dungeon {
   return {
     id: uuid(),
     name: randomWord(),
-    image: "",
+    img: "",
     position: {
       x: randomNumber({ min: 0, max: 1920 }),
       y: randomNumber({ min: 0, max: 1080 }),

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Item } from "types";
 
-const slice = createSlice({
+const { reducer, actions } = createSlice({
   name: "items",
   initialState: {} as Record<string, Item>,
   reducers: {
@@ -13,6 +13,4 @@ const slice = createSlice({
   },
 });
 
-const reducer = slice.reducer;
-const actions = { ...slice.actions };
 export { reducer, actions };

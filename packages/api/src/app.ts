@@ -61,7 +61,7 @@ server.get("/history", History.get);
 
 // Areas
 server.get("/areas", Area.getAll);
-server.get("/areas/:areaID", Area.getByID);
+server.get("/areas/:id", Area.getByID);
 // server.get(
 //   "/areas/images/*",
 //   plugins.serveStaticFiles(

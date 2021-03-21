@@ -3,6 +3,6 @@ import { Dungeon } from "./dungeon";
 export interface Area {
   id: string;
   name: string;
-  image: string;
+  img: string;
   dungeons: Dungeon["id"][];
 }

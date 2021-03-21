@@ -6,12 +6,14 @@ import {
   useSelector as _useSelector,
 } from "react-redux";
 import * as User from "./user";
-import * as Items from "./items";
+import * as Item from "./item";
+import * as Area from "./area";
 
 const store = configureStore({
   reducer: {
     user: User.reducer,
-    items: Items.reducer,
+    items: Item.reducer,
+    areas: Area.reducer,
   },
 });
 
@@ -30,4 +32,4 @@ export function useSelector<T>(selector: Selector<T>) {
   return _useSelector<RootState, T>(selector);
 }
 
-export { User, Items };
+export { User, Item, Area };
