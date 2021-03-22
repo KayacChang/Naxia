@@ -10,7 +10,7 @@ function mapping(res: LoaderResource) {
   }
 
   throw new Error(
-    `Can't load [${res.name} / ${res.url}]: not support this resource type.`
+    `Can't load [${res.name} / ${res.url}]: not support this resource type.`,
   );
 }
 
@@ -19,7 +19,7 @@ export type ResourceMap = Record<string, ReturnType<typeof mapping>>;
 function mapToResources(resources: IResourceDictionary): ResourceMap {
   return Object.entries(resources).reduce(
     (obj, [name, res]) => ({ ...obj, [name]: mapping(res) }),
-    {}
+    {},
   );
 }
 
@@ -63,9 +63,7 @@ export function load(tasks: string[]) {
   );
 
   loader.load(() =>
-    handlers.complete.forEach((handle) =>
-      handle(mapToResources(loader.resources))
-    )
+    handlers.complete.forEach((handle) => handle(getResources()))
   );
 
   return {

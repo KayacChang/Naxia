@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { useQueries, useQuery } from "react-query";
 import { Dungeon, Area as TArea } from "types";
-import { Area, useDispatch } from "store";
+import { Area, useDispatch, useSelector } from "store";
 
 type IArea = Omit<TArea, "dungeons"> & { dungeons: string[] };
 
@@ -21,37 +21,42 @@ type AreaServiceProps = {
   children: ReactNode;
 };
 export default function AreaSerivce({ children }: AreaServiceProps) {
-  const dispatch = useDispatch();
-  const { data: areas } = useQuery("areas", fetchAreas);
+  const areas = useSelector((state) => Object.values(state.areas));
+  const { data } = useQuery("areas", fetchAreas, {
+    enabled: areas.length <= 0,
+  });
   const results = useQueries(
-    !areas
+    !data
       ? []
-      : areas
+      : data
           .flatMap(({ dungeons }) => dungeons)
           .map((id) => ({
             queryKey: ["dungeons", id],
             queryFn: () => fetchDungeonByID(id),
           }))
   );
-
+  const dispatch = useDispatch();
   const done = results.every(({ isSuccess }) => isSuccess);
   const dungeons = results.map(({ data }) => data as Dungeon);
 
   useEffect(() => {
-    if (!done || !areas) return;
+    if (!done || !data) return;
 
     const deduplicatedDungeons = dungeons.reduce(
       (map, cur) => map.set(cur.id, cur),
       new Map()
     );
 
-    const areasWithDungeons = areas.map((area) => ({
-      ...area,
-      dungeons: area.dungeons.map((id) => deduplicatedDungeons.get(id)),
-    }));
+    const areasWithDungeons = data
+      .map((area) => ({
+        ...area,
+        dungeons: area.dungeons.map((id) => deduplicatedDungeons.get(id)),
+      }))
+      .filter(({ id }) => areas.every((area) => area.id !== id));
 
-    dispatch(Area.actions.add(areasWithDungeons));
-  }, [done, dungeons, areas]);
+    areasWithDungeons.length > 0 &&
+      dispatch(Area.actions.add(areasWithDungeons));
+  }, [data, done, dungeons, areas]);
 
   return <>{children}</>;
 }

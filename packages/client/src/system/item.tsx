@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Item, useDispatch } from "store";
+import { Item, useDispatch, useSelector } from "store";
 import { Item as TItem } from "types";
 
 function fetchItemList() {
@@ -13,7 +13,12 @@ type ItemServiceProps = {
   children: ReactNode;
 };
 export default function ItemSerivce({ children }: ItemServiceProps) {
-  const { status, data } = useQuery("items", fetchItemList);
+  const enabled = useSelector(
+    (state) => Object.entries(state.items).length <= 0
+  );
+  const { status, data } = useQuery("items", fetchItemList, {
+    enabled,
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -77,7 +77,34 @@ export function AssetsLoader({ tasks, children }: AssetsLoaderProps) {
       .on("complete", (payload) => dispatch({ type: "success", payload }));
 
     dispatch({ type: "start" });
-  }, [tasks]);
+  }, [...tasks]);
 
   return <RenderProps {...state}>{children}</RenderProps>;
+}
+
+export function useAssetsLoader(tasks: string[]) {
+  const [state, dispatch] = useReducer(reducer, {
+    status: "pending",
+    resources: {},
+    progress: 0,
+  });
+
+  useEffect(() => {
+    const _tasks = tasks.filter((task) => !hasLoaded(task));
+
+    if (_tasks.length <= 0) {
+      dispatch({ type: "success", payload: getResources() });
+
+      return;
+    }
+
+    load(_tasks)
+      .on("error", (payload) => dispatch({ type: "failure", payload }))
+      .on("progress", (payload) => dispatch({ type: "progress", payload }))
+      .on("complete", (payload) => dispatch({ type: "success", payload }));
+
+    dispatch({ type: "start" });
+  }, [...tasks]);
+
+  return state;
 }

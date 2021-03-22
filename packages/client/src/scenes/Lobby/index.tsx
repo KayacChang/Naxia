@@ -6,6 +6,7 @@ import {
   Route,
   UI,
   Camera,
+  useAssetsLoader,
 } from "core";
 import { Sprite, Container, Text } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
@@ -85,44 +86,45 @@ function Map({ resources }: MapProps) {
 export function Lobby() {
   const { height } = useViewport();
 
+  const { status, resources } = useAssetsLoader([
+    BG,
+    Tachie,
+    IMG_Frame,
+    IMG_Dungeon1,
+  ]);
+
+  if (status !== "resolved") {
+    return <></>;
+  }
+
   return (
-    <AssetsLoader tasks={[BG, Tachie, IMG_Frame, IMG_Dungeon1]}>
-      {({ status, resources }) => {
-        if (status !== "resolved") {
-          return <></>;
-        }
+    <>
+      <Game>
+        <Map resources={resources} />
 
-        return (
-          <>
-            <Game>
-              <Map resources={resources} />
+        <Container>
+          <Sprite
+            y={height}
+            anchor={{ x: 0, y: 1 }}
+            texture={resources[Tachie] as Texture}
+            scale={1 / window.devicePixelRatio}
+          />
+        </Container>
+      </Game>
 
-              <Container>
-                <Sprite
-                  y={height}
-                  anchor={{ x: 0, y: 1 }}
-                  texture={resources[Tachie] as Texture}
-                  scale={1 / window.devicePixelRatio}
-                />
-              </Container>
-            </Game>
+      <UI className="flex flex-col">
+        <Header />
 
-            <UI className="flex flex-col">
-              <Header />
+        <div className="flex-1 flex justify-end">
+          <Chatbox from="勝利天使" message="你就是那傳說中的勇者嗎?" />
 
-              <div className="flex-1 flex justify-end">
-                <Chatbox from="勝利天使" message="你就是那傳說中的勇者嗎?" />
+          <Main />
 
-                <Main />
+          <Sidebar />
+        </div>
 
-                <Sidebar />
-              </div>
-
-              <Navbar />
-            </UI>
-          </>
-        );
-      }}
-    </AssetsLoader>
+        <Navbar />
+      </UI>
+    </>
   );
 }
