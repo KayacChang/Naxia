@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { render } from "react-dom";
 import { Lobby } from "scenes";
-import { Router, Switch, Route } from "core";
+import { Switch, Route } from "core";
 import System from "system";
 
 import "styles/base.css";
@@ -10,13 +10,11 @@ import "styles/index.css";
 function App() {
   return (
     <System>
-      <Router>
-        <Switch>
-          <Route path="/lobby">
-            <Lobby />
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route path="/lobby">
+          <Lobby />
+        </Route>
+      </Switch>
     </System>
   );
 }

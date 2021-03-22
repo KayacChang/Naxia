@@ -1,6 +1,7 @@
 import { StoreProvider } from "store";
 import { NetworkProvider } from "api";
 import { ReactNode } from "react";
+import { Router } from "core";
 
 import Error from "./error";
 import User from "./user";
@@ -12,16 +13,18 @@ type SystemProps = {
 };
 export default function System({ children }: SystemProps) {
   return (
-    <StoreProvider>
-      <NetworkProvider>
-        <Error>
-          <User id="9cad106a-9e3d-4546-a5da-bafaaa69111b">
-            <Area>
-              <Item>{children}</Item>
-            </Area>
-          </User>
-        </Error>
-      </NetworkProvider>
-    </StoreProvider>
+    <Router>
+      <StoreProvider>
+        <NetworkProvider>
+          <Error>
+            <User id="9cad106a-9e3d-4546-a5da-bafaaa69111b">
+              <Area>
+                <Item>{children}</Item>
+              </Area>
+            </User>
+          </Error>
+        </NetworkProvider>
+      </StoreProvider>
+    </Router>
   );
 }

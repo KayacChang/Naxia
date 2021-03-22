@@ -1,11 +1,12 @@
 import { ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Item, useDispatch } from "store";
+import { Item as TItem } from "types";
 
 function fetchItemList() {
   return fetch(`${process.env.REACT_APP_API}/items`)
     .then((res) => res.json())
-    .then(({ data }) => data);
+    .then(({ data }) => data as TItem[]);
 }
 
 type ItemServiceProps = {
@@ -16,10 +17,10 @@ export default function ItemSerivce({ children }: ItemServiceProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (status !== "success") return;
+    if (status !== "success" || !data) return;
 
     dispatch(Item.actions.add(data));
-  }, [status]);
+  }, [status, data]);
 
   return <>{children}</>;
 }
