@@ -1,5 +1,4 @@
 import {
-  AssetsLoader,
   Game,
   useViewport,
   Switch,
@@ -8,7 +7,7 @@ import {
   Camera,
   useAssetsLoader,
 } from "core";
-import { Sprite, Container, Text } from "react-pixi-fiber";
+import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
 
 import {
@@ -28,6 +27,9 @@ import Tachie from "assets/character/tachie.png";
 import IMG_Avatar from "assets/profile/avatar.png";
 import IMG_Frame from "assets/dungeon/frame.png";
 import IMG_Dungeon1 from "assets/dungeon/dungeon1.png";
+import { useSelector } from "store";
+import { Dungeon } from "components/pixijs/Dungeon";
+import { Area } from "types";
 
 function Header() {
   return (
@@ -60,25 +62,25 @@ function Main() {
 
 type MapProps = {
   resources: Record<string, Texture | Spritesheet>;
+  area?: Area;
 };
-function Map({ resources }: MapProps) {
+function Map({ resources, area }: MapProps) {
   const { width, height } = useViewport();
 
   return (
     <Camera screenWidth={width} screenHeight={height}>
       <Sprite texture={resources[BG] as Texture} />
 
-      <Container
-        x={400}
-        y={150}
-        interactive={true}
-        buttonMode={true}
-        pointerdown={() => console.log("click")}
-      >
-        <Sprite texture={resources[IMG_Dungeon1] as Texture} />
-        <Sprite x={-68} y={-16} texture={resources[IMG_Frame] as Texture} />
-        <Text x={60} y={202} text="第一章節" style={{ fill: "#ffffff" }} />
-      </Container>
+      {area?.dungeons.map(({ id, position, name }) => (
+        <Dungeon
+          key={id}
+          x={position.x}
+          y={position.y}
+          frame={resources[IMG_Frame] as Texture}
+          img={resources[IMG_Dungeon1] as Texture}
+          title={name}
+        />
+      ))}
     </Camera>
   );
 }
@@ -93,6 +95,8 @@ export function Lobby() {
     IMG_Dungeon1,
   ]);
 
+  const area = useSelector((state) => Object.values(state.areas)[0]);
+
   if (status !== "resolved") {
     return <></>;
   }
@@ -100,7 +104,7 @@ export function Lobby() {
   return (
     <>
       <Game>
-        <Map resources={resources} />
+        <Map resources={resources} area={area} />
 
         <Container>
           <Sprite

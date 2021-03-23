@@ -12,7 +12,7 @@ import { useSelector } from "store";
 import { useState } from "react";
 import { Modal } from "components";
 
-const IMG = (src: string) => `http://localhost:3001${src}`;
+const IMG = (src: string) => `${process.env.REACT_APP_API}${src}`;
 
 type ItemGridProps = Item & {
   onClick?: () => void;
