@@ -17,14 +17,12 @@ export default function System({ children }: SystemProps) {
       <StoreProvider>
         <NetworkProvider>
           <Error>
-            <User id="078b57a3-a085-4c6c-8c51-602daa35bbf3">
-              <Area>
-                <Item>{children}</Item>
-              </Area>
-            </User>
+            <User id="c5b8442f-5494-4358-924e-304edb1ee034">{children}</User>
           </Error>
         </NetworkProvider>
       </StoreProvider>
     </Router>
   );
 }
+
+export { Item, Area };
