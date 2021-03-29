@@ -2,22 +2,12 @@ import { Game, UI, useAssetsLoader, useViewport } from "core";
 import { Texture } from "pixi.js";
 import { Sprite } from "react-pixi-fiber";
 
-import { Status, Profile } from "components";
+import { Header, Sidebar, Control } from "components";
 
 import BG from "assets/room/background/fight-bg.png";
-import IMG_Avatar from "assets/profile/avatar.png";
+import IMG_AVATAR from "assets/profile/avatar.png";
 import BET_INFORMATION from "assets/room/background/bet-information.png";
 import HISTORY from "assets/room/background/history.png";
-
-function Header() {
-  return (
-    <header className="h-10">
-      <Profile avatar={IMG_Avatar} name="名稱" level="LV.42" />
-
-      <Status value="666,666,666.66" />
-    </header>
-  );
-}
 
 export function Room() {
   const { width, height } = useViewport();
@@ -38,7 +28,12 @@ export function Room() {
       </Game>
 
       <UI className="flex flex-col">
-        <Header />
+        <Header
+          avatar={IMG_AVATAR}
+          name={"username"}
+          level={"LV.42"}
+          balance={"666,666,666.66"}
+        />
 
         <div className="flex-1 flex p-2">
           <div className="flex-1 flex flex-col justify-between">
@@ -51,7 +46,11 @@ export function Room() {
             </div>
           </div>
 
-          <div className="flex-1"></div>
+          <div className="flex-1 flex flex-row justify-end space-x-4 mt-2">
+            <Control />
+
+            <Sidebar />
+          </div>
         </div>
       </UI>
     </>
