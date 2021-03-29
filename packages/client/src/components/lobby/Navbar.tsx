@@ -70,9 +70,12 @@ export function Navbar() {
       </Link>
 
       <div className="absolute bottom-0 w-full px-2 flex justify-end space-x-2">
-        {links.map(({ key, icons: { active, normal }, href }) => (
+        {links.map(({ key, icons, href }) => (
           <Link key={key} to={href} className="w-16">
-            <img src={location.pathname === href ? active : normal} alt={key} />
+            <img
+              src={location.pathname === href ? icons.active : icons.normal}
+              alt={key}
+            />
           </Link>
         ))}
       </div>

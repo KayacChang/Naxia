@@ -1,13 +1,12 @@
 import * as Icon from "./Icon";
 
-export * from "./PlaceHolder";
-export * from "./Status";
-export * from "./Location";
-export * from "./Chatbox";
-export * from "./Profile";
+export * from "./lobby/Status";
+export * from "./lobby/Location";
+export * from "./lobby/Chatbox";
+export * from "./lobby/Profile";
 export * from "./Button";
-export * from "./InputField";
-export * from "./Navbar";
-export * from "./Sidebar";
-export * from "./Modal";
+export * from "./lobby/InputField";
+export * from "./lobby/Navbar";
+export * from "./lobby/Sidebar";
+export * from "./lobby/Modal";
 export { Icon };

@@ -9,7 +9,9 @@ export function Modal({ children, className }: ModalProps) {
   return (
     <div
       className={clsx(
-        "absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 pointer-events-auto",
+        "absolute top-0 right-0 w-full h-full",
+        "bg-black bg-opacity-50 ",
+        "pointer-events-auto",
         className
       )}
     >
