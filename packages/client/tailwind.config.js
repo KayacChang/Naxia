@@ -9,6 +9,10 @@ module.exports = {
       zIndex: {
         "-10": "-10",
       },
+      scale: {
+        "115": "1.15",
+        "120": "1.2",
+      },
     },
   },
   variants: {
