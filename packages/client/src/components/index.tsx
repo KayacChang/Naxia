@@ -12,9 +12,11 @@ export * from "./lobby/InputField";
 export * from "./lobby/Navbar";
 export * from "./lobby/Modal";
 
-export * from "./room/Control";
+export * from "./room/ConfirmSection";
+export * from "./room/BetSection";
 export * from "./room/Bet";
 export * from "./room/Skill";
+export * from "./room/RoomStatus";
 
 export * from "./Button";
 export { Icon };

@@ -5,8 +5,9 @@ import SKILL_HURRICANE_LG from "assets/room/skill/hurricane-lg.png";
 import SKILL_ICE_BEAM_LG from "assets/room/skill/icebeam-lg.png";
 
 import SKILL_FRAME_LG from "assets/room/skill/frame-lg.png";
+import clsx from "clsx";
 
-const mapping = {
+const skill_mapping = {
   blizzard: {
     image: SKILL_BLIZZARD_LG,
     name: "寒雪擊",
@@ -29,24 +30,34 @@ const mapping = {
   },
 };
 
-type SkillProps = {
-  type: keyof typeof mapping;
-  value?: string;
+const size_mapping = {
+  md: {
+    width: "w-14",
+  },
+  sm: {
+    width: "w-12",
+  },
 };
-export function Skill({ type, value = "21000" }: SkillProps) {
+
+type SkillProps = {
+  type: keyof typeof skill_mapping;
+  value?: string;
+  size?: keyof typeof size_mapping;
+};
+export function Skill({ type, value = "21000", size = "md" }: SkillProps) {
   return (
-    <div className="w-14 relative">
+    <div className={clsx("relative", size_mapping[size].width)}>
       <div className="relative">
-        <img src={mapping[type].image} alt="skill image" />
+        <img src={skill_mapping[type].image} alt="skill image" />
 
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
           <span className="text-white text-xs text-shadow">
-            {mapping[type].name}
+            {skill_mapping[type].name}
           </span>
         </div>
       </div>
 
-      <div className="relative -top-2 px-1 flex justify-center">
+      <div className="absolute -bottom-1 px-1 flex justify-center">
         <img src={SKILL_FRAME_LG} alt="frame image" />
 
         <span className="text-white text-xxs absolute top-0">{value}</span>
