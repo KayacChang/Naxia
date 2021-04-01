@@ -1,4 +1,5 @@
 import { IResourceDictionary, Loader, LoaderResource, utils } from "pixi.js";
+import "pixi-spine";
 
 function mapping(res: LoaderResource) {
   if (res.type === LoaderResource.TYPE.IMAGE && res.texture) {
@@ -7,6 +8,14 @@ function mapping(res: LoaderResource) {
 
   if (res.type === LoaderResource.TYPE.JSON && res.spritesheet) {
     return res.spritesheet;
+  }
+
+  // for spine
+  if (res.type === LoaderResource.TYPE.JSON && res.spineData) {
+    return res.spineData;
+  }
+  if (res.type === LoaderResource.TYPE.TEXT && res.extension === "atlas") {
+    return res.data;
   }
 
   throw new Error(

@@ -1,4 +1,5 @@
-import { Game, UI, useAssetsLoader, useViewport } from "core";
+import { useAssetsLoader, useViewport, Spine } from "core";
+import { Game, UI } from "layers";
 import { Texture } from "pixi.js";
 import { Sprite } from "react-pixi-fiber";
 
@@ -13,6 +14,7 @@ import {
 import BG from "assets/room/background/fight-bg.png";
 import IMG_AVATAR from "assets/profile/avatar.png";
 import HISTORY from "assets/room/background/history.png";
+const JSON = process.env.PUBLIC_URL + "/boss/gugaiwu1/guaiwu1.json";
 
 function Left() {
   return (
@@ -42,7 +44,7 @@ function Right() {
 
 export function Room() {
   const { width, height } = useViewport();
-  const { status, resources } = useAssetsLoader([BG]);
+  const { status, resources } = useAssetsLoader([BG, JSON]);
 
   if (status !== "resolved") {
     return <></>;
@@ -55,6 +57,16 @@ export function Room() {
           width={width}
           height={height}
           texture={resources[BG] as Texture}
+        />
+
+        <Spine
+          x={width / 2}
+          y={height / 2}
+          data={resources[JSON]}
+          scale={{
+            x: 1 / window.devicePixelRatio,
+            y: 1 / window.devicePixelRatio,
+          }}
         />
       </Game>
 

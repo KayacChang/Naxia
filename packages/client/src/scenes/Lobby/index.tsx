@@ -1,12 +1,5 @@
-import {
-  Game,
-  useViewport,
-  Switch,
-  Route,
-  UI,
-  Camera,
-  useAssetsLoader,
-} from "core";
+import { useViewport, Switch, Route, Camera, useAssetsLoader } from "core";
+import { Game, UI } from "layers";
 import { Sprite, Container } from "react-pixi-fiber";
 import { Spritesheet, Texture } from "pixi.js";
 

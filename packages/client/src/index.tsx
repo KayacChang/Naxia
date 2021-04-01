@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
 import { render } from "react-dom";
-import { Lobby, Room } from "scenes";
 import { Switch, Route } from "core";
 import System, { Area, Item } from "system";
+import { Lobby, Room } from "scenes";
 
 import "styles/base.css";
 import "styles/index.css";

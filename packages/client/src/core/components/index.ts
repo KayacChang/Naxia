@@ -6,4 +6,5 @@ export * from "./AssetsLoader";
 export * from "./load";
 export * from "./Camera";
 export * from "./Router";
+export * from "./Spine";
 export { Link, Route, Switch };
