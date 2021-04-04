@@ -17,6 +17,7 @@ export * from "./room/BetSection";
 export * from "./room/Bet";
 export * from "./room/Skill";
 export * from "./room/RoomStatus";
+export * from "./room/History";
 
 export * from "./Button";
 export { Icon };

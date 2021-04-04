@@ -1,32 +1,28 @@
 import { Link } from "core";
 
-import IMG_Announcement_Normal from "assets/sidebar/announcement_normal.png";
-import IMG_Mail_Normal from "assets/sidebar/mail_normal.png";
-import IMG_Setting_Normal from "assets/sidebar/setting_normal.png";
-
-// import IMG_Announcement_Active from "assets/sidebar/announcement_active.png";
-// import IMG_Mail_Active from "assets/sidebar/mail_active.png";
-// import IMG_Setting_Active from "assets/sidebar/setting_active.png";
+import IMG_Announcement from "assets/sidebar/announcement.png";
+import IMG_Mail from "assets/sidebar/mail.png";
+import IMG_Setting from "assets/sidebar/setting.png";
 
 const links = [
   {
     key: "announcement",
     icons: {
-      normal: IMG_Announcement_Normal,
+      normal: IMG_Announcement,
     },
     href: "#",
   },
   {
     key: "setting",
     icons: {
-      normal: IMG_Setting_Normal,
+      normal: IMG_Setting,
     },
     href: "#",
   },
   {
     key: "mail",
     icons: {
-      normal: IMG_Mail_Normal,
+      normal: IMG_Mail,
     },
     href: "#",
   },

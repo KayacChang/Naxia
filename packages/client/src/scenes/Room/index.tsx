@@ -9,11 +9,11 @@ import {
   ConfirmSection,
   BetSection,
   RoomStatus,
+  History,
 } from "components";
 
 import BG from "assets/room/background/fight-bg.png";
 import IMG_AVATAR from "assets/profile/avatar.png";
-import HISTORY from "assets/room/background/history.png";
 const JSON = process.env.PUBLIC_URL + "/boss/gugaiwu1/guaiwu1.json";
 
 function Left() {
@@ -21,9 +21,7 @@ function Left() {
     <div className="flex-1 flex flex-col justify-between p-2">
       <RoomStatus className="w-52 mt-8" />
 
-      <div className="w-full">
-        <img src={HISTORY} alt="history frame" />
-      </div>
+      <History />
     </div>
   );
 }
