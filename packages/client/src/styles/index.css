@@ -29,3 +29,9 @@ button,
 canvas {
   pointer-events: auto;
 }
+
+#game {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}

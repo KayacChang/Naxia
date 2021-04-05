@@ -25,6 +25,7 @@ export function Canvas({ width = 800, height = 600, children }: CanvasProps) {
       width,
       height,
       view: ref.current,
+      resolution: window.devicePixelRatio,
     });
 
     // react pixi fiber render
