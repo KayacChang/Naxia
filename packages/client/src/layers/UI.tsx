@@ -11,7 +11,10 @@ export function UI({ style, className, children }: UIProps) {
   return createPortal(
     <div
       style={style}
-      className={clsx("absolute top-0 w-full h-full", className)}
+      className={clsx(
+        "absolute top-0 w-full h-full overflow-hidden",
+        className
+      )}
     >
       {children}
     </div>,

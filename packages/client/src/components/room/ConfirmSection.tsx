@@ -4,18 +4,30 @@ import IMG_CANCEL from "assets/room/control/cancel-normal.png";
 
 export function ConfirmSection() {
   return (
-    <div className="space-y-2">
-      <div className="w-24">
+    <div className="space-y-2 text-white flex flex-col font-noto">
+      <button className="w-24 relative">
         <img src={IMG_CONFIRM} alt="confirm button" />
-      </div>
 
-      <div className="w-24">
-        <img src={IMG_REDO} alt="redo button" />
-      </div>
+        <span className="absolute top-1/2 transform -translate-y-1/2 text-shadow">
+          確認
+        </span>
+      </button>
 
-      <div className="w-24">
+      <button className="w-24 relative">
         <img src={IMG_CANCEL} alt="cancel button" />
-      </div>
+
+        <span className="absolute top-1/2 transform -translate-y-1/2 text-shadow">
+          歸零
+        </span>
+      </button>
+
+      <button className="w-24 relative">
+        <img src={IMG_REDO} alt="redo button" />
+
+        <span className="absolute top-1/2 transform -translate-y-1/2 text-shadow">
+          重複
+        </span>
+      </button>
     </div>
   );
 }
