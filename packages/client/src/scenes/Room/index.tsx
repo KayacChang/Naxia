@@ -68,7 +68,7 @@ export function Room() {
         />
       </Game>
 
-      <UI className="flex flex-col">
+      <UI style={{ width: width + "px" }} className="flex flex-col">
         <Header
           avatar={IMG_AVATAR}
           name={"username"}

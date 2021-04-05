@@ -1,16 +1,20 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 type UIProps = {
+  style?: CSSProperties;
   className?: string;
   children: ReactNode;
 };
-export function UI({ className, children }: UIProps) {
+export function UI({ style, className, children }: UIProps) {
   return createPortal(
-    <div className={clsx("absolute top-0 w-full h-full", className)}>
+    <div
+      style={style}
+      className={clsx("absolute top-0 w-full h-full", className)}
+    >
       {children}
     </div>,
-    document.getElementById("ui") as Element
+    document.getElementById("game") as Element
   );
 }
