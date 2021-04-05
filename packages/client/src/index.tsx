@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { render } from "react-dom";
 import { Switch, Route } from "core";
 import System, { Area, Item } from "system";
-import { Lobby, Room } from "scenes";
+import { Lobby, Room, Loading } from "scenes";
 
 import "styles/base.css";
 import "styles/index.css";
@@ -21,6 +21,10 @@ function App() {
 
         <Route path="/room">
           <Room />
+        </Route>
+
+        <Route path="/loading">
+          <Loading />
         </Route>
       </Switch>
     </System>
