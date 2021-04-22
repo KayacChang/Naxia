@@ -6,8 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start:client": "yarn workspace @kayac/naxia-client run start",
-    "start:api": "yarn workspace @kayac/naxia-api run start",
+    "start:client": "yarn workspace @kayac/naxia-client run dev",
+    "start:api": "yarn workspace @kayac/naxia-api run dev",
     "start:ws": "yarn workspace @kayac/naxia-ws run start",
     "start": "run-p start:*"
   },

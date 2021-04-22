@@ -1,5 +1,5 @@
 {
-  "name": "fastify-api-service",
+  "name": "@kayac/naxia-api",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
