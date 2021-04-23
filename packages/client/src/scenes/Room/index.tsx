@@ -120,7 +120,7 @@ export default function Room() {
                 </Button>
               </div>
 
-              <Sidebar />
+              <Sidebar className="w-12" />
             </div>
 
             <BetSection />
