@@ -8,11 +8,16 @@ const viewport = new _Viewport();
 type ViewportProps = {
   screenWidth: number;
   screenHeight: number;
-  moved?: () => void;
+  pause?: boolean;
 };
-function customDisplayObject({ screenWidth, screenHeight }: ViewportProps) {
+function customDisplayObject({
+  screenWidth,
+  screenHeight,
+  pause = false,
+}: ViewportProps) {
   viewport.screenWidth = screenWidth;
   viewport.screenHeight = screenHeight;
+  viewport.pause = pause;
 
   return viewport;
 }

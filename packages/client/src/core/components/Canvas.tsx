@@ -14,8 +14,14 @@ type CanvasProps = {
   width?: number;
   height?: number;
   children?: ReactNode;
+  className?: string;
 };
-export function Canvas({ width = 800, height = 600, children }: CanvasProps) {
+export function Canvas({
+  width = 800,
+  height = 600,
+  children,
+  className,
+}: CanvasProps) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -45,5 +51,7 @@ export function Canvas({ width = 800, height = 600, children }: CanvasProps) {
     };
   }, [ref, width, height, children]);
 
-  return <canvas width={width} height={height} ref={ref} />;
+  return (
+    <canvas width={width} height={height} ref={ref} className={className} />
+  );
 }

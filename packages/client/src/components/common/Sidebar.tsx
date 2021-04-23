@@ -25,9 +25,12 @@ const links = [
   },
 ];
 
-export function Sidebar() {
+type SidebarProps = {
+  className?: string;
+};
+export function Sidebar({ className }: SidebarProps) {
   return (
-    <aside className="w-12">
+    <aside className={className}>
       {links.map(({ key, icons: { normal }, href }) => (
         <Link key={key} to={href}>
           <img src={normal} alt={key} />

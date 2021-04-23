@@ -3,16 +3,17 @@ import { Item } from "types";
 import { useState } from "react";
 import { Modal } from "components";
 import Assets from "./assets";
+import clsx from "clsx";
 
 type ItemGridProps = Item & {
   onClick?: () => void;
 };
-function ItemGrid({ onClick, count }: ItemGridProps) {
+function ItemGrid({ onClick, count, name, img }: ItemGridProps) {
   return (
     <button className="relative text-white" onClick={onClick}>
       <img src={Assets.Repo_Item_Epic} alt="Item frame" />
 
-      {/* <img className="absolute top-0" src={IMG(img)} alt={name} /> */}
+      <img className="absolute top-0" src={img} alt={name} />
 
       <span className="absolute bottom-0 right-0 text-xs mx-1">{count}</span>
     </button>
@@ -115,9 +116,10 @@ function Tab({ label, active, onClick }: TabProps) {
 }
 
 type RepositoryProps = {
+  className?: string;
   items: Item[];
 };
-export default function Repository({ items }: RepositoryProps) {
+export default function Repository({ className, items }: RepositoryProps) {
   const filters = [
     { key: "all", label: "全部", cond: () => true },
     { key: "card", label: "卡牌", cond: () => true },
@@ -130,7 +132,7 @@ export default function Repository({ items }: RepositoryProps) {
 
   return (
     <>
-      <article className="relative">
+      <article className={clsx("relative", className)}>
         <img src={Assets.Repo_Frame_Outer} alt="repository frame outer" />
 
         <div className="absolute top-0 w-full h-full pt-10 pb-6 px-6">
