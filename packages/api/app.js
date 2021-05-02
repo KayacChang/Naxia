@@ -73,27 +73,27 @@ export default async function (fastify, opts) {
           skill_options: {
             banker: {
               img:
-                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/fff%26text%3D%E5%AF%92%E9%9B%AA%E7%AE%AD.png",
+                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/%E5%AF%92%E9%9B%AA%E6%93%8A-%E5%A4%A7.png",
               name: "寒雪箭",
             },
             player: {
               img:
-                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/fff%26text%3D%E7%81%AB%E7%90%83%E8%A1%93.png",
+                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/%E7%82%99%E7%84%B0%E6%93%8A-%E5%A4%A7.png",
               name: "火球術",
             },
             tie: {
               img:
-                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/fff%26text%3D%E9%9B%99%E7%82%8E%E6%96%AC.png",
+                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/%E5%BE%AE%E9%A3%8E%E7%A0%B4-%E5%A4%A7.png",
               name: "風刃術",
             },
             bank_pair: {
               img:
-                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/fff%26text%3D%E9%9B%99%E7%82%8E%E6%96%AC.png",
+                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/%E9%9B%99%E7%84%B0%E6%96%AC-%E5%A4%A7.png",
               name: "雙炎斬",
             },
             player_pair: {
               img:
-                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/fff%26text%3D%E9%9C%9C%E5%AF%92%E6%96%AC.png",
+                "https://storage.googleapis.com/naxia-dev/photos/shares/skills/%E9%9B%99%E5%AF%92%E6%96%AC-%E5%A4%A7.png",
               name: "霜寒斬",
             },
           },

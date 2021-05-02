@@ -1,5 +1,13 @@
 export default async function (fastify) {
   const schema = {
+    body: {
+      type: "object",
+      required: ["username", "password"],
+      properties: {
+        username: { type: "string" },
+        password: { type: "string" },
+      },
+    },
     response: {
       200: {
         type: "object",
@@ -26,7 +34,7 @@ export default async function (fastify) {
     const ttl = new Date();
 
     return {
-      data: { token, ttl },
+      data: { token: `Bearer ${token}`, ttl },
       success: true,
     };
   });
