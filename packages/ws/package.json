@@ -1,5 +1,5 @@
 {
-  "name": "naxia-game-service",
+  "name": "@kayac/naxia-ws",
   "version": "1.0.0",
   "description": "",
   "type": "module",
