@@ -1,0 +1,390 @@
+
+guaiwu1.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX1/大招 (10)
+  rotate: true
+  xy: 857, 2
+  size: 816, 898
+  orig: 1200, 1200
+  offset: 177, 60
+  index: -1
+TX1/大招 (11)
+  rotate: false
+  xy: 2, 308
+  size: 853, 510
+  orig: 1200, 1200
+  offset: 159, 47
+  index: -1
+TX1/大招 (12)
+  rotate: false
+  xy: 698, 820
+  size: 880, 508
+  orig: 1200, 1200
+  offset: 158, 36
+  index: -1
+shenti
+  rotate: true
+  xy: 2, 974
+  size: 430, 694
+  orig: 430, 694
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 88, 1440
+  size: 244, 191
+  orig: 244, 193
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 1006, 1330
+  size: 385, 301
+  orig: 385, 344
+  offset: 0, 43
+  index: -1
+xiaba
+  rotate: true
+  xy: 2, 1561
+  size: 70, 84
+  orig: 70, 84
+  offset: 0, 0
+  index: -1
+youshou1
+  rotate: true
+  xy: 709, 1368
+  size: 263, 295
+  orig: 263, 299
+  offset: 0, 3
+  index: -1
+zushou1
+  rotate: true
+  xy: 334, 1406
+  size: 225, 373
+  orig: 225, 373
+  offset: 0, 0
+  index: -1
+
+guaiwu12.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX1/大招 (1)
+  rotate: true
+  xy: 1074, 2
+  size: 905, 944
+  orig: 1200, 1200
+  offset: 189, 57
+  index: -1
+TX1/大招 (5)
+  rotate: true
+  xy: 971, 909
+  size: 887, 1022
+  orig: 1200, 1200
+  offset: 179, 15
+  index: -1
+TX1/大招 (6)
+  rotate: true
+  xy: 2, 20
+  size: 887, 1070
+  orig: 1200, 1200
+  offset: 150, 78
+  index: -1
+TX1/大招 (9)
+  rotate: true
+  xy: 2, 910
+  size: 886, 967
+  orig: 1200, 1200
+  offset: 154, 67
+  index: -1
+
+guaiwu13.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX1/大招 (2)
+  rotate: true
+  xy: 992, 2
+  size: 955, 999
+  orig: 1200, 1200
+  offset: 150, 2
+  index: -1
+TX1/大招 (4)
+  rotate: true
+  xy: 2, 5
+  size: 952, 988
+  orig: 1200, 1200
+  offset: 155, 13
+  index: -1
+TX1/大招 (7)
+  rotate: true
+  xy: 2, 991
+  size: 888, 985
+  orig: 1200, 1200
+  offset: 150, 163
+  index: -1
+TX1/大招 (8)
+  rotate: true
+  xy: 989, 959
+  size: 920, 997
+  orig: 1200, 1200
+  offset: 133, 69
+  index: -1
+
+guaiwu14.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0000
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0001
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu15.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0002
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0003
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu16.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0004
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0005
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu17.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0006
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0007
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu18.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0008
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0009
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu19.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0010
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0011
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu110.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0012
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0013
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu111.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0014
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0015
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu112.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0016
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0017
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu113.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0018
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0019
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu114.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0020
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0021
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu115.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX2/huoyan0022
+  rotate: false
+  xy: 2, 964
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+TX2/huoyan0023
+  rotate: false
+  xy: 2, 2
+  size: 1140, 960
+  orig: 1140, 960
+  offset: 0, 0
+  index: -1
+
+guaiwu116.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX1/大招 (3)
+  rotate: false
+  xy: 2, 2
+  size: 1014, 981
+  orig: 1200, 1200
+  offset: 93, 20
+  index: -1

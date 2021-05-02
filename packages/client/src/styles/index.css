@@ -1,0 +1,61 @@
+@layer components {
+  @responsive {
+    .text-shadow {
+      text-shadow: 0 2px 4px black;
+    }
+
+    .text-shadow-md {
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .text-shadow-lg {
+      text-shadow: 0 15px 30px rgba(0, 0, 0, 0.11),
+        0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .text-shadow-none {
+      text-shadow: none;
+    }
+  }
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap");
+
+* {
+  pointer-events: none;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  background: #222;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: inherit;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+label,
+input,
+a,
+button,
+canvas {
+  pointer-events: auto;
+  outline: none;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
