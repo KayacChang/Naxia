@@ -1,0 +1,95 @@
+
+@protocol = http
+@hostname = localhost
+@port = {{$dotenv PORT}}
+@host = {{protocol}}://{{hostname}}:{{port}}
+@contentType = application/json
+@token = {{login.response.body.$.data.token}}
+@map = {{maps.response.body.$.data.0.id}}
+@dungeon = {{dungeons.response.body.$.data.0.id}}
+
+### Authentication
+# @name login
+POST {{host}}/auth/login HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "username": "test01",
+    "password": "123456"
+}
+
+### Get User 
+GET {{host}}/users HTTP/1.1
+authorization: {{token}}
+
+### Update User
+PUT {{host}}/users HTTP/1.1
+content-type: {{contentType}}
+authorization: {{token}}
+
+{
+    "name": "YOYOYO2"
+}
+
+### Get All User"s Items
+GET {{host}}/users/items HTTP/1.1
+authorization: {{token}}
+
+### Get All Maps
+# @name maps
+GET {{host}}/maps HTTP/1.1
+authorization: {{token}}
+
+### Get All Dungeons in map
+# @name dungeons
+GET {{host}}/maps/{{map}}/dungeons HTTP/1.1
+authorization: {{token}}
+
+### Get conditions by dungeon"s id
+GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/conditions HTTP/1.1
+authorization: {{token}}
+
+### Get rounds by dungeon"s id
+GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/rounds HTTP/1.1
+authorization: {{token}}
+
+### Get info by dungeon"s id
+GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/info HTTP/1.1
+authorization: {{token}}
+
+### Get All Monsters
+GET {{host}}/monsters HTTP/1.1
+authorization: {{token}}
+
+### Get Monster by ID
+@monsterID = 1
+GET {{host}}/monsters/{{monsterID}} HTTP/1.1
+authorization: {{token}}
+
+### Bet
+POST {{host}}/bet HTTP/1.1
+content-type: {{contentType}}
+authorization: {{token}}
+
+{
+    "room_id": "EROOM_SA01_R01",
+    "uid": "test02",
+    "options": [
+        {
+            "cmd": "閒",
+            "val": 600
+        },
+        {
+            "cmd": "荘",
+            "val": 700
+        },
+        {
+            "cmd": "荘",
+            "val": 700
+        },
+        {
+           "cmd": "和",
+           "val": 800
+        }
+    ]
+}

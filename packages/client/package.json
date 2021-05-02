@@ -1,69 +1,34 @@
 {
-  "name": "@kayac/naxia-client",
+  "name": "@kayac/naxia-api",
   "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "clsx": "^1.1.1",
-    "numeral": "^2.0.6",
-    "pixi-spine": "2.1.12",
-    "pixi-viewport": "4.18.1",
-    "pixi.js": "5.3.7",
-    "ramda": "^0.27.1",
-    "react": "17.0.1",
-    "react-circle-layout": "^1.0.2",
-    "react-dom": "17.0.1",
-    "react-pixi-fiber": "0.14.2",
-    "react-query": "3.12.0",
-    "react-router": "5.2.0",
-    "tiny-invariant": "^1.1.0"
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "directories": {
+    "test": "test"
   },
   "scripts": {
-    "dev": "craco start",
-    "build": "craco build",
-    "test": "craco test"
+    "test": "tap test/**/*.test.js",
+    "start": "fastify start -l info app.js",
+    "dev": "fastify start -w --ignore-watch='node_modules .git logs/error.log .db'  -l info -P app.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^3.0.0",
+    "fastify-auth": "^1.1.0",
+    "fastify-autoload": "^3.3.1",
+    "fastify-cli": "^2.9.1",
+    "fastify-cors": "^5.2.0",
+    "fastify-jwt": "^2.4.0",
+    "fastify-leveldb": "^3.1.0",
+    "fastify-plugin": "^3.0.0",
+    "fastify-sensible": "^3.1.0",
+    "ramda": "^0.27.1"
   },
   "devDependencies": {
-    "@craco/craco": "^6.1.0",
-    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/numeral": "^2.0.1",
-    "@types/ramda": "^0.27.38",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-redux": "^7.1.16",
-    "@types/react-router": "^5.1.11",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/webpack-env": "^1.16.0",
-    "autoprefixer": "^9",
-    "file-loader": "^6.2.0",
-    "postcss": "^7",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.2",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "ts-it-types": "^1.1.5",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "dotenv": "^8.2.0",
+    "tap": "^14.11.0"
   }
 }
