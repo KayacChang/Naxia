@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/kayac-chang/naxia-game-service.git
 	branch = master
-	commit = 6e8b7f7a29835eee8fa6177c44e2e7a675142570
-	parent = 952ae25a4032f2e27907b0c95754d0bd8c96b898
+	commit = b4277563188c970fb8f35ba8a6efe683ec83d7d3
+	parent = 34b9cbbf9aadaf7139da48d8150e80eb7360a6b3
 	method = merge
 	cmdver = 0.4.1
