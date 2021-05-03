@@ -3,8 +3,9 @@ import { Game } from "layers";
 import {
   SkeletonData,
   Assets as TAssets,
-  useRoomStatus,
-  useCountDown,
+  useAppSelector,
+  selectRoomStatus,
+  selectRoomStatusCurrent,
 } from "system";
 import { useViewport } from "utils";
 import { Spine } from "components";
@@ -18,11 +19,10 @@ type CountDownProps = {
   texture: Texture;
 };
 function CountDown({ x, y, texture }: CountDownProps) {
-  const countdown = useCountDown();
-  const status = useRoomStatus();
+  const { current: status, countdown } = useAppSelector(selectRoomStatus);
 
   if (status !== RoomStatus.Start) {
-    return <></>;
+    return <Container></Container>;
   }
 
   return (
@@ -44,7 +44,17 @@ type BossProps = {
   data: SkeletonData;
 };
 function Boss({ x, y, data }: BossProps) {
-  return <Spine x={x} y={y} data={data} scale={1 / window.devicePixelRatio} />;
+  const status = useAppSelector(selectRoomStatusCurrent);
+
+  return (
+    <Spine
+      visible={status !== RoomStatus.Result}
+      x={x}
+      y={y}
+      data={data}
+      scale={1 / window.devicePixelRatio}
+    />
+  );
 }
 
 function equals<T>(a: T): SafePred<T> {
@@ -57,9 +67,7 @@ type RoundStatusProps = {
   texture: Texture;
 };
 function RoundStatus({ x, y, texture }: RoundStatusProps) {
-  const status = useRoomStatus();
-
-  if (status === undefined) return <></>;
+  const { current: status } = useAppSelector(selectRoomStatus);
 
   return (
     <Container x={x} y={y}>
@@ -85,15 +93,11 @@ type GameViewProps = {
 export default function GameView({ resources }: GameViewProps) {
   const { width, height } = useViewport();
 
-  const status = useRoomStatus();
-
   return (
     <Game>
       <Sprite width={width} height={height} texture={resources["Background"]} />
 
-      {status !== RoomStatus.Result && (
-        <Boss data={resources["Boss"]} x={width / 2} y={height / 2} />
-      )}
+      <Boss data={resources["Boss"]} x={width / 2} y={height / 2} />
 
       <CountDown
         x={width / 2}

@@ -2,21 +2,25 @@ import { ComponentProps } from "react";
 import { PixiComponent, Container, applyDefaultProps } from "@inlet/react-pixi";
 import { SkeletonData, Spine as _Spine } from "@pixi-spine/all-3.8";
 
+let spine: _Spine | undefined;
+
 type SpineProps = ComponentProps<typeof Container> & {
   data: SkeletonData;
 };
-const Spine = PixiComponent<SpineProps, _Spine>("Spine", {
-  create: ({ data }) => new _Spine(data),
+
+export const Spine = PixiComponent<SpineProps, _Spine>("Spine", {
+  create: ({ data }) => {
+    return new _Spine(data);
+
+    // return spine;
+  },
   applyProps(instance, oldP, newP) {
     applyDefaultProps(instance, oldP, newP);
   },
   didMount(instance) {
+    if (instance.state.getCurrent(0)) return;
+
     const animations = instance.spineData.animations;
     instance.state.setAnimation(0, animations[0].name, true);
   },
-  willUnmount(instance) {
-    instance.destroy();
-  },
 });
-
-export { Spine };

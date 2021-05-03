@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { Canvas } from "components";
 import { useViewport } from "utils";
 import { IApplicationOptions } from "@pixi/app";
+import { Provider } from "react-redux";
+import { store } from "system";
 
 type GameProps = {
   children?: ReactNode;
@@ -19,7 +21,7 @@ export function Game({ children, className, options }: GameProps) {
       className={className}
       options={options}
     >
-      {children}
+      <Provider store={store}>{children}</Provider>
     </Canvas>,
     document.getElementById("root") as HTMLElement
   );

@@ -14,9 +14,9 @@ import {
   SkillSet,
   RoomStatus as TRoomStatus,
 } from "types";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { bet } from "api";
-import { useAuthState, useRoomStatus } from "system";
+import { useAuthState } from "system";
 import { add } from "ramda";
 import clsx from "clsx";
 
@@ -35,20 +35,20 @@ type GameUIProps = {
 export default function GameUI({ user, rounds, info }: GameUIProps) {
   const history = useHistory();
   const { token } = useAuthState();
-  const status = useRoomStatus();
+  // const status = useRoomStatus();
 
   const [hasSubmit, setSubmit] = useState(false);
   const [order, setOrder] = useState(toOrder(info.skills));
 
-  useEffect(() => {
-    if (status === TRoomStatus.Start) {
-      setOrder(toOrder(info.skills));
-    }
+  // useEffect(() => {
+  //   if (status === TRoomStatus.Start) {
+  //     setOrder(toOrder(info.skills));
+  //   }
 
-    if (status === TRoomStatus.Result) {
-      setSubmit(false);
-    }
-  }, [status]);
+  //   if (status === TRoomStatus.Result) {
+  //     setSubmit(false);
+  //   }
+  // }, [status]);
 
   const onOrderSubmit = () => {
     if (Object.values(order).reduce(add) <= 0) return;
@@ -64,7 +64,9 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
     });
   };
 
-  const enable = status === TRoomStatus.Start && !hasSubmit;
+  const enable = true;
+
+  // status === TRoomStatus.Start && !hasSubmit;
 
   return (
     <UI className="flex flex-col text-white">

@@ -1,87 +1,95 @@
-import { pipe, propEq, when, path } from "ramda";
-import { useEffect, useState } from "react";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Item, RoomStatus } from "types";
+import { RootState, store } from ".";
 
-interface RoundResult {
-  result: "win" | "lose";
-  items: Item[];
+type RoundResult = { items: Item[]; result: "win" | "lose" };
+
+type RoomResponse =
+  | { event: "room_status"; data: { status: RoomStatus } }
+  | { event: "next_status_countdown"; timer: number }
+  | { event: "round_result"; data: RoundResult };
+
+let ws: WebSocket | undefined;
+
+export const join = createAsyncThunk("room/join", async () => {
+  ws = new WebSocket(process.env.REACT_APP_WS || "");
+
+  return new Promise<void>((resolve) => {
+    ws?.addEventListener("open", () => resolve());
+  });
+});
+
+export const leave = createAsyncThunk("room/leave", async () => {
+  ws?.close();
+  ws = undefined;
+});
+
+export interface RoomState {
+  isJoin: boolean;
+  status: {
+    current: RoomStatus;
+    countdown: number;
+  };
+  result?: RoundResult;
 }
 
-let ws: WebSocket | undefined = undefined;
+const initialState: RoomState = {
+  isJoin: false,
+  status: {
+    current: RoomStatus.Change,
+    countdown: 0,
+  },
+};
 
-export function useRoomJoin() {
-  useEffect(() => {
-    ws = new WebSocket(process.env.REACT_APP_WS || "");
+export const roomSlice = createSlice({
+  name: "room",
+  initialState,
+  reducers: {
+    status: (state, action: PayloadAction<RoomStatus>) => {
+      state.status.current = action.payload;
+    },
+    countdown: (state, action: PayloadAction<number>) => {
+      state.status.countdown = action.payload;
+    },
+    result: (state, action: PayloadAction<RoundResult | undefined>) => {
+      state.result = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(join.fulfilled, (state) => {
+      state.isJoin = true;
 
-    return () => {
-      if (!ws) return;
+      ws?.addEventListener("message", (event: MessageEvent) => {
+        const data = JSON.parse(event.data) as RoomResponse;
 
-      ws.close();
-      ws = undefined;
-    };
-  }, []);
-}
+        if (data.event === "room_status") {
+          store.dispatch(roomSlice.actions.status(data.data.status));
+          return;
+        }
 
-export function useRoomStatus() {
-  const [status, setStatus] = useState<RoomStatus>();
+        if (data.event === "next_status_countdown") {
+          store.dispatch(roomSlice.actions.countdown(data.timer));
+          return;
+        }
 
-  useEffect(() => {
-    if (!ws) return;
+        if (data.event === "round_result") {
+          store.dispatch(roomSlice.actions.result(data.data));
+        }
 
-    ws.addEventListener(
-      "message",
-      pipe(
-        (event: MessageEvent) => JSON.parse(event.data),
-        when(
-          propEq("event", "room_status"),
-          pipe(path(["data", "status"]), setStatus)
-        )
-      )
-    );
-  }, []);
+        console.log(data);
+      });
+    });
 
-  return status;
-}
+    builder.addCase(leave.fulfilled, (state) => {
+      state.isJoin = false;
+    });
+  },
+});
 
-export function useCountDown() {
-  const [countdown, setCountDown] = useState();
+export const selectRoomIsJoin = (state: RootState) => state.room.isJoin;
+export const selectRoomStatus = (state: RootState) => state.room.status;
+export const selectRoomStatusCurrent = (state: RootState) =>
+  state.room.status.current;
+export const selectRoomResult = (state: RootState) => state.room.result;
 
-  useEffect(() => {
-    if (!ws) return;
-
-    ws.addEventListener(
-      "message",
-      pipe(
-        (event: MessageEvent) => JSON.parse(event.data),
-        when(
-          propEq("event", "next_status_countdown"),
-          pipe(path(["timer"]), setCountDown)
-        )
-      )
-    );
-  }, []);
-
-  return countdown;
-}
-
-type useRoundResultReturn = [
-  RoundResult | undefined,
-  (result?: RoundResult) => void
-];
-export function useRoundResult(): useRoundResultReturn {
-  const [result, setResult] = useState<RoundResult>();
-
-  useEffect(() => {
-    if (!ws) return;
-
-    ws.addEventListener(
-      "message",
-      pipe(
-        (event: MessageEvent) => JSON.parse(event.data),
-        when(propEq("event", "round_result"), pipe(path(["data"]), setResult))
-      )
-    );
-  }, []);
-
-  return [result, setResult];
-}
+export default roomSlice.reducer;
