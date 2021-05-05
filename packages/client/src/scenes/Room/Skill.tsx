@@ -40,7 +40,7 @@ function usePressEffect(img: string) {
 
     setEffects((effects) => [...effects, effect]);
     setPress(false);
-  }, [isPress]);
+  }, [isPress, img]);
 
   return { onPointerDown, onPointerUp, effects };
 }
