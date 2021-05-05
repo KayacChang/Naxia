@@ -8,11 +8,10 @@ import {
   selectRoomBoss,
 } from "system";
 import { useViewport } from "utils";
-import { Spine } from "components";
+import { Spine, CustomSpine } from "components";
 import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
 import { Texture } from "@pixi/core";
-import { Spine as TSpine } from "@pixi-spine/all-3.8";
 import anime from "animejs";
 
 type CountDownProps = {
@@ -54,12 +53,12 @@ function Boss({ x, y, data }: BossProps) {
       y={y}
       data={data}
       scale={1 / window.devicePixelRatio}
-      ref={(ref: TSpine | null) => {
+      ref={(ref: CustomSpine | null) => {
         if (!ref) return;
 
-        console.log(ref);
-
         if (status === RoomStatus.Change) {
+          ref.state.setAnimation(0, "Idle", true);
+
           anime({
             targets: ref,
             alpha: [0, 1],
@@ -71,6 +70,8 @@ function Boss({ x, y, data }: BossProps) {
         }
 
         if (status === RoomStatus.Result) {
+          ref.state.setAnimation(0, "BeAttack", false);
+
           anime({
             targets: ref,
             alpha: [1, 0],

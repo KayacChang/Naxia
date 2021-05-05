@@ -1,6 +1,6 @@
 
 guaiwu1.png
-size: 1757,1633
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -69,7 +69,7 @@ zushou1
   index: -1
 
 guaiwu12.png
-size: 2020,1798
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -103,7 +103,7 @@ TX1/大招 (9)
   index: -1
 
 guaiwu13.png
-size: 1993,1881
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -137,7 +137,7 @@ TX1/大招 (8)
   index: -1
 
 guaiwu14.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -157,7 +157,7 @@ TX2/huoyan0001
   index: -1
 
 guaiwu15.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -177,7 +177,7 @@ TX2/huoyan0003
   index: -1
 
 guaiwu16.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -197,7 +197,7 @@ TX2/huoyan0005
   index: -1
 
 guaiwu17.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -217,7 +217,7 @@ TX2/huoyan0007
   index: -1
 
 guaiwu18.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -237,7 +237,7 @@ TX2/huoyan0009
   index: -1
 
 guaiwu19.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -257,7 +257,7 @@ TX2/huoyan0011
   index: -1
 
 guaiwu110.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -277,7 +277,7 @@ TX2/huoyan0013
   index: -1
 
 guaiwu111.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -297,7 +297,7 @@ TX2/huoyan0015
   index: -1
 
 guaiwu112.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -317,7 +317,7 @@ TX2/huoyan0017
   index: -1
 
 guaiwu113.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -337,7 +337,7 @@ TX2/huoyan0019
   index: -1
 
 guaiwu114.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -357,7 +357,7 @@ TX2/huoyan0021
   index: -1
 
 guaiwu115.png
-size: 1144,1926
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -377,7 +377,7 @@ TX2/huoyan0023
   index: -1
 
 guaiwu116.png
-size: 1018,985
+size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none

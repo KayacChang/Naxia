@@ -4,7 +4,18 @@ import { assets, toTask, wait } from "utils";
 import { AppDispatch, RootState, store } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
 
-type RoundResult = { items: Item[]; result: "win" | "lose" };
+type RoundResult = {
+  items: Item[];
+  info: {
+    game_round: string;
+    bank_pair: boolean;
+    banker: boolean;
+    player: boolean;
+    player_pair: boolean;
+    tie: boolean;
+  };
+  result: "win" | "lose";
+};
 
 type RoomResponse =
   | { event: "room_status"; data: { status: RoomStatus } }
@@ -18,8 +29,13 @@ const status = createAction<RoomStatus>("room/status");
 const countdown = createAction<number>("room/countdown");
 const result = createAction<RoundResult>("room/result");
 
+const bosses = [
+  assets("/boss/guaiwu1/guaiwu1.json"),
+  assets("/boss/guaiwu2/guaiwu2.json"),
+];
+
 const boss = createAsyncThunk<
-  Boss | undefined,
+  Boss,
   Boss,
   { state: RootState; dispatch: AppDispatch }
 >("room/boss", async (boss, { getState, dispatch }) => {
@@ -33,9 +49,7 @@ const boss = createAsyncThunk<
     await wait(100);
   }
 
-  await dispatch(
-    addAssets(toTask({ [boss.id]: assets("/boss/guaiwu2/guaiwu2.json") }))
-  );
+  await dispatch(addAssets(toTask({ [boss.id]: bosses[boss.id] })));
 
   return boss;
 });
@@ -61,8 +75,6 @@ export const join = createAsyncThunk("room/join", async () => {
     if (data.event === "next_round_monster") {
       store.dispatch(boss(data.data));
     }
-
-    console.log(data);
   });
 
   return new Promise<void>((resolve) => {
@@ -82,7 +94,7 @@ export interface RoomState {
     countdown: number;
   };
   result?: RoundResult;
-  boss?: Boss;
+  bosses: Boss[];
 }
 
 const initialState: RoomState = {
@@ -91,6 +103,7 @@ const initialState: RoomState = {
     current: RoomStatus.Change,
     countdown: 0,
   },
+  bosses: [],
 };
 
 export const roomSlice = createSlice({
@@ -107,6 +120,10 @@ export const roomSlice = createSlice({
       })
       .addCase(status, (state, action) => {
         state.status.current = action.payload;
+
+        if (state.status.current === RoomStatus.Change) {
+          state.bosses.shift();
+        }
       })
       .addCase(countdown, (state, action) => {
         state.status.countdown = action.payload;
@@ -115,16 +132,17 @@ export const roomSlice = createSlice({
         state.result = action.payload;
       })
       .addCase(boss.fulfilled, (state, action) => {
-        state.boss = action.payload;
+        state.bosses.push(action.payload);
       });
   },
 });
 
+export const selectRoom = (state: RootState) => state.room;
 export const selectRoomIsJoin = (state: RootState) => state.room.isJoin;
 export const selectRoomStatus = (state: RootState) => state.room.status;
 export const selectRoomStatusCurrent = (state: RootState) =>
   state.room.status.current;
 export const selectRoomResult = (state: RootState) => state.room.result;
-export const selectRoomBoss = (state: RootState) => state.room.boss;
+export const selectRoomBoss = (state: RootState) => state.room.bosses[0];
 
 export default roomSlice.reducer;

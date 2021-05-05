@@ -55,6 +55,14 @@ const Event = {
 const results = [
   {
     result: "win",
+    info: {
+      game_round: "1620099597851",
+      banker: true,
+      player: false,
+      tie: false,
+      bank_pair: false,
+      player_pair: false,
+    },
     items: [
       {
         id: 1,
@@ -80,23 +88,188 @@ const results = [
     ],
   },
   {
-    result: "lose",
+    result: "win",
+    info: {
+      game_round: "1620099597851",
+      banker: false,
+      player: true,
+      tie: false,
+      bank_pair: false,
+      player_pair: false,
+    },
     items: [
+      {
+        id: 1,
+        name: "美杜莎碎片",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 12,
+        name: "黃金",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
       {
         id: 10,
         name: "金屬塊",
         img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
         quality: 1,
-        count: 1,
+        count: 4,
       },
+    ],
+  },
+  {
+    result: "win",
+    info: {
+      game_round: "1620099597851",
+      banker: false,
+      player: false,
+      tie: true,
+      bank_pair: false,
+      player_pair: false,
+    },
+    items: [
       {
-        id: 11,
-        name: "樹枝",
+        id: 1,
+        name: "美杜莎碎片",
         img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
         quality: 1,
         count: 1,
       },
+      {
+        id: 12,
+        name: "黃金",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 10,
+        name: "金屬塊",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 4,
+      },
     ],
+  },
+  {
+    result: "win",
+    info: {
+      game_round: "1620099597851",
+      banker: false,
+      player: false,
+      tie: false,
+      bank_pair: true,
+      player_pair: false,
+    },
+    items: [
+      {
+        id: 1,
+        name: "美杜莎碎片",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 12,
+        name: "黃金",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 10,
+        name: "金屬塊",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 4,
+      },
+    ],
+  },
+  {
+    result: "win",
+    info: {
+      game_round: "1620099597851",
+      banker: false,
+      player: false,
+      tie: false,
+      bank_pair: false,
+      player_pair: true,
+    },
+    items: [
+      {
+        id: 1,
+        name: "美杜莎碎片",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 12,
+        name: "黃金",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 10,
+        name: "金屬塊",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 4,
+      },
+    ],
+  },
+  // {
+  //   result: "lose",
+  //   info: {
+  //     game_round: "1620099597851",
+  //     banker: false,
+  //     player: true,
+  //     tie: false,
+  //     bank_pair: false,
+  //     player_pair: false,
+  //   },
+  //   items: [
+  //     {
+  //       id: 10,
+  //       name: "金屬塊",
+  //       img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+  //       quality: 1,
+  //       count: 1,
+  //     },
+  //     {
+  //       id: 11,
+  //       name: "樹枝",
+  //       img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+  //       quality: 1,
+  //       count: 1,
+  //     },
+  //   ],
+  // },
+];
+
+const bosses = [
+  {
+    id: 0,
+    name: "骷顱人",
+    spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
+    spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
+    spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
+    hp: 1,
+    rate: "30.0000",
+  },
+  {
+    id: 1,
+    name: "怪人",
+    spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
+    spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
+    spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
+    hp: 1,
+    rate: "30.0000",
   },
 ];
 
@@ -128,17 +301,7 @@ const Status = Loop.pipe(
 const Boss = Status.pipe(
   filter(Boolean),
   filter(({ data }) => data.status === RoomStatus.Result),
-  map(() =>
-    Event.Boss({
-      id: 9,
-      name: "骷顱人",
-      spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
-      spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
-      spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
-      hp: 1,
-      rate: "30.0000",
-    })
-  ),
+  map(() => Event.Boss(random.pick(bosses))),
   share({ connector: () => new BehaviorSubject() })
 );
 

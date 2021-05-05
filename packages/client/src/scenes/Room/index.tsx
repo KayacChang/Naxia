@@ -13,7 +13,7 @@ import {
   selectAssetIsLoading,
   addAssets,
 } from "system";
-import { assets, toTask } from "utils";
+import { toTask } from "utils";
 import { Loading } from "components";
 import Assets from "assets";
 import { Game } from "layers";
@@ -34,6 +34,8 @@ export default function Room() {
   const { data: maps } = useMaps(token);
   const dungeon = useDungeon(token, maps?.[0].id, 1);
 
+  const [backgroundLoad, setBackgroundLoadEnable] = useState(false);
+
   useEffect(() => {
     dispatch(join());
     dispatch(addAssets(toTask(Assets.Room)));
@@ -41,7 +43,15 @@ export default function Room() {
     return () => void dispatch(leave());
   }, []);
 
-  if (!token || !user || !items || !dungeon || !isJoin || !boss || loading) {
+  useEffect(() => {
+    if (backgroundLoad || loading) return;
+
+    setBackgroundLoadEnable(
+      Boolean(token && user && items && dungeon && isJoin && boss)
+    );
+  }, [backgroundLoad, loading, token, user, items, dungeon, isJoin, boss]);
+
+  if (!backgroundLoad) {
     return <Loading></Loading>;
   }
 
@@ -51,11 +61,9 @@ export default function Room() {
         <GameView />
       </Game>
 
-      <GameUI user={user} info={dungeon.info} rounds={dungeon.rounds} />
+      <GameUI user={user} info={dungeon!.info} rounds={dungeon!.rounds} />
 
-      <Game className="absolute top-0">
-        <GameEffect />
-      </Game>
+      <GameEffect />
 
       <GameResult />
     </>

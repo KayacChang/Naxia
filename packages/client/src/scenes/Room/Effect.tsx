@@ -1,44 +1,81 @@
 import {
   selectAssetsByName,
+  selectRoomResult,
   selectRoomStatusCurrent,
   SkeletonData,
   useAppSelector,
 } from "system";
-import { useViewport, wait } from "utils";
+import { useViewport } from "utils";
 import { useEffect, useState } from "react";
-import { Spine } from "components";
+import { CustomSpine, Spine } from "components";
 import { RoomStatus } from "types";
+import { Container } from "@inlet/react-pixi";
+import { Game } from "layers";
 
 export default function Effect() {
   const { width, height } = useViewport();
   const status = useAppSelector(selectRoomStatusCurrent);
+  const roundResult = useAppSelector(selectRoomResult);
+
   const assets = useAppSelector(selectAssetsByName);
-  const [visiable, setVisiable] = useState(false);
+  const [animation, setAnimation] = useState<SkeletonData | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    async function run() {
-      const data = assets("Skill_Fire") as SkeletonData;
+    if (status !== RoomStatus.Result || !roundResult) return;
 
-      setVisiable(true);
-
-      await wait(data.animations[0].duration * 1000);
-
-      setVisiable(false);
+    if (roundResult.result === "lose") {
+      return;
     }
 
-    if (status === RoomStatus.Result) run();
-  }, [status]);
+    if (roundResult.result === "win") {
+      const { game_round, ...rest } = roundResult.info;
+      const target = Object.entries(rest).find(([, win]) => win);
+      if (!target) return;
 
-  if (!visiable) {
+      const [animation] = target;
+
+      switch (animation) {
+        case "bank_pair":
+          setAnimation(assets("Skill_DoubleFire"));
+          return;
+        case "player_pair":
+          setAnimation(assets("Skill_DoubleIceHit"));
+          return;
+        case "player":
+          setAnimation(assets("Skill_Fire"));
+          return;
+        case "banker":
+          setAnimation(assets("Skill_IceHit"));
+          return;
+        case "tie":
+          setAnimation(assets("Skill_Wind"));
+          return;
+      }
+    }
+  }, [roundResult, status]);
+
+  if (!animation) {
     return <></>;
   }
 
   return (
-    <Spine
-      data={assets("Skill_Fire")}
-      x={width / 2}
-      y={height / 2}
-      scale={1 / window.devicePixelRatio}
-    />
+    <Game className="absolute top-0">
+      <Spine
+        data={animation}
+        x={width / 2}
+        y={height / 2}
+        scale={1 / window.devicePixelRatio}
+        ref={(ref: CustomSpine) => {
+          if (!ref) return;
+
+          ref.state.setAnimation(0, "animation", false);
+          ref.state.addListener({
+            complete: () => setAnimation(undefined),
+          });
+        }}
+      />
+    </Game>
   );
 }
