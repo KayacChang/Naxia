@@ -1,4 +1,5 @@
 import { assets } from "utils";
+import "./kai.ttc";
 
 const Room = {
   // Room

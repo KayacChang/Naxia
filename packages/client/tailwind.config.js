@@ -16,6 +16,7 @@ module.exports = {
       },
       fontFamily: {
         noto: ["Noto Serif TC", "serif"],
+        kai: ["kai", "serif"],
       },
       spacing: {
         17: "4.25rem",

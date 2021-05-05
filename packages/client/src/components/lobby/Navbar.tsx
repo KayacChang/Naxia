@@ -5,6 +5,7 @@ import { assets } from "utils";
 const links = [
   {
     key: "dungeon",
+    name: "世界地圖",
     icons: {
       normal: assets("/lobby/navbar/dungeon_normal.png"),
       active: assets("/lobby/navbar/dungeon_active.png"),
@@ -13,6 +14,7 @@ const links = [
   },
   {
     key: "repository",
+    name: "道具背包",
     icons: {
       normal: assets("/lobby/navbar/repository_normal.png"),
       active: assets("/lobby/navbar/repository_active.png"),
@@ -21,6 +23,7 @@ const links = [
   },
   {
     key: "achievement",
+    name: "圖鑒成就",
     icons: {
       normal: assets("/lobby/navbar/achievement_normal.png"),
       active: assets("/lobby/navbar/achievement_active.png"),
@@ -29,6 +32,7 @@ const links = [
   },
   {
     key: "ranking",
+    name: "排行榜",
     icons: {
       normal: assets("/lobby/navbar/ranking_normal.png"),
       active: assets("/lobby/navbar/ranking_active.png"),
@@ -37,6 +41,7 @@ const links = [
   },
   {
     key: "store",
+    name: "兌換商店",
     icons: {
       normal: assets("/lobby/navbar/store_normal.png"),
       active: assets("/lobby/navbar/store_active.png"),
@@ -57,12 +62,20 @@ export function Navbar() {
       </Link>
 
       <div className="absolute bottom-0 w-full px-2 flex justify-end space-x-2">
-        {links.map(({ key, icons, href }) => (
-          <Link key={key} to={href} className="w-16">
+        {links.map(({ key, icons, href, name }) => (
+          <Link
+            key={key}
+            to={href}
+            className="w-16 relative flex justify-center"
+          >
             <img
               src={location.pathname === href ? icons.active : icons.normal}
               alt={key}
             />
+
+            <span className="absolute bottom-0 font-kai text-sm font-fansy">
+              {name}
+            </span>
           </Link>
         ))}
       </div>

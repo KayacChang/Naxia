@@ -59,3 +59,10 @@ canvas {
   justify-content: center;
   height: 100vh;
 }
+
+.font-fansy {
+  color: #fcd856;
+  text-shadow: 0px 0px 0 rgb(215, 179, 49), 0px -1px 0 rgb(178, 142, 12),
+    0px -2px 0 rgb(141, 105, 0), 0px -3px 2px rgba(0, 0, 0, 0.72),
+    0px -3px 1px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
