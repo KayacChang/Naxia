@@ -54,7 +54,8 @@ export default function BetSection({
           <Radian radian={Math.PI * 1.15}>
             <Skill
               name={skills.player.name}
-              img={skills.player.img}
+              normal={Assets.Room.Skill_FlareBlitz_Normal}
+              active={Assets.Room.Skill_FlareBlitz_Active}
               value={order.player}
               onClick={() => onSkillClick("player")}
               enable={enable}
@@ -64,7 +65,8 @@ export default function BetSection({
           <Radian radian={Math.PI * 1.33}>
             <Skill
               name={skills.banker.name}
-              img={skills.banker.img}
+              normal={Assets.Room.Skill_Blizzard_Normal}
+              active={Assets.Room.Skill_Blizzard_Active}
               value={order.banker}
               onClick={() => onSkillClick("banker")}
               enable={enable}
@@ -78,7 +80,8 @@ export default function BetSection({
           <Radian radian={Math.PI * 1.35}>
             <Skill
               name={skills.player_pair.name}
-              img={skills.player_pair.img}
+              normal={Assets.Room.Skill_IceBeam_Normal}
+              active={Assets.Room.Skill_IceBeam_Active}
               value={order.player_pair}
               onClick={() => onSkillClick("player_pair")}
               enable={enable}
@@ -88,7 +91,8 @@ export default function BetSection({
           <Radian radian={Math.PI * 1.24}>
             <Skill
               name={skills.tie.name}
-              img={skills.tie.img}
+              normal={Assets.Room.Skill_Hurricane_Normal}
+              active={Assets.Room.Skill_Hurricane_Active}
               value={order.tie}
               onClick={() => onSkillClick("tie")}
               enable={enable}
@@ -98,7 +102,8 @@ export default function BetSection({
           <Radian radian={Math.PI * 1.12}>
             <Skill
               name={skills.bank_pair.name}
-              img={skills.bank_pair.img}
+              normal={Assets.Room.Skill_FlameThrower_Normal}
+              active={Assets.Room.Skill_FlameThrower_Active}
               value={order.bank_pair}
               onClick={() => onSkillClick("bank_pair")}
               enable={enable}

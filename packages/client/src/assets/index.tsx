@@ -6,20 +6,6 @@ const Room = {
   Status: assets("/room/room_status.png"),
   Back: assets("/room/back.png"),
 
-  // Skill
-  Skill_Blizzard_S: assets("/room/skill/blizzard-sm.png"),
-  Skill_Blizzard_L: assets("/room/skill/blizzard-lg.png"),
-  Skill_Flame_Thrower_S: assets("/room/skill/flamethrower-sm.png"),
-  Skill_Flame_Thrower_L: assets("/room/skill/flamethrower-lg.png"),
-  Skill_Flare_Blitz_S: assets("/room/skill/flareblitz-sm.png"),
-  Skill_Flare_Blitz_L: assets("/room/skill/flareblitz-lg.png"),
-  Skill_Frame_S: assets("/room/skill/frame-sm.png"),
-  Skill_Frame_L: assets("/room/skill/frame-lg.png"),
-  Skill_Hurricane_S: assets("/room/skill/hurricane-sm.png"),
-  Skill_Hurricane_L: assets("/room/skill/hurricane-lg.png"),
-  Skill_Ice_Beam_S: assets("/room/skill/icebeam-sm.png"),
-  Skill_Ice_Beam_L: assets("/room/skill/icebeam-lg.png"),
-
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
   Bet_Active: assets("/room/bet/bet-active.png"),
@@ -48,11 +34,32 @@ const Room = {
   Result_Continue: assets("/room/result/continue.png"),
 
   // Skill
-  Skill_DoubleFire: assets("/animation/doublefire/skeleton.json"),
-  Skill_DoubleIceHit: assets("/animation/doubleicehit/skeleton.json"),
-  Skill_Fire: assets("/animation/fire/skeleton.json"),
-  Skill_IceHit: assets("/animation/icehit/skeleton.json"),
-  Skill_Wind: assets("/animation/wind/skeleton.json"),
+  Skill_Frame: assets("/room/skill/frame.png"),
+
+  // bank_pair
+  Skill_FlameThrower_Normal: assets("/room/skill/flamethrower_normal.png"),
+  Skill_FlameThrower_Active: assets("/room/skill/flamethrower_active.png"),
+  Skill_FlameThrower_Spine: assets("/animation/doublefire/skeleton.json"),
+
+  // banker
+  Skill_Blizzard_Normal: assets("/room/skill/blizzard_normal.png"),
+  Skill_Blizzard_Active: assets("/room/skill/blizzard_active.png"),
+  Skill_Blizzard_Spine: assets("/animation/icehit/skeleton.json"),
+
+  // player
+  Skill_FlareBlitz_Normal: assets("/room/skill/flareblitz_normal.png"),
+  Skill_FlareBlitz_Active: assets("/room/skill/flareblitz_active.png"),
+  Skill_FlareBlitz_Spine: assets("/animation/fire/skeleton.json"),
+
+  // player_pair
+  Skill_IceBeam_Normal: assets("/room/skill/icebeam_normal.png"),
+  Skill_IceBeam_Active: assets("/room/skill/icebeam_active.png"),
+  Skill_IceBeam_Spine: assets("/animation/doubleicehit/skeleton.json"),
+
+  // tie
+  Skill_Hurricane_Normal: assets("/room/skill/hurricane_normal.png"),
+  Skill_Hurricane_Active: assets("/room/skill/hurricane_active.png"),
+  Skill_Hurricane_Spine: assets("/animation/wind/skeleton.json"),
 };
 
 const Lobby = {

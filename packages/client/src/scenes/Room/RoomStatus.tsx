@@ -21,13 +21,17 @@ export default function RoomStatus({ skills, className }: RoomStatusProps) {
               <Skill
                 size="sm"
                 name={skills.bank_pair.name}
-                img={skills.bank_pair.img}
+                normal={Assets.Room.Skill_FlameThrower_Normal}
               />
-              <Skill size="sm" name={skills.tie.name} img={skills.tie.img} />
+              <Skill
+                size="sm"
+                name={skills.tie.name}
+                normal={Assets.Room.Skill_Hurricane_Normal}
+              />
               <Skill
                 size="sm"
                 name={skills.player_pair.name}
-                img={skills.player_pair.img}
+                normal={Assets.Room.Skill_IceBeam_Normal}
               />
             </div>
 
@@ -35,12 +39,12 @@ export default function RoomStatus({ skills, className }: RoomStatusProps) {
               <Skill
                 size="sm"
                 name={skills.player.name}
-                img={skills.player.img}
+                normal={Assets.Room.Skill_FlareBlitz_Normal}
               />
               <Skill
                 size="sm"
                 name={skills.banker.name}
-                img={skills.banker.img}
+                normal={Assets.Room.Skill_Blizzard_Normal}
               />
             </div>
           </div>

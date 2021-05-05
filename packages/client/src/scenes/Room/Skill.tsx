@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Assets from "assets";
+import { ReactNode, useCallback, useState } from "react";
 
 const size_mapping = {
   md: {
@@ -10,13 +11,43 @@ const size_mapping = {
   },
 };
 
-const frame = {
-  md: Assets.Room.Skill_Frame_L,
-  sm: Assets.Room.Skill_Frame_S,
-};
+function usePressEffect(img: string) {
+  const [effects, setEffects] = useState<ReactNode[]>([]);
+  const [isPress, setPress] = useState(false);
+
+  const onPointerDown = useCallback(() => {
+    setPress(true);
+  }, []);
+
+  const onPointerUp = useCallback(() => {
+    if (!isPress) return;
+
+    const effect = (
+      <img
+        key={performance.now()}
+        className="absolute top-0 animate-ping"
+        src={img}
+        alt="skill active image"
+        ref={(ref) => {
+          if (!ref) return;
+
+          ref.addEventListener("animationend", () => {
+            setEffects((effects) => effects.filter((it) => it !== effect));
+          });
+        }}
+      />
+    );
+
+    setEffects((effects) => [...effects, effect]);
+    setPress(false);
+  }, [isPress]);
+
+  return { onPointerDown, onPointerUp, effects };
+}
 
 type SkillProps = {
-  img: string;
+  normal: string;
+  active?: string;
   name: string;
   value?: number;
   size?: keyof typeof size_mapping;
@@ -24,13 +55,18 @@ type SkillProps = {
   onClick?: () => void;
 };
 export default function Skill({
-  img,
+  normal,
+  active,
   name,
   value = 0,
   size = "md",
   enable = true,
   onClick,
 }: SkillProps) {
+  const { onPointerDown, onPointerUp, effects } = usePressEffect(
+    active || normal
+  );
+
   return (
     <button
       className={clsx(
@@ -40,9 +76,13 @@ export default function Skill({
         onClick && enable ? "pointer-events-auto" : "pointer-events-none"
       )}
       onClick={onClick}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
     >
       <div className="relative">
-        <img src={img} alt="skill image" />
+        <img src={normal} alt="skill normal image" />
+
+        {effects}
 
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
           <span className="text-white text-xs text-shadow">{name}</span>
@@ -50,7 +90,7 @@ export default function Skill({
       </div>
 
       <div className="absolute -bottom-1 px-1 flex justify-center">
-        <img src={frame[size]} alt="frame image" />
+        <img src={Assets.Room.Skill_Frame} alt="frame image" />
 
         <span className="text-white text-xxs absolute top-0">{value}</span>
       </div>

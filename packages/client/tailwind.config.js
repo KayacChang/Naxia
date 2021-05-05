@@ -21,6 +21,14 @@ module.exports = {
         17: "4.25rem",
         18: "4.5rem",
       },
+      keyframes: {
+        ping: {
+          "75%, 100%": { transform: "scale(1.4)", opacity: "0" },
+        },
+      },
+      animation: {
+        ping: "ping 1s cubic-bezier(0, 0, 0.2, 1)",
+      },
     },
   },
   variants: {

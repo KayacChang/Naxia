@@ -38,19 +38,19 @@ export default function Effect() {
 
       switch (animation) {
         case "bank_pair":
-          setAnimation(assets("Skill_DoubleFire"));
+          setAnimation(assets("Skill_FlameThrower_Spine"));
           return;
         case "player_pair":
-          setAnimation(assets("Skill_DoubleIceHit"));
+          setAnimation(assets("Skill_IceBeam_Spine"));
           return;
         case "player":
-          setAnimation(assets("Skill_Fire"));
+          setAnimation(assets("Skill_FlareBlitz_Spine"));
           return;
         case "banker":
-          setAnimation(assets("Skill_IceHit"));
+          setAnimation(assets("Skill_Blizzard_Spine"));
           return;
         case "tie":
-          setAnimation(assets("Skill_Wind"));
+          setAnimation(assets("Skill_Hurricane_Spine"));
           return;
       }
     }
