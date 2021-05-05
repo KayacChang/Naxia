@@ -1,17 +1,19 @@
 import { Sprite, BitmapText, Container, Text } from "@inlet/react-pixi";
-import { Game } from "layers";
 import {
   SkeletonData,
-  Assets as TAssets,
   useAppSelector,
   selectRoomStatus,
   selectRoomStatusCurrent,
+  selectAssetsByName,
+  selectRoomBoss,
 } from "system";
 import { useViewport } from "utils";
 import { Spine } from "components";
 import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
 import { Texture } from "@pixi/core";
+import { Spine as TSpine } from "@pixi-spine/all-3.8";
+import anime from "animejs";
 
 type CountDownProps = {
   x: number;
@@ -48,11 +50,38 @@ function Boss({ x, y, data }: BossProps) {
 
   return (
     <Spine
-      visible={status !== RoomStatus.Result}
       x={x}
       y={y}
       data={data}
       scale={1 / window.devicePixelRatio}
+      ref={(ref: TSpine | null) => {
+        if (!ref) return;
+
+        console.log(ref);
+
+        if (status === RoomStatus.Change) {
+          anime({
+            targets: ref,
+            alpha: [0, 1],
+            duration: 1000,
+            easing: "easeInCubic",
+          });
+
+          return;
+        }
+
+        if (status === RoomStatus.Result) {
+          anime({
+            targets: ref,
+            alpha: [1, 0],
+            delay: 2000,
+            duration: 1000,
+            easing: "easeOutCubic",
+          });
+
+          return;
+        }
+      }}
     />
   );
 }
@@ -87,29 +116,30 @@ function RoundStatus({ x, y, texture }: RoundStatusProps) {
   );
 }
 
-type GameViewProps = {
-  resources: TAssets;
-};
-export default function GameView({ resources }: GameViewProps) {
+export default function GameView() {
   const { width, height } = useViewport();
+  const boss = useAppSelector(selectRoomBoss);
+  const assets = useAppSelector(selectAssetsByName);
 
   return (
-    <Game>
-      <Sprite width={width} height={height} texture={resources["Background"]} />
+    <>
+      <Sprite width={width} height={height} texture={assets("Background")} />
 
-      <Boss data={resources["Boss"]} x={width / 2} y={height / 2} />
+      {boss && (
+        <Boss data={assets(String(boss.id))} x={width / 2} y={height / 2} />
+      )}
 
       <CountDown
         x={width / 2}
         y={height / 2}
-        texture={resources["CountDown_Frame"]}
+        texture={assets("CountDown_Frame")}
       />
 
       <RoundStatus
         x={width / 2}
         y={height / 2 + 58}
-        texture={resources["Round_Status_Frame"]}
+        texture={assets("Round_Status_Frame")}
       />
-    </Game>
+    </>
   );
 }

@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
 import { Loader, ILoaderResource } from "pixi.js";
 import { Resource } from "resource-loader";
 import { SpineParser } from "@pixi-spine/loader-3.8";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "system";
 export { SpineParser };
 export * from "@pixi-spine/runtime-3.8";
 export * from "@pixi-spine/base";
 
 SpineParser.registerLoaderPlugin();
 
-export type Tasks = { name: string; url: string }[];
-export type Assets = Record<string, ReturnType<typeof mapping>>;
-type LoadFunc = (tasks: Tasks) => Promise<Assets>;
-
 const loader = Loader.shared;
+
+export type Tasks = { name: string; url: string }[];
 
 function mapping(res: ILoaderResource) {
   if (res.type === Resource.TYPE.IMAGE && res.texture) {
@@ -42,45 +45,66 @@ function mapping(res: ILoaderResource) {
   );
 }
 
-function mapToResources(resources: Record<string, Resource>): Assets {
-  return Object.entries(resources).reduce(
-    (obj, [name, res]) => ({ ...obj, [name]: mapping(res) }),
-    {}
-  );
-}
+const selectLoadedTasks = (state: RootState) => state.assets.loaded;
+const selectNotLoadedTasks = (state: RootState, tasks: Tasks) => {
+  const loaded = selectLoadedTasks(state);
 
-const load: LoadFunc = (tasks: Tasks) => {
-  return new Promise((resolve) => {
-    loader
-      .add(tasks)
-      .load((_, resources) =>
-        resolve(mapToResources(resources as Record<string, Resource>))
-      );
-  });
+  const notExist = (name: string) =>
+    loaded.every((assets) => assets.name !== name);
+
+  return tasks.filter(({ name }) => notExist(name));
 };
 
-function hasLoaded(name: string) {
-  return name in loader.resources;
+export const addAssets = createAsyncThunk<
+  Tasks,
+  Tasks,
+  { dispatch: AppDispatch; state: RootState }
+>("assets/add", async (tasks, { getState }) => {
+  const newTasks = selectNotLoadedTasks(getState(), tasks);
+
+  await new Promise<void>((resolve) => loader.add(newTasks).load(resolve));
+
+  return newTasks;
+});
+
+export interface AssetsState {
+  loading: boolean;
+  loaded: Tasks;
 }
 
-let resources = mapToResources(loader.resources);
+const initialState: AssetsState = {
+  loading: false,
+  loaded: [],
+};
 
-export function useAssets(tasks: Tasks) {
-  const [isCompleted, setCompleted] = useState(
-    () => tasks.filter(({ name }) => !hasLoaded(name)).length <= 0
-  );
+const slice = createSlice({
+  name: "assets",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(addAssets.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addAssets.fulfilled, (state, { payload: newTasks }) => {
+        state.loaded = [...state.loaded, ...newTasks];
+        state.loading = false;
+      });
+  },
+});
 
-  useEffect(() => {
-    if (isCompleted) return;
+export const selectAssets = (state: RootState) => state.assets;
+export const selectAssetIsLoading = (state: RootState) => state.assets.loading;
 
-    const newTasks = tasks.filter(({ name }) => !hasLoaded(name));
+export const selectAssetsByName = createSelector(
+  selectAssets,
+  () => (name: string) => {
+    const existed = name in loader.resources;
 
-    load(newTasks).then((res) => {
-      resources = res;
+    if (!existed) throw new Error(`resource name: ${name} not existed`);
 
-      setCompleted(true);
-    });
-  }, [isCompleted, tasks]);
+    return mapping(loader.resources[name]);
+  }
+);
 
-  return { resources, isCompleted };
-}
+export default slice.reducer;

@@ -1,0 +1,207 @@
+
+skeleton.png
+size: 2045,1838
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+henghuo/00010
+  rotate: false
+  xy: 580, 1788
+  size: 85, 48
+  orig: 800, 600
+  offset: 92, 295
+  index: -1
+henghuo/00011
+  rotate: false
+  xy: 667, 1784
+  size: 150, 52
+  orig: 800, 600
+  offset: 89, 297
+  index: -1
+henghuo/00012
+  rotate: false
+  xy: 1384, 1746
+  size: 256, 90
+  orig: 800, 600
+  offset: 29, 279
+  index: -1
+henghuo/00013
+  rotate: false
+  xy: 1642, 1712
+  size: 293, 124
+  orig: 800, 600
+  offset: 10, 244
+  index: -1
+henghuo/00014
+  rotate: false
+  xy: 2, 1659
+  size: 418, 153
+  orig: 800, 600
+  offset: 0, 217
+  index: -1
+henghuo/00015
+  rotate: false
+  xy: 422, 1587
+  size: 487, 165
+  orig: 800, 600
+  offset: 0, 215
+  index: -1
+henghuo/00016
+  rotate: false
+  xy: 911, 1564
+  size: 556, 180
+  orig: 800, 600
+  offset: 0, 210
+  index: -1
+henghuo/00017
+  rotate: false
+  xy: 2, 1390
+  size: 625, 195
+  orig: 800, 600
+  offset: 0, 205
+  index: -1
+henghuo/00018
+  rotate: false
+  xy: 629, 1351
+  size: 693, 211
+  orig: 800, 600
+  offset: 0, 200
+  index: -1
+henghuo/00019
+  rotate: false
+  xy: 2, 1120
+  size: 746, 229
+  orig: 800, 600
+  offset: 0, 191
+  index: -1
+henghuo/00020
+  rotate: false
+  xy: 819, 1754
+  size: 563, 82
+  orig: 800, 600
+  offset: 0, 234
+  index: -1
+henghuo/00021
+  rotate: false
+  xy: 15, 1814
+  size: 563, 22
+  orig: 800, 600
+  offset: 0, 293
+  index: -1
+longhuo/1_00000
+  rotate: false
+  xy: 1469, 1505
+  size: 299, 205
+  orig: 1000, 1000
+  offset: 610, 724
+  index: -1
+longhuo/1_00001
+  rotate: true
+  xy: 1770, 1270
+  size: 440, 273
+  orig: 1000, 1000
+  offset: 464, 650
+  index: -1
+longhuo/1_00002
+  rotate: false
+  xy: 750, 1028
+  size: 836, 321
+  orig: 1000, 1000
+  offset: 63, 624
+  index: -1
+longhuo/1_00003
+  rotate: false
+  xy: 1004, 553
+  size: 870, 473
+  orig: 1000, 1000
+  offset: 22, 527
+  index: -1
+longhuo/1_00007
+  rotate: true
+  xy: 1004, 2
+  size: 549, 593
+  orig: 1000, 1000
+  offset: 251, 188
+  index: -1
+longhuo/1_00009
+  rotate: false
+  xy: 2, 78
+  size: 1000, 542
+  orig: 1000, 1000
+  offset: 0, 179
+  index: -1
+longhuo/1_00013
+  rotate: false
+  xy: 2, 622
+  size: 1000, 404
+  orig: 1000, 1000
+  offset: 0, 212
+  index: -1
+longhuo/1_00014
+  rotate: false
+  xy: 2, 1825
+  size: 11, 11
+  orig: 1000, 1000
+  offset: 532, 411
+  index: -1
+
+skeleton2.png
+size: 1669,1991
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+longhuo/1_00004
+  rotate: true
+  xy: 2, 2
+  size: 747, 626
+  orig: 1000, 1000
+  offset: 137, 374
+  index: -1
+longhuo/1_00005
+  rotate: true
+  xy: 1004, 1299
+  size: 690, 663
+  orig: 1000, 1000
+  offset: 235, 290
+  index: -1
+longhuo/1_00006
+  rotate: true
+  xy: 2, 751
+  size: 638, 630
+  orig: 1000, 1000
+  offset: 212, 186
+  index: -1
+longhuo/1_00008
+  rotate: false
+  xy: 630, 176
+  size: 865, 562
+  orig: 1000, 1000
+  offset: 70, 189
+  index: -1
+longhuo/1_00011
+  rotate: false
+  xy: 634, 740
+  size: 1000, 557
+  orig: 1000, 1000
+  offset: 0, 95
+  index: -1
+longhuo/1_00012
+  rotate: false
+  xy: 2, 1391
+  size: 1000, 598
+  orig: 1000, 1000
+  offset: 0, 40
+  index: -1
+
+skeleton3.png
+size: 1004,553
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+longhuo/1_00010
+  rotate: false
+  xy: 2, 2
+  size: 1000, 549
+  orig: 1000, 1000
+  offset: 0, 133
+  index: -1

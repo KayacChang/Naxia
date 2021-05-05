@@ -16,7 +16,7 @@ import {
 } from "types";
 import { useEffect, useState } from "react";
 import { bet } from "api";
-import { useAuthState } from "system";
+import { selectRoomStatusCurrent, useAppSelector, useAuthState } from "system";
 import { add } from "ramda";
 import clsx from "clsx";
 
@@ -35,20 +35,20 @@ type GameUIProps = {
 export default function GameUI({ user, rounds, info }: GameUIProps) {
   const history = useHistory();
   const { token } = useAuthState();
-  // const status = useRoomStatus();
+  const status = useAppSelector(selectRoomStatusCurrent);
 
   const [hasSubmit, setSubmit] = useState(false);
   const [order, setOrder] = useState(toOrder(info.skills));
 
-  // useEffect(() => {
-  //   if (status === TRoomStatus.Start) {
-  //     setOrder(toOrder(info.skills));
-  //   }
+  useEffect(() => {
+    if (status === TRoomStatus.Start) {
+      setOrder(toOrder(info.skills));
+    }
 
-  //   if (status === TRoomStatus.Result) {
-  //     setSubmit(false);
-  //   }
-  // }, [status]);
+    if (status === TRoomStatus.Result) {
+      setSubmit(false);
+    }
+  }, [status]);
 
   const onOrderSubmit = () => {
     if (Object.values(order).reduce(add) <= 0) return;
@@ -64,9 +64,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
     });
   };
 
-  const enable = true;
-
-  // status === TRoomStatus.Start && !hasSubmit;
+  const enable = status === TRoomStatus.Start && !hasSubmit;
 
   return (
     <UI className="flex flex-col text-white">
@@ -104,7 +102,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
                 type="img"
                 img={Assets.Room.Control_Confirm_Normal}
                 className="relative flex justify-end items-center"
-                onClick={() => onOrderSubmit()}
+                onClick={onOrderSubmit}
               >
                 <div className="absolute px-4">{"確認"}</div>
               </Button>

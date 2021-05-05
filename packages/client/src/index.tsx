@@ -4,13 +4,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import "styles/base.css";
 import "styles/index.css";
-import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { AuthProvider, useAssets, store } from "system";
-import { toTask } from "utils";
+import { Switch, Router, Route, PrivateRoute } from "components";
+import { AuthProvider, store } from "system";
 import Login from "./scenes/Login";
 import Lobby from "./scenes/Lobby";
 import Room from "./scenes/Room";
-import Assets from "assets";
 import { Provider } from "react-redux";
 
 const client = new QueryClient({
@@ -22,11 +20,6 @@ const client = new QueryClient({
 });
 
 function App() {
-  const { isCompleted } = useAssets(toTask(Assets.Common));
-  if (!isCompleted) {
-    return <Loading></Loading>;
-  }
-
   return (
     <QueryClientProvider client={client}>
       <Provider store={store}>

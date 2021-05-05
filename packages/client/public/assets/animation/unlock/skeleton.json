@@ -1,0 +1,296 @@
+{
+"skeleton": {
+	"hash": "BqTzRkrDItymV3bUMpXi8NDpxz0",
+	"spine": "3.8.99",
+	"x": -298.61,
+	"y": -241.94,
+	"width": 600,
+	"height": 490,
+	"images": "",
+	"audio": "F:/百家乐RPG/suo"
+},
+"bones": [
+	{ "name": "root", "x": 146.15, "y": -120.48 },
+	{ "name": "鎖左", "parent": "root", "x": -176.01, "y": 119.09 },
+	{ "name": "鎖右", "parent": "鎖左", "x": 65.58, "y": 1.09 },
+	{ "name": "裂紋", "parent": "鎖左", "x": 29.94, "y": 2.33 },
+	{ "name": "baolie2", "parent": "root", "x": -144.76, "y": 123.54 },
+	{ "name": "guang", "parent": "root", "x": -144.16, "y": 123.79 }
+],
+"slots": [
+	{ "name": "鎖左", "bone": "鎖左", "attachment": "鎖左" },
+	{ "name": "鎖右", "bone": "鎖右", "attachment": "鎖右" },
+	{ "name": "裂紋1", "bone": "裂紋", "attachment": "裂紋1" },
+	{ "name": "裂紋", "bone": "裂紋", "attachment": "裂紋" },
+	{ "name": "baolie2", "bone": "baolie2", "attachment": "baolie2/00147", "blend": "additive" },
+	{ "name": "guang", "bone": "guang", "attachment": "guang/image 9" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"baolie2": {
+				"baolie2/00100": { "width": 600, "height": 490 },
+				"baolie2/00101": { "width": 600, "height": 490 },
+				"baolie2/00102": { "width": 600, "height": 490 },
+				"baolie2/00103": { "width": 600, "height": 490 },
+				"baolie2/00104": { "width": 600, "height": 490 },
+				"baolie2/00105": { "width": 600, "height": 490 },
+				"baolie2/00106": { "width": 600, "height": 490 },
+				"baolie2/00107": { "width": 600, "height": 490 },
+				"baolie2/00108": { "width": 600, "height": 490 },
+				"baolie2/00109": { "width": 600, "height": 490 },
+				"baolie2/00110": { "width": 600, "height": 490 },
+				"baolie2/00111": { "width": 600, "height": 490 },
+				"baolie2/00112": { "width": 600, "height": 490 },
+				"baolie2/00113": { "width": 600, "height": 490 },
+				"baolie2/00114": { "width": 600, "height": 490 },
+				"baolie2/00115": { "width": 600, "height": 490 },
+				"baolie2/00116": { "width": 600, "height": 490 },
+				"baolie2/00117": { "width": 600, "height": 490 },
+				"baolie2/00118": { "width": 600, "height": 490 },
+				"baolie2/00119": { "width": 600, "height": 490 },
+				"baolie2/00120": { "width": 600, "height": 490 },
+				"baolie2/00121": { "width": 600, "height": 490 },
+				"baolie2/00122": { "width": 600, "height": 490 },
+				"baolie2/00123": { "width": 600, "height": 490 },
+				"baolie2/00124": { "width": 600, "height": 490 },
+				"baolie2/00125": { "width": 600, "height": 490 },
+				"baolie2/00126": { "width": 600, "height": 490 },
+				"baolie2/00127": { "width": 600, "height": 490 },
+				"baolie2/00128": { "width": 600, "height": 490 },
+				"baolie2/00129": { "width": 600, "height": 490 },
+				"baolie2/00130": { "width": 600, "height": 490 },
+				"baolie2/00131": { "width": 600, "height": 490 },
+				"baolie2/00132": { "width": 600, "height": 490 },
+				"baolie2/00133": { "width": 600, "height": 490 },
+				"baolie2/00134": { "width": 600, "height": 490 },
+				"baolie2/00135": { "width": 600, "height": 490 },
+				"baolie2/00136": { "width": 600, "height": 490 },
+				"baolie2/00137": { "width": 600, "height": 490 },
+				"baolie2/00138": { "width": 600, "height": 490 },
+				"baolie2/00139": { "width": 600, "height": 490 },
+				"baolie2/00140": { "width": 600, "height": 490 },
+				"baolie2/00141": { "width": 600, "height": 490 },
+				"baolie2/00142": { "width": 600, "height": 490 },
+				"baolie2/00143": { "width": 600, "height": 490 },
+				"baolie2/00144": { "width": 600, "height": 490 },
+				"baolie2/00145": { "width": 600, "height": 490 },
+				"baolie2/00146": { "width": 600, "height": 490 },
+				"baolie2/00147": { "width": 600, "height": 490 }
+			},
+			"guang": {
+				"guang/image 1": { "width": 200, "height": 200 },
+				"guang/image 2": { "width": 200, "height": 200 },
+				"guang/image 3": { "width": 200, "height": 200 },
+				"guang/image 4": { "width": 200, "height": 200 },
+				"guang/image 5": { "width": 200, "height": 200 },
+				"guang/image 6": { "width": 200, "height": 200 },
+				"guang/image 7": { "width": 200, "height": 200 },
+				"guang/image 8": { "width": 200, "height": 200 },
+				"guang/image 9": { "width": 200, "height": 200 },
+				"guang/image 10": { "width": 200, "height": 200 },
+				"guang/image 11": { "width": 200, "height": 200 },
+				"guang/image 12": { "width": 200, "height": 200 },
+				"guang/image 13": { "width": 200, "height": 200 },
+				"guang/image 14": { "width": 200, "height": 200 }
+			},
+			"裂紋": {
+				"裂紋": { "x": 3.25, "y": -0.28, "width": 50, "height": 74 }
+			},
+			"裂紋1": {
+				"裂紋1": {
+					"type": "clipping",
+					"end": "裂紋",
+					"vertexCount": 4,
+					"vertices": [ -21.35, 6.6, 33.81, 10.14, 16.11, 33.44, -13.09, 33.15 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"鎖右": {
+				"鎖右": { "x": -8.82, "y": -1.39, "width": 70, "height": 124 }
+			},
+			"鎖左": {
+				"鎖左": { "width": 65, "height": 124 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"slots": {
+			"baolie2": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.5667, "color": "ffffff00" },
+					{ "time": 0.8333, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.7667, "name": "baolie2/00100" },
+					{ "time": 0.8, "name": "baolie2/00101" },
+					{ "time": 0.8333, "name": "baolie2/00102" },
+					{ "time": 0.8667, "name": "baolie2/00103" },
+					{ "time": 0.9, "name": "baolie2/00104" },
+					{ "time": 0.9333, "name": "baolie2/00105" },
+					{ "time": 0.9667, "name": "baolie2/00106" },
+					{ "time": 1, "name": "baolie2/00107" },
+					{ "time": 1.0333, "name": "baolie2/00108" },
+					{ "time": 1.0667, "name": "baolie2/00109" },
+					{ "time": 1.1, "name": "baolie2/00110" },
+					{ "time": 1.1333, "name": "baolie2/00111" },
+					{ "time": 1.1667, "name": "baolie2/00112" },
+					{ "time": 1.2, "name": "baolie2/00113" },
+					{ "time": 1.2333, "name": "baolie2/00114" },
+					{ "time": 1.2667, "name": "baolie2/00115" },
+					{ "time": 1.3, "name": "baolie2/00116" },
+					{ "time": 1.3333, "name": "baolie2/00117" },
+					{ "time": 1.3667, "name": "baolie2/00118" },
+					{ "time": 1.4, "name": "baolie2/00119" },
+					{ "time": 1.4333, "name": "baolie2/00120" },
+					{ "time": 1.4667, "name": "baolie2/00121" },
+					{ "time": 1.5, "name": "baolie2/00122" },
+					{ "time": 1.5333, "name": "baolie2/00123" },
+					{ "time": 1.5667, "name": "baolie2/00124" },
+					{ "time": 1.6, "name": "baolie2/00125" },
+					{ "time": 1.6333, "name": "baolie2/00126" },
+					{ "time": 1.6667, "name": "baolie2/00127" },
+					{ "time": 1.7, "name": "baolie2/00128" },
+					{ "time": 1.7333, "name": "baolie2/00129" },
+					{ "time": 1.7667, "name": "baolie2/00130" },
+					{ "time": 1.8, "name": "baolie2/00131" },
+					{ "time": 1.8333, "name": "baolie2/00132" },
+					{ "time": 1.8667, "name": "baolie2/00133" },
+					{ "time": 1.9, "name": "baolie2/00134" },
+					{ "time": 1.9333, "name": "baolie2/00135" },
+					{ "time": 1.9667, "name": "baolie2/00136" },
+					{ "time": 2, "name": "baolie2/00137" },
+					{ "time": 2.0333, "name": "baolie2/00138" },
+					{ "time": 2.0667, "name": "baolie2/00139" },
+					{ "time": 2.1, "name": "baolie2/00140" },
+					{ "time": 2.1333, "name": "baolie2/00141" },
+					{ "time": 2.1667, "name": "baolie2/00142" },
+					{ "time": 2.2, "name": "baolie2/00143" },
+					{ "time": 2.2333, "name": "baolie2/00144" },
+					{ "time": 2.2667, "name": "baolie2/00145" },
+					{ "time": 2.3, "name": "baolie2/00146" },
+					{ "time": 2.3333, "name": "baolie2/00147" },
+					{ "time": 2.3667, "name": null }
+				]
+			},
+			"guang": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.0667, "name": "guang/image 1" },
+					{ "time": 0.1333, "name": "guang/image 2" },
+					{ "time": 0.2, "name": "guang/image 3" },
+					{ "time": 0.2667, "name": "guang/image 4" },
+					{ "time": 0.3333, "name": "guang/image 5" },
+					{ "time": 0.4, "name": "guang/image 6" },
+					{ "time": 0.4667, "name": "guang/image 7" },
+					{ "time": 0.5333, "name": "guang/image 8" },
+					{ "time": 0.6, "name": "guang/image 9" },
+					{ "time": 0.6667, "name": "guang/image 10" },
+					{ "time": 0.7333, "name": "guang/image 11" },
+					{ "time": 0.8, "name": "guang/image 12" },
+					{ "time": 0.8667, "name": "guang/image 13" },
+					{ "time": 0.9333, "name": "guang/image 14" },
+					{ "time": 1, "name": null }
+				]
+			},
+			"裂紋": {
+				"color": [
+					{ "time": 0.8667, "color": "ffffffff" },
+					{ "time": 1.1, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.1667, "name": "裂紋" }
+				]
+			},
+			"鎖右": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 0.2, "color": "ff8510ff" },
+					{ "time": 1.0667, "color": "ffffffff" },
+					{ "time": 1.2667, "color": "ffffff00" }
+				]
+			},
+			"鎖左": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 0.2, "color": "ff8512ff" },
+					{ "time": 0.8333, "color": "ffffffff" },
+					{ "time": 1.2667, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"裂紋": {
+				"rotate": [
+					{}
+				],
+				"translate": [
+					{}
+				],
+				"scale": [
+					{}
+				]
+			},
+			"鎖右": {
+				"rotate": [
+					{}
+				],
+				"translate": [
+					{ "curve": "stepped" },
+					{ "time": 0.8333 },
+					{ "time": 0.9, "x": 39.6 }
+				],
+				"scale": [
+					{}
+				]
+			},
+			"鎖左": {
+				"rotate": [
+					{}
+				],
+				"translate": [
+					{},
+					{ "time": 0.0667, "x": 3.11, "y": 1.78 },
+					{ "time": 0.1333 },
+					{ "time": 0.2, "x": -1.78, "y": -3.11 },
+					{ "time": 0.2667, "x": 3.11, "y": 1.78 },
+					{ "time": 0.3333 },
+					{ "time": 0.4, "x": -1.78, "y": -3.11 },
+					{ "time": 0.4667, "x": 3.11, "y": 1.78 },
+					{ "time": 0.5333 },
+					{ "time": 0.6, "x": -1.78, "y": -3.11 },
+					{ "time": 0.6667, "x": 3.11, "y": 1.78 },
+					{ "time": 0.7333, "curve": "stepped" },
+					{ "time": 0.8333 },
+					{ "time": 0.9, "x": -13.2 }
+				],
+				"scale": [
+					{}
+				]
+			}
+		},
+		"deform": {
+			"default": {
+				"裂紋1": {
+					"裂紋1": [
+						{
+							"time": 0.1667,
+							"vertices": [ -3.465, 19.21498, -3.465, 19.21498 ]
+						},
+						{
+							"time": 0.6667,
+							"vertices": [ -3.14999, -43.15494, -3.14999, -43.15494 ]
+						}
+					]
+				}
+			}
+		}
+	}
+}
+}

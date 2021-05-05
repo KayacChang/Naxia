@@ -1,12 +1,12 @@
 import { Game, UI } from "layers";
 import {
-  Assets as TAssets,
+  selectAssetsByName,
   selectRoomResult,
   selectRoomStatus,
   useAppSelector,
 } from "system";
 import { Container, Sprite } from "@inlet/react-pixi";
-import { useViewport } from "utils";
+import { useViewport, wait } from "utils";
 import Assets from "assets";
 import { Item, RoomStatus } from "types";
 import { useEffect, useState } from "react";
@@ -51,19 +51,21 @@ function Continue({ text }: ContinueProps) {
   );
 }
 
-type GameEffectProps = {
-  resources: TAssets;
-};
-export default function GameResult({ resources }: GameEffectProps) {
+export default function GameResult() {
   const { width, height } = useViewport();
 
   const { current: status } = useAppSelector(selectRoomStatus);
+  const assets = useAppSelector(selectAssetsByName);
   const result = useAppSelector(selectRoomResult);
-  const [currentResult, setCurrentResult] = useState(result);
+  const [currentResult, setCurrentResult] = useState<typeof result>();
 
   useEffect(() => {
-    status !== RoomStatus.Result && setCurrentResult(undefined);
-  }, [status]);
+    if (status !== RoomStatus.Start) setCurrentResult(undefined);
+
+    if (status === RoomStatus.Result) {
+      wait(3000).then(() => setCurrentResult(result));
+    }
+  }, [status, result]);
 
   if (!currentResult) {
     return <></>;
@@ -78,9 +80,9 @@ export default function GameResult({ resources }: GameEffectProps) {
             anchor={0.5}
             scale={1 / window.devicePixelRatio}
             texture={cond<string, Texture>([
-              [equals("win"), () => resources["Result_Success"]],
-              [equals("lose"), () => resources["Result_Failed"]],
-            ])(currentResult.result)}
+              [equals("win"), () => assets("Result_Success")],
+              [equals("lose"), () => assets("Result_Failed")],
+            ])(currentResult!.result)}
           />
         </Container>
       </Game>
@@ -94,7 +96,7 @@ export default function GameResult({ resources }: GameEffectProps) {
             <img src={Assets.Room.Result_Frame} alt="result's frame" />
 
             <div className="absolute top-0 w-full h-full pt-8 flex flex-col justify-center items-center">
-              <RewardItems items={currentResult.items} />
+              <RewardItems items={currentResult!.items} />
             </div>
           </div>
 

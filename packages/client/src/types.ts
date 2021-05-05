@@ -79,3 +79,13 @@ export enum RoomStatus {
 export type Order = {
   [k in keyof SkillSet]: number;
 };
+
+export interface Boss {
+  id: number;
+  name: string;
+  spine: string;
+  spine_json: string;
+  spine_atlas: string;
+  hp: number;
+  rate: string;
+}

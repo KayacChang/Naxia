@@ -46,6 +46,13 @@ const Room = {
   Result_Failed: assets("/room/result/failed_flag.png"),
   Result_Frame: assets("/room/result/frame.png"),
   Result_Continue: assets("/room/result/continue.png"),
+
+  // Skill
+  Skill_DoubleFire: assets("/animation/doublefire/skeleton.json"),
+  Skill_DoubleIceHit: assets("/animation/doubleicehit/skeleton.json"),
+  Skill_Fire: assets("/animation/fire/skeleton.json"),
+  Skill_IceHit: assets("/animation/icehit/skeleton.json"),
+  Skill_Wind: assets("/animation/wind/skeleton.json"),
 };
 
 const Lobby = {

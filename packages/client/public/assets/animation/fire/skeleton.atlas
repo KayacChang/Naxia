@@ -1,0 +1,118 @@
+
+skeleton.png
+size: 1885,565
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+45/sm_gs_superskill1_225_conjure_0001
+  rotate: true
+  xy: 1730, 234
+  size: 329, 125
+  orig: 700, 700
+  offset: 160, 284
+  index: -1
+45/sm_gs_superskill1_225_conjure_0002
+  rotate: false
+  xy: 1661, 87
+  size: 222, 145
+  orig: 700, 700
+  offset: 162, 283
+  index: -1
+45/sm_gs_superskill1_225_conjure_0003
+  rotate: false
+  xy: 1529, 2
+  size: 252, 83
+  orig: 700, 700
+  offset: 243, 337
+  index: -1
+45/sm_gs_superskill1_45_conjure_0001
+  rotate: true
+  xy: 1347, 35
+  size: 277, 180
+  orig: 700, 700
+  offset: 244, 272
+  index: -1
+45/sm_gs_superskill1_45_conjure_0002
+  rotate: false
+  xy: 1438, 393
+  size: 290, 170
+  orig: 700, 700
+  offset: 230, 248
+  index: -1
+45/sm_gs_superskill1_45_conjure_0003
+  rotate: true
+  xy: 1529, 130
+  size: 261, 130
+  orig: 700, 700
+  offset: 246, 255
+  index: -1
+fire2/10000
+  rotate: false
+  xy: 1147, 314
+  size: 289, 249
+  orig: 600, 600
+  offset: 148, 196
+  index: -1
+fire2/10001
+  rotate: true
+  xy: 1085, 17
+  size: 285, 260
+  orig: 600, 600
+  offset: 152, 188
+  index: -1
+fire2/10002
+  rotate: false
+  xy: 275, 303
+  size: 291, 260
+  orig: 600, 600
+  offset: 149, 188
+  index: -1
+fire2/10003
+  rotate: true
+  xy: 299, 15
+  size: 286, 263
+  orig: 600, 600
+  offset: 148, 187
+  index: -1
+fire2/10004
+  rotate: false
+  xy: 2, 5
+  size: 295, 266
+  orig: 600, 600
+  offset: 145, 182
+  index: -1
+fire2/10005
+  rotate: true
+  xy: 2, 273
+  size: 290, 271
+  orig: 600, 600
+  offset: 149, 174
+  index: -1
+fire2/10006
+  rotate: true
+  xy: 822, 15
+  size: 286, 261
+  orig: 600, 600
+  offset: 152, 187
+  index: -1
+fire2/10007
+  rotate: true
+  xy: 564, 9
+  size: 292, 256
+  orig: 600, 600
+  offset: 149, 190
+  index: -1
+fire2/10008
+  rotate: false
+  xy: 857, 304
+  size: 288, 259
+  orig: 600, 600
+  offset: 148, 191
+  index: -1
+fire2/10009
+  rotate: false
+  xy: 568, 303
+  size: 287, 260
+  orig: 600, 600
+  offset: 152, 189
+  index: -1

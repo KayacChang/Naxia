@@ -1,0 +1,167 @@
+
+skeleton.png
+size: 2014,713
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+hit/sm_ms_superskill1_45_hit_0004
+  rotate: true
+  xy: 1067, 5
+  size: 173, 193
+  orig: 700, 700
+  offset: 264, 445
+  index: -1
+hit/sm_ms_superskill1_45_hit_0005
+  rotate: true
+  xy: 1593, 246
+  size: 249, 199
+  orig: 700, 700
+  offset: 225, 439
+  index: -1
+hit/sm_ms_superskill1_45_hit_0006
+  rotate: false
+  xy: 1521, 7
+  size: 301, 196
+  orig: 700, 700
+  offset: 199, 431
+  index: -1
+hit/sm_ms_superskill1_45_hit_0007
+  rotate: false
+  xy: 2, 370
+  size: 301, 341
+  orig: 700, 700
+  offset: 198, 223
+  index: -1
+hit/sm_ms_superskill1_45_hit_0008
+  rotate: false
+  xy: 2, 27
+  size: 287, 341
+  orig: 700, 700
+  offset: 197, 226
+  index: -1
+hit/sm_ms_superskill1_45_hit_0009
+  rotate: false
+  xy: 305, 396
+  size: 258, 315
+  orig: 700, 700
+  offset: 222, 222
+  index: -1
+hit/sm_ms_superskill1_45_hit_0010
+  rotate: false
+  xy: 1750, 509
+  size: 226, 202
+  orig: 700, 700
+  offset: 230, 231
+  index: -1
+hit/sm_ms_superskill1_45_hit_0011
+  rotate: true
+  xy: 1824, 124
+  size: 196, 183
+  orig: 700, 700
+  offset: 253, 249
+  index: -1
+hit/sm_ms_superskill1_45_hit_0012
+  rotate: false
+  xy: 1794, 322
+  size: 197, 185
+  orig: 700, 700
+  offset: 246, 246
+  index: -1
+hit/sm_ms_superskill1_45_hit_0013
+  rotate: false
+  xy: 1824, 6
+  size: 188, 116
+  orig: 700, 700
+  offset: 253, 245
+  index: -1
+ice/00007
+  rotate: false
+  xy: 1262, 2
+  size: 257, 188
+  orig: 800, 600
+  offset: 244, 190
+  index: -1
+ice/00008
+  rotate: false
+  xy: 1488, 497
+  size: 260, 214
+  orig: 800, 600
+  offset: 244, 190
+  index: -1
+ice/00009
+  rotate: false
+  xy: 1201, 489
+  size: 285, 222
+  orig: 800, 600
+  offset: 237, 190
+  index: -1
+ice/00010
+  rotate: false
+  xy: 891, 472
+  size: 308, 239
+  orig: 800, 600
+  offset: 229, 190
+  index: -1
+ice/00011
+  rotate: false
+  xy: 565, 471
+  size: 324, 240
+  orig: 800, 600
+  offset: 224, 189
+  index: -1
+ice/00012
+  rotate: true
+  xy: 291, 34
+  size: 334, 248
+  orig: 800, 600
+  offset: 220, 186
+  index: -1
+ice/00013
+  rotate: true
+  xy: 1338, 205
+  size: 282, 253
+  orig: 800, 600
+  offset: 244, 184
+  index: -1
+ice/00014
+  rotate: true
+  xy: 1074, 192
+  size: 278, 262
+  orig: 800, 600
+  offset: 244, 183
+  index: -1
+ice/00015
+  rotate: true
+  xy: 812, 180
+  size: 289, 260
+  orig: 800, 600
+  offset: 241, 190
+  index: -1
+ice/00016
+  rotate: true
+  xy: 541, 97
+  size: 297, 269
+  orig: 800, 600
+  offset: 245, 192
+  index: -1
+ice/00017
+  rotate: false
+  xy: 812, 37
+  size: 253, 141
+  orig: 800, 600
+  offset: 245, 192
+  index: -1
+ice/00018
+  rotate: false
+  xy: 541, 20
+  size: 115, 75
+  orig: 800, 600
+  offset: 334, 242
+  index: -1
+ice/00019
+  rotate: false
+  xy: 658, 23
+  size: 112, 72
+  orig: 800, 600
+  offset: 335, 244
+  index: -1

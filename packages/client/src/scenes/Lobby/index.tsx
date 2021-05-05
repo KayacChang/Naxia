@@ -1,12 +1,22 @@
 import { Texture } from "pixi.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
 import clsx from "clsx";
 
-import { useAuth, useAssets, useUser, useMaps, useDungeons } from "system";
-import { toTask, useViewport, currency } from "utils";
+import {
+  useAuth,
+  useUser,
+  useMaps,
+  useDungeons,
+  useAppSelector,
+  selectAssetIsLoading,
+  selectAssetsByName,
+  useAppDispatch,
+  addAssets,
+} from "system";
+import { useViewport, currency, toTask } from "utils";
 import { Game, UI } from "layers";
 import {
   Modal,
@@ -20,6 +30,7 @@ import {
   Route,
   Camera,
 } from "components";
+
 import Assets from "assets";
 
 import { DungeonDetail } from "./Map";
@@ -36,8 +47,6 @@ type DungeonProps = {
 function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
   const [imageWidth, setImageWidth] = useState(0);
 
-  const textPos = imageWidth / 2;
-
   return (
     <Container
       x={x}
@@ -52,7 +61,7 @@ function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
 
       <Text
         anchor={{ x: 0.5, y: 0 }}
-        x={textPos}
+        x={imageWidth / 2}
         y={202}
         style={{ fill: "#ffffff" }}
         text={title}
@@ -62,7 +71,10 @@ function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
 }
 
 export default function Lobby() {
-  const { isCompleted, resources } = useAssets(toTask(Assets.Lobby));
+  const loading = useAppSelector(selectAssetIsLoading);
+  const assets = useAppSelector(selectAssetsByName);
+  const dispatch = useAppDispatch();
+
   const [{ token }] = useAuth();
   const { user, items } = useUser(token);
   const { data: maps } = useMaps(token);
@@ -75,7 +87,11 @@ export default function Lobby() {
   const [dungeonID, setDungeonID] = useState<number | undefined>(undefined);
   const match = useRouteMatch("/lobby");
 
-  if (!isCompleted || !token || !user || !items || !map || !dungeons) {
+  useEffect(() => {
+    dispatch(addAssets(toTask(Assets.Lobby)));
+  }, []);
+
+  if (loading || !token || !user || !items || !map || !dungeons) {
     return <Loading></Loading>;
   }
 
@@ -87,15 +103,15 @@ export default function Lobby() {
           screenHeight={height}
           pause={!match?.isExact}
         >
-          <Sprite texture={resources["Map"]} />
+          <Sprite texture={assets("Map")} />
 
           {dungeons.map((dungeon) => (
             <Dungeon
               key={dungeon.id}
               x={1920 * (dungeon.location.x / 100)}
               y={1080 * (dungeon.location.y / 100)}
-              frame={resources["Dungeon_Frame"]}
-              img={resources[`Dungeon_${dungeon.id}`]}
+              frame={assets("Dungeon_Frame")}
+              img={assets(`Dungeon_${dungeon.id}`)}
               title={dungeon.name}
               onClick={() => setDungeonID(dungeon.id)}
             />

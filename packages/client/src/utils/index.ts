@@ -10,8 +10,12 @@ export const toTask = (assets: object) =>
 
 export const currency = (value: number) => numeral(value).format("0,0");
 
+export function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function nextTick() {
-  return new Promise((resolve) => setTimeout(resolve, 0));
+  return wait(0);
 }
 
 export function nextFrame() {
