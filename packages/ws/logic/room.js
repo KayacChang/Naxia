@@ -111,21 +111,6 @@ function* GameStatus() {
   }
 }
 
-function GameLogic() {
-  return [
-    Event.RoundResult(random.pick(results)),
-    Event.Boss({
-      id: 9,
-      name: "骷顱人",
-      spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
-      spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
-      spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
-      hp: 1,
-      rate: "30.0000",
-    }),
-  ];
-}
-
 const Loop = interval(TimeInterval).pipe(share());
 
 const Count = Loop.pipe(
@@ -140,16 +125,34 @@ const Status = Loop.pipe(
   share({ connector: () => new BehaviorSubject() })
 );
 
-const Logic = Status.pipe(
+const Boss = Status.pipe(
   filter(Boolean),
   filter(({ data }) => data.status === RoomStatus.Result),
-  map(GameLogic),
+  map(() =>
+    Event.Boss({
+      id: 9,
+      name: "骷顱人",
+      spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
+      spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
+      spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
+      hp: 1,
+      rate: "30.0000",
+    })
+  ),
+  share({ connector: () => new BehaviorSubject() })
+);
+
+const Result = Status.pipe(
+  filter(Boolean),
+  filter(({ data }) => data.status === RoomStatus.Result),
+  map(() => Event.RoundResult(random.pick(results))),
   share({ connector: () => new BehaviorSubject() })
 );
 
 Status.subscribe(console.log);
 Count.subscribe(console.log);
-Logic.subscribe(console.log);
+Boss.subscribe(console.log);
+Result.subscribe(console.log);
 
 export function join(connection) {
   function send(event) {
@@ -163,7 +166,8 @@ export function join(connection) {
 
   Count.subscribe(send);
   Status.subscribe(send);
-  Logic.subscribe(send);
+  Boss.subscribe(send);
+  Result.subscribe(send);
 }
 
 export default { join };
