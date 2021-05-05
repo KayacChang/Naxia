@@ -17,7 +17,10 @@ type MarkerRoadProps = {
 };
 function MarkerRoad({ rounds, style }: MarkerRoadProps) {
   return (
-    <div className="w-full h-full grid grid-cols-9" style={style}>
+    <div
+      className="w-full h-full grid grid-flow-col grid-cols-9 grid-rows-6"
+      style={style}
+    >
       {range(0, 6 * 9).map((id) => {
         if (!rounds[id]) return <div key={id}></div>;
 
