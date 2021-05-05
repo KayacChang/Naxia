@@ -56,12 +56,13 @@ function Boss({ x, y, data }: BossProps) {
       ref={(ref: CustomSpine | null) => {
         if (!ref) return;
 
-        if (status === RoomStatus.Change) {
-          ref.state.setAnimation(0, "Idle", true);
+        ref.state.setAnimation(0, "Idle", true);
 
+        if (status === RoomStatus.Change) {
           anime({
             targets: ref,
             alpha: [0, 1],
+            delay: 2000,
             duration: 1000,
             easing: "easeInCubic",
           });
