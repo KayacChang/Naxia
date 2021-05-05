@@ -1,5 +1,6 @@
-import { Link } from "components";
+import { Link, Setting } from "components";
 import Assets from "assets";
+import { useState } from "react";
 
 const links = [
   {
@@ -24,11 +25,17 @@ type SidebarProps = {
 export function Sidebar({ className }: SidebarProps) {
   return (
     <aside className={className}>
-      {links.map(({ key, icons: { normal }, href }) => (
+      <Link to={links[0].href}>
+        <img src={links[0].icons.normal} alt={links[0].key} />
+      </Link>
+
+      <Setting />
+
+      {/* {links.map(({ key, icons: { normal }, href }) => (
         <Link key={key} to={href}>
           <img src={normal} alt={key} />
         </Link>
-      ))}
+      ))} */}
     </aside>
   );
 }
