@@ -6,26 +6,17 @@ import { Sidebar, Profile, Location, Status, Road, Button } from "components";
 import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
 import Assets from "assets";
+import { Round, User, DungeonInfo, RoomStatus as TRoomStatus } from "types";
+import { useEffect } from "react";
 import {
-  Round,
-  User,
-  DungeonInfo,
-  Order,
-  SkillSet,
-  RoomStatus as TRoomStatus,
-} from "types";
-import { useEffect, useState } from "react";
-import { bet } from "api";
-import { selectRoomStatusCurrent, useAppSelector, useAuthState } from "system";
-import { add } from "ramda";
+  selectRoomStatusCurrent,
+  addOrder,
+  useAppDispatch,
+  useAppSelector,
+  selectRoomOrder,
+  clearOrder,
+} from "system";
 import clsx from "clsx";
-
-function toOrder(skills: SkillSet) {
-  return Object.keys(skills).reduce(
-    (obj, skill) => ({ ...obj, [skill]: 0 }),
-    {}
-  ) as Order;
-}
 
 type GameUIProps = {
   user: User;
@@ -34,37 +25,21 @@ type GameUIProps = {
 };
 export default function GameUI({ user, rounds, info }: GameUIProps) {
   const history = useHistory();
-  const { token } = useAuthState();
+  const dispatch = useAppDispatch();
   const status = useAppSelector(selectRoomStatusCurrent);
-
-  const [hasSubmit, setSubmit] = useState(false);
-  const [order, setOrder] = useState(toOrder(info.skills));
+  const order = useAppSelector(selectRoomOrder);
 
   useEffect(() => {
     if (status === TRoomStatus.Start) {
-      setOrder(toOrder(info.skills));
+      // setOrder(toOrder(info.skills));
     }
 
     if (status === TRoomStatus.Result) {
-      setSubmit(false);
+      // setSubmit(false);
     }
   }, [status]);
 
-  const onOrderSubmit = () => {
-    if (Object.values(order).reduce(add) <= 0) return;
-
-    bet(token!, {
-      room_id: info.room,
-      uid: user.uid,
-      options: Object.entries(order).map(([cmd, val]) => ({ cmd, val })),
-    }).then(({ status, data }) => {
-      if (status !== "success") throw new Error(data);
-
-      setSubmit(true);
-    });
-  };
-
-  const enable = status === TRoomStatus.Start && !hasSubmit;
+  const enable = status === TRoomStatus.Start;
 
   return (
     <UI className="flex flex-col text-white">
@@ -102,7 +77,6 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
                 type="img"
                 img={Assets.Room.Control_Confirm_Normal}
                 className="relative flex justify-end items-center"
-                onClick={onOrderSubmit}
               >
                 <div className="absolute px-4">{"確認"}</div>
               </Button>
@@ -111,7 +85,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
                 type="img"
                 img={Assets.Room.Control_Cancel_Normal}
                 className="relative flex justify-end items-center"
-                onClick={() => setOrder(toOrder(info.skills))}
+                onClick={() => dispatch(clearOrder())}
               >
                 <div className="absolute px-4">{"歸零"}</div>
               </Button>
@@ -133,7 +107,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
             skills={info.skills}
             bets={info.bets}
             order={order}
-            setOrder={setOrder}
+            onSkillClick={(order) => dispatch(addOrder(order))}
           />
         </div>
       </div>

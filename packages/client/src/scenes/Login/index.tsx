@@ -4,10 +4,10 @@ import { ReactNode, useEffect, useState, FormEvent } from "react";
 import { Loading } from "components";
 import {
   addAssets,
+  auth,
   selectAssetIsLoading,
   useAppDispatch,
   useAppSelector,
-  useAuth,
 } from "system";
 import { useHistory } from "react-router";
 import { toTask } from "utils";
@@ -88,7 +88,6 @@ export default function Login() {
     dispatch(addAssets(toTask(Assets.Common)));
   }, []);
 
-  const [, login] = useAuth();
   const history = useHistory();
 
   const [username, setUsername] = useState("");
@@ -97,9 +96,9 @@ export default function Login() {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!username || !password || !login) return;
+    if (!username || !password) return;
 
-    login({ username, password }).then(() => history.push("/lobby"));
+    dispatch(auth({ username, password })).then(() => history.push("/lobby"));
   };
 
   if (loading) {

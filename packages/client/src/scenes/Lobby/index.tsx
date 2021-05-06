@@ -6,7 +6,6 @@ import { Sprite, Container, Text } from "@inlet/react-pixi";
 import clsx from "clsx";
 
 import {
-  useAuth,
   useUser,
   useMaps,
   useDungeons,
@@ -15,6 +14,7 @@ import {
   selectAssetsByName,
   useAppDispatch,
   addAssets,
+  selectAuthToken,
 } from "system";
 import { useViewport, currency, toTask } from "utils";
 import { Game, UI } from "layers";
@@ -73,9 +73,9 @@ function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
 export default function Lobby() {
   const loading = useAppSelector(selectAssetIsLoading);
   const assets = useAppSelector(selectAssetsByName);
+  const token = useAppSelector(selectAuthToken);
   const dispatch = useAppDispatch();
 
-  const [{ token }] = useAuth();
   const { user, items } = useUser(token);
   const { data: maps } = useMaps(token);
 

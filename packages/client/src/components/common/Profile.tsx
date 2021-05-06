@@ -5,7 +5,7 @@ import Assets from "assets";
 import clsx from "clsx";
 import { range } from "ramda";
 import { User } from "types";
-import { useAuth, useUserUpdate } from "system";
+import { selectAuthToken, useAppSelector, useUserUpdate } from "system";
 
 const AvatarList = {
   1: Assets.Common.Avatar_01,
@@ -124,7 +124,7 @@ type ChangeAvatarProps = {
 };
 function ChangeAvatar({ user, onConfirm }: ChangeAvatarProps) {
   const [current, setCurrent] = useState(() => user.avatar);
-  const [{ token }] = useAuth();
+  const token = useAppSelector(selectAuthToken);
   const mutation = useUserUpdate(token);
 
   return (

@@ -2,11 +2,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import room from "./room";
 import assets from "./assets";
+import auth from "./auth";
 
 export const store = configureStore({
   reducer: {
     room,
     assets,
+    auth,
   },
 });
 

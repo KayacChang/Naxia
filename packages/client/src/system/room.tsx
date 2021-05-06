@@ -1,5 +1,11 @@
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Item, RoomStatus, Boss } from "types";
+import {
+  createAction,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import { bet } from "api";
+import { Item, RoomStatus, Boss, Order } from "types";
 import { assets, toTask, wait } from "utils";
 import { AppDispatch, RootState, store } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
@@ -87,6 +93,16 @@ export const leave = createAsyncThunk("room/leave", async () => {
   ws = undefined;
 });
 
+// export const submitOrder = createAsyncThunk<Order, Order, { state: RootState }>(
+//   "room/submitOrder",
+//   async (order) => {
+
+//     bet();
+
+//     return order;
+//   }
+// );
+
 export interface RoomState {
   isJoin: boolean;
   status: {
@@ -95,6 +111,8 @@ export interface RoomState {
   };
   result?: RoundResult;
   bosses: Boss[];
+
+  order: Order;
 }
 
 const initialState: RoomState = {
@@ -104,12 +122,26 @@ const initialState: RoomState = {
     countdown: 0,
   },
   bosses: [],
+  order: {},
 };
 
-export const roomSlice = createSlice({
+const roomSlice = createSlice({
   name: "room",
   initialState,
-  reducers: {},
+  reducers: {
+    addOrder(state, action: PayloadAction<Order>) {
+      state.order = Object.entries(action.payload).reduce(
+        (order, [name, value]) => ({
+          ...order,
+          [name]: (order[name] || 0) + value,
+        }),
+        state.order
+      );
+    },
+    clearOrder(state) {
+      state.order = {};
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(join.fulfilled, (state) => {
@@ -122,6 +154,7 @@ export const roomSlice = createSlice({
         state.status.current = action.payload;
 
         if (state.status.current === RoomStatus.Change) {
+          state.order = {};
           state.bosses.shift();
         }
       })
@@ -144,5 +177,8 @@ export const selectRoomStatusCurrent = (state: RootState) =>
   state.room.status.current;
 export const selectRoomResult = (state: RootState) => state.room.result;
 export const selectRoomBoss = (state: RootState) => state.room.bosses[0];
+export const selectRoomOrder = (state: RootState) => state.room.order;
 
+const { addOrder, clearOrder } = roomSlice.actions;
+export { addOrder, clearOrder };
 export default roomSlice.reducer;

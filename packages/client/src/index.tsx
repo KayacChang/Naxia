@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "styles/base.css";
 import "styles/index.css";
 import { Switch, Router, Route, PrivateRoute } from "components";
-import { AuthProvider, store } from "system";
+import { store } from "system";
 import Login from "./scenes/Login";
 import Lobby from "./scenes/Lobby";
 import Room from "./scenes/Room";
@@ -43,9 +43,7 @@ render(
   <StrictMode>
     <QueryClientProvider client={client}>
       <Provider store={store}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <App />
       </Provider>
     </QueryClientProvider>
   </StrictMode>,

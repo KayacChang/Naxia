@@ -1,3 +1,5 @@
+type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
+
 export interface Item {
   count: number;
   id: number;
@@ -41,9 +43,16 @@ export interface Condition {
   achieve: boolean;
 }
 
+export type SkillOption =
+  | "banker"
+  | "player"
+  | "tie"
+  | "bank_pair"
+  | "player_pair";
+
 export interface Round {
   id: number;
-  result: "banker" | "player" | "tie" | "bank_pair" | "player_pair";
+  result: SkillOption;
   createdAt: Date;
 }
 
@@ -51,13 +60,8 @@ export interface Skill {
   img: string;
   name: string;
 }
-export interface SkillSet {
-  banker: Skill;
-  player: Skill;
-  tie: Skill;
-  bank_pair: Skill;
-  player_pair: Skill;
-}
+
+export type SkillSet = Record<SkillOption, Skill>;
 
 export interface DungeonInfo extends Dungeon {
   bets: number[];
@@ -76,9 +80,7 @@ export enum RoomStatus {
   Result,
 }
 
-export type Order = {
-  [k in keyof SkillSet]: number;
-};
+export type Order = PartialRecord<SkillOption, number>;
 
 export interface Boss {
   id: number;

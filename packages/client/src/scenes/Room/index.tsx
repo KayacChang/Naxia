@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  useAuth,
   useUser,
   useDungeon,
   useMaps,
@@ -12,6 +11,7 @@ import {
   selectRoomBoss,
   selectAssetIsLoading,
   addAssets,
+  selectAuthToken,
 } from "system";
 import { toTask } from "utils";
 import { Loading } from "components";
@@ -27,9 +27,9 @@ export default function Room() {
   const dispatch = useAppDispatch();
   const isJoin = useAppSelector(selectRoomIsJoin);
   const loading = useAppSelector(selectAssetIsLoading);
+  const token = useAppSelector(selectAuthToken);
   const boss = useAppSelector(selectRoomBoss);
 
-  const [{ token }] = useAuth();
   const { user, items } = useUser(token);
   const { data: maps } = useMaps(token);
   const dungeon = useDungeon(token, maps?.[0].id, 1);

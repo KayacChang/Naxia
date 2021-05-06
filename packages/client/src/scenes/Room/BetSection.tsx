@@ -4,28 +4,23 @@ import Assets from "assets";
 import Bet from "./Bet";
 import Skill from "./Skill";
 import { Order, SkillSet } from "types";
-import { useCallback } from "react";
+import { useState } from "react";
 
 type BetSectionProps = {
   enable: boolean;
   skills: SkillSet;
   order: Order;
-  setOrder: (order: Order) => void;
   bets: number[];
+  onSkillClick: (order: Order) => void;
 };
 export default function BetSection({
   enable,
   skills,
   order,
-  setOrder,
   bets,
+  onSkillClick,
 }: BetSectionProps) {
-  const onSkillClick = useCallback(
-    (skill: keyof SkillSet) => {
-      setOrder({ ...order, [skill]: order[skill] + bets[1] });
-    },
-    [order]
-  );
+  const [active, setActive] = useState(1);
 
   return (
     <div className="relative w-full h-full">
@@ -35,17 +30,11 @@ export default function BetSection({
 
       <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
         <CircleLayout radius={5.2}>
-          <Radian radian={Math.PI * 1.06}>
-            <Bet value={bets[0]} enable={enable} />
-          </Radian>
-
-          <Radian radian={Math.PI * 1.25}>
-            <Bet value={bets[1]} enable={enable} active />
-          </Radian>
-
-          <Radian radian={Math.PI * 1.44}>
-            <Bet value={bets[2]} enable={enable} />
-          </Radian>
+          {bets.map((bet, index) => (
+            <Radian key={bet} radian={Math.PI * (1.06 + 0.2 * index)}>
+              <Bet value={bet} enable={enable} active={index === active} />
+            </Radian>
+          ))}
         </CircleLayout>
       </div>
 
@@ -57,7 +46,7 @@ export default function BetSection({
               normal={Assets.Room.Skill_FlareBlitz_Normal}
               active={Assets.Room.Skill_FlareBlitz_Active}
               value={order.player}
-              onClick={() => onSkillClick("player")}
+              onClick={() => onSkillClick({ player: bets[active] })}
               enable={enable}
             />
           </Radian>
@@ -68,7 +57,7 @@ export default function BetSection({
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
               value={order.banker}
-              onClick={() => onSkillClick("banker")}
+              onClick={() => onSkillClick({ banker: bets[active] })}
               enable={enable}
             />
           </Radian>
@@ -83,7 +72,7 @@ export default function BetSection({
               normal={Assets.Room.Skill_IceBeam_Normal}
               active={Assets.Room.Skill_IceBeam_Active}
               value={order.player_pair}
-              onClick={() => onSkillClick("player_pair")}
+              onClick={() => onSkillClick({ player_pair: bets[active] })}
               enable={enable}
             />
           </Radian>
@@ -94,7 +83,7 @@ export default function BetSection({
               normal={Assets.Room.Skill_Hurricane_Normal}
               active={Assets.Room.Skill_Hurricane_Active}
               value={order.tie}
-              onClick={() => onSkillClick("tie")}
+              onClick={() => onSkillClick({ tie: bets[active] })}
               enable={enable}
             />
           </Radian>
@@ -105,7 +94,7 @@ export default function BetSection({
               normal={Assets.Room.Skill_FlameThrower_Normal}
               active={Assets.Room.Skill_FlameThrower_Active}
               value={order.bank_pair}
-              onClick={() => onSkillClick("bank_pair")}
+              onClick={() => onSkillClick({ bank_pair: bets[active] })}
               enable={enable}
             />
           </Radian>
