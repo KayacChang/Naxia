@@ -73,7 +73,7 @@ export function Navbar() {
               alt={key}
             />
 
-            <span className="absolute bottom-0 font-kai text-sm font-fansy">
+            <span className="absolute bottom-0 font-kai text-md text-fansy font-bold text-shadow-xl">
               {name}
             </span>
           </Link>

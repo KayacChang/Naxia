@@ -92,7 +92,7 @@ export default function Skill({
       <div className="absolute -bottom-1 px-1 flex justify-center">
         <img src={Assets.Room.Skill_Frame} alt="frame image" />
 
-        <span className="text-white text-xxs absolute top-0">{value}</span>
+        <span className="text-xxs absolute top-0 text-fansy">{value}</span>
       </div>
     </button>
   );

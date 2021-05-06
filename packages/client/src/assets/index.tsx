@@ -142,7 +142,6 @@ const Common = {
   Sidebar_Setting: assets("/sidebar/setting.png"),
 
   // Fonts
-  Font_Fansy: assets("/fonts/fansy.fnt"),
   Font_Kai: assets("/fonts/kai.ttc"),
 };
 

@@ -19,6 +19,17 @@
   }
 }
 
+@layer utilities {
+  .text-gradient {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-fansy {
+    @apply text-gradient bg-gradient-to-b from-yellow-100 via-yellow-300 to-yellow-500;
+  }
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap");
 
 * {
@@ -58,11 +69,4 @@ canvas {
   display: flex;
   justify-content: center;
   height: 100vh;
-}
-
-.font-fansy {
-  color: #fcd856;
-  text-shadow: 0px 0px 0 rgb(215, 179, 49), 0px -1px 0 rgb(178, 142, 12),
-    0px -2px 0 rgb(141, 105, 0), 0px -3px 2px rgba(0, 0, 0, 0.72),
-    0px -3px 1px rgba(0, 0, 0, 0.5), 0px 0px 2px rgba(0, 0, 0, 0.2);
 }
