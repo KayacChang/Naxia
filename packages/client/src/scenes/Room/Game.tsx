@@ -15,6 +15,20 @@ import { Texture } from "@pixi/core";
 import { Container as TContainer } from "pixi.js";
 import anime from "animejs";
 
+type FadeProps = {
+  targets: any | any[];
+  alpha: [number, number];
+};
+function fade({ targets, alpha }: FadeProps) {
+  anime({
+    targets,
+    alpha,
+    duration: 500,
+    direction: "alternate",
+    easing: "linear",
+  });
+}
+
 type CountDownProps = {
   x: number;
   y: number;
@@ -37,13 +51,7 @@ function CountDown({ x, y, texture }: CountDownProps) {
         ref={(ref: TContainer | null) => {
           if (!ref) return;
 
-          anime({
-            targets: ref,
-            alpha: [0.5, 1],
-            duration: 500,
-            direction: "alternate",
-            easing: "linear",
-          });
+          fade({ targets: ref, alpha: [0.5, 1] });
         }}
       />
 
@@ -54,13 +62,7 @@ function CountDown({ x, y, texture }: CountDownProps) {
         ref={(ref: TContainer | null) => {
           if (!ref) return;
 
-          anime({
-            targets: ref,
-            alpha: [0.9, 1],
-            duration: 500,
-            direction: "alternate",
-            easing: "linear",
-          });
+          fade({ targets: ref, alpha: [0.9, 1] });
         }}
       />
     </Container>
