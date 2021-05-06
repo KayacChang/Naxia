@@ -1,9 +1,16 @@
 import clsx from "clsx";
 import { UI } from "layers";
 import { ReactNode, useEffect, useState, FormEvent } from "react";
-
-import { useAuth } from "system";
+import { Loading } from "components";
+import {
+  addAssets,
+  selectAssetIsLoading,
+  useAppDispatch,
+  useAppSelector,
+  useAuth,
+} from "system";
 import { useHistory } from "react-router";
+import { toTask } from "utils";
 
 import Assets from "assets";
 
@@ -74,6 +81,13 @@ function Submit({ className, children }: SubmitProps) {
 }
 
 export default function Login() {
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectAssetIsLoading);
+
+  useEffect(() => {
+    dispatch(addAssets(toTask(Assets.Common)));
+  }, []);
+
   const [, login] = useAuth();
   const history = useHistory();
 
@@ -87,6 +101,10 @@ export default function Login() {
 
     login({ username, password }).then(() => history.push("/lobby"));
   };
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
 
   return (
     <UI className="flex flex-col relative text-white font-noto">

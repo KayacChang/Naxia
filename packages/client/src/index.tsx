@@ -21,33 +21,33 @@ const client = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={client}>
-      <Provider store={store}>
-        <AuthProvider>
-          <Router>
-            <Switch>
-              <Route exact path="/">
-                <Login />
-              </Route>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Login />
+        </Route>
 
-              <PrivateRoute path="/lobby">
-                <Lobby />
-              </PrivateRoute>
+        <PrivateRoute path="/lobby">
+          <Lobby />
+        </PrivateRoute>
 
-              <PrivateRoute path="/room">
-                <Room />
-              </PrivateRoute>
-            </Switch>
-          </Router>
-        </AuthProvider>
-      </Provider>
-    </QueryClientProvider>
+        <PrivateRoute path="/room">
+          <Room />
+        </PrivateRoute>
+      </Switch>
+    </Router>
   );
 }
 
 render(
   <StrictMode>
-    <App />
+    <QueryClientProvider client={client}>
+      <Provider store={store}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </Provider>
+    </QueryClientProvider>
   </StrictMode>,
   document.getElementById("app")
 );

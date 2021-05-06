@@ -1,5 +1,4 @@
 import { assets } from "utils";
-import "./kai.ttc";
 
 const Room = {
   // Room
@@ -141,6 +140,10 @@ const Common = {
   // Sidebar
   Sidebar_Announcement: assets("/sidebar/announcement.png"),
   Sidebar_Setting: assets("/sidebar/setting.png"),
+
+  // Fonts
+  Font_Fansy: assets("/fonts/fansy.fnt"),
+  Font_Kai: assets("/fonts/kai.ttc"),
 };
 
 export default {
