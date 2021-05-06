@@ -12,6 +12,7 @@ import { Spine, CustomSpine } from "components";
 import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
 import { Texture } from "@pixi/core";
+import { Container as TContainer } from "pixi.js";
 import anime from "animejs";
 
 type CountDownProps = {
@@ -28,12 +29,39 @@ function CountDown({ x, y, texture }: CountDownProps) {
 
   return (
     <Container x={x} y={y}>
-      <Sprite y={18} scale={0.4} anchor={0.5} texture={texture} />
+      <Sprite
+        y={18}
+        scale={0.4}
+        anchor={0.5}
+        texture={texture}
+        ref={(ref: TContainer | null) => {
+          if (!ref) return;
+
+          anime({
+            targets: ref,
+            alpha: [0.5, 1],
+            duration: 500,
+            direction: "alternate",
+            easing: "linear",
+          });
+        }}
+      />
 
       <BitmapText
         anchor={0.5}
         text={String(countdown)}
         style={{ fontName: "countdown", fontSize: 9 }}
+        ref={(ref: TContainer | null) => {
+          if (!ref) return;
+
+          anime({
+            targets: ref,
+            alpha: [0.9, 1],
+            duration: 500,
+            direction: "alternate",
+            easing: "linear",
+          });
+        }}
       />
     </Container>
   );
@@ -133,13 +161,13 @@ export default function GameView() {
 
       <CountDown
         x={width / 2}
-        y={height / 2}
+        y={height / 2 + 30}
         texture={assets("CountDown_Frame")}
       />
 
       <RoundStatus
         x={width / 2}
-        y={height / 2 + 58}
+        y={height / 6}
         texture={assets("Round_Status_Frame")}
       />
     </>
