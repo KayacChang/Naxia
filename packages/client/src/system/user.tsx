@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUser, getUserItem, login, updateUser } from "api";
-import { AppDispatch, RootState } from "system";
+import { useEffect } from "react";
+import { RootState, useAppDispatch, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { User, Item } from "types";
 
@@ -28,21 +29,13 @@ const item = {
 
 export const user = {
   item,
-  auth: createAsyncThunk<string, AuthRequest, { dispatch: AppDispatch }>(
-    "user/auth",
-    async (req, { dispatch }) => {
-      const { token } = await login(req);
+  auth: createAsyncThunk<string, AuthRequest>("user/auth", async (req) => {
+    const { token } = await login(req);
 
-      localStorage.setItem("TOKEN", token);
+    localStorage.setItem("TOKEN", token);
 
-      queueMicrotask(() => {
-        dispatch(user.sync());
-        dispatch(user.item.sync());
-      });
-
-      return token;
-    }
-  ),
+    return token;
+  }),
   sync: createAsyncThunk<User, void, { state: RootState }>(
     "user/sync",
     (_, { getState }) => {
@@ -96,3 +89,31 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+
+export function useUser() {
+  const dispatch = useAppDispatch();
+  const token = useAppSelector(selectToken);
+  const _user = useAppSelector(selectUser);
+
+  useEffect(() => {
+    if (!token) return;
+
+    dispatch(user.sync());
+  }, [token]);
+
+  return _user;
+}
+
+export function useUserItem() {
+  const dispatch = useAppDispatch();
+  const token = useAppSelector(selectToken);
+  const _items = useAppSelector(selectUserItems);
+
+  useEffect(() => {
+    if (!token) return;
+
+    dispatch(user.item.sync());
+  }, [token]);
+
+  return _items;
+}

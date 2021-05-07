@@ -13,8 +13,8 @@ import {
   selectAssetsByName,
   useAppDispatch,
   addAssets,
-  selectUser,
-  selectUserItems,
+  useUser,
+  useUserItem,
 } from "system";
 import { useViewport, currency, toTask } from "utils";
 import { Game, UI } from "layers";
@@ -75,8 +75,8 @@ export default function Lobby() {
   const assets = useAppSelector(selectAssetsByName);
   const dispatch = useAppDispatch();
 
-  const user = useAppSelector(selectUser);
-  const items = useAppSelector(selectUserItems);
+  const user = useUser();
+  const items = useUserItem();
 
   const { data: maps } = useMaps();
 

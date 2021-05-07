@@ -8,8 +8,8 @@ import {
   selectRoomBoss,
   selectAssetIsLoading,
   addAssets,
-  selectUser,
   room,
+  useUser,
 } from "system";
 import { toTask } from "utils";
 import { Loading } from "components";
@@ -26,7 +26,8 @@ export default function Room() {
   const isJoin = useAppSelector(selectRoomIsJoin);
   const loading = useAppSelector(selectAssetIsLoading);
   const boss = useAppSelector(selectRoomBoss);
-  const user = useAppSelector(selectUser);
+
+  const user = useUser();
 
   const { data: maps } = useMaps();
   const dungeon = useDungeon(maps?.[0].id, 1);
