@@ -14,7 +14,10 @@ export default function RoomStatus({ skills, className }: RoomStatusProps) {
 
       <div className="absolute top-0 h-full w-full px-4">
         <div className="w-full h-full text-white">
-          <h3 className="text-xxs py-1 px-2">線上人數: 2000</h3>
+          <h3 className="text-xxs py-1 px-2 text-fansy space-x-1">
+            <span className="font-noto">線上人數:</span>
+            <span>2000</span>
+          </h3>
 
           <div>
             <div className="flex justify-center space-x-4">
@@ -49,8 +52,8 @@ export default function RoomStatus({ skills, className }: RoomStatusProps) {
             </div>
           </div>
 
-          <h5 className="text-xs pt-2 flex justify-center">
-            <span>累計金額:</span>
+          <h5 className="text-xs pt-1 mt-0.5 flex justify-center text-fansy space-x-1">
+            <span className="font-noto">累計金額:</span>
             <span>39600</span>
           </h5>
         </div>

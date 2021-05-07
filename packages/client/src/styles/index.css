@@ -16,6 +16,11 @@
     .text-shadow-none {
       text-shadow: none;
     }
+
+    .text-stroke {
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+    }
   }
 }
 
@@ -26,7 +31,7 @@
   }
 
   .text-fansy {
-    @apply text-gradient bg-gradient-to-b from-yellow-100 via-yellow-300 to-yellow-500;
+    @apply text-gradient bg-gradient-to-b from-yellow-100 via-yellow-200 to-yellow-400;
   }
 }
 

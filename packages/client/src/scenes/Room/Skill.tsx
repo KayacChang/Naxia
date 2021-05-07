@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Assets from "assets";
 import { ReactNode, useCallback, useState } from "react";
-import { cond, T } from "ramda";
+
 const size_mapping = {
   md: {
     width: "w-14",
@@ -93,7 +93,7 @@ export default function Skill({
         {effects}
 
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-          <span className="text-white text-xs text-shadow">{name}</span>
+          <span className="text-white text-xs text-stroke">{name}</span>
         </div>
       </div>
 
