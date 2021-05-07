@@ -9,7 +9,6 @@ import { useViewport } from "utils";
 import { useEffect, useState } from "react";
 import { CustomSpine, Spine } from "components";
 import { RoomStatus } from "types";
-import { Container } from "@inlet/react-pixi";
 import { Game } from "layers";
 
 export default function Effect() {
@@ -56,7 +55,7 @@ export default function Effect() {
     }
   }, [roundResult, status]);
 
-  if (!animation) {
+  if (status !== RoomStatus.Result || !animation) {
     return <></>;
   }
 

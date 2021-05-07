@@ -28,16 +28,6 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
   const status = useAppSelector(selectRoomStatusCurrent);
   const order = useAppSelector(selectRoomOrder);
 
-  useEffect(() => {
-    if (status === TRoomStatus.Start) {
-      // setOrder(toOrder(info.skills));
-    }
-
-    if (status === TRoomStatus.Result) {
-      // setSubmit(false);
-    }
-  }, [status]);
-
   const enable = status === TRoomStatus.Start;
 
   return (
@@ -76,6 +66,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
                 type="img"
                 img={Assets.Room.Control_Confirm_Normal}
                 className="relative flex justify-end items-center"
+                onClick={() => dispatch(room.order.submit(order))}
               >
                 <div className="absolute px-4">{"確認"}</div>
               </Button>
@@ -93,6 +84,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
                 type="img"
                 img={Assets.Room.Control_Redo_Normal}
                 className="relative flex justify-end items-center"
+                onClick={() => dispatch(room.order.redo())}
               >
                 <div className="absolute px-4">{"重複"}</div>
               </Button>

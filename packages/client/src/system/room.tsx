@@ -96,6 +96,7 @@ const order = {
   ),
   add: createAction<Order>("room/order/add"),
   clear: createAction("room/order/clear"),
+  redo: createAction("room/order/redo"),
 };
 
 export const room = {
@@ -199,6 +200,9 @@ const roomSlice = createSlice({
       })
       .addCase(room.order.clear, (state) => {
         state.order = {};
+      })
+      .addCase(room.order.redo, (state) => {
+        state.order = state.submited || {};
       })
       .addCase(room.order.submit.fulfilled, (state, action) => {
         state.submited = action.payload;
