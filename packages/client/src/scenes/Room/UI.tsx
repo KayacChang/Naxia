@@ -8,11 +8,11 @@ import BetSection from "./BetSection";
 import Assets from "assets";
 import { Round, User, DungeonInfo, RoomStatus as TRoomStatus } from "types";
 import {
-  selectRoomStatusCurrent,
   useAppDispatch,
+  room,
   useAppSelector,
   selectRoomOrder,
-  room,
+  selectRoomStatusCurrent,
   selectRoomHasSubmitted,
 } from "system";
 import clsx from "clsx";
@@ -25,11 +25,9 @@ type GameUIProps = {
 export default function GameUI({ user, rounds, info }: GameUIProps) {
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const status = useAppSelector(selectRoomStatusCurrent);
   const order = useAppSelector(selectRoomOrder);
+  const status = useAppSelector(selectRoomStatusCurrent);
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
-
-  const enable = status === TRoomStatus.Start && !hasSubmitted;
 
   return (
     <UI className="flex flex-col text-white">
@@ -58,9 +56,8 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
             <div
               className={clsx(
                 "space-y-2 flex flex-col font-noto w-24",
-                enable
-                  ? "pointer-events-auto"
-                  : "pointer-events-none opacity-50"
+                "transition-opacity duration-500 opacity-0",
+                status === TRoomStatus.Start && !hasSubmitted && "opacity-100"
               )}
             >
               <Button
@@ -94,13 +91,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
             <Sidebar className="w-12" />
           </div>
 
-          <BetSection
-            enable={enable}
-            skills={info.skills}
-            bets={info.bets}
-            order={order}
-            onSkillClick={(order) => dispatch(room.order.add(order))}
-          />
+          <BetSection skills={info.skills} bets={info.bets} />
         </div>
       </div>
     </UI>

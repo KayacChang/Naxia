@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Assets from "assets";
 import { ReactNode, useCallback, useState } from "react";
-
+import { cond, T } from "ramda";
 const size_mapping = {
   md: {
     width: "w-14",
@@ -51,8 +51,8 @@ type SkillProps = {
   name: string;
   value?: number;
   size?: keyof typeof size_mapping;
-  enable?: boolean;
   onClick?: () => void;
+  enable?: boolean;
 };
 export default function Skill({
   normal,
@@ -70,17 +70,25 @@ export default function Skill({
   return (
     <button
       className={clsx(
-        "relative",
+        "relative transition-opacity duration-500",
         size_mapping[size].width,
-        enable || "opacity-50",
+        enable || "opacity-0",
         onClick && enable ? "pointer-events-auto" : "pointer-events-none"
       )}
       onClick={onClick}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
     >
-      <div className="relative">
-        <img src={normal} alt="skill normal image" />
+      <div className="relative flex justify-center items-center">
+        <img src={normal} alt="skill image" />
+
+        {Boolean(onClick && value > 0) && (
+          <img
+            src={active}
+            alt="skill image"
+            className="absolute animate-pulse"
+          />
+        )}
 
         {effects}
 
