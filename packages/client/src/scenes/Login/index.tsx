@@ -86,7 +86,7 @@ export default function Login() {
 
   useEffect(() => {
     dispatch(addAssets(toTask(Assets.Common)));
-  }, []);
+  }, [dispatch]);
 
   const history = useHistory();
 

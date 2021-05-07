@@ -27,7 +27,7 @@ function usePressEffect(img: string) {
         key={performance.now()}
         className="absolute top-0 animate-ping"
         src={img}
-        alt="skill active image"
+        alt="skill ping effect"
         ref={(ref) => {
           if (!ref) return;
 
@@ -44,6 +44,8 @@ function usePressEffect(img: string) {
 
   return { onPointerDown, onPointerUp, effects };
 }
+
+// type State = 'normal' | 'active' | 'hidden' | ''
 
 type SkillProps = {
   normal: string;
@@ -80,12 +82,12 @@ export default function Skill({
       onPointerUp={onPointerUp}
     >
       <div className="relative flex justify-center items-center">
-        <img src={normal} alt="skill image" />
+        <img src={normal} alt="skill" />
 
         {Boolean(onClick && value > 0) && (
           <img
             src={active}
-            alt="skill image"
+            alt="skill pulse effect"
             className="absolute animate-pulse"
           />
         )}
@@ -98,7 +100,7 @@ export default function Skill({
       </div>
 
       <div className="absolute -bottom-1 px-1 flex justify-center">
-        <img src={Assets.Room.Skill_Frame} alt="frame image" />
+        <img src={Assets.Room.Skill_Frame} alt="frame" />
 
         <span className="text-xxs absolute top-0 text-fansy">{value}</span>
       </div>

@@ -122,7 +122,7 @@ const results = [
     ],
   },
   {
-    result: "win",
+    result: "lose",
     info: {
       game_round: "1620099597851",
       banker: false,
@@ -156,7 +156,7 @@ const results = [
     ],
   },
   {
-    result: "win",
+    result: "lose",
     info: {
       game_round: "1620099597851",
       banker: false,
@@ -190,7 +190,7 @@ const results = [
     ],
   },
   {
-    result: "win",
+    result: "lose",
     info: {
       game_round: "1620099597851",
       banker: false,
@@ -223,33 +223,33 @@ const results = [
       },
     ],
   },
-  // {
-  //   result: "lose",
-  //   info: {
-  //     game_round: "1620099597851",
-  //     banker: false,
-  //     player: true,
-  //     tie: false,
-  //     bank_pair: false,
-  //     player_pair: false,
-  //   },
-  //   items: [
-  //     {
-  //       id: 10,
-  //       name: "金屬塊",
-  //       img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
-  //       quality: 1,
-  //       count: 1,
-  //     },
-  //     {
-  //       id: 11,
-  //       name: "樹枝",
-  //       img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
-  //       quality: 1,
-  //       count: 1,
-  //     },
-  //   ],
-  // },
+  {
+    result: "lose",
+    info: {
+      game_round: "1620099597851",
+      banker: false,
+      player: true,
+      tie: false,
+      bank_pair: false,
+      player_pair: false,
+    },
+    items: [
+      {
+        id: 10,
+        name: "金屬塊",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+      {
+        id: 11,
+        name: "樹枝",
+        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        quality: 1,
+        count: 1,
+      },
+    ],
+  },
 ];
 
 const bosses = [

@@ -152,9 +152,11 @@ const Common = {
   Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
 };
 
-export default {
+const Assets = {
   Common,
   Login,
   Lobby,
   Room,
 };
+
+export default Assets;

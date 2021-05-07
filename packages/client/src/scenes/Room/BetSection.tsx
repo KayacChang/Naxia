@@ -58,7 +58,7 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
 
       return false;
     },
-    [status, hasSubmitted]
+    [status, hasSubmitted, order]
   );
 
   return (
@@ -86,12 +86,12 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
 
           <Radian radian={Math.PI * 1.33}>
             <Skill
-              name={skills.banker.name}
+              name={"MISS"}
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
               value={order.banker}
               onClick={() => dispatch(room.order.add({ banker: bet }))}
-              enable={isEnable("banker")}
+              // enable={isEnable("banker")}
             />
           </Radian>
         </CircleLayout>

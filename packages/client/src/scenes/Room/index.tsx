@@ -41,7 +41,7 @@ export default function Room() {
     dispatch(addAssets(toTask(Assets.Room)));
 
     return () => void dispatch(room.leave());
-  }, [dungeon?.info.room]);
+  }, [dungeon?.info.room, dispatch]);
 
   useEffect(() => {
     if (backgroundLoad || loading) return;
