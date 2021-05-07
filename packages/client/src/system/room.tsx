@@ -175,8 +175,11 @@ const roomSlice = createSlice({
       .addCase(room.game.status, (state, action) => {
         state.status.current = action.payload;
 
-        if (state.status.current === RoomStatus.Change) {
+        if (state.status.current === RoomStatus.Stop) {
           state.order = {};
+        }
+
+        if (state.status.current === RoomStatus.Change) {
           state.bosses.shift();
         }
       })

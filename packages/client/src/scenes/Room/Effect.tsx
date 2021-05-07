@@ -55,7 +55,7 @@ export default function Effect() {
     }
   }, [roundResult, status]);
 
-  if (status !== RoomStatus.Result || !animation) {
+  if (!animation) {
     return <></>;
   }
 

@@ -35,13 +35,13 @@ export default function Room() {
   const [backgroundLoad, setBackgroundLoadEnable] = useState(false);
 
   useEffect(() => {
-    if (!dungeon) return;
+    if (!dungeon?.info.room) return;
 
     dispatch(room.join(dungeon.info.room));
     dispatch(addAssets(toTask(Assets.Room)));
 
     return () => void dispatch(room.leave());
-  }, []);
+  }, [dungeon?.info.room]);
 
   useEffect(() => {
     if (backgroundLoad || loading) return;
