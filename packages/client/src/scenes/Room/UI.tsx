@@ -7,13 +7,13 @@ import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
 import Assets from "assets";
 import { Round, User, DungeonInfo, RoomStatus as TRoomStatus } from "types";
-import { useEffect } from "react";
 import {
   selectRoomStatusCurrent,
   useAppDispatch,
   useAppSelector,
   selectRoomOrder,
   room,
+  selectRoomHasSubmitted,
 } from "system";
 import clsx from "clsx";
 
@@ -27,8 +27,9 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
   const dispatch = useAppDispatch();
   const status = useAppSelector(selectRoomStatusCurrent);
   const order = useAppSelector(selectRoomOrder);
+  const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
 
-  const enable = status === TRoomStatus.Start;
+  const enable = status === TRoomStatus.Start && !hasSubmitted;
 
   return (
     <UI className="flex flex-col text-white">

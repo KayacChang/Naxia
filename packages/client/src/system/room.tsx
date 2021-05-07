@@ -35,6 +35,8 @@ export const selectRoomStatusCurrent = (state: RootState) =>
 export const selectRoomResult = (state: RootState) => state.room.result;
 export const selectRoomBoss = (state: RootState) => state.room.bosses[0];
 export const selectRoomOrder = (state: RootState) => state.room.order;
+export const selectRoomHasSubmitted = (state: RootState) =>
+  state.room.hasSubmitted;
 
 let ws: WebSocket | undefined;
 
@@ -145,7 +147,8 @@ export interface RoomState {
   result?: RoundResult;
   bosses: Boss[];
 
-  submited?: Order;
+  hasSubmitted: boolean;
+  history: Order[];
   order: Order;
 }
 
@@ -156,6 +159,9 @@ const initialState: RoomState = {
     countdown: 0,
   },
   bosses: [],
+
+  hasSubmitted: false,
+  history: [],
   order: {},
 };
 
@@ -175,12 +181,14 @@ const roomSlice = createSlice({
       .addCase(room.game.status, (state, action) => {
         state.status.current = action.payload;
 
-        if (state.status.current === RoomStatus.Stop) {
+        if (state.status.current === RoomStatus.Stop && !state.hasSubmitted) {
           state.order = {};
         }
 
         if (state.status.current === RoomStatus.Change) {
           state.bosses.shift();
+          state.hasSubmitted = false;
+          state.order = {};
         }
       })
       .addCase(room.game.countdown, (state, action) => {
@@ -205,11 +213,12 @@ const roomSlice = createSlice({
         state.order = {};
       })
       .addCase(room.order.redo, (state) => {
-        state.order = state.submited || {};
+        state.order = state.history[state.history.length - 1];
       })
       .addCase(room.order.submit.fulfilled, (state, action) => {
-        state.submited = action.payload;
-        state.order = {};
+        state.hasSubmitted = true;
+
+        state.history.push(action.payload);
       });
   },
 });
