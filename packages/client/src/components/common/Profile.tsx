@@ -5,7 +5,7 @@ import Assets from "assets";
 import clsx from "clsx";
 import { range } from "ramda";
 import { User } from "types";
-import { selectAuthToken, useAppSelector, useUserUpdate } from "system";
+import { useAppDispatch, user as UserSystem } from "system";
 
 const AvatarList = {
   1: Assets.Common.Avatar_01,
@@ -124,14 +124,13 @@ type ChangeAvatarProps = {
 };
 function ChangeAvatar({ user, onConfirm }: ChangeAvatarProps) {
   const [current, setCurrent] = useState(() => user.avatar);
-  const token = useAppSelector(selectAuthToken);
-  const mutation = useUserUpdate(token);
+  const dispatch = useAppDispatch();
 
   return (
     <SystemModal
       button="確認"
       onConfirm={() => {
-        mutation.mutate({ ...user, avatar: current });
+        dispatch(UserSystem.update({ ...user, avatar: current }));
 
         onConfirm();
       }}

@@ -4,18 +4,16 @@ import { Button, Road } from "components";
 import Assets from "assets";
 
 type DungeonDetailProps = {
-  token: string;
   mapID: number;
   dungeonID: number;
   onCancel?: () => void;
 };
 export function DungeonDetail({
-  token,
   mapID,
   dungeonID,
   onCancel,
 }: DungeonDetailProps) {
-  const dungeon = useDungeon(token, mapID, dungeonID);
+  const dungeon = useDungeon(mapID, dungeonID);
   const history = useHistory();
 
   if (!dungeon) return <></>;

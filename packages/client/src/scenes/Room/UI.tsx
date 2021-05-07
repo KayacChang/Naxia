@@ -10,11 +10,10 @@ import { Round, User, DungeonInfo, RoomStatus as TRoomStatus } from "types";
 import { useEffect } from "react";
 import {
   selectRoomStatusCurrent,
-  addOrder,
   useAppDispatch,
   useAppSelector,
   selectRoomOrder,
-  clearOrder,
+  room,
 } from "system";
 import clsx from "clsx";
 
@@ -85,7 +84,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
                 type="img"
                 img={Assets.Room.Control_Cancel_Normal}
                 className="relative flex justify-end items-center"
-                onClick={() => dispatch(clearOrder())}
+                onClick={() => dispatch(room.order.clear())}
               >
                 <div className="absolute px-4">{"歸零"}</div>
               </Button>
@@ -107,7 +106,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
             skills={info.skills}
             bets={info.bets}
             order={order}
-            onSkillClick={(order) => dispatch(addOrder(order))}
+            onSkillClick={(order) => dispatch(room.order.add(order))}
           />
         </div>
       </div>

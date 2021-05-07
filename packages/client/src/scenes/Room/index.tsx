@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import {
-  useUser,
   useDungeon,
   useMaps,
-  join,
   useAppDispatch,
   selectRoomIsJoin,
   useAppSelector,
-  leave,
   selectRoomBoss,
   selectAssetIsLoading,
   addAssets,
-  selectAuthToken,
+  selectUser,
+  room,
 } from "system";
 import { toTask } from "utils";
 import { Loading } from "components";
@@ -27,29 +25,28 @@ export default function Room() {
   const dispatch = useAppDispatch();
   const isJoin = useAppSelector(selectRoomIsJoin);
   const loading = useAppSelector(selectAssetIsLoading);
-  const token = useAppSelector(selectAuthToken);
   const boss = useAppSelector(selectRoomBoss);
+  const user = useAppSelector(selectUser);
 
-  const { user, items } = useUser(token);
-  const { data: maps } = useMaps(token);
-  const dungeon = useDungeon(token, maps?.[0].id, 1);
+  const { data: maps } = useMaps();
+  const dungeon = useDungeon(maps?.[0].id, 1);
 
   const [backgroundLoad, setBackgroundLoadEnable] = useState(false);
 
   useEffect(() => {
-    dispatch(join());
+    if (!dungeon) return;
+
+    dispatch(room.join(dungeon.info.room));
     dispatch(addAssets(toTask(Assets.Room)));
 
-    return () => void dispatch(leave());
+    return () => void dispatch(room.leave());
   }, []);
 
   useEffect(() => {
     if (backgroundLoad || loading) return;
 
-    setBackgroundLoadEnable(
-      Boolean(token && user && items && dungeon && isJoin && boss)
-    );
-  }, [backgroundLoad, loading, token, user, items, dungeon, isJoin, boss]);
+    setBackgroundLoadEnable(Boolean(user && dungeon && isJoin && boss));
+  }, [backgroundLoad, loading, user, dungeon, isJoin, boss]);
 
   if (!backgroundLoad) {
     return <Loading></Loading>;
@@ -61,7 +58,7 @@ export default function Room() {
         <GameView />
       </Game>
 
-      <GameUI user={user} info={dungeon!.info} rounds={dungeon!.rounds} />
+      <GameUI user={user!} info={dungeon!.info} rounds={dungeon!.rounds} />
 
       <GameEffect />
 

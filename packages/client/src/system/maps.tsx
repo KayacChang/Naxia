@@ -6,25 +6,35 @@ import {
   getRoundsByDungeonID,
 } from "api";
 import { useQueries, useQuery } from "react-query";
+import { useAppSelector } from "system";
+import invariant from "tiny-invariant";
 import { Condition, DungeonInfo, Round } from "types";
+import { selectToken } from "./user";
 
-export function useMaps(token?: string) {
-  return useQuery(["maps"], () => getAllMaps(token!), {
-    enabled: Boolean(token),
-  });
+export function useMaps() {
+  const token = useAppSelector(selectToken);
+  invariant(token, "Unauthorized");
+
+  return useQuery(["maps"], () => getAllMaps(token));
 }
 
-export function useDungeons(token?: string, mapID?: number) {
+export function useDungeons(mapID?: number) {
+  const token = useAppSelector(selectToken);
+  invariant(token, "Unauthorized");
+
   return useQuery(
     ["dungeons", mapID],
-    () => getAllDungeonsInMap(token!, mapID!),
+    () => getAllDungeonsInMap(token, mapID!),
     {
       enabled: Boolean(token && mapID),
     }
   );
 }
 
-export function useDungeon(token?: string, mapID?: number, dungeonID?: number) {
+export function useDungeon(mapID?: number, dungeonID?: number) {
+  const token = useAppSelector(selectToken);
+  invariant(token, "Unauthorized");
+
   const enabled = Boolean(token && mapID && dungeonID);
 
   const results = useQueries([

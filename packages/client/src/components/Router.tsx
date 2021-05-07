@@ -7,7 +7,7 @@ import {
   Redirect,
 } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
-import { selectAuthToken, useAppSelector } from "system";
+import { selectToken, useAppSelector } from "system";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -23,7 +23,7 @@ export function Router({ children }: RouterProps) {
 }
 
 export function PrivateRoute({ children, ...rest }: RouteProps) {
-  const token = useAppSelector(selectAuthToken);
+  const token = useAppSelector(selectToken);
 
   return (
     <Route

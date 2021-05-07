@@ -6,7 +6,6 @@ import { Sprite, Container, Text } from "@inlet/react-pixi";
 import clsx from "clsx";
 
 import {
-  useUser,
   useMaps,
   useDungeons,
   useAppSelector,
@@ -14,7 +13,8 @@ import {
   selectAssetsByName,
   useAppDispatch,
   addAssets,
-  selectAuthToken,
+  selectUser,
+  selectUserItems,
 } from "system";
 import { useViewport, currency, toTask } from "utils";
 import { Game, UI } from "layers";
@@ -73,15 +73,16 @@ function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
 export default function Lobby() {
   const loading = useAppSelector(selectAssetIsLoading);
   const assets = useAppSelector(selectAssetsByName);
-  const token = useAppSelector(selectAuthToken);
   const dispatch = useAppDispatch();
 
-  const { user, items } = useUser(token);
-  const { data: maps } = useMaps(token);
+  const user = useAppSelector(selectUser);
+  const items = useAppSelector(selectUserItems);
+
+  const { data: maps } = useMaps();
 
   const map = maps?.[0];
 
-  const { data: dungeons } = useDungeons(token, map?.id);
+  const { data: dungeons } = useDungeons(map?.id);
 
   const { width, height } = useViewport();
   const [dungeonID, setDungeonID] = useState<number | undefined>(undefined);
@@ -91,7 +92,7 @@ export default function Lobby() {
     dispatch(addAssets(toTask(Assets.Lobby)));
   }, []);
 
-  if (loading || !token || !user || !items || !map || !dungeons) {
+  if (loading || !user || !items || !map || !dungeons) {
     return <Loading></Loading>;
   }
 
@@ -132,7 +133,6 @@ export default function Lobby() {
               {dungeonID && (
                 <Modal className="z-20">
                   <DungeonDetail
-                    token={token}
                     mapID={map.id}
                     dungeonID={dungeonID}
                     onCancel={() => setDungeonID(undefined)}

@@ -1,14 +1,11 @@
-import {
-  createAction,
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bet } from "api";
+import invariant from "tiny-invariant";
 import { Item, RoomStatus, Boss, Order } from "types";
 import { assets, toTask, wait } from "utils";
 import { AppDispatch, RootState, store } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
+import { selectToken, selectUser } from "./user";
 
 type RoundResult = {
   items: Item[];
@@ -29,81 +26,116 @@ type RoomResponse =
   | { event: "round_result"; data: RoundResult }
   | { event: "next_round_monster"; data: Boss };
 
-let ws: WebSocket | undefined;
+export const selectRoom = (state: RootState) => state.room;
+export const selectRoomID = (state: RootState) => state.room.room_id;
+export const selectRoomIsJoin = (state: RootState) => state.room.isJoin;
+export const selectRoomStatus = (state: RootState) => state.room.status;
+export const selectRoomStatusCurrent = (state: RootState) =>
+  state.room.status.current;
+export const selectRoomResult = (state: RootState) => state.room.result;
+export const selectRoomBoss = (state: RootState) => state.room.bosses[0];
+export const selectRoomOrder = (state: RootState) => state.room.order;
 
-const status = createAction<RoomStatus>("room/status");
-const countdown = createAction<number>("room/countdown");
-const result = createAction<RoundResult>("room/result");
+let ws: WebSocket | undefined;
 
 const bosses = [
   assets("/boss/guaiwu1/guaiwu1.json"),
   assets("/boss/guaiwu2/guaiwu2.json"),
 ];
 
-const boss = createAsyncThunk<
-  Boss,
-  Boss,
-  { state: RootState; dispatch: AppDispatch }
->("room/boss", async (boss, { getState, dispatch }) => {
-  const old = selectRoomBoss(getState());
+const game = {
+  status: createAction<RoomStatus>("room/game/status"),
+  countdown: createAction<number>("room/game/countdown"),
+  result: createAction<RoundResult>("room/game/result"),
+  boss: createAsyncThunk<
+    Boss,
+    Boss,
+    { state: RootState; dispatch: AppDispatch }
+  >("room/game/boss", async (boss, { getState, dispatch }) => {
+    const old = selectRoomBoss(getState());
 
-  if (old && old.id === boss.id) {
+    if (old && old.id === boss.id) {
+      return boss;
+    }
+
+    while (selectAssetIsLoading(getState())) {
+      await wait(100);
+    }
+
+    await dispatch(addAssets(toTask({ [boss.id]: bosses[boss.id] })));
+
     return boss;
-  }
+  }),
+};
 
-  while (selectAssetIsLoading(getState())) {
-    await wait(100);
-  }
+const order = {
+  submit: createAsyncThunk<Order, Order, { state: RootState }>(
+    "room/order/submit",
+    async (order, { getState }) => {
+      const token = selectToken(getState());
+      const user = selectUser(getState());
+      const room_id = selectRoomID(getState());
 
-  await dispatch(addAssets(toTask({ [boss.id]: bosses[boss.id] })));
+      invariant(token && user && room_id, "Unauthorized");
 
-  return boss;
-});
+      const options = Object.entries(order)
+        .filter(([, value]) => Boolean(value))
+        .map(([name, value]) => ({
+          cmd: name,
+          val: value || 0,
+        }));
 
-export const join = createAsyncThunk("room/join", async () => {
-  ws = new WebSocket(process.env.REACT_APP_WS || "");
+      await bet(token, {
+        room_id,
+        uid: user.uid,
+        options,
+      });
 
-  ws.addEventListener("message", (event: MessageEvent) => {
-    const data = JSON.parse(event.data) as RoomResponse;
-
-    if (data.event === "room_status") {
-      store.dispatch(status(data.data.status));
+      return order;
     }
+  ),
+  add: createAction<Order>("room/order/add"),
+  clear: createAction("room/order/clear"),
+};
 
-    if (data.event === "next_status_countdown") {
-      store.dispatch(countdown(data.timer));
-    }
+export const room = {
+  game,
+  order,
+  join: createAsyncThunk<string, string>("room/join", (roomID) => {
+    ws = new WebSocket(process.env.REACT_APP_WS || "");
 
-    if (data.event === "round_result") {
-      store.dispatch(result(data.data));
-    }
+    ws.addEventListener("message", (event: MessageEvent) => {
+      const data = JSON.parse(event.data) as RoomResponse;
 
-    if (data.event === "next_round_monster") {
-      store.dispatch(boss(data.data));
-    }
-  });
+      if (data.event === "room_status") {
+        store.dispatch(game.status(data.data.status));
+      }
 
-  return new Promise<void>((resolve) => {
-    ws?.addEventListener("open", () => resolve());
-  });
-});
+      if (data.event === "next_status_countdown") {
+        store.dispatch(game.countdown(data.timer));
+      }
 
-export const leave = createAsyncThunk("room/leave", async () => {
-  ws?.close();
-  ws = undefined;
-});
+      if (data.event === "round_result") {
+        store.dispatch(game.result(data.data));
+      }
 
-// export const submitOrder = createAsyncThunk<Order, Order, { state: RootState }>(
-//   "room/submitOrder",
-//   async (order) => {
+      if (data.event === "next_round_monster") {
+        store.dispatch(game.boss(data.data));
+      }
+    });
 
-//     bet();
-
-//     return order;
-//   }
-// );
+    return new Promise((resolve) => {
+      ws?.addEventListener("open", () => resolve(roomID));
+    });
+  }),
+  leave: createAsyncThunk("room/leave", async () => {
+    ws?.close();
+    ws = undefined;
+  }),
+};
 
 export interface RoomState {
+  room_id?: string;
   isJoin: boolean;
   status: {
     current: RoomStatus;
@@ -112,6 +144,7 @@ export interface RoomState {
   result?: RoundResult;
   bosses: Boss[];
 
+  submited?: Order;
   order: Order;
 }
 
@@ -128,29 +161,17 @@ const initialState: RoomState = {
 const roomSlice = createSlice({
   name: "room",
   initialState,
-  reducers: {
-    addOrder(state, action: PayloadAction<Order>) {
-      state.order = Object.entries(action.payload).reduce(
-        (order, [name, value]) => ({
-          ...order,
-          [name]: (order[name] || 0) + value,
-        }),
-        state.order
-      );
-    },
-    clearOrder(state) {
-      state.order = {};
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(join.fulfilled, (state) => {
+      .addCase(room.join.fulfilled, (state, action) => {
+        state.room_id = action.payload;
         state.isJoin = true;
       })
-      .addCase(leave.fulfilled, (state) => {
+      .addCase(room.leave.fulfilled, (state) => {
         state.isJoin = false;
       })
-      .addCase(status, (state, action) => {
+      .addCase(room.game.status, (state, action) => {
         state.status.current = action.payload;
 
         if (state.status.current === RoomStatus.Change) {
@@ -158,27 +179,32 @@ const roomSlice = createSlice({
           state.bosses.shift();
         }
       })
-      .addCase(countdown, (state, action) => {
+      .addCase(room.game.countdown, (state, action) => {
         state.status.countdown = action.payload;
       })
-      .addCase(result, (state, action) => {
+      .addCase(room.game.result, (state, action) => {
         state.result = action.payload;
       })
-      .addCase(boss.fulfilled, (state, action) => {
+      .addCase(room.game.boss.fulfilled, (state, action) => {
         state.bosses.push(action.payload);
+      })
+      .addCase(room.order.add, (state, action) => {
+        state.order = Object.entries(action.payload).reduce(
+          (order, [name, value]) => ({
+            ...order,
+            [name]: (order[name] || 0) + value,
+          }),
+          state.order
+        );
+      })
+      .addCase(room.order.clear, (state) => {
+        state.order = {};
+      })
+      .addCase(room.order.submit.fulfilled, (state, action) => {
+        state.submited = action.payload;
+        state.order = {};
       });
   },
 });
 
-export const selectRoom = (state: RootState) => state.room;
-export const selectRoomIsJoin = (state: RootState) => state.room.isJoin;
-export const selectRoomStatus = (state: RootState) => state.room.status;
-export const selectRoomStatusCurrent = (state: RootState) =>
-  state.room.status.current;
-export const selectRoomResult = (state: RootState) => state.room.result;
-export const selectRoomBoss = (state: RootState) => state.room.bosses[0];
-export const selectRoomOrder = (state: RootState) => state.room.order;
-
-const { addOrder, clearOrder } = roomSlice.actions;
-export { addOrder, clearOrder };
 export default roomSlice.reducer;

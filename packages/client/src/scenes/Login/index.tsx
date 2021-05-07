@@ -4,10 +4,10 @@ import { ReactNode, useEffect, useState, FormEvent } from "react";
 import { Loading } from "components";
 import {
   addAssets,
-  auth,
   selectAssetIsLoading,
   useAppDispatch,
   useAppSelector,
+  user,
 } from "system";
 import { useHistory } from "react-router";
 import { toTask } from "utils";
@@ -98,7 +98,9 @@ export default function Login() {
 
     if (!username || !password) return;
 
-    dispatch(auth({ username, password })).then(() => history.push("/lobby"));
+    dispatch(user.auth({ username, password })).then(() =>
+      history.push("/lobby")
+    );
   };
 
   if (loading) {
