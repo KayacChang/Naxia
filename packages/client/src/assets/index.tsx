@@ -143,6 +143,13 @@ const Common = {
 
   // Fonts
   Font_Kai: assets("/fonts/kai.ttc"),
+
+  Setting_Check: assets("/sidebar/setting/check.png"),
+  Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
+  Setting_Reset_Button: assets("/sidebar/setting/reset_button.png"),
+  Setting_Volume_Bar: assets("/sidebar/setting/volume_bar.png"),
+  Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),
+  Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
 };
 
 export default {
