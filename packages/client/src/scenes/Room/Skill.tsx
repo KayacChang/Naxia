@@ -1,6 +1,13 @@
 import clsx from "clsx";
 import Assets from "assets";
 import { ReactNode, useCallback, useState } from "react";
+import {
+  selectRoomHasSubmitted,
+  selectRoomResult,
+  selectRoomStatusCurrent,
+  useAppSelector,
+} from "system";
+import { RoomStatus } from "types";
 
 const size_mapping = {
   md: {
@@ -45,8 +52,6 @@ function usePressEffect(img: string) {
   return { onPointerDown, onPointerUp, effects };
 }
 
-// type State = 'normal' | 'active' | 'hidden' | ''
-
 type SkillProps = {
   normal: string;
   active?: string;
@@ -54,7 +59,6 @@ type SkillProps = {
   value?: number;
   size?: keyof typeof size_mapping;
   onClick?: () => void;
-  enable?: boolean;
 };
 export default function Skill({
   normal,
@@ -62,44 +66,90 @@ export default function Skill({
   name,
   value = 0,
   size = "md",
-  enable = true,
   onClick,
 }: SkillProps) {
   const { onPointerDown, onPointerUp, effects } = usePressEffect(
     active || normal
   );
 
+  const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
+  const status = useAppSelector(selectRoomStatusCurrent);
+  const result = useAppSelector(selectRoomResult);
+
+  const state = (() => {
+    if (!onClick) return "normal";
+
+    if (hasSubmitted) {
+      if (
+        value > 0 &&
+        status === RoomStatus.Result &&
+        result?.result === "lose"
+      ) {
+        return "failed";
+      }
+
+      return value > 0 ? "active" : "hidden";
+    }
+
+    if (status === RoomStatus.Start) {
+      return value > 0 ? "active" : "normal";
+    }
+
+    return "hidden";
+  })();
+
   return (
     <button
       className={clsx(
         "relative transition-opacity duration-500",
         size_mapping[size].width,
-        enable || "opacity-0",
-        onClick && enable ? "pointer-events-auto" : "pointer-events-none"
+        state === "hidden" && "opacity-0",
+        onClick ? "pointer-events-auto" : "pointer-events-none"
       )}
       onClick={onClick}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
     >
       <div className="relative flex justify-center items-center">
-        <img src={normal} alt="skill" />
+        <img
+          className={clsx(state === "failed" && "")}
+          src={normal}
+          alt="skill"
+        />
 
-        {Boolean(onClick && value > 0) && (
+        {active && (
           <img
             src={active}
-            alt="skill pulse effect"
-            className="absolute animate-pulse"
+            alt="skill effect"
+            className={clsx(
+              "absolute",
+              state === "normal" && "hidden",
+              state === "active" && "animate-pulse",
+              state === "failed" && "filter grayscale"
+            )}
           />
         )}
 
         {effects}
 
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-          <span className="text-white text-xs text-stroke">{name}</span>
+          <span
+            className={clsx(
+              "text-xs text-stroke",
+              state === "failed" ? "text-red-500" : "text-white"
+            )}
+          >
+            {state === "failed" ? "MISS" : name}
+          </span>
         </div>
       </div>
 
-      <div className="absolute -bottom-1 px-1 flex justify-center">
+      <div
+        className={clsx(
+          "absolute -bottom-1 px-1 flex justify-center",
+          state === "failed" && "filter grayscale"
+        )}
+      >
         <img src={Assets.Room.Skill_Frame} alt="frame" />
 
         <span className="text-xxs absolute top-0 text-fansy">{value}</span>

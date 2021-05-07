@@ -3,16 +3,9 @@ import Assets from "assets";
 
 import Bet from "./Bet";
 import Skill from "./Skill";
-import { RoomStatus, SkillOption, SkillSet } from "types";
-import { useCallback, useState } from "react";
-import {
-  useAppDispatch,
-  room,
-  useAppSelector,
-  selectRoomOrder,
-  selectRoomStatusCurrent,
-  selectRoomHasSubmitted,
-} from "system";
+import { SkillSet } from "types";
+import { useState } from "react";
+import { useAppDispatch, room, useAppSelector, selectRoomOrder } from "system";
 
 type BetsProps = {
   enable?: boolean;
@@ -39,27 +32,7 @@ type BetSectionProps = {
 export default function BetSection({ skills, bets }: BetSectionProps) {
   const dispatch = useAppDispatch();
   const order = useAppSelector(selectRoomOrder);
-  const status = useAppSelector(selectRoomStatusCurrent);
-  const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
-
   const [bet, setBet] = useState(bets[0]);
-
-  const isEnable = useCallback(
-    (type: SkillOption) => {
-      const bet = order[type] || 0;
-
-      if (hasSubmitted) {
-        return bet > 0;
-      }
-
-      if (status === RoomStatus.Start) {
-        return true;
-      }
-
-      return false;
-    },
-    [status, hasSubmitted, order]
-  );
 
   return (
     <div className="relative w-full h-full">
@@ -80,18 +53,16 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
               active={Assets.Room.Skill_FlareBlitz_Active}
               value={order.player}
               onClick={() => dispatch(room.order.add({ player: bet }))}
-              enable={isEnable("player")}
             />
           </Radian>
 
           <Radian radian={Math.PI * 1.33}>
             <Skill
-              name={"MISS"}
+              name={skills.banker.name}
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
               value={order.banker}
               onClick={() => dispatch(room.order.add({ banker: bet }))}
-              // enable={isEnable("banker")}
             />
           </Radian>
         </CircleLayout>
@@ -106,7 +77,6 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
               active={Assets.Room.Skill_IceBeam_Active}
               value={order.player_pair}
               onClick={() => dispatch(room.order.add({ player_pair: bet }))}
-              enable={isEnable("player_pair")}
             />
           </Radian>
 
@@ -117,7 +87,6 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
               active={Assets.Room.Skill_Hurricane_Active}
               value={order.tie}
               onClick={() => dispatch(room.order.add({ tie: bet }))}
-              enable={isEnable("tie")}
             />
           </Radian>
 
@@ -128,7 +97,6 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
               active={Assets.Room.Skill_FlameThrower_Active}
               value={order.bank_pair}
               onClick={() => dispatch(room.order.add({ bank_pair: bet }))}
-              enable={isEnable("bank_pair")}
             />
           </Radian>
         </CircleLayout>
