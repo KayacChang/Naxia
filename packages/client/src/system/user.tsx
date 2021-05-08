@@ -99,7 +99,7 @@ export function useUser() {
     if (!token) return;
 
     dispatch(user.sync());
-  }, [token]);
+  }, [token, dispatch]);
 
   return _user;
 }
@@ -113,7 +113,7 @@ export function useUserItem() {
     if (!token) return;
 
     dispatch(user.item.sync());
-  }, [token]);
+  }, [token, dispatch]);
 
   return _items;
 }

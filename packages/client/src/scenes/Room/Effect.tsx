@@ -24,36 +24,30 @@ export default function Effect() {
   useEffect(() => {
     if (status !== RoomStatus.Result || !roundResult) return;
 
-    if (roundResult.result === "lose") {
-      return;
+    const { game_round, ...rest } = roundResult.info;
+    const target = Object.entries(rest).find(([, value]) => value);
+    if (!target) return;
+
+    const [animation] = target;
+
+    switch (animation) {
+      case "bank_pair":
+        setAnimation(assets("Skill_FlameThrower_Spine"));
+        return;
+      case "player_pair":
+        setAnimation(assets("Skill_IceBeam_Spine"));
+        return;
+      case "player":
+        setAnimation(assets("Skill_FlareBlitz_Spine"));
+        return;
+      case "banker":
+        setAnimation(assets("Skill_Blizzard_Spine"));
+        return;
+      case "tie":
+        setAnimation(assets("Skill_Hurricane_Spine"));
+        return;
     }
-
-    if (roundResult.result === "win") {
-      const { game_round, ...rest } = roundResult.info;
-      const target = Object.entries(rest).find(([, win]) => win);
-      if (!target) return;
-
-      const [animation] = target;
-
-      switch (animation) {
-        case "bank_pair":
-          setAnimation(assets("Skill_FlameThrower_Spine"));
-          return;
-        case "player_pair":
-          setAnimation(assets("Skill_IceBeam_Spine"));
-          return;
-        case "player":
-          setAnimation(assets("Skill_FlareBlitz_Spine"));
-          return;
-        case "banker":
-          setAnimation(assets("Skill_Blizzard_Spine"));
-          return;
-        case "tie":
-          setAnimation(assets("Skill_Hurricane_Spine"));
-          return;
-      }
-    }
-  }, [roundResult, status]);
+  }, [roundResult, status, assets]);
 
   if (!animation) {
     return <></>;

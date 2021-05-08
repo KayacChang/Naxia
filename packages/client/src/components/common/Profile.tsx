@@ -88,7 +88,7 @@ export function Profile({ user }: ProfileProps) {
 
   return (
     <>
-      <div className="absolute left-0 p-2 z-50">
+      <div className="absolute left-0 pt-1 pl-3 z-50">
         <button
           className="relative z-10 text-left text-white w-48"
           onClick={() => setPersonalInfoOpen(true)}
@@ -106,7 +106,7 @@ export function Profile({ user }: ProfileProps) {
 
           <div className="absolute top-0 w-full pl-17 m-2 flex flex-col space-y-1">
             <h2 className="text-sm">{user.name}</h2>
-            <h3 className="text-xxs">LV.{user.level}</h3>
+            <h3 className="text-xxs text-fansy">LV.{user.level}</h3>
           </div>
         </button>
       </div>

@@ -57,11 +57,11 @@ export function Navbar() {
     <nav className="relative z-50">
       <img src={assets("/lobby/navbar/frame.png")} alt="nav frame" />
 
-      <Link to="#" className="absolute bottom-0 left-0 w-28">
+      <Link to="#" className="absolute bottom-0 left-0 w-32">
         <img src={assets("/lobby/navbar/back.png")} alt="back to home" />
       </Link>
 
-      <div className="absolute bottom-0 w-full px-2 flex justify-end space-x-2">
+      <div className="absolute bottom-0 w-full pr-5 pb-1 flex justify-end space-x-2">
         {links.map(({ key, icons, href, name }) => (
           <Link
             key={key}
