@@ -121,13 +121,13 @@ export default function Lobby() {
       </Game>
 
       <UI className="flex flex-col">
-        <header className="h-12 relative z-50">
+        <header className="h-12 relative">
           <Profile user={user} />
           <Location value="娜希雅大陸" />
           <Status value={currency(user.balance)} />
         </header>
 
-        <main className="flex-1 flex justify-end space-x-2">
+        <main className="flex-1 flex justify-end space-x-2 z-20">
           <Switch>
             <Route exact path="/lobby">
               {dungeonID && (
@@ -141,14 +141,14 @@ export default function Lobby() {
               )}
             </Route>
             <Route path="/lobby/repository">
-              <Repository items={items} className=" w-3/5" />
+              <Repository items={items} className="w-3/5" />
             </Route>
             <Route path="/lobby/book"></Route>
             <Route path="/lobby/rank"></Route>
             <Route path="/lobby/shop"></Route>
           </Switch>
 
-          <Sidebar className="w-12" />
+          <Sidebar className="w-12 mr-2" />
         </main>
 
         <Navbar />

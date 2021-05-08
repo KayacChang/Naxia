@@ -1,11 +1,10 @@
 import { Modal } from "components/lobby/Modal";
 import { useState, ReactNode } from "react";
-
 import Assets from "assets";
-import clsx from "clsx";
 import { range } from "ramda";
 import { User } from "types";
 import { useAppDispatch, user as UserSystem } from "system";
+import SystemModal from "./SystemModal";
 
 const AvatarList = {
   1: Assets.Common.Avatar_01,
@@ -17,75 +16,6 @@ const AvatarList = {
   7: Assets.Common.Avatar_07,
   8: Assets.Common.Avatar_08,
 };
-
-type SystemModalProps = {
-  title?: string;
-  children?: ReactNode;
-  className?: string;
-  button?: string;
-  onConfirm?: () => void;
-};
-function SystemModal({
-  title,
-  children,
-  className,
-  button,
-  onConfirm,
-}: SystemModalProps) {
-  return (
-    <div className="flex h-full justify-center items-center">
-      <div className="w-96 relative flex justify-center pointer-events-auto m-2">
-        <img src={Assets.Common.Modal_Frame_Outer} alt="modal frame outer" />
-
-        <div className="absolute top-0 w-full h-full flex flex-col p-2">
-          <div className={clsx("relative", button ? "h-4/5" : "h-full")}>
-            <img
-              src={Assets.Common.Modal_Frame_Inner}
-              alt="modal frame inner"
-              className="w-full h-full"
-            />
-
-            <div
-              className={clsx(
-                "absolute top-0 w-full h-full flex flex-col",
-                className
-              )}
-            >
-              {children}
-            </div>
-          </div>
-
-          {button && (
-            <div className="flex-1 flex justify-center items-center">
-              <button
-                className="w-32 relative flex justify-center items-center"
-                onClick={onConfirm}
-              >
-                <img src={Assets.Common.Modal_Button} alt="button" />
-
-                <span className="absolute text-white font-noto tracking-widest">
-                  {button}
-                </span>
-              </button>
-            </div>
-          )}
-        </div>
-
-        {title && (
-          <div className="absolute -top-4 w-40">
-            <div className="relative flex justify-center items-center">
-              <img src={Assets.Common.Modal_Title} alt="modal frame title" />
-
-              <h2 className="absolute font-noto text-yellow-300 mt-1 tracking-widest">
-                {title}
-              </h2>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 type AvatarProps = {
   img: string;
@@ -158,7 +88,7 @@ export function Profile({ user }: ProfileProps) {
 
   return (
     <>
-      <div className="absolute left-0 p-2">
+      <div className="absolute left-0 pt-1 pl-3 z-50">
         <button
           className="relative z-10 text-left text-white w-48"
           onClick={() => setPersonalInfoOpen(true)}
@@ -176,7 +106,7 @@ export function Profile({ user }: ProfileProps) {
 
           <div className="absolute top-0 w-full pl-17 m-2 flex flex-col space-y-1">
             <h2 className="text-sm">{user.name}</h2>
-            <h3 className="text-xxs">LV.{user.level}</h3>
+            <h3 className="text-xxs text-fansy">LV.{user.level}</h3>
           </div>
         </button>
       </div>

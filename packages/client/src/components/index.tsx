@@ -6,6 +6,8 @@ export * from "./common/Profile";
 export * from "./common/Location";
 export * from "./common/Status";
 export * from "./common/Setting";
+export * from "./common/Announcement";
+export * from "./common/Mailbox";
 
 export * from "./lobby/InputField";
 export * from "./lobby/Navbar";
