@@ -90,7 +90,7 @@ export default function Lobby() {
 
   useEffect(() => {
     dispatch(addAssets(toTask(Assets.Lobby)));
-  }, []);
+  }, [dispatch]);
 
   if (loading || !user || !items || !map || !dungeons) {
     return <Loading></Loading>;

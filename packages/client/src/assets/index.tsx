@@ -155,9 +155,11 @@ const Common = {
   Announcement_Background: assets("/sidebar/announcement/background.png"),
 };
 
-export default {
+const Assets = {
   Common,
   Login,
   Lobby,
   Room,
 };
+
+export default Assets;

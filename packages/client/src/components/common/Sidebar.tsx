@@ -1,5 +1,6 @@
 import { Announcement, Mailbox, Setting } from "components";
 
+
 type SidebarProps = {
   className?: string;
 };
@@ -11,6 +12,7 @@ export function Sidebar({ className }: SidebarProps) {
       <Setting />
 
       <Mailbox />
+
     </aside>
   );
 }
