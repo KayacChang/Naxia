@@ -33,10 +33,14 @@ export const selectRoomStatus = (state: RootState) => state.room.status;
 export const selectRoomStatusCurrent = (state: RootState) =>
   state.room.status.current;
 export const selectRoomResult = (state: RootState) => state.room.result;
-export const selectRoomBoss = (state: RootState) => state.room.bosses[0];
 export const selectRoomOrder = (state: RootState) => state.room.order;
 export const selectRoomHasSubmitted = (state: RootState) =>
   state.room.hasSubmitted;
+
+export const selectRoomBossAll = (state: RootState) => state.room.boss.all;
+export const selectRoomBossCurrent = (state: RootState) =>
+  state.room.boss.current;
+export const selectRoomBossStage = (state: RootState) => state.room.boss.stage;
 
 let ws: WebSocket | undefined;
 
@@ -54,9 +58,9 @@ const game = {
     Boss,
     { state: RootState; dispatch: AppDispatch }
   >("room/game/boss", async (boss, { getState, dispatch }) => {
-    const old = selectRoomBoss(getState());
+    const cache = selectRoomBossAll(getState());
 
-    if (old && old.id === boss.id) {
+    if (cache.some(({ id }) => boss.id === id)) {
       return boss;
     }
 
@@ -145,7 +149,12 @@ export interface RoomState {
     countdown: number;
   };
   result?: RoundResult;
-  bosses: Boss[];
+
+  boss: {
+    current?: Boss;
+    stage?: Boss;
+    all: Boss[];
+  };
 
   hasSubmitted: boolean;
   history: Order[];
@@ -158,7 +167,10 @@ const initialState: RoomState = {
     current: RoomStatus.Change,
     countdown: 0,
   },
-  bosses: [],
+
+  boss: {
+    all: [],
+  },
 
   hasSubmitted: false,
   history: [],
@@ -186,7 +198,8 @@ const roomSlice = createSlice({
         }
 
         if (state.status.current === RoomStatus.Change) {
-          state.bosses.shift();
+          state.boss.current = state.boss.stage;
+
           state.hasSubmitted = false;
           state.order = {};
         }
@@ -198,7 +211,16 @@ const roomSlice = createSlice({
         state.result = action.payload;
       })
       .addCase(room.game.boss.fulfilled, (state, action) => {
-        state.bosses.push(action.payload);
+        const boss = action.payload;
+
+        if (!state.boss.current) {
+          state.boss.current = boss;
+        }
+        state.boss.stage = boss;
+
+        if (state.boss.all.every(({ id }) => boss.id !== id)) {
+          state.boss.all.push(action.payload);
+        }
       })
       .addCase(room.order.add, (state, action) => {
         state.order = Object.entries(action.payload).reduce(

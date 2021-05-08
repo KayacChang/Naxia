@@ -2,14 +2,15 @@ import {
   selectAssetsByName,
   selectRoomResult,
   selectRoomStatusCurrent,
-  SkeletonData,
   useAppSelector,
 } from "system";
 import { useViewport } from "utils";
 import { useEffect, useState } from "react";
-import { CustomSpine, Spine } from "components";
 import { RoomStatus } from "types";
 import { Game } from "layers";
+import { Container } from "@inlet/react-pixi";
+import { Container as TContainer } from "@pixi/display";
+import { Spine } from "@pixi-spine/all-3.8";
 
 export default function Effect() {
   const { width, height } = useViewport();
@@ -17,9 +18,7 @@ export default function Effect() {
   const roundResult = useAppSelector(selectRoomResult);
 
   const assets = useAppSelector(selectAssetsByName);
-  const [animation, setAnimation] = useState<SkeletonData | undefined>(
-    undefined
-  );
+  const [skill, setSkill] = useState<string | undefined>();
 
   useEffect(() => {
     if (status !== RoomStatus.Result || !roundResult) return;
@@ -32,41 +31,40 @@ export default function Effect() {
 
     switch (animation) {
       case "bank_pair":
-        setAnimation(assets("Skill_FlameThrower_Spine"));
+        setSkill("Skill_FlameThrower_Spine");
         return;
       case "player_pair":
-        setAnimation(assets("Skill_IceBeam_Spine"));
+        setSkill("Skill_IceBeam_Spine");
         return;
       case "player":
-        setAnimation(assets("Skill_FlareBlitz_Spine"));
+        setSkill("Skill_FlareBlitz_Spine");
         return;
       case "banker":
-        setAnimation(assets("Skill_Blizzard_Spine"));
+        setSkill("Skill_Blizzard_Spine");
         return;
       case "tie":
-        setAnimation(assets("Skill_Hurricane_Spine"));
+        setSkill("Skill_Hurricane_Spine");
         return;
     }
-  }, [roundResult, status, assets]);
-
-  if (!animation) {
-    return <></>;
-  }
+  }, [roundResult, status, setSkill]);
 
   return (
     <Game className="absolute top-0">
-      <Spine
-        data={animation}
+      <Container
         x={width / 2}
         y={height / 2}
         scale={1 / window.devicePixelRatio}
-        ref={(ref: CustomSpine) => {
-          if (!ref) return;
+        ref={(ref: TContainer | null) => {
+          if (!ref || !skill) return;
 
-          ref.state.setAnimation(0, "animation", false);
-          ref.state.addListener({
-            complete: () => setAnimation(undefined),
+          const spine = new Spine(assets(skill));
+          spine.state.setAnimation(0, "animation", false);
+
+          spine.state.addListener({
+            complete: () => setSkill(undefined),
           });
+
+          ref.addChild(spine);
         }}
       />
     </Game>

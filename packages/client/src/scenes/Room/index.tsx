@@ -5,11 +5,11 @@ import {
   useAppDispatch,
   selectRoomIsJoin,
   useAppSelector,
-  selectRoomBoss,
   selectAssetIsLoading,
   addAssets,
   room,
   useUser,
+  selectRoomBossCurrent,
 } from "system";
 import { toTask } from "utils";
 import { Loading } from "components";
@@ -25,7 +25,7 @@ export default function Room() {
   const dispatch = useAppDispatch();
   const isJoin = useAppSelector(selectRoomIsJoin);
   const loading = useAppSelector(selectAssetIsLoading);
-  const boss = useAppSelector(selectRoomBoss);
+  const boss = useAppSelector(selectRoomBossCurrent);
 
   const user = useUser();
 

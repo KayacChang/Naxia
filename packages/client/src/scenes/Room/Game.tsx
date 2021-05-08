@@ -1,19 +1,18 @@
 import { Sprite, BitmapText, Container, Text } from "@inlet/react-pixi";
 import {
-  SkeletonData,
   useAppSelector,
   selectRoomStatus,
   selectRoomStatusCurrent,
   selectAssetsByName,
-  selectRoomBoss,
+  selectRoomBossCurrent,
 } from "system";
 import { useViewport } from "utils";
-import { Spine, CustomSpine } from "components";
 import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
-import { Texture } from "@pixi/core";
 import { Container as TContainer } from "pixi.js";
 import anime from "animejs";
+import { useEffect, useState } from "react";
+import { Spine } from "@pixi-spine/all-3.8";
 
 type FadeProps = {
   targets: any | any[];
@@ -29,25 +28,22 @@ function fade({ targets, alpha }: FadeProps) {
   });
 }
 
-type CountDownProps = {
-  x: number;
-  y: number;
-  texture: Texture;
-};
-function CountDown({ x, y, texture }: CountDownProps) {
+function CountDown() {
+  const { width, height } = useViewport();
   const { current: status, countdown } = useAppSelector(selectRoomStatus);
+  const assets = useAppSelector(selectAssetsByName);
 
   if (status !== RoomStatus.Start) {
     return <Container></Container>;
   }
 
   return (
-    <Container x={x} y={y}>
+    <Container x={width / 2} y={height / 2 + 30}>
       <Sprite
         y={18}
         scale={0.4}
         anchor={0.5}
-        texture={texture}
+        texture={assets("CountDown_Frame")}
         ref={(ref: TContainer | null) => {
           if (!ref) return;
 
@@ -69,48 +65,54 @@ function CountDown({ x, y, texture }: CountDownProps) {
   );
 }
 
-type BossProps = {
-  x: number;
-  y: number;
-  data: SkeletonData;
-};
-function Boss({ x, y, data }: BossProps) {
+function Boss() {
+  const { width, height } = useViewport();
+  const boss = useAppSelector(selectRoomBossCurrent);
+  const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
 
+  const [current, setCurrent] = useState<Spine | undefined>();
+
+  useEffect(() => {
+    if (boss?.id === undefined) return;
+
+    setCurrent(new Spine(assets(String(boss.id))));
+  }, [boss?.id, assets, setCurrent]);
+
   return (
-    <Spine
-      x={x}
-      y={y}
-      data={data}
+    <Container
+      x={width / 2}
+      y={height / 2}
       scale={1 / window.devicePixelRatio}
-      ref={(ref: CustomSpine | null) => {
-        if (!ref) return;
+      ref={(ref: TContainer | null) => {
+        if (!ref || !current) return;
 
-        ref.state.setAnimation(0, "Idle", true);
+        if (status === RoomStatus.Result) {
+          current.state.setAnimation(0, "BeAttack", false);
 
-        if (status === RoomStatus.Change) {
-          anime({
-            targets: ref,
-            alpha: [0, 1],
-            duration: 1000,
-            easing: "easeInCubic",
+          current.state.addListener({
+            complete: () =>
+              anime({
+                targets: current,
+                alpha: [1, 0],
+                duration: 1000,
+                easing: "easeOutCubic",
+              }),
           });
 
           return;
         }
 
-        if (status === RoomStatus.Result) {
-          ref.state.setAnimation(0, "BeAttack", false);
+        current.state.setAnimation(0, "Idle", true);
+        ref.addChild(current);
 
+        if (status === RoomStatus.Change) {
           anime({
-            targets: ref,
-            alpha: [1, 0],
-            delay: 2000,
+            targets: current,
+            alpha: [0, 1],
             duration: 1000,
             easing: "easeOutCubic",
           });
-
-          return;
         }
       }}
     />
@@ -121,17 +123,14 @@ function equals<T>(a: T): SafePred<T> {
   return (b: T) => a === b;
 }
 
-type RoundStatusProps = {
-  x: number;
-  y: number;
-  texture: Texture;
-};
-function RoundStatus({ x, y, texture }: RoundStatusProps) {
+function RoundStatus() {
+  const { width, height } = useViewport();
   const { current: status } = useAppSelector(selectRoomStatus);
+  const assets = useAppSelector(selectAssetsByName);
 
   return (
-    <Container x={x} y={y}>
-      <Sprite scale={0.4} anchor={0.5} texture={texture} />
+    <Container x={width / 2} y={height / 6}>
+      <Sprite scale={0.4} anchor={0.5} texture={assets("Round_Status_Frame")} />
 
       <Text
         anchor={0.5}
@@ -147,30 +146,25 @@ function RoundStatus({ x, y, texture }: RoundStatusProps) {
   );
 }
 
-export default function GameView() {
+function Background() {
   const { width, height } = useViewport();
-  const boss = useAppSelector(selectRoomBoss);
   const assets = useAppSelector(selectAssetsByName);
 
   return (
+    <Sprite width={width} height={height} texture={assets("Background")} />
+  );
+}
+
+export default function GameView() {
+  return (
     <>
-      <Sprite width={width} height={height} texture={assets("Background")} />
+      <Background />
 
-      {boss && (
-        <Boss data={assets(String(boss.id))} x={width / 2} y={height / 2} />
-      )}
+      <Boss />
 
-      <CountDown
-        x={width / 2}
-        y={height / 2 + 30}
-        texture={assets("CountDown_Frame")}
-      />
+      <CountDown />
 
-      <RoundStatus
-        x={width / 2}
-        y={height / 6}
-        texture={assets("Round_Status_Frame")}
-      />
+      <RoundStatus />
     </>
   );
 }
