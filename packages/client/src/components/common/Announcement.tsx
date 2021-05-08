@@ -89,7 +89,9 @@ export function Announcement() {
   return (
     <>
       <div className="relative">
-        <div className="absolute text-fansy bottom-2 right-0">公告</div>
+        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
+          公告
+        </div>
         <button className="" onClick={() => setAnnouncementOpen(true)}>
           <img src={icon.icons.normal} alt={icon.key} />
         </button>

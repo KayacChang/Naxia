@@ -11,7 +11,9 @@ export function Mailbox() {
   return (
     <>
       <div className="relative">
-        <div className="absolute text-fansy bottom-2 right-0">郵箱</div>
+        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
+          郵箱
+        </div>
         <button className="" onClick={() => {}}>
           <img src={icon.icons.normal} alt={icon.key} />
         </button>

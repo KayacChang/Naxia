@@ -71,7 +71,9 @@ export function Setting() {
   return (
     <>
       <div className="relative">
-        <div className="absolute text-fansy bottom-2 right-0">設定</div>
+        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0  text-sm">
+          設定
+        </div>
         <button className="" onClick={() => setSettingOpen(true)}>
           <img src={icon.icons.normal} alt={icon.key} />
         </button>
