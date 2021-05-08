@@ -121,7 +121,7 @@ export default function Lobby() {
       </Game>
 
       <UI className="flex flex-col">
-        <header className="h-12 relative z-50">
+        <header className="h-14 relative z-50">
           <Profile user={user} />
           <Location value="娜希雅大陸" />
           <Status value={currency(user.balance)} />

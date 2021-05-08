@@ -158,7 +158,7 @@ export function Profile({ user }: ProfileProps) {
 
   return (
     <>
-      <div className="absolute left-0 p-2">
+      <div className="absolute left-0 pt-1 pl-3">
         <button
           className="relative z-10 text-left text-white w-48"
           onClick={() => setPersonalInfoOpen(true)}
