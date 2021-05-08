@@ -1,100 +1,7 @@
-import { Modal } from "components/lobby/Modal";
-import { useState, ReactNode } from "react";
+import { useState } from "react";
 import Assets from "assets";
-import clsx from "clsx";
-
-type SystemModalProps = {
-  title?: string;
-  children?: ReactNode;
-  className?: string;
-  confirmButton?: string;
-  resetButton?: string;
-  onConfirm?: () => void;
-};
-function SystemModal({
-  title,
-  children,
-  className,
-  confirmButton,
-  resetButton,
-  onConfirm,
-}: SystemModalProps) {
-  return (
-    <div className="flex h-full justify-center items-center">
-      <div className="w-96 relative flex justify-center pointer-events-auto m-2">
-        <img src={Assets.Common.Modal_Frame_Outer} alt="modal frame outer" />
-
-        <div className="absolute top-0 w-full h-full flex flex-col p-2">
-          <div
-            className={clsx(
-              "relative pb-1",
-              confirmButton || resetButton ? "h-4/5" : "h-full"
-            )}
-          >
-            <img
-              src={Assets.Common.Modal_Frame_Inner}
-              alt="modal frame inner"
-              className="w-full h-full"
-            />
-
-            <div
-              className={clsx(
-                "absolute top-0 w-full h-full flex flex-col",
-                className
-              )}
-            >
-              {children}
-            </div>
-          </div>
-
-          <div className="flex-1 flex justify-between items-center">
-            {resetButton && (
-              <div className="flex-1 flex justify-center items-center">
-                <button
-                  className="w-32 relative flex justify-center items-center"
-                  onClick={onConfirm}
-                >
-                  <img src={Assets.Common.Setting_Reset_Button} alt="button" />
-
-                  <span className="absolute text-white font-noto tracking-widest">
-                    {resetButton}
-                  </span>
-                </button>
-              </div>
-            )}
-
-            {confirmButton && (
-              <div className="flex-1 flex justify-center items-center">
-                <button
-                  className="w-32 relative flex justify-center items-center"
-                  onClick={onConfirm}
-                >
-                  <img src={Assets.Common.Modal_Button} alt="button" />
-
-                  <span className="absolute text-white font-noto tracking-widest">
-                    {confirmButton}
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {title && (
-          <div className="absolute -top-4 w-40">
-            <div className="relative flex justify-center items-center">
-              <img src={Assets.Common.Modal_Title} alt="modal frame title" />
-
-              <h2 className="absolute font-noto text-yellow-300 mt-1 tracking-widest">
-                {title}
-              </h2>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+import { Modal } from "components/lobby/Modal";
+import SystemModal from "./SystemModal";
 
 type SliderBarProps = {
   title: string;
@@ -104,8 +11,7 @@ type SliderBarProps = {
 function SliderBar({ title, value, setValue }: SliderBarProps) {
   function soundValueHandler(event: React.FormEvent<HTMLInputElement>) {
     event.preventDefault();
-    const temp = event.currentTarget.value;
-    setValue(parseInt(temp));
+    setValue(parseInt(event.currentTarget.value));
   }
   return (
     <div className="flex-1 text-base text-yellow-400 flex justify-between">
@@ -156,9 +62,16 @@ export function Setting() {
   const [soundValue, setSoundValue] = useState(80);
   const [musicValue, setMusicValue] = useState(80);
 
+  function resetVolume() {
+    setSoundValue(80);
+    setMusicValue(80);
+    setSettingOpen(false);
+  }
+
   return (
     <>
-      <div className="">
+      <div className="relative">
+        <div className="absolute text-fansy bottom-2 right-0">設定</div>
         <button className="" onClick={() => setSettingOpen(true)}>
           <img src={icon.icons.normal} alt={icon.key} />
         </button>
@@ -168,8 +81,10 @@ export function Setting() {
           <Modal onClose={() => setSettingOpen(false)}>
             <SystemModal
               title="設定"
-              confirmButton="確認"
-              resetButton="還原預設"
+              button="確認"
+              subButton="還原預設"
+              onConfirm={() => setSettingOpen(false)}
+              customFunc={resetVolume}
             >
               <div className="h-full flex font-noto text-xs text-white">
                 <div className="flex-1 flex flex-wrap justify-center items-center px-14 py-10">

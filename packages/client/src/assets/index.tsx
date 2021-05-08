@@ -140,6 +140,7 @@ const Common = {
   // Sidebar
   Sidebar_Announcement: assets("/sidebar/announcement.png"),
   Sidebar_Setting: assets("/sidebar/setting.png"),
+  Sidebar_Mailbox: assets("/sidebar/mail.png"),
 
   // Fonts
   Font_Kai: assets("/fonts/kai.ttc"),
@@ -150,6 +151,8 @@ const Common = {
   Setting_Volume_Bar: assets("/sidebar/setting/volume_bar.png"),
   Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),
   Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
+
+  Announcement_Background: assets("/sidebar/announcement/background.png"),
 };
 
 export default {

@@ -54,7 +54,7 @@ export function Navbar() {
   const location = useLocation();
 
   return (
-    <nav className="relative z-10">
+    <nav className="relative z-50">
       <img src={assets("/lobby/navbar/frame.png")} alt="nav frame" />
 
       <Link to="#" className="absolute bottom-0 left-0 w-28">
