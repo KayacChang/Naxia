@@ -176,7 +176,7 @@ export function Profile({ user }: ProfileProps) {
 
           <div className="absolute top-0 w-full pl-17 m-2 flex flex-col space-y-1">
             <h2 className="text-sm">{user.name}</h2>
-            <h3 className="text-xxs">LV.{user.level}</h3>
+            <h3 className="text-xxs text-fansy">LV.{user.level}</h3>
           </div>
         </button>
       </div>

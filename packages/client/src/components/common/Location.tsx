@@ -9,7 +9,7 @@ export function Location({ value }: LocationProps) {
       <div className="relative w-52 text-white">
         <img src={Assets.Common.Location} alt="world frame" />
 
-        <h1 className="absolute top-0 h-full w-full flex items-center justify-center">
+        <h1 className="absolute top-0 h-full w-full flex items-center justify-center text-fansy text-xl tracking-wider">
           {value}
         </h1>
       </div>
