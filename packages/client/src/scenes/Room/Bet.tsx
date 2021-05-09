@@ -10,7 +10,7 @@ export default function Bet({ enable = true, value, active }: BetProps) {
   return (
     <button
       className={clsx(
-        "w-10 relative",
+        "w-10 relative flex items-center justify-center",
         active && "transform scale-120",
         enable || "pointer-events-none opacity-50"
       )}
@@ -28,7 +28,7 @@ export default function Bet({ enable = true, value, active }: BetProps) {
         alt="bet background"
       />
 
-      <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs text-white">
+      <span className="absolute text-xs font-noto font-bold tracking-wider text-creamsicle glow mt-0.5">
         {value}
       </span>
     </button>

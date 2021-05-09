@@ -51,7 +51,7 @@ type BetsProps = {
 };
 function Bets({ options, onChange, enable }: BetsProps) {
   const status = useAppSelector(selectRoomStatusCurrent);
-  const show = status === RoomStatus.Start;
+  const show = true;
 
   const [active, setActive] = useState(0);
 
