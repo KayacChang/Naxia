@@ -108,33 +108,44 @@ const order = {
 export const room = {
   game,
   order,
-  join: createAsyncThunk<string, string>("room/join", (roomID) => {
-    ws = new WebSocket(process.env.REACT_APP_WS || "");
+  join: createAsyncThunk<string, string, { state: RootState }>(
+    "room/join",
+    (roomID, { getState }) => {
+      const token = selectToken(getState());
 
-    ws.addEventListener("message", (event: MessageEvent) => {
-      const data = JSON.parse(event.data) as RoomResponse;
+      invariant(token, "Unauthorized");
 
-      if (data.event === "room_status") {
-        store.dispatch(game.status(data.data.status));
-      }
+      const url = new URL(process.env.REACT_APP_WS || "");
+      url.searchParams.append("roomID", roomID);
+      url.searchParams.append("token", token);
 
-      if (data.event === "next_status_countdown") {
-        store.dispatch(game.countdown(data.timer));
-      }
+      ws = new WebSocket(url.toString());
 
-      if (data.event === "round_result") {
-        store.dispatch(game.result(data.data));
-      }
+      ws.addEventListener("message", (event: MessageEvent) => {
+        const data = JSON.parse(event.data) as RoomResponse;
 
-      if (data.event === "next_round_monster") {
-        store.dispatch(game.boss(data.data));
-      }
-    });
+        if (data.event === "room_status") {
+          store.dispatch(game.status(data.data.status));
+        }
 
-    return new Promise((resolve) => {
-      ws?.addEventListener("open", () => resolve(roomID));
-    });
-  }),
+        if (data.event === "next_status_countdown") {
+          store.dispatch(game.countdown(data.timer));
+        }
+
+        if (data.event === "round_result") {
+          store.dispatch(game.result(data.data));
+        }
+
+        if (data.event === "next_round_monster") {
+          store.dispatch(game.boss(data.data));
+        }
+      });
+
+      return new Promise((resolve) => {
+        ws?.addEventListener("open", () => resolve(roomID));
+      });
+    }
+  ),
   leave: createAsyncThunk("room/leave", async () => {
     ws?.close();
     ws = undefined;
