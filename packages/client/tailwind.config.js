@@ -28,6 +28,8 @@ module.exports = {
       },
       animation: {
         ping: "ping 1s cubic-bezier(0, 0, 0.2, 1)",
+        "ping-loop": "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+        spin: "spin 10s linear infinite",
       },
     },
   },

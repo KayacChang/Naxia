@@ -16,11 +16,17 @@ export default function Bet({ enable = true, value, active }: BetProps) {
       )}
     >
       {active && (
-        <img
-          className="absolute -z-10 transform scale-115"
-          src={Assets.Room.Bet_Effect}
-          alt="effect"
-        />
+        <div
+          className="absolute -z-10 animate-spin"
+          style={{ willChange: "transform" }}
+        >
+          <img
+            className="transform scale-115 animate-pulse"
+            style={{ willChange: "opacity" }}
+            src={Assets.Room.Bet_Effect}
+            alt="effect"
+          />
+        </div>
       )}
 
       <img
