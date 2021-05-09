@@ -78,6 +78,7 @@ function Bets({ options, onChange, enable }: BetsProps) {
           : "transform translate-x-1/2 translate-y-1/2 ease-in-expo",
         "transition-transform duration-700 "
       )}
+      style={{ willChange: "transform" }}
       onMouseDown={onPressStart}
       onMouseUp={onPressEnd}
       onTouchStart={onPressStart}
@@ -95,6 +96,7 @@ function Bets({ options, onChange, enable }: BetsProps) {
                 key={option}
                 radian={Math.PI * (1.06 + 0.2 * (index - active))}
                 className="transition-transform"
+                style={{ willChange: "transform" }}
               >
                 <Bet
                   value={option}
