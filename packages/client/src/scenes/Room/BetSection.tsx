@@ -58,7 +58,7 @@ function Bets({ options, onChange, enable }: BetsProps) {
   const { direction, onPressEnd, onPressStart } = useSwipe();
 
   useEffect(() => {
-    const _clamp = clamp(0, options.length - 3);
+    const _clamp = clamp(-1, options.length - 2);
 
     setActive((active) => _clamp(active + direction));
   }, [direction, setActive, options.length]);
