@@ -34,7 +34,7 @@ export default async function (fastify) {
     const ttl = new Date();
 
     return {
-      data: { token: `Bearer ${token}`, ttl },
+      data: { token, ttl },
       success: true,
     };
   });
