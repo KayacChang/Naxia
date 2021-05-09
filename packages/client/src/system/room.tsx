@@ -2,7 +2,7 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bet } from "api";
 import invariant from "tiny-invariant";
 import { Item, RoomStatus, Boss, Order } from "types";
-import { assets, toTask, wait } from "utils";
+import { assets, removeTrailingSlashes, toTask, wait } from "utils";
 import { AppDispatch, RootState, store } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
 import { selectToken, selectUser } from "./user";
@@ -115,11 +115,14 @@ export const room = {
 
       invariant(token, "Unauthorized");
 
-      const url = new URL(process.env.REACT_APP_WS || "");
+      const url = new URL(
+        removeTrailingSlashes(process.env.REACT_APP_WS || "")
+      );
+
       url.searchParams.append("roomID", roomID);
       url.searchParams.append("token", token);
 
-      ws = new WebSocket(url.toString());
+      ws = new WebSocket(url.href);
 
       ws.addEventListener("message", (event: MessageEvent) => {
         const data = JSON.parse(event.data) as RoomResponse;

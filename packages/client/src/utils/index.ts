@@ -26,6 +26,10 @@ export function nextFrame() {
   );
 }
 
+export function removeTrailingSlashes(url: string) {
+  return url.replace(/\/+$/, "");
+}
+
 export * from "./undoable";
 export * from "./useViewport";
 export * from "./useThunkReducer";
