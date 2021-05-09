@@ -98,6 +98,9 @@ const order = {
       });
 
       return order;
+    },
+    {
+      condition: (order) => Object.entries(order).length > 0,
     }
   ),
   add: createAction<Order>("room/order/add"),
@@ -246,7 +249,7 @@ const roomSlice = createSlice({
         state.order = {};
       })
       .addCase(room.order.redo, (state) => {
-        state.order = state.history[state.history.length - 1];
+        state.order = state.history[state.history.length - 1] || {};
       })
       .addCase(room.order.submit.fulfilled, (state, action) => {
         state.hasSubmitted = true;
