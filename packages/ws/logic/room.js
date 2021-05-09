@@ -1,5 +1,5 @@
 import { BehaviorSubject, interval } from "rxjs";
-import { filter, map, share, throttleTime, mergeWith } from "rxjs/operators";
+import { filter, map, share, throttleTime } from "rxjs/operators";
 import { Random, MersenneTwister19937 } from "random-js";
 
 const random = new Random(MersenneTwister19937.autoSeed());
