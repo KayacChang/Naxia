@@ -10,14 +10,13 @@ import {
   SkillSet,
 } from "types";
 
-const API = (...paths: string[]) => {
-  return new URL(join(...paths), process.env.REACT_APP_API).toString();
-};
+const API = (...paths: string[]) =>
+  new URL(join(...paths), process.env.REACT_APP_API).toString();
 
 function get<T>(url: string, authorization: string): Promise<T> {
   return fetch(url, {
     headers: {
-      authorization,
+      authorization: `Bearer ${authorization}`,
     },
   }).then((res) => res.json());
 }

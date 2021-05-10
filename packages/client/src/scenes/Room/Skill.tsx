@@ -104,7 +104,9 @@ export default function Skill({
         "relative transition-opacity duration-500",
         size_mapping[size].width,
         state === "hidden" && "opacity-0",
-        onClick ? "pointer-events-auto" : "pointer-events-none"
+        onClick && state !== "hidden"
+          ? "pointer-events-auto"
+          : "pointer-events-none"
       )}
       onClick={onClick}
       onPointerDown={onPointerDown}

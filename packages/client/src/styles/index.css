@@ -30,6 +30,10 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .text-creamsicle {
+    @apply text-gradient bg-gradient-to-b from-yellow-100 to-yellow-500;
+  }
+
   .text-fansy {
     @apply text-gradient bg-gradient-to-b from-yellow-100 via-yellow-200 to-yellow-400;
   }
@@ -73,4 +77,8 @@ canvas {
   display: flex;
   justify-content: center;
   height: 100vh;
+}
+
+.glow {
+  text-shadow: 0 0 0px var(--tw-gradient-from), 0 0 2px var(--tw-gradient-to);
 }

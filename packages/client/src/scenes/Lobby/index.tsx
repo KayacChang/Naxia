@@ -128,7 +128,7 @@ export default function Lobby() {
           <Status value={currency(user.balance)} />
         </header>
 
-        <main className="flex-1 flex justify-end space-x-2 z-20">
+        <main className="flex-1 flex justify-end space-x-2">
           <Switch>
             <Route exact path="/lobby">
               {dungeonID && (

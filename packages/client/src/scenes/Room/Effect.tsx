@@ -49,7 +49,7 @@ export default function Effect() {
   }, [roundResult, status, setSkill]);
 
   return (
-    <Game className="absolute top-0">
+    <Game className="absolute top-0 pointer-events-none">
       <Container
         x={width / 2}
         y={height / 2}

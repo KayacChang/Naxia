@@ -52,7 +52,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
         </div>
 
         <div className="w-1/3 flex flex-col">
-          <div className="flex flex-row justify-end space-x-4 mt-2">
+          <div className="flex flex-row justify-end space-x-4 mt-2 mr-2">
             <div
               className={clsx(
                 "space-y-2 flex flex-col font-noto w-24",
