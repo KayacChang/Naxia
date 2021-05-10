@@ -172,9 +172,11 @@ export default function Lobby() {
               <Repository items={items} className="w-3/5" />
             </Route>
             <Route path="/lobby/book"></Route>
+
             <Route path="/lobby/ranking">
               <Ranking className=" w-3/5" />
             </Route>
+
             <Route path="/lobby/store">
               <Store className="w-full" />
             </Route>

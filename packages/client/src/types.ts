@@ -7,6 +7,7 @@ export interface Item {
   name: string;
   point?: number;
   quality: number;
+  description?: string;
 }
 
 export interface User {
