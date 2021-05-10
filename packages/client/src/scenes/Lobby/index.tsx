@@ -35,6 +35,8 @@ import Assets from "assets";
 
 import { DungeonDetail } from "./Map";
 import Repository from "./Repository";
+import Ranking from "./Ranking";
+
 import Store from "./Store";
 
 type DungeonProps = {
@@ -146,7 +148,11 @@ export default function Lobby() {
               <Repository items={items} className="w-3/5" />
             </Route>
             <Route path="/lobby/book"></Route>
-            <Route path="/lobby/rank"></Route>
+
+            <Route path="/lobby/ranking">
+              <Ranking className=" w-3/5"></Ranking>
+            </Route>
+
             <Route path="/lobby/store">
               <Store className="w-full" />
             </Route>
