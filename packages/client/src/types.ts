@@ -91,3 +91,13 @@ export interface Boss {
   hp: number;
   rate: string;
 }
+
+export interface ItemDataProps  {
+  title: string;
+  itemImg: string;
+  cardImg: string,
+  gemCurrentNumber: number;
+  gemTotalNumber: number;
+  cardCurrentNumber: number;
+  cardTotalNumber: number;
+};

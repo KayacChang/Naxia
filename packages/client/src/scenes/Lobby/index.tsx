@@ -35,6 +35,7 @@ import Assets from "assets";
 
 import { DungeonDetail } from "./Map";
 import Repository from "./Repository";
+import Store from "./Store";
 
 type DungeonProps = {
   frame: Texture;
@@ -145,7 +146,9 @@ export default function Lobby() {
             </Route>
             <Route path="/lobby/book"></Route>
             <Route path="/lobby/rank"></Route>
-            <Route path="/lobby/shop"></Route>
+            <Route path="/lobby/store">
+              <Store className="w-full" />
+            </Route>
           </Switch>
 
           <Sidebar className="w-12 mr-2" />

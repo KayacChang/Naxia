@@ -71,7 +71,7 @@ export function Setting() {
   return (
     <>
       <div className="relative">
-        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0  text-sm">
+        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
           設定
         </div>
         <button className="" onClick={() => setSettingOpen(true)}>
