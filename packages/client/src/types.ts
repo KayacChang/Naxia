@@ -33,6 +33,7 @@ export interface Dungeon {
   room: string;
   stream: string;
   location: Vector;
+  lock: boolean;
 }
 
 export interface Condition {
@@ -92,12 +93,12 @@ export interface Boss {
   rate: string;
 }
 
-export interface ItemDataProps  {
+export interface ItemDataProps {
   title: string;
   itemImg: string;
-  cardImg: string,
+  cardImg: string;
   gemCurrentNumber: number;
   gemTotalNumber: number;
   cardCurrentNumber: number;
   cardTotalNumber: number;
-};
+}

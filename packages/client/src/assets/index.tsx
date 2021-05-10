@@ -66,6 +66,9 @@ const Lobby = {
   // Map
   Map: assets("/lobby/map.png"),
 
+  // Lock
+  Lock: assets("/lobby/lock.png"),
+
   // Dungeon
   Dungeon_Frame: assets("/lobby/dungeon/dungeon_frame.png"),
   Dungeon_1: assets("/lobby/dungeon/dungeon_1.png"),
