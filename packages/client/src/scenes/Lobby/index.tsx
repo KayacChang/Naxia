@@ -34,6 +34,8 @@ import Assets from "assets";
 
 import { DungeonDetail } from "./Map";
 import Repository from "./Repository";
+import Ranking from "./Ranking";
+
 import Store from "./Store";
 import { filters } from "pixi.js";
 
@@ -119,7 +121,7 @@ export default function Lobby() {
   }, [dispatch]);
 
   if (loading || !user || !items || !map || !dungeons) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   return (
@@ -170,7 +172,9 @@ export default function Lobby() {
               <Repository items={items} className="w-3/5" />
             </Route>
             <Route path="/lobby/book"></Route>
-            <Route path="/lobby/rank"></Route>
+            <Route path="/lobby/ranking">
+              <Ranking className=" w-3/5" />
+            </Route>
             <Route path="/lobby/store">
               <Store className="w-full" />
             </Route>

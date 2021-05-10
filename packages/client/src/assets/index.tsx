@@ -105,6 +105,28 @@ const Lobby = {
   Store_Item_Card: assets("/lobby/store/item_card.png"),
   Store_Number_Frame_Bg: assets("/lobby/store/number_frame_bg.png"),
   Store_Mob_01: assets("/lobby/store/mob_goblin.png"),
+
+  //Ranking
+  Ranking_Background: assets("/lobby/ranking/background.png"),
+  Ranking_Tab_Normal: assets("/lobby/ranking/tab_normal.png"),
+  Ranking_Tab_Active: assets("/lobby/ranking/tab_active.png"),
+  Ranking_UpdateTime_background: assets(
+    "/lobby/ranking/updateTime_background.png"
+  ),
+  Ranking_Item_Background: assets("/lobby/ranking/rankItem_background.png"),
+  Ranking_Avatar_Background: assets("/lobby/ranking/avatar_background.png"),
+  Ranking_Avatar: assets("/lobby/ranking/avatar.png"),
+  Ranking_No1: assets("/lobby/ranking/no1.png"),
+  Ranking_No2: assets("/lobby/ranking/no2.png"),
+  Ranking_No3: assets("/lobby/ranking/no3.png"),
+  Ranking_OtherNo: assets("/lobby/ranking/otherNo.png"),
+  Ranking_Number0: assets("/lobby/ranking/0.png"),
+  Ranking_Number4: assets("/lobby/ranking/4.png"),
+  Ranking_Number5: assets("/lobby/ranking/5.png"),
+  Ranking_Number6: assets("/lobby/ranking/6.png"),
+  Ranking_Number7: assets("/lobby/ranking/7.png"),
+  Ranking_Number8: assets("/lobby/ranking/8.png"),
+  Ranking_Number9: assets("/lobby/ranking/9.png"),
 };
 
 const Login = {
