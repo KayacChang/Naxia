@@ -35,6 +35,7 @@ import Assets from "assets";
 
 import { DungeonDetail } from "./Map";
 import Repository from "./Repository";
+import Store from "./Store";
 
 type DungeonProps = {
   frame: Texture;
@@ -86,7 +87,8 @@ export default function Lobby() {
 
   const { width, height } = useViewport();
   const [dungeonID, setDungeonID] = useState<number | undefined>(undefined);
-  const match = useRouteMatch("/lobby");
+  const matchLobby = useRouteMatch("/lobby");
+  const matchStory = useRouteMatch("/lobby/store");
 
   useEffect(() => {
     dispatch(addAssets(toTask(Assets.Lobby)));
@@ -98,11 +100,11 @@ export default function Lobby() {
 
   return (
     <>
-      <Game className={clsx(match?.isExact || "pointer-events-none")}>
+      <Game className={clsx(matchLobby?.isExact || "pointer-events-none")}>
         <Camera
           screenWidth={width}
           screenHeight={height}
-          pause={!match?.isExact}
+          pause={!matchLobby?.isExact}
         >
           <Sprite texture={assets("Map")} />
 
@@ -123,7 +125,7 @@ export default function Lobby() {
       <UI className="flex flex-col">
         <header className="h-12 relative">
           <Profile user={user} />
-          <Location value="娜希雅大陸" />
+          <Location value={matchStory?.isExact ? "兌換商店" : map.name} />
           <Status value={currency(user.balance)} />
         </header>
 
@@ -145,7 +147,9 @@ export default function Lobby() {
             </Route>
             <Route path="/lobby/book"></Route>
             <Route path="/lobby/rank"></Route>
-            <Route path="/lobby/shop"></Route>
+            <Route path="/lobby/store">
+              <Store className="w-full" />
+            </Route>
           </Switch>
 
           <Sidebar className="w-12 mr-2" />

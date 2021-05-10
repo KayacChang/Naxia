@@ -37,10 +37,10 @@ export default async function (fastify, opts) {
           id: 1,
           count: 2,
           name: "美杜莎碎片",
-          quality: "1",
+          quality: "2",
           point: 50,
           img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
-          description: "-",
+          description: "美杜莎掉落的碎片。",
         },
         {
           id: 2,
@@ -49,7 +49,7 @@ export default async function (fastify, opts) {
           quality: "1",
           point: 150,
           img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
-          description: "-",
+          description: "鑄造用的材料。",
         },
       ];
 

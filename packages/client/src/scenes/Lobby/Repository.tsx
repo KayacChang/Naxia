@@ -10,16 +10,16 @@ function qualityCheck(quality: number) {
 
   switch (quality) {
     case 0:
-      return { img: Assets.Lobby.Repo_Item_Epic, color: "purple" };
+      return { img: Assets.Lobby.Repo_Item_Epic, color: "BlueViolet" };
     case 1:
       return {
         img: Assets.Lobby.Repo_Item_Legendary,
-        color: "orange",
+        color: "Orange",
       };
     case 2:
-      return { img: Assets.Lobby.Repo_Item_Rare, color: "blue" };
+      return { img: Assets.Lobby.Repo_Item_Rare, color: "DeepSkyBlue" };
     case 3:
-      return { img: Assets.Lobby.Repo_Item_Rare, color: "green" };
+      return { img: Assets.Lobby.Repo_Item_Uncommon, color: "GreenYellow" };
     default:
       return { img: Assets.Lobby.Repo_Item_Normal, color: "black" };
   }
@@ -44,7 +44,15 @@ type DetailProps = Item & {
   onConfirm?: () => void;
   onClose?: () => void;
 };
-function Detail({ name, img, quality, onConfirm, onClose }: DetailProps) {
+function Detail({
+  name,
+  img,
+  point,
+  quality,
+  description,
+}: // onConfirm,
+// onClose,
+DetailProps) {
   return (
     <div className="text-white flex justify-center">
       <div className="flex flex-col h-full space-y-1 absolute justify-center items-center w-2/3">
@@ -70,11 +78,11 @@ function Detail({ name, img, quality, onConfirm, onClose }: DetailProps) {
 
             <p className="text-sm mb-3">
               <span>擁有: </span>
-              <span className="ml-2 text-yellow-500">30</span>
+              <span className="ml-2 text-yellow-500">{point}</span>
             </p>
 
             <p className="w-full text-left text-xs text-gray-500">
-              這裡應該要打進來說明文字。
+              {description || "未知的物品。"}
             </p>
           </div>
         </div>
