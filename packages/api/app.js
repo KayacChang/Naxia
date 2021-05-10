@@ -35,11 +35,21 @@ export default async function (fastify, opts) {
       const items = [
         {
           id: 1,
-          count: 20,
+          count: 2,
           name: "美杜莎碎片",
-          quality: 1,
+          quality: "1",
           point: 50,
-          img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+          img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
+          description: "-",
+        },
+        {
+          id: 2,
+          count: 3,
+          name: "金屬塊",
+          quality: "1",
+          point: 150,
+          img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
+          description: "-",
         },
       ];
 

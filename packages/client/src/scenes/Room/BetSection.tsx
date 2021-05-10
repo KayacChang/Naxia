@@ -3,25 +3,112 @@ import Assets from "assets";
 
 import Bet from "./Bet";
 import Skill from "./Skill";
-import { SkillSet } from "types";
-import { useState } from "react";
-import { useAppDispatch, room, useAppSelector, selectRoomOrder } from "system";
+import { RoomStatus, SkillSet } from "types";
+import { useCallback, useEffect, useState } from "react";
+import {
+  useAppDispatch,
+  room,
+  useAppSelector,
+  selectRoomOrder,
+  selectRoomStatusCurrent,
+} from "system";
+import { clamp } from "ramda";
+import clsx from "clsx";
+
+function unify(e: any) {
+  return e.changedTouches ? e.changedTouches[0] : e;
+}
+
+export function useSwipe() {
+  const [direction, setDirection] = useState(0);
+  const [originX, setOriginX] = useState(0);
+
+  const onPressStart = useCallback((e) => {
+    e = unify(e);
+
+    setOriginX(e.clientX);
+  }, []);
+
+  const onPressEnd = useCallback(
+    (e) => {
+      e = unify(e);
+
+      setDirection(-1 * Math.sign(e.clientX - originX));
+      setOriginX(0);
+
+      requestAnimationFrame(() => setDirection(0));
+    },
+    [originX]
+  );
+
+  return { direction, onPressStart, onPressEnd };
+}
 
 type BetsProps = {
   enable?: boolean;
   options: number[];
-  value: number;
   onChange?: (bet: number) => void;
 };
-function Bets({ options, value, onChange, enable }: BetsProps) {
+function Bets({ options, onChange, enable }: BetsProps) {
+  const status = useAppSelector(selectRoomStatusCurrent);
+  const show = status === RoomStatus.Start;
+
+  const [active, setActive] = useState(0);
+
+  const { direction, onPressEnd, onPressStart } = useSwipe();
+
+  useEffect(() => {
+    const _clamp = clamp(-1, options.length - 2);
+
+    setActive((active) => _clamp(active + direction));
+  }, [direction, setActive, options.length]);
+
+  useEffect(() => {
+    onChange?.(options[active]);
+  }, [onChange, options, active]);
+
   return (
-    <CircleLayout radius={5.2}>
-      {options.map((option, index) => (
-        <Radian key={option} radian={Math.PI * (1.06 + 0.2 * index)}>
-          <Bet value={option} enable={enable} active={index === value} />
-        </Radian>
-      ))}
-    </CircleLayout>
+    <div
+      className={clsx(
+        "absolute bottom-0 right-0 w-full h-full",
+        "flex items-end justify-end",
+        "pointer-events-auto",
+        show
+          ? "ease-out-expo"
+          : "transform translate-x-1/2 translate-y-1/2 ease-in-expo",
+        "transition-transform duration-700 "
+      )}
+      style={{ willChange: "transform" }}
+      onMouseDown={onPressStart}
+      onMouseUp={onPressEnd}
+      onTouchStart={onPressStart}
+      onTouchEnd={onPressEnd}
+    >
+      <div className="relative">
+        <div className="w-24">
+          <img src={Assets.Room.Bet_Frame} alt="bet background" />
+        </div>
+
+        <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
+          <CircleLayout radius={5.2}>
+            {options.map((option, index) => (
+              <Radian
+                key={option}
+                radian={Math.PI * (1.06 + 0.2 * (index - active))}
+                className="transition-transform"
+                style={{ willChange: "transform" }}
+              >
+                <Bet
+                  value={option}
+                  enable={enable}
+                  active={index === active + 1}
+                />
+              </Radian>
+            ))}
+          </CircleLayout>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -36,13 +123,7 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
 
   return (
     <div className="relative w-full h-full">
-      <div className="w-24 absolute bottom-0 right-0">
-        <img src={Assets.Room.Bet_Frame} alt="bet background" />
-      </div>
-
-      <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
-        <Bets options={bets} value={bet} onChange={setBet} />
-      </div>
+      <Bets options={bets} onChange={setBet} />
 
       <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
         <CircleLayout radius={8.4}>
