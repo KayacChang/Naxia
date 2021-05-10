@@ -5,13 +5,33 @@ import { Modal } from "components";
 import clsx from "clsx";
 import Assets from "assets";
 
+function qualityCheck(quality: number) {
+  // 這裡要重新設定 quality 對應 顏色
+
+  switch (quality) {
+    case 0:
+      return { img: Assets.Lobby.Repo_Item_Epic, color: "purple" };
+    case 1:
+      return {
+        img: Assets.Lobby.Repo_Item_Legendary,
+        color: "orange",
+      };
+    case 2:
+      return { img: Assets.Lobby.Repo_Item_Rare, color: "blue" };
+    case 3:
+      return { img: Assets.Lobby.Repo_Item_Rare, color: "green" };
+    default:
+      return { img: Assets.Lobby.Repo_Item_Normal, color: "black" };
+  }
+}
+
 type ItemGridProps = Item & {
   onClick?: () => void;
 };
-function ItemGrid({ onClick, count, name, img }: ItemGridProps) {
+function ItemGrid({ onClick, count, name, img, quality }: ItemGridProps) {
   return (
     <button className="relative text-white" onClick={onClick}>
-      <img src={Assets.Lobby.Repo_Item_Epic} alt="Item frame" />
+      <img src={qualityCheck(quality).img} alt="Item frame" />
 
       <img className="absolute top-0" src={img} alt={name} />
 
@@ -24,32 +44,50 @@ type DetailProps = Item & {
   onConfirm?: () => void;
   onClose?: () => void;
 };
-function Detail({ name, img, onConfirm, onClose }: DetailProps) {
+function Detail({ name, img, quality, onConfirm, onClose }: DetailProps) {
   return (
     <div className="text-white flex justify-center">
-      <div className="flex flex-col space-y-2 absolute top-1/3 w-1/3">
-        <div className="flex w-20 h-20 bg-white mx-auto">
-          {/* <img src={IMG(img)} alt="items" /> */}
+      <div className="flex flex-col h-full space-y-1 absolute justify-center items-center w-2/3">
+        <div className="relative flex w-20 h-20 mx-auto">
+          <img src={qualityCheck(quality).img} alt="items frame" />
+          <div className="absolute p-2">
+            <img src={img} alt="items" />
+          </div>
         </div>
 
-        <div className="text-center space-y-1">
-          <h3 className="bg-black bg-opacity-50">{name}</h3>
+        <div className="relative w-1/2">
+          <img src={Assets.Lobby.Repo_Item_Detail_Bg} alt="items detail bg" />
+          <div
+            className="absolute top-0 w-full text-center pt-1 px-3
+          "
+          >
+            <h3
+              className="text-lg mb-1"
+              style={{ color: qualityCheck(quality).color }}
+            >
+              {name}
+            </h3>
 
-          <p className="bg-black bg-opacity-50">
-            <span>Count: </span>
-            <span>30</span>
-          </p>
+            <p className="text-sm mb-3">
+              <span>擁有: </span>
+              <span className="ml-2 text-yellow-500">30</span>
+            </p>
+
+            <p className="w-full text-left text-xs text-gray-500">
+              這裡應該要打進來說明文字。
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="p-4 space-x-4 flex justify-end absolute bottom-0 right-0">
+      {/* <div className="p-4 space-x-4 flex justify-end absolute bottom-0 right-0">
         <Button className="bg-white text-black w-24" onClick={onConfirm}>
           Exchange
         </Button>
         <Button className="bg-white text-black w-24" onClick={onClose}>
           Back
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -159,7 +197,12 @@ export default function Repository({ className, items }: RepositoryProps) {
 
             <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
               {items.filter(active.cond).map((item) => (
-                <ItemGrid key={item.id} {...item} />
+                <ItemGrid
+                  key={item.id}
+                  {...item}
+                  onClick={() => setItem(item)}
+                  quality={item.quality}
+                />
               ))}
             </div>
 
@@ -175,7 +218,7 @@ export default function Repository({ className, items }: RepositoryProps) {
       </article>
 
       {item && (
-        <Modal className="z-20">
+        <Modal className="z-20" onClose={() => setItem(undefined)}>
           <Detail
             {...item}
             onConfirm={() => setExchange(item)}

@@ -90,6 +90,8 @@ const Lobby = {
   Repo_Item_Legendary: assets("/lobby/repository/item_legendary.png"),
   Repo_Item_Rare: assets("/lobby/repository/item_rare.png"),
   Repo_Item_Uncommon: assets("/lobby/repository/item_uncommon.png"),
+  Repo_Item_Normal: assets("/lobby/repository/item_normal.png"),
+  Repo_Item_Detail_Bg: assets("/lobby/repository/item_detail_bg.png"),
 };
 
 const Login = {
