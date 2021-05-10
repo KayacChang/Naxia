@@ -1,15 +1,6 @@
 export default async function (fastify) {
   const preHandler = fastify.auth([fastify.verifyJWT]);
 
-  fastify.addSchema({
-    $id: "/dungeons/info/skill",
-    type: "object",
-    properties: {
-      img: { type: "string" },
-      name: { type: "string" },
-    },
-  });
-
   const schema = {
     response: {
       200: {
@@ -24,20 +15,6 @@ export default async function (fastify) {
               img: { type: "string" },
               room_id: { type: "string" },
               stream_link: { type: "string" },
-              bet_options: {
-                type: "array",
-                items: { type: "number" },
-              },
-              skill_options: {
-                type: "object",
-                properties: {
-                  banker: { $ref: "/dungeons/info/skill#" },
-                  player: { $ref: "/dungeons/info/skill#" },
-                  tie: { $ref: "/dungeons/info/skill#" },
-                  bank_pair: { $ref: "/dungeons/info/skill#" },
-                  player_pair: { $ref: "/dungeons/info/skill#" },
-                },
-              },
               location_x: { type: "number" },
               location_y: { type: "number" },
               is_lock: { type: "boolean" },
@@ -49,18 +26,18 @@ export default async function (fastify) {
     },
   };
 
-  async function getInfo(request) {
+  async function unlock(request) {
     const dungeonID = request.params.dungeonID;
-    const dungeon = await fastify.findDungeon(dungeonID);
+    const dungeon = await fastify.updateDungeon(dungeonID, { is_lock: false });
 
     return {
       data: dungeon,
       success: true,
     };
   }
-  fastify.get(
-    "/:mapID/dungeons/:dungeonID/info",
+  fastify.post(
+    "/:mapID/dungeons/:dungeonID/unlock",
     { preHandler, schema },
-    getInfo
+    unlock
   );
 }

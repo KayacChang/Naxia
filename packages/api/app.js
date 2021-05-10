@@ -79,6 +79,7 @@ export default async function (fastify, opts) {
           stream_link: "https://storage.googleapis.com/naxia-dev/video.flv",
           location_x: 10,
           location_y: 50,
+          is_lock: true,
           bet_options: [100, 200, 500, 1000],
           skill_options: {
             banker: {
