@@ -1,36 +1,39 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
-type CommonButtonProps = {
+type BaseButtonProps = {
   className?: string;
-};
-
-type IconButtonProps = CommonButtonProps & {
-  type: "img";
-  img: string;
   onClick?: (event: React.MouseEvent) => void;
   children?: ReactNode;
+  onPointerUp?: (event: React.PointerEvent) => void;
+  onPointerDown?: (event: React.PointerEvent) => void;
 };
-function IconButton({ img, className, children, onClick }: IconButtonProps) {
+function BaseButton({ children, ...props }: BaseButtonProps) {
+  return <button {...props}>{children}</button>;
+}
+
+type IconButtonProps = BaseButtonProps & {
+  type: "img";
+  img: string;
+};
+function IconButton({ img, children, ...props }: IconButtonProps) {
   return (
-    <button className={className} onClick={onClick}>
+    <BaseButton {...props}>
       <img src={img} alt={img} />
 
       {children}
-    </button>
+    </BaseButton>
   );
 }
 
-type DefaultButtonProps = CommonButtonProps & {
+type DefaultButtonProps = BaseButtonProps & {
   type?: "default";
-  onClick?: (event: React.MouseEvent) => void;
-  children?: ReactNode;
 };
-function DefaultButton({ onClick, className, children }: DefaultButtonProps) {
+function DefaultButton({ className, children, ...props }: DefaultButtonProps) {
   return (
-    <button className={clsx("px-4 py-2 rounded", className)} onClick={onClick}>
+    <BaseButton className={clsx("px-4 py-2 rounded", className)} {...props}>
       {children}
-    </button>
+    </BaseButton>
   );
 }
 
