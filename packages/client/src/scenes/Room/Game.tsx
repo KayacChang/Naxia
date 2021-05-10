@@ -76,7 +76,10 @@ function Boss() {
   useEffect(() => {
     if (boss?.id === undefined) return;
 
-    setCurrent(new Spine(assets(String(boss.id))));
+    const current = new Spine(assets(String(boss.id)));
+    current.state.setAnimation(0, "Idle", true);
+
+    setCurrent(current);
   }, [boss?.id, assets, setCurrent]);
 
   return (
@@ -103,7 +106,6 @@ function Boss() {
           return;
         }
 
-        current.state.setAnimation(0, "Idle", true);
         ref.addChild(current);
 
         if (status === RoomStatus.Change) {

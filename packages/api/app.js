@@ -35,11 +35,21 @@ export default async function (fastify, opts) {
       const items = [
         {
           id: 1,
-          count: 20,
+          count: 2,
           name: "美杜莎碎片",
-          quality: 1,
+          quality: "2",
           point: 50,
-          img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+          img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
+          description: "美杜莎掉落的碎片。",
+        },
+        {
+          id: 2,
+          count: 3,
+          name: "金屬塊",
+          quality: "1",
+          point: 150,
+          img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
+          description: "鑄造用的材料。",
         },
       ];
 
@@ -69,6 +79,7 @@ export default async function (fastify, opts) {
           stream_link: "https://storage.googleapis.com/naxia-dev/video.flv",
           location_x: 10,
           location_y: 50,
+          is_lock: true,
           bet_options: [100, 200, 500, 1000],
           skill_options: {
             banker: {

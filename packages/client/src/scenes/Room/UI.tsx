@@ -16,6 +16,32 @@ import {
   selectRoomHasSubmitted,
 } from "system";
 import clsx from "clsx";
+import { ReactNode, useState } from "react";
+
+type ControlButtonProps = {
+  children?: ReactNode;
+  onClick?: () => void;
+  img: string;
+};
+function ControlButton({ img, children, onClick }: ControlButtonProps) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <Button
+      type="img"
+      img={img}
+      className={clsx(
+        "relative flex justify-end items-center",
+        active && "filter brightness-75"
+      )}
+      onClick={onClick}
+      onPointerDown={() => setActive(true)}
+      onPointerUp={() => setActive(false)}
+    >
+      <span className="absolute px-4">{children}</span>
+    </Button>
+  );
+}
 
 type GameUIProps = {
   user: User;
@@ -52,40 +78,36 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
         </div>
 
         <div className="w-1/3 flex flex-col">
-          <div className="flex flex-row justify-end space-x-4 mt-2">
+          <div className="flex flex-row justify-end space-x-4 mt-2 mr-2">
             <div
               className={clsx(
                 "space-y-2 flex flex-col font-noto w-24",
-                "transition-opacity duration-500 opacity-0",
-                status === TRoomStatus.Start && !hasSubmitted && "opacity-100"
+                "transition-opacity duration-500",
+                status === TRoomStatus.Start && !hasSubmitted
+                  ? "opacity-100"
+                  : "opacity-0"
               )}
             >
-              <Button
-                type="img"
+              <ControlButton
                 img={Assets.Room.Control_Confirm_Normal}
-                className="relative flex justify-end items-center"
                 onClick={() => dispatch(room.order.submit(order))}
               >
-                <div className="absolute px-4">{"確認"}</div>
-              </Button>
+                確認
+              </ControlButton>
 
-              <Button
-                type="img"
+              <ControlButton
                 img={Assets.Room.Control_Cancel_Normal}
-                className="relative flex justify-end items-center"
                 onClick={() => dispatch(room.order.clear())}
               >
-                <div className="absolute px-4">{"歸零"}</div>
-              </Button>
+                歸零
+              </ControlButton>
 
-              <Button
-                type="img"
+              <ControlButton
                 img={Assets.Room.Control_Redo_Normal}
-                className="relative flex justify-end items-center"
                 onClick={() => dispatch(room.order.redo())}
               >
-                <div className="absolute px-4">{"重複"}</div>
-              </Button>
+                重複
+              </ControlButton>
             </div>
 
             <Sidebar className="w-12" />

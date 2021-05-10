@@ -23,7 +23,7 @@ function SystemModal({ title, button, onConfirm }: SystemModalProps) {
             {title}
           </TextFancyShadow>
 
-          <div className="w-full h-full flex-1 flex flex-wrap justify-between content-between text-center pt-10 pb-20">
+          <div className="w-full h-full flex-1 flex flex-wrap justify-between content-between text-center pt-6 pb-20">
             <TextFancyShadow className="w-full text-2xl">
               今日福利活動
             </TextFancyShadow>
@@ -34,7 +34,7 @@ function SystemModal({ title, button, onConfirm }: SystemModalProps) {
               200%爆率 500%經驗
             </TextFancyShadow>
 
-            <TextFancyShadow className="w-full h-6"> </TextFancyShadow>
+            <TextFancyShadow className="w-full h-4"> </TextFancyShadow>
 
             {button && (
               <div className="w-full flex justify-center items-start">

@@ -126,6 +126,7 @@ export interface GetAllDungeonsInMapResponse {
     stream_link: string;
     location_x: number;
     location_y: number;
+    is_lock: boolean;
   }[];
   success: boolean;
 }
@@ -137,13 +138,23 @@ export function getAllDungeonsInMap(
     .then(({ data }) => data)
     .then((data) =>
       data.map(
-        ({ id, name, img, room_id, stream_link, location_x, location_y }) => ({
+        ({
+          id,
+          name,
+          img,
+          room_id,
+          stream_link,
+          location_x,
+          location_y,
+          is_lock,
+        }) => ({
           id,
           name,
           img,
           room: room_id,
           stream: stream_link,
           location: { x: location_x, y: location_y },
+          lock: is_lock,
         })
       )
     );
@@ -219,6 +230,7 @@ export interface GetInfoByDungeonIDResponse {
     skill_options: SkillSet;
     location_x: number;
     location_y: number;
+    is_lock: boolean;
   };
   success: boolean;
 }
@@ -243,6 +255,7 @@ export function getInfoByDungeonID(
         skill_options,
         location_x,
         location_y,
+        is_lock,
       }) => ({
         id,
         name,
@@ -258,6 +271,7 @@ export function getInfoByDungeonID(
           bank_pair: skill_options.bank_pair,
           player_pair: skill_options.player_pair,
         },
+        lock: is_lock,
       })
     );
 }

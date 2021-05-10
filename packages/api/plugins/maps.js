@@ -86,6 +86,12 @@ export default fp(async function (fastify) {
     return fastify.findDungeon(dungeon.id);
   });
 
+  fastify.decorate("updateDungeon", async (dungeonID, dungeon) => {
+    const old = await fastify.findDungeon(dungeonID);
+
+    return fastify.addDungeon({ ...old, ...dungeon });
+  });
+
   fastify.decorate("findRound", (roundID) => {
     const db = fastify.level.map;
     const key = `round:${roundID}`;

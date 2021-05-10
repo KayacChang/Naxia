@@ -4,7 +4,7 @@
 @port = {{$dotenv PORT}}
 @host = {{protocol}}://{{hostname}}:{{port}}
 @contentType = application/json
-@token = {{login.response.body.$.data.token}}
+@token = Bearer {{login.response.body.$.data.token}}
 @map = {{maps.response.body.$.data.0.id}}
 @dungeon = {{dungeons.response.body.$.data.0.id}}
 
@@ -44,6 +44,13 @@ authorization: {{token}}
 # @name dungeons
 GET {{host}}/maps/{{map}}/dungeons HTTP/1.1
 authorization: {{token}}
+
+### Unlock Dungeon
+POST {{host}}/maps/{{map}}/dungeons/{{dungeon}}/unlock HTTP/1.1
+content-type: {{contentType}}
+authorization: {{token}}
+
+{}
 
 ### Get conditions by dungeon"s id
 GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/conditions HTTP/1.1

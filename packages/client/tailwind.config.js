@@ -10,8 +10,8 @@ module.exports = {
       },
       scale: {
         "-100": "-1",
-        "115": "1.15",
-        "120": "1.2",
+        115: "1.15",
+        120: "1.2",
       },
       fontFamily: {
         noto: ["Noto Serif TC", "serif"],
@@ -28,6 +28,11 @@ module.exports = {
       },
       animation: {
         ping: "ping 1s cubic-bezier(0, 0, 0.2, 1)",
+        "ping-loop": "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+        spin: "spin 10s linear infinite",
+      },
+      width: {
+        126: "31.5rem",
       },
     },
   },

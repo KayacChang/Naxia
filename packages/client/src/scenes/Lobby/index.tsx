@@ -1,4 +1,3 @@
-import { Texture } from "pixi.js";
 import { useEffect, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
@@ -35,17 +34,26 @@ import Assets from "assets";
 
 import { DungeonDetail } from "./Map";
 import Repository from "./Repository";
+import Ranking from "./Ranking";
+
+import Store from "./Store";
+import { filters } from "pixi.js";
 
 type DungeonProps = {
-  frame: Texture;
-  img: Texture;
+  id: number;
   title: string;
   x: number;
   y: number;
+  lock?: boolean;
   onClick?: () => void;
 };
-function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
-  const [imageWidth, setImageWidth] = useState(0);
+function Dungeon({ id, x, y, title, lock, onClick }: DungeonProps) {
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const assets = useAppSelector(selectAssetsByName);
+
+  const colorMatrix = new filters.ColorMatrixFilter();
+  colorMatrix.blackAndWhite(true);
 
   return (
     <Container
@@ -55,15 +63,35 @@ function Dungeon({ x, y, frame, img, title, onClick }: DungeonProps) {
       buttonMode={true}
       pointerdown={onClick || identity}
     >
-      <Sprite ref={(ref) => setImageWidth(ref?.width || 0)} texture={img} />
+      <Container filters={lock ? [colorMatrix] : []}>
+        <Sprite
+          ref={(ref) => {
+            setWidth(ref?.width || 0);
+            setHeight(ref?.height || 0);
+          }}
+          texture={assets(`Dungeon_${id}`)}
+        />
 
-      <Sprite x={-68} y={-16} texture={frame} />
+        <Sprite x={-68} y={-16} texture={assets("Dungeon_Frame")} />
+      </Container>
+
+      {lock && (
+        <Sprite
+          anchor={0.5}
+          x={width / 2}
+          y={height / 2}
+          texture={assets("Lock")}
+        />
+      )}
 
       <Text
         anchor={{ x: 0.5, y: 0 }}
-        x={imageWidth / 2}
+        x={width / 2}
         y={202}
-        style={{ fill: "#ffffff" }}
+        style={{
+          fill: lock ? ["#ffffff"] : ["#fef3c7", "#fde68a", "#fbbf24"],
+          fontFamily: "kai",
+        }}
         text={title}
       />
     </Container>
@@ -79,42 +107,42 @@ export default function Lobby() {
   const items = useUserItem();
 
   const { data: maps } = useMaps();
-
   const map = maps?.[0];
 
   const { data: dungeons } = useDungeons(map?.id);
 
   const { width, height } = useViewport();
   const [dungeonID, setDungeonID] = useState<number | undefined>(undefined);
-  const match = useRouteMatch("/lobby");
+  const matchLobby = useRouteMatch("/lobby");
+  const matchStory = useRouteMatch("/lobby/store");
 
   useEffect(() => {
     dispatch(addAssets(toTask(Assets.Lobby)));
   }, [dispatch]);
 
   if (loading || !user || !items || !map || !dungeons) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   return (
     <>
-      <Game className={clsx(match?.isExact || "pointer-events-none")}>
+      <Game className={clsx(matchLobby?.isExact || "pointer-events-none")}>
         <Camera
           screenWidth={width}
           screenHeight={height}
-          pause={!match?.isExact}
+          pause={!matchLobby?.isExact}
         >
           <Sprite texture={assets("Map")} />
 
           {dungeons.map((dungeon) => (
             <Dungeon
               key={dungeon.id}
+              id={dungeon.id}
               x={1920 * (dungeon.location.x / 100)}
               y={1080 * (dungeon.location.y / 100)}
-              frame={assets("Dungeon_Frame")}
-              img={assets(`Dungeon_${dungeon.id}`)}
               title={dungeon.name}
               onClick={() => setDungeonID(dungeon.id)}
+              lock={dungeon.lock}
             />
           ))}
         </Camera>
@@ -123,11 +151,11 @@ export default function Lobby() {
       <UI className="flex flex-col">
         <header className="h-12 relative">
           <Profile user={user} />
-          <Location value="娜希雅大陸" />
+          <Location value={matchStory?.isExact ? "兌換商店" : map.name} />
           <Status value={currency(user.balance)} />
         </header>
 
-        <main className="flex-1 flex justify-end space-x-2 z-20">
+        <main className="flex-1 flex justify-end space-x-2">
           <Switch>
             <Route exact path="/lobby">
               {dungeonID && (
@@ -144,8 +172,14 @@ export default function Lobby() {
               <Repository items={items} className="w-3/5" />
             </Route>
             <Route path="/lobby/book"></Route>
-            <Route path="/lobby/rank"></Route>
-            <Route path="/lobby/shop"></Route>
+
+            <Route path="/lobby/ranking">
+              <Ranking className=" w-3/5" />
+            </Route>
+
+            <Route path="/lobby/store">
+              <Store className="w-full" />
+            </Route>
           </Switch>
 
           <Sidebar className="w-12 mr-2" />
