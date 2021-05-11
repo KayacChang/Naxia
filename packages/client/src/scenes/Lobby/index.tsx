@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
@@ -33,7 +33,7 @@ import {
 
 import Assets from "assets";
 
-import { DungeonDetail, DungeonConditon } from "./Map";
+import { DungeonDetail, DungeonCondition } from "./Map";
 import Repository from "./Repository";
 import Ranking from "./Ranking";
 
@@ -48,8 +48,9 @@ type DungeonProps = {
   y: number;
   lock?: boolean;
   onClick?: () => void;
+  lockAnim?: (ref: TContainer | null) => void;
 };
-function Dungeon({ id, x, y, title, lock, onClick }: DungeonProps) {
+function Dungeon({ id, x, y, title, lock, onClick, lockAnim }: DungeonProps) {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
@@ -86,20 +87,9 @@ function Dungeon({ id, x, y, title, lock, onClick }: DungeonProps) {
         />
       )}
 
-      <Container
-        anchor={0.5}
-        x={width / 2}
-        y={height / 2}
-        ref={(ref: TContainer | null) => {
-          if (!ref) return;
-
-          const lock = new Spine(assets("Lock_Anim"));
-
-          lock.state.setAnimation(0, "animation", false);
-
-          ref.addChild(lock);
-        }}
-      />
+      {lockAnim && (
+        <Container anchor={0.5} x={width / 2} y={height / 2} ref={lockAnim} />
+      )}
 
       <Text
         anchor={{ x: 0.5, y: 0 }}
@@ -130,6 +120,28 @@ export default function Lobby() {
 
   const { width, height } = useViewport();
   const [dungeon, setDungeon] = useState<TDungeon | undefined>(undefined);
+  const [showLockByID, setShowLockByID] = useState<number | undefined>(
+    undefined
+  );
+
+  const showLockAnim = useCallback(
+    (ref: TContainer | null) => {
+      if (!ref) return;
+
+      const anim = new Spine(assets("Lock_Anim"));
+      anim.state.setAnimation(0, "animation", false);
+
+      anim.state.addListener({
+        complete: () => {
+          setShowLockByID(undefined);
+        },
+      });
+
+      ref.addChild(anim);
+    },
+    [assets, setShowLockByID]
+  );
+
   const matchLobby = useRouteMatch("/lobby");
   const matchStory = useRouteMatch("/lobby/store");
 
@@ -155,11 +167,12 @@ export default function Lobby() {
             <Dungeon
               key={dungeon.id}
               id={dungeon.id}
+              title={dungeon.name}
               x={1920 * (dungeon.location.x / 100)}
               y={1080 * (dungeon.location.y / 100)}
-              title={dungeon.name}
               onClick={() => setDungeon(dungeon)}
               lock={dungeon.lock}
+              lockAnim={showLockByID === dungeon.id ? showLockAnim : undefined}
             />
           ))}
         </Camera>
@@ -184,9 +197,13 @@ export default function Lobby() {
                       onCancel={() => setDungeon(undefined)}
                     />
                   ) : (
-                    <DungeonConditon
+                    <DungeonCondition
                       mapID={map.id}
                       dungeonID={dungeon.id}
+                      onConfirm={() => {
+                        setShowLockByID(dungeon.id);
+                        setDungeon(undefined);
+                      }}
                       onCancel={() => setDungeon(undefined)}
                     />
                   )}

@@ -4,8 +4,9 @@ import {
   getConditionsByDungeonID,
   getInfoByDungeonID,
   getRoundsByDungeonID,
+  unlock,
 } from "api";
-import { useQueries, useQuery } from "react-query";
+import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
 import { useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { Condition, DungeonInfo, Round } from "types";
@@ -40,20 +41,33 @@ export function useDungeon(mapID?: number, dungeonID?: number) {
   const results = useQueries([
     {
       queryKey: ["dungeon/conditions", mapID, dungeonID],
-      queryFn: () => getConditionsByDungeonID(token!, mapID!, dungeonID!),
+      queryFn: () => getConditionsByDungeonID(token, mapID!, dungeonID!),
       enabled,
     },
     {
       queryKey: ["dungeon/rounds", mapID, dungeonID],
-      queryFn: () => getRoundsByDungeonID(token!, mapID!, dungeonID!),
+      queryFn: () => getRoundsByDungeonID(token, mapID!, dungeonID!),
       enabled,
     },
     {
       queryKey: ["dungeon/info", mapID, dungeonID],
-      queryFn: () => getInfoByDungeonID(token!, mapID!, dungeonID!),
+      queryFn: () => getInfoByDungeonID(token, mapID!, dungeonID!),
       enabled,
     },
   ]);
+
+  const client = useQueryClient();
+
+  type UnlockRequest = {
+    mapID: number;
+    dungeonID: number;
+  };
+  const mutation = useMutation(
+    ({ mapID, dungeonID }: UnlockRequest) => unlock(token, mapID, dungeonID),
+    {
+      onSuccess: () => client.refetchQueries(),
+    }
+  );
 
   const isCompleted = results.every(({ isSuccess }) => isSuccess);
   if (!isCompleted) return;
@@ -62,5 +76,6 @@ export function useDungeon(mapID?: number, dungeonID?: number) {
     conditions: results[0].data as Condition[],
     rounds: results[1].data as Round[],
     info: results[2].data as DungeonInfo,
+    unlock: mutation.mutateAsync,
   };
 }

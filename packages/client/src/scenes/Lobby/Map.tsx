@@ -77,18 +77,18 @@ export function DungeonDetail({
   );
 }
 
-type DungeonConditonProps = {
+type DungeonConditionProps = {
   mapID: number;
   dungeonID: number;
   onConfirm?: () => void;
   onCancel?: () => void;
 };
-export function DungeonConditon({
+export function DungeonCondition({
   mapID,
   dungeonID,
   onConfirm,
   onCancel,
-}: DungeonConditonProps) {
+}: DungeonConditionProps) {
   const dungeon = useDungeon(mapID, dungeonID);
 
   if (!dungeon) return <></>;
@@ -97,7 +97,10 @@ export function DungeonConditon({
     <SystemModal
       button="確認"
       subButton="取消"
-      onConfirm={onConfirm}
+      onConfirm={() => {
+        onConfirm?.();
+        dungeon.unlock({ mapID, dungeonID });
+      }}
       customFunc={onCancel}
     >
       <div className="px-6 py-4">

@@ -30,7 +30,7 @@ function post<T>(
     method: "POST",
     headers: {
       "content-type": "application/json",
-      ...(authorization ? { authorization } : {}),
+      ...(authorization ? { authorization: `Bearer ${authorization}` } : {}),
     },
     body: JSON.stringify(payload),
   }).then((res) => res.json());
@@ -293,4 +293,26 @@ export interface BetRequest {
 }
 export function bet(token: string, req: BetRequest) {
   return post<BetResponse>(API("bet"), req, token).then(({ data }) => data);
+}
+
+export interface UnlockResponse {
+  data: {
+    id: number;
+    map_id: number;
+    name: string;
+    img: string;
+    room_id: string;
+    stream_link: string;
+    location_x: number;
+    location_y: number;
+    is_lock: boolean;
+  };
+  success: boolean;
+}
+export function unlock(token: string, mapID: number, dungeonID: number) {
+  return post<UnlockResponse>(
+    API(`maps/${mapID}/dungeons/${dungeonID}/unlock`),
+    {},
+    token
+  ).then(({ data }) => data);
 }
