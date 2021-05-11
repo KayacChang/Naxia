@@ -59,7 +59,6 @@ function splitRankNumber(rank: number): Array<string> {
 function formatPoint(point: number): string {
   const numStr = String(point);
   const numChar = numStr.split("").reverse();
-  console.log(numChar);
   const newNumArrayRe = numChar.map((char, index) => {
     if (index !== 0 && index % 3 === 0) return [",", char];
     return char;
@@ -128,20 +127,18 @@ function RankingItem({
               ? Assets.Lobby.Ranking_OtherNo
               : Assets.Lobby[`Ranking_No${rank}`]
           }
-          alt=""
+          alt="Ranking"
         />
         {rank > 3 && (
           <div className="absolute flex transform -translate-y-1">
-            {splitRankNumber(rank).map((char) => {
-              return (
-                <img
-                  key={`${char} in ${rank}`}
-                  className="w-2"
-                  src={Assets.Lobby[`Ranking_Number${char}`]}
-                  alt="Ranking"
-                />
-              );
-            })}
+            {splitRankNumber(rank).map((char) => (
+              <img
+                key={`${char} in ${rank}`}
+                className="w-2"
+                src={Assets.Lobby[`Ranking_Number${char}`]}
+                alt="Ranking"
+              />
+            ))}
           </div>
         )}
       </div>
