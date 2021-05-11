@@ -1,10 +1,9 @@
-import { Modal } from "components/lobby/Modal";
+import { Modal, SystemModal } from "components";
 import { useState, ReactNode } from "react";
 import Assets from "assets";
 import { range } from "ramda";
 import { User } from "types";
 import { useAppDispatch, user as UserSystem } from "system";
-import SystemModal from "./SystemModal";
 
 const AvatarList = {
   1: Assets.Common.Avatar_01,

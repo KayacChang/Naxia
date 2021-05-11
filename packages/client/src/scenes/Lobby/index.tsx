@@ -14,6 +14,7 @@ import {
   addAssets,
   useUser,
   useUserItem,
+  Spine,
 } from "system";
 import { useViewport, currency, toTask } from "utils";
 import { Game, UI } from "layers";
@@ -32,12 +33,13 @@ import {
 
 import Assets from "assets";
 
-import { DungeonDetail } from "./Map";
+import { DungeonDetail, DungeonConditon } from "./Map";
 import Repository from "./Repository";
 import Ranking from "./Ranking";
 
 import Store from "./Store";
-import { filters } from "pixi.js";
+import { Container as TContainer, filters } from "pixi.js";
+import { Dungeon as TDungeon } from "types";
 
 type DungeonProps = {
   id: number;
@@ -84,6 +86,21 @@ function Dungeon({ id, x, y, title, lock, onClick }: DungeonProps) {
         />
       )}
 
+      <Container
+        anchor={0.5}
+        x={width / 2}
+        y={height / 2}
+        ref={(ref: TContainer | null) => {
+          if (!ref) return;
+
+          const lock = new Spine(assets("Lock_Anim"));
+
+          lock.state.setAnimation(0, "animation", false);
+
+          ref.addChild(lock);
+        }}
+      />
+
       <Text
         anchor={{ x: 0.5, y: 0 }}
         x={width / 2}
@@ -112,7 +129,7 @@ export default function Lobby() {
   const { data: dungeons } = useDungeons(map?.id);
 
   const { width, height } = useViewport();
-  const [dungeonID, setDungeonID] = useState<number | undefined>(undefined);
+  const [dungeon, setDungeon] = useState<TDungeon | undefined>(undefined);
   const matchLobby = useRouteMatch("/lobby");
   const matchStory = useRouteMatch("/lobby/store");
 
@@ -141,7 +158,7 @@ export default function Lobby() {
               x={1920 * (dungeon.location.x / 100)}
               y={1080 * (dungeon.location.y / 100)}
               title={dungeon.name}
-              onClick={() => setDungeonID(dungeon.id)}
+              onClick={() => setDungeon(dungeon)}
               lock={dungeon.lock}
             />
           ))}
@@ -158,13 +175,17 @@ export default function Lobby() {
         <main className="flex-1 flex justify-end space-x-2">
           <Switch>
             <Route exact path="/lobby">
-              {dungeonID && (
-                <Modal className="z-20">
-                  <DungeonDetail
-                    mapID={map.id}
-                    dungeonID={dungeonID}
-                    onCancel={() => setDungeonID(undefined)}
-                  />
+              {dungeon && (
+                <Modal className="z-20" onClose={() => setDungeon(undefined)}>
+                  {!dungeon.lock ? (
+                    <DungeonDetail
+                      mapID={map.id}
+                      dungeonID={dungeon.id}
+                      onCancel={() => setDungeon(undefined)}
+                    />
+                  ) : (
+                    <DungeonConditon />
+                  )}
                 </Modal>
               )}
             </Route>

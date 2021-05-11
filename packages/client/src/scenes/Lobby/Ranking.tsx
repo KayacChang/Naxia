@@ -1,4 +1,3 @@
-import { User } from "types";
 import { useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
@@ -139,6 +138,7 @@ function RankingItem({
                   key={`${char} in ${rank}`}
                   className="w-2"
                   src={Assets.Lobby[`Ranking_Number${char}`]}
+                  alt="Ranking"
                 />
               );
             })}
@@ -149,7 +149,7 @@ function RankingItem({
         <img
           className="absolute"
           src={Assets.Lobby.Ranking_Avatar_Background}
-          alt=""
+          alt="background"
         />
         <img className="absolute" src={Assets.Lobby.Ranking_Avatar} alt="" />
       </div>
@@ -157,7 +157,6 @@ function RankingItem({
         {userName}
       </div>
       <div className="absolute top-1/2 transform -translate-y-1/2 left-56 text-fansy flex justify-center items-center">
-        <img src="" alt="" />
         {formatPoint(point)}
       </div>
     </div>
@@ -166,7 +165,6 @@ function RankingItem({
 
 type RankingProps = {
   className?: string;
-  // user: User[];
 };
 
 export default function Ranking({ className }: RankingProps) {

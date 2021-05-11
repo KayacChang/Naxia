@@ -68,6 +68,7 @@ const Lobby = {
 
   // Lock
   Lock: assets("/lobby/lock.png"),
+  Lock_Anim: assets("/animation/unlock/skeleton.json"),
 
   // Dungeon
   Dungeon_Frame: assets("/lobby/dungeon/dungeon_frame.png"),

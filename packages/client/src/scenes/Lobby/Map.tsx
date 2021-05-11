@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
 import { useDungeon } from "system";
-import { Button, Road } from "components";
+import { Button, Road, SystemModal } from "components";
 import Assets from "assets";
 
 type DungeonDetailProps = {
@@ -73,5 +73,40 @@ export function DungeonDetail({
         </div>
       </footer>
     </div>
+  );
+}
+
+export function DungeonConditon() {
+  return (
+    <SystemModal button="確認" subButton="取消">
+      <div className="px-6 py-4">
+        <p className="text-white space-x-2">
+          <span>解鎖</span>
+          <span className="text-yellow-500">水晶湖</span>
+          <span>需要達成以下條件:</span>
+        </p>
+
+        <div className="px-10 py-4">
+          <table className="table-auto w-full">
+            <tbody>
+              <tr className="text-green-400">
+                <th className="font-kai text-left">累積取得哥布林卡片:</th>
+                <td className="text-right">30/30</td>
+              </tr>
+
+              <tr className="text-red-500">
+                <th className="font-kai text-left">累積取得食人獸卡片:</th>
+                <td className="text-right">30/30</td>
+              </tr>
+
+              <tr className="text-green-400">
+                <th className="font-kai text-left">擁有點數:</th>
+                <td className="text-right">30/600</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </SystemModal>
   );
 }

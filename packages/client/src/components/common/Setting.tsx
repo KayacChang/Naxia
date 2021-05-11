@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Assets from "assets";
-import { Modal } from "components/lobby/Modal";
-import SystemModal from "./SystemModal";
+import { Modal, SystemModal } from "components";
 
 type SliderBarProps = {
   title: string;

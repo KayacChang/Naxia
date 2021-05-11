@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Assets from "assets";
 import clsx from "clsx";
+
 type SystemModalProps = {
   title?: string;
   children?: ReactNode;
@@ -10,7 +11,7 @@ type SystemModalProps = {
   subButton?: string;
   customFunc?: () => void;
 };
-export default function SystemModal({
+export function SystemModal({
   title,
   children,
   className,
