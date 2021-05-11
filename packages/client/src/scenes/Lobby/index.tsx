@@ -184,7 +184,11 @@ export default function Lobby() {
                       onCancel={() => setDungeon(undefined)}
                     />
                   ) : (
-                    <DungeonConditon />
+                    <DungeonConditon
+                      mapID={map.id}
+                      dungeonID={dungeon.id}
+                      onCancel={() => setDungeon(undefined)}
+                    />
                   )}
                 </Modal>
               )}

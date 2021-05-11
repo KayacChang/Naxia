@@ -2,6 +2,7 @@ import { useHistory } from "react-router";
 import { useDungeon } from "system";
 import { Button, Road, SystemModal } from "components";
 import Assets from "assets";
+import clsx from "clsx";
 
 type DungeonDetailProps = {
   mapID: number;
@@ -76,33 +77,54 @@ export function DungeonDetail({
   );
 }
 
-export function DungeonConditon() {
+type DungeonConditonProps = {
+  mapID: number;
+  dungeonID: number;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+};
+export function DungeonConditon({
+  mapID,
+  dungeonID,
+  onConfirm,
+  onCancel,
+}: DungeonConditonProps) {
+  const dungeon = useDungeon(mapID, dungeonID);
+
+  if (!dungeon) return <></>;
+
   return (
-    <SystemModal button="確認" subButton="取消">
+    <SystemModal
+      button="確認"
+      subButton="取消"
+      onConfirm={onConfirm}
+      customFunc={onCancel}
+    >
       <div className="px-6 py-4">
         <p className="text-white space-x-2">
           <span>解鎖</span>
-          <span className="text-yellow-500">水晶湖</span>
+          <span className="text-yellow-500">{dungeon.info.name}</span>
           <span>需要達成以下條件:</span>
         </p>
 
-        <div className="px-10 py-4">
+        <div className="py-4">
           <table className="table-auto w-full">
             <tbody>
-              <tr className="text-green-400">
-                <th className="font-kai text-left">累積取得哥布林卡片:</th>
-                <td className="text-right">30/30</td>
-              </tr>
-
-              <tr className="text-red-500">
-                <th className="font-kai text-left">累積取得食人獸卡片:</th>
-                <td className="text-right">30/30</td>
-              </tr>
-
-              <tr className="text-green-400">
-                <th className="font-kai text-left">擁有點數:</th>
-                <td className="text-right">30/600</td>
-              </tr>
+              {dungeon.conditions.map((condition, index) => (
+                <tr
+                  className={clsx(
+                    condition.achieve ? "text-green-400" : "text-red-500"
+                  )}
+                  key={index}
+                >
+                  <th className="font-kai text-left">
+                    {condition.item
+                      ? `累積取得${condition.item}:`
+                      : `擁有點數:`}
+                  </th>
+                  <td className="text-right">{`${condition.accumulate} / ${condition.count}`}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
