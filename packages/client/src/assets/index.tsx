@@ -6,6 +6,9 @@ const Room = {
   Status: assets("/room/room_status.png"),
   Back: assets("/room/back.png"),
 
+  // Road
+  Road_Frame_Small: assets("/road/frame_small.png"),
+
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
   Bet_Active: assets("/room/bet/bet-active.png"),

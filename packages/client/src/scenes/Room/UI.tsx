@@ -1,7 +1,7 @@
 import { useHistory } from "react-router";
 import { UI } from "layers";
 import { currency } from "utils";
-import { Sidebar, Profile, Location, Status, Road, Button } from "components";
+import { Sidebar, Profile, Location, Status, Button } from "components";
 
 import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
@@ -20,10 +20,11 @@ import {
   selectRoomOrder,
   selectRoomStatusCurrent,
   selectRoomHasSubmitted,
-  selectRoomBossCurrent,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
+
+import { Road } from "./Road";
 
 type ControlButtonProps = {
   children?: ReactNode;
@@ -72,8 +73,8 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
       </header>
 
       <div className="flex-1 flex">
-        <div className="w-2/3 flex flex-col justify-between p-2">
-          <RoomStatus className="w-52 mt-8" skills={info.skills} />
+        <div className="w-2/3 flex flex-col justify-between px-2 mt-8">
+          <RoomStatus className="w-52" skills={info.skills} />
 
           <Button
             type="img"
@@ -82,7 +83,7 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
             onClick={() => history.replace("/lobby")}
           />
 
-          <Road rounds={rounds} />
+          <Road className="w-3/5" />
         </div>
 
         <div className="w-1/3 flex flex-col">
