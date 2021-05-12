@@ -59,7 +59,12 @@ export default function Room() {
         <GameView />
       </Game>
 
-      <GameUI user={user!} info={dungeon!.info} rounds={dungeon!.rounds} />
+      <GameUI
+        user={user!}
+        info={dungeon!.info}
+        rounds={dungeon!.rounds}
+        boss={boss!}
+      />
 
       <GameEffect />
 

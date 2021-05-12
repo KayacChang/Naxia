@@ -6,7 +6,13 @@ import { Sidebar, Profile, Location, Status, Road, Button } from "components";
 import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
 import Assets from "assets";
-import { Round, User, DungeonInfo, RoomStatus as TRoomStatus } from "types";
+import {
+  Round,
+  User,
+  DungeonInfo,
+  RoomStatus as TRoomStatus,
+  Boss,
+} from "types";
 import {
   useAppDispatch,
   room,
@@ -14,6 +20,7 @@ import {
   selectRoomOrder,
   selectRoomStatusCurrent,
   selectRoomHasSubmitted,
+  selectRoomBossCurrent,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
@@ -47,8 +54,9 @@ type GameUIProps = {
   user: User;
   rounds: Round[];
   info: DungeonInfo;
+  boss: Boss;
 };
-export default function GameUI({ user, rounds, info }: GameUIProps) {
+export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const order = useAppSelector(selectRoomOrder);
@@ -59,7 +67,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
     <UI className="flex flex-col text-white">
       <header className="h-10 relative">
         <Profile user={user} />
-        <Location value="娜希雅大陸" />
+        <Location value={boss.name} />
         <Status value={currency(user.balance)} />
       </header>
 
