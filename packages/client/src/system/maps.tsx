@@ -48,6 +48,7 @@ export function useDungeon(mapID?: number, dungeonID?: number) {
       queryKey: ["dungeon/rounds", mapID, dungeonID],
       queryFn: () => getRoundsByDungeonID(token, mapID!, dungeonID!),
       enabled,
+      refetchInterval: 10 * 1000,
     },
     {
       queryKey: ["dungeon/info", mapID, dungeonID],

@@ -1,7 +1,14 @@
 import { useHistory } from "react-router";
 import { UI } from "layers";
 import { currency } from "utils";
-import { Sidebar, Profile, Location, Status, Button } from "components";
+import {
+  Sidebar,
+  Profile,
+  Location,
+  Status,
+  Button,
+  RoomRoadMini as Road,
+} from "components";
 
 import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
@@ -23,8 +30,6 @@ import {
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
-
-import { Road } from "./Road";
 
 type ControlButtonProps = {
   children?: ReactNode;

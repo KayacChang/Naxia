@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
 import { useDungeon } from "system";
-import { Button, Road, SystemModal } from "components";
+import { Button, LobbyRoad as Road, SystemModal } from "components";
 import Assets from "assets";
 import clsx from "clsx";
 

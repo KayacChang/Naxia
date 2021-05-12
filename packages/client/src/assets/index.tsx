@@ -161,8 +161,6 @@ const Common = {
 
   // Road
   Road_Frame: assets("/road/frame.png"),
-  Road_Blue: assets("/road/blue.png"),
-  Road_Red: assets("/road/red.png"),
 
   // Avatar
   Avatar_Frame: assets("/avatar/avatar_frame.png"),

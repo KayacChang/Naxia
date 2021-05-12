@@ -8,6 +8,7 @@ import {
   Round,
   DungeonInfo,
   SkillSet,
+  SkillOption,
 } from "types";
 
 const API = (...paths: string[]) =>
@@ -194,7 +195,7 @@ export function getConditionsByDungeonID(
 export interface GetRoundsByDungeonIDResponse {
   data: {
     id: number;
-    result: "banker" | "player" | "tie" | "bank_pair" | "player_pair";
+    results: SkillOption[];
     created_at: string;
   }[];
   success: boolean;
@@ -210,9 +211,9 @@ export function getRoundsByDungeonID(
   )
     .then(({ data }) => data)
     .then((data) =>
-      data.map(({ id, result, created_at }) => ({
+      data.map(({ id, results, created_at }) => ({
         id,
-        result,
+        results,
         createdAt: new Date(created_at),
       }))
     );

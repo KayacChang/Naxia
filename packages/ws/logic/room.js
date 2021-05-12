@@ -161,7 +161,7 @@ const results = [
     info: {
       game_round: "1620099597851",
       banker: false,
-      player: false,
+      player: true,
       tie: false,
       bank_pair: true,
       player_pair: false,
@@ -194,7 +194,7 @@ const results = [
     result: "lose",
     info: {
       game_round: "1620099597851",
-      banker: false,
+      banker: true,
       player: false,
       tie: false,
       bank_pair: false,
