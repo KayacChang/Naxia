@@ -60,6 +60,16 @@ authorization: {{token}}
 GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/rounds HTTP/1.1
 authorization: {{token}}
 
+### Create round by dungeon"s id
+POST {{host}}/maps/{{map}}/dungeons/{{dungeon}}/rounds HTTP/1.1
+content-type: {{contentType}}
+authorization: {{token}}
+
+{
+    "results": ["player"],
+    "created_at": "2021-04-15T07:50:56.000Z"
+}
+
 ### Get info by dungeon"s id
 GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/info HTTP/1.1
 authorization: {{token}}
