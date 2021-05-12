@@ -63,7 +63,6 @@ authorization: {{token}}
 ### Create round by dungeon"s id
 POST {{host}}/maps/{{map}}/dungeons/{{dungeon}}/rounds HTTP/1.1
 content-type: {{contentType}}
-authorization: {{token}}
 
 {
     "results": ["player"],

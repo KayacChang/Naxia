@@ -37,7 +37,7 @@ function all(fastify, preHandler) {
   );
 }
 
-function add(fastify, preHandler) {
+function add(fastify) {
   const schema = {
     body: {
       type: "object",
@@ -84,16 +84,12 @@ function add(fastify, preHandler) {
       success: true,
     };
   }
-  fastify.post(
-    "/:mapID/dungeons/:dungeonID/rounds",
-    { preHandler, schema },
-    addRound
-  );
+  fastify.post("/:mapID/dungeons/:dungeonID/rounds", { schema }, addRound);
 }
 
 export default async function (fastify) {
   const preHandler = fastify.auth([fastify.verifyJWT]);
 
   all(fastify, preHandler);
-  add(fastify, preHandler);
+  add(fastify);
 }

@@ -1,6 +1,7 @@
 import { BehaviorSubject, interval } from "rxjs";
 import { filter, map, share, throttleTime } from "rxjs/operators";
 import { Random, MersenneTwister19937 } from "random-js";
+import fetch from "node-fetch";
 
 const random = new Random(MersenneTwister19937.autoSeed());
 
@@ -315,7 +316,22 @@ const Result = Status.pipe(
 Status.subscribe(console.log);
 Count.subscribe(console.log);
 Boss.subscribe(console.log);
-Result.subscribe(console.log);
+Result.subscribe((result) => {
+  if (!result) return;
+
+  console.log(result);
+
+  const results = Object.entries(result.data.info)
+    .filter(([key]) => key !== "game_round")
+    .filter(([, value]) => value === true)
+    .map(([name]) => name);
+
+  fetch(`${process.env.API}/maps/1/dungeons/1/rounds`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ results }),
+  });
+});
 
 export function join(connection) {
   function send(event) {
