@@ -67,10 +67,36 @@ function Record({ results }: RecordProps) {
   );
 }
 
+type MarkerRoadProps = {
+  rounds: Round[];
+  className?: string;
+  style?: CSSProperties;
+};
+function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
+  return (
+    <div
+      className={clsx(
+        "grid grid-flow-col grid-cols-9 grid-rows-6 place-items-center",
+        className
+      )}
+      style={style}
+    >
+      {rounds.slice(-1 * 9 * 6).map(({ id, results }) => (
+        <Record key={id} results={results} />
+      ))}
+    </div>
+  );
+}
+
 type RoomRoadMiniProps = {
   className?: string;
+  rounds: Round[];
 };
-export function RoomRoadMini({ className }: RoomRoadMiniProps) {
+export function RoomRoadMini({ className, rounds }: RoomRoadMiniProps) {
+  const countByResult = (result: SkillOption) =>
+    rounds.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+      .length;
+
   return (
     <div className={clsx("relative", className)}>
       <img src={Assets.Room.Road_Frame_Small} alt="background" />
@@ -81,55 +107,31 @@ export function RoomRoadMini({ className }: RoomRoadMiniProps) {
           <div className="flex-1 flex justify-center items-center">閒</div>
         </div>
 
-        <div className="flex-1 grid grid-flow-col grid-cols-9 grid-rows-6 place-items-center mt-0.5">
-          <Record results={["player"]} />
-          <Record results={["banker"]} />
-          <Record results={["tie"]} />
-          <Record results={["player", "bank_pair", "player_pair"]} />
-          <Record results={["banker", "bank_pair", "player_pair"]} />
-          <Record results={["tie", "bank_pair", "player_pair"]} />
-        </div>
+        <MarkerRoad rounds={rounds} className="flex-1 gap-0.5 mt-0.5" />
 
         <div className="w-12 flex flex-col text-xs p-0.5">
           <div className="flex-1 flex justify-between items-center text-red-500">
             <span>莊</span>
-            <span>2</span>
+            <span>{countByResult("banker")}</span>
           </div>
           <div className="flex-1 flex justify-between items-center text-blue-500">
             <span>閒</span>
-            <span>2</span>
+            <span>{countByResult("player")}</span>
           </div>
           <div className="flex-1 flex justify-between items-center text-green-400">
             <span>和</span>
-            <span>2</span>
+            <span>{countByResult("tie")}</span>
           </div>
           <div className="flex-1 flex justify-between items-center text-blue-400">
             <span>閒對</span>
-            <span>2</span>
+            <span>{countByResult("player_pair")}</span>
           </div>
           <div className="flex-1 flex justify-between items-center text-red-400">
             <span>莊對</span>
-            <span>2</span>
+            <span>{countByResult("bank_pair")}</span>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-type MarkerRoadProps = {
-  rounds: Round[];
-  style?: CSSProperties;
-};
-function MarkerRoad({ rounds, style }: MarkerRoadProps) {
-  return (
-    <div
-      className="w-full h-full grid grid-flow-col grid-cols-9 grid-rows-6 gap-0.5"
-      style={style}
-    >
-      {rounds.map(({ id, results }) => (
-        <Record key={id} results={results} />
-      ))}
     </div>
   );
 }

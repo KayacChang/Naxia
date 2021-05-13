@@ -88,7 +88,7 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
             onClick={() => history.replace("/lobby")}
           />
 
-          <Road className="w-3/5" />
+          <Road className="w-3/5" rounds={rounds} />
         </div>
 
         <div className="w-1/3 flex flex-col">

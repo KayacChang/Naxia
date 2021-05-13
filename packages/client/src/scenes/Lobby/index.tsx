@@ -133,6 +133,7 @@ export default function Lobby() {
 
       anim.state.addListener({
         complete: () => {
+          ref.removeChild(anim);
           setShowLockByID(undefined);
         },
       });
