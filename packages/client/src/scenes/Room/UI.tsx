@@ -7,7 +7,7 @@ import {
   Location,
   Status,
   Button,
-  RoomRoadMini as Road,
+  RoomRoad as Road,
 } from "components";
 
 import RoomStatus from "./RoomStatus";

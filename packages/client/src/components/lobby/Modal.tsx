@@ -12,15 +12,22 @@ export function Modal({ children, className, onClose }: ModalProps) {
 
   return (
     <div
-      style={{ width: `${width}px`, height: `${height}px` }}
-      className={clsx("fixed top-0 z-30", className)}
+      className={clsx(
+        "fixed top-0 left-0 w-full h-full z-50 flex justify-center",
+        className
+      )}
     >
       <div
-        className="bg-black bg-opacity-75 absolute top-0 w-full h-full pointer-events-auto -z-10"
-        onClick={onClose}
-      ></div>
+        style={{ width: `${width}px`, height: `${height}px` }}
+        className="relative"
+      >
+        <div
+          className="bg-black bg-opacity-75 absolute top-0 w-full h-full pointer-events-auto -z-10"
+          onClick={onClose}
+        ></div>
 
-      {children}
+        {children}
+      </div>
     </div>
   );
 }

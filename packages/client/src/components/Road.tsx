@@ -1,8 +1,9 @@
 import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode, CSSProperties, useCallback, useState } from "react";
 import { SkillOption, Round } from "types";
+import { Modal } from ".";
 
 type CircleProps = {
   className?: string;
@@ -88,51 +89,71 @@ function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
   );
 }
 
-type RoomRoadMiniProps = {
+function RoadLarge() {
+  return <div></div>;
+}
+
+type RoomRoadProps = {
   className?: string;
   rounds: Round[];
 };
-export function RoomRoadMini({ className, rounds }: RoomRoadMiniProps) {
-  const countByResult = (result: SkillOption) =>
-    rounds.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
-      .length;
+export function RoomRoad({ className, rounds }: RoomRoadProps) {
+  const [open, setOpen] = useState(false);
+
+  const countByResult = useCallback(
+    (result: SkillOption) =>
+      rounds.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+        .length,
+    [rounds]
+  );
 
   return (
-    <div className={clsx("relative", className)}>
-      <img src={Assets.Room.Road_Frame_Small} alt="background" />
+    <>
+      <button
+        className={clsx("relative", className)}
+        onClick={() => setOpen(true)}
+      >
+        <img src={Assets.Room.Road_Frame_Small} alt="background" />
 
-      <div className="absolute w-full h-full top-0 flex py-1 px-1.5 font-kai">
-        <div className="w-8 flex flex-col">
-          <div className="flex-1 flex justify-center items-center">莊</div>
-          <div className="flex-1 flex justify-center items-center">閒</div>
+        <div className="absolute w-full h-full top-0 flex py-1 px-1.5 font-kai">
+          <div className="w-8 flex flex-col">
+            <div className="flex-1 flex justify-center items-center">莊</div>
+            <div className="flex-1 flex justify-center items-center">閒</div>
+          </div>
+
+          <MarkerRoad rounds={rounds} className="flex-1 gap-0.5 mt-0.5" />
+
+          <div className="w-12 flex flex-col text-xs p-0.5">
+            <div className="flex-1 flex justify-between items-center text-red-500">
+              <span>莊</span>
+              <span>{countByResult("banker")}</span>
+            </div>
+            <div className="flex-1 flex justify-between items-center text-blue-500">
+              <span>閒</span>
+              <span>{countByResult("player")}</span>
+            </div>
+            <div className="flex-1 flex justify-between items-center text-green-400">
+              <span>和</span>
+              <span>{countByResult("tie")}</span>
+            </div>
+            <div className="flex-1 flex justify-between items-center text-blue-400">
+              <span>閒對</span>
+              <span>{countByResult("player_pair")}</span>
+            </div>
+            <div className="flex-1 flex justify-between items-center text-red-400">
+              <span>莊對</span>
+              <span>{countByResult("bank_pair")}</span>
+            </div>
+          </div>
         </div>
+      </button>
 
-        <MarkerRoad rounds={rounds} className="flex-1 gap-0.5 mt-0.5" />
-
-        <div className="w-12 flex flex-col text-xs p-0.5">
-          <div className="flex-1 flex justify-between items-center text-red-500">
-            <span>莊</span>
-            <span>{countByResult("banker")}</span>
-          </div>
-          <div className="flex-1 flex justify-between items-center text-blue-500">
-            <span>閒</span>
-            <span>{countByResult("player")}</span>
-          </div>
-          <div className="flex-1 flex justify-between items-center text-green-400">
-            <span>和</span>
-            <span>{countByResult("tie")}</span>
-          </div>
-          <div className="flex-1 flex justify-between items-center text-blue-400">
-            <span>閒對</span>
-            <span>{countByResult("player_pair")}</span>
-          </div>
-          <div className="flex-1 flex justify-between items-center text-red-400">
-            <span>莊對</span>
-            <span>{countByResult("bank_pair")}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      {open && (
+        <Modal onClose={() => setOpen(false)}>
+          <RoadLarge />
+        </Modal>
+      )}
+    </>
   );
 }
 

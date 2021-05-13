@@ -11,7 +11,7 @@ import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
 import { Container as TContainer } from "pixi.js";
 import anime from "animejs";
-import { useEffect, useState } from "react";
+import { memo, useMemo } from "react";
 import { Spine } from "@pixi-spine/all-3.8";
 
 type FadeProps = {
@@ -65,22 +65,17 @@ function CountDown() {
   );
 }
 
-function Boss() {
+const Boss = memo(() => {
   const { width, height } = useViewport();
   const boss = useAppSelector(selectRoomBossCurrent);
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
 
-  const [current, setCurrent] = useState<Spine | undefined>();
-
-  useEffect(() => {
+  const spine = useMemo(() => {
     if (boss?.id === undefined) return;
 
-    const current = new Spine(assets(String(boss.id)));
-    current.state.setAnimation(0, "Idle", true);
-
-    setCurrent(current);
-  }, [boss?.id, assets, setCurrent]);
+    return new Spine(assets(String(boss.id)));
+  }, [boss?.id]);
 
   return (
     <Container
@@ -88,29 +83,13 @@ function Boss() {
       y={height / 2}
       scale={1 / window.devicePixelRatio}
       ref={(ref: TContainer | null) => {
-        if (!ref || !current) return;
+        if (!ref || !spine) return;
 
-        if (status === RoomStatus.Result) {
-          current.state.setAnimation(0, "BeAttack", false);
-
-          current.state.addListener({
-            complete: () =>
-              anime({
-                targets: current,
-                alpha: [1, 0],
-                duration: 1000,
-                easing: "easeOutCubic",
-              }),
-          });
-
-          return;
-        }
-
-        ref.addChild(current);
+        ref.addChild(spine);
 
         if (status === RoomStatus.Change) {
           anime({
-            targets: current,
+            targets: spine,
             alpha: [0, 1],
             duration: 1000,
             easing: "easeOutCubic",
@@ -119,7 +98,7 @@ function Boss() {
       }}
     />
   );
-}
+});
 
 function equals<T>(a: T): SafePred<T> {
   return (b: T) => a === b;
