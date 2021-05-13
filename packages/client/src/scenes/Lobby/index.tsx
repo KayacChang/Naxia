@@ -132,10 +132,7 @@ export default function Lobby() {
       anim.state.setAnimation(0, "animation", false);
 
       anim.state.addListener({
-        complete: () => {
-          ref.removeChild(anim);
-          setShowLockByID(undefined);
-        },
+        complete: () => setShowLockByID(undefined),
       });
 
       ref.addChild(anim);
@@ -190,7 +187,7 @@ export default function Lobby() {
           <Switch>
             <Route exact path="/lobby">
               {dungeon && (
-                <Modal className="z-20" onClose={() => setDungeon(undefined)}>
+                <Modal className="z-20">
                   {!dungeon.lock ? (
                     <DungeonDetail
                       mapID={map.id}
