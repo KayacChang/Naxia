@@ -75,7 +75,7 @@ const Boss = memo(() => {
     if (boss?.id === undefined) return;
 
     return new Spine(assets(String(boss.id)));
-  }, [boss?.id]);
+  }, [assets, boss?.id]);
 
   return (
     <Container

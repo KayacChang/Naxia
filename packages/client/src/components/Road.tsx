@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { cond, includes } from "ramda";
 import { ReactNode, CSSProperties, useCallback, useState } from "react";
 import { SkillOption, Round } from "types";
-import { Modal } from ".";
+import { Modal } from "./lobby/Modal";
 
 type CircleProps = {
   className?: string;
