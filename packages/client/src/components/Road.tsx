@@ -1,7 +1,8 @@
 import Assets from "assets";
 import clsx from "clsx";
-import { cond, includes } from "ramda";
+import { cond, equals, includes } from "ramda";
 import { ReactNode, CSSProperties, useCallback, useState } from "react";
+import { Continue } from "scenes/Room/Continue";
 import { SkillOption, Round } from "types";
 import { Modal } from "./lobby/Modal";
 
@@ -89,8 +90,43 @@ function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
   );
 }
 
+type CountProps = {
+  type?: SkillOption;
+  value: number;
+};
+function Count({ type, value }: CountProps) {
+  // @todo
+  return (
+    <div className="flex-1 flex p-1.5 space-x-4">
+      {/* <img src={} alt="background" /> */}
+
+      <div className="flex items-center text-2xl">{value}</div>
+    </div>
+  );
+}
+
 function RoadLarge() {
-  return <div></div>;
+  return (
+    <div className="w-full h-full flex flex-col justify-center items-center">
+      <div className="relative mx-4">
+        <img src={Assets.Room.Road_Frame_Big} alt="background" />
+
+        <div className="absolute top-0 w-full h-full flex flex-col p-4">
+          <div className="h-12 flex">
+            <Count value={2} />
+            <Count value={2} />
+            <Count value={2} />
+            <Count value={2} />
+            <Count value={2} />
+          </div>
+
+          <div className="flex-1">{/* @todo */}</div>
+        </div>
+      </div>
+
+      <Continue className="font-kai" text="點擊繼續" />
+    </div>
+  );
 }
 
 type RoomRoadProps = {
@@ -106,6 +142,14 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
         .length,
     [rounds]
   );
+
+  const skillOptions: SkillOption[] = [
+    "banker",
+    "player",
+    "tie",
+    "player_pair",
+    "bank_pair",
+  ];
 
   return (
     <>
@@ -124,26 +168,31 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
           <MarkerRoad rounds={rounds} className="flex-1 gap-0.5 mt-0.5" />
 
           <div className="w-12 flex flex-col text-xs p-0.5">
-            <div className="flex-1 flex justify-between items-center text-red-500">
-              <span>莊</span>
-              <span>{countByResult("banker")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-blue-500">
-              <span>閒</span>
-              <span>{countByResult("player")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-green-400">
-              <span>和</span>
-              <span>{countByResult("tie")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-blue-400">
-              <span>閒對</span>
-              <span>{countByResult("player_pair")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-red-400">
-              <span>莊對</span>
-              <span>{countByResult("bank_pair")}</span>
-            </div>
+            {skillOptions.map((type) => (
+              <div
+                className={clsx(
+                  "flex-1 flex justify-between items-center ",
+                  cond<SkillOption, string>([
+                    [(type) => type === "banker", () => "text-red-500"],
+                    [(type) => type === "player", () => "text-blue-500"],
+                    [(type) => type === "tie", () => "text-green-400"],
+                    [(type) => type === "player_pair", () => "text-blue-400"],
+                    [(type) => type === "bank_pair", () => "text-red-400"],
+                  ])(type)
+                )}
+              >
+                <span>
+                  {cond<SkillOption, string>([
+                    [(type) => type === "banker", () => "莊"],
+                    [(type) => type === "player", () => "閒"],
+                    [(type) => type === "tie", () => "和"],
+                    [(type) => type === "player_pair", () => "閒對"],
+                    [(type) => type === "bank_pair", () => "莊對"],
+                  ])(type)}
+                </span>
+                <span>{countByResult(type)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </button>
