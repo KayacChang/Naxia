@@ -112,7 +112,10 @@ export function Profile({ user }: ProfileProps) {
 
       {isPersonalInfoOpen && (
         <Modal onClose={() => setPersonalInfoOpen(false)}>
-          <SystemModal title="個人資訊">
+          <SystemModal
+            title="個人資訊"
+            onClose={() => setPersonalInfoOpen(false)}
+          >
             <div className="h-full flex flex-col font-noto text-xs text-white">
               <div className="flex-1 flex items-center px-2 pt-3 space-x-2">
                 <Avatar

@@ -164,6 +164,7 @@ const Common = {
   Modal_Frame_Outer: assets("/modal/modal_frame_outer.png"),
   Modal_Title: assets("/modal/modal_title.png"),
   Modal_Button: assets("/modal/modal_button.png"),
+  Modal_Close: assets("/modal/close.png"),
 
   // Road
   Road_Frame: assets("/road/frame.png"),
