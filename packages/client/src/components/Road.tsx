@@ -1,6 +1,6 @@
 import Assets from "assets";
 import clsx from "clsx";
-import { cond, equals, includes } from "ramda";
+import { cond, includes } from "ramda";
 import { ReactNode, CSSProperties, useCallback, useState } from "react";
 import { Continue } from "scenes/Room/Continue";
 import { SkillOption, Round } from "types";
@@ -170,6 +170,7 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
           <div className="w-12 flex flex-col text-xs p-0.5">
             {skillOptions.map((type) => (
               <div
+                key={type}
                 className={clsx(
                   "flex-1 flex justify-between items-center ",
                   cond<SkillOption, string>([

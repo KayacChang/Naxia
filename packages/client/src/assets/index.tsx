@@ -187,12 +187,16 @@ const Common = {
 
   // Sidebar
   Sidebar_Announcement: assets("/sidebar/announcement.png"),
+  Sidebar_Information: assets("/sidebar/information.png"),
+  Sidebar_Mail: assets("/sidebar/mail.png"),
+  Sidebar_Menu: assets("/sidebar/menu.png"),
   Sidebar_Setting: assets("/sidebar/setting.png"),
-  Sidebar_Mailbox: assets("/sidebar/mail.png"),
+  Sidebar_Stream: assets("/sidebar/stream.png"),
 
   // Fonts
   Font_Kai: assets("/fonts/kai.ttc"),
 
+  // Setting
   Setting_Check: assets("/sidebar/setting/check.png"),
   Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
   Setting_Reset_Button: assets("/sidebar/setting/reset_button.png"),
