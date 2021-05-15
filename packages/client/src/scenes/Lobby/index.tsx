@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
@@ -9,9 +9,8 @@ import {
   useDungeons,
   useAppSelector,
   selectAssetsByName,
-  useUser,
-  useUserItem,
-  Spine,
+  selectUser,
+  selectUserItems,
 } from "system";
 import { useViewport, currency } from "utils";
 import { Game, UI } from "layers";
@@ -26,6 +25,7 @@ import {
   Switch,
   Route,
   Camera,
+  Spine,
 } from "components";
 
 import { DungeonDetail, DungeonCondition } from "./Map";
@@ -33,7 +33,7 @@ import Repository from "./Repository";
 import Ranking from "./Ranking";
 
 import Store from "./Store";
-import { Container as TContainer, filters } from "pixi.js";
+import { filters } from "pixi.js";
 import { Dungeon as TDungeon } from "types";
 
 type DungeonProps = {
@@ -59,26 +59,6 @@ function Dungeon({
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
-
-  const ref = useRef<TContainer>(null);
-
-  useEffect(() => {
-    if (!ref.current || !showLockAnim) return;
-
-    const anim = new Spine(assets("Lock_Anim"));
-    anim.state.setAnimation(0, "animation", false);
-
-    anim.state.addListener({
-      complete: () => onClear?.(),
-    });
-
-    ref.current.addChild(anim);
-
-    return () => {
-      anim.state.clearTracks();
-      onClear?.();
-    };
-  }, [assets, showLockAnim, onClear]);
 
   const colorMatrix = new filters.ColorMatrixFilter();
   colorMatrix.blackAndWhite(true);
@@ -112,7 +92,19 @@ function Dungeon({
         />
       )}
 
-      <Container anchor={0.5} x={width / 2} y={height / 2} ref={ref} />
+      {showLockAnim && (
+        <Spine
+          x={width / 2}
+          y={height / 2}
+          data={assets("Lock_Anim")}
+          mount={(spine) => {
+            spine.state.setAnimation(0, "animation", false);
+            spine.state.addListener({
+              complete: onClear,
+            });
+          }}
+        />
+      )}
 
       <Text
         anchor={{ x: 0.5, y: 0 }}
@@ -130,9 +122,8 @@ function Dungeon({
 
 export default function Lobby() {
   const assets = useAppSelector(selectAssetsByName);
-
-  const user = useUser();
-  const items = useUserItem();
+  const user = useAppSelector(selectUser);
+  const items = useAppSelector(selectUserItems);
 
   const { data: maps } = useMaps();
   const map = maps?.[0];

@@ -134,7 +134,7 @@ export default function Login() {
           x={width / 2}
           y={height / 2}
           scale={0.4}
-          onMount={(spine) => spine.state.setAnimation(0, "animation", true)}
+          mount={(spine) => spine.state.setAnimation(0, "animation", true)}
         />
       </Game>
 

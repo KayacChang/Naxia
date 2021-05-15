@@ -7,7 +7,7 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, store } from "system";
+import { addAssets, store, user } from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 
@@ -18,9 +18,11 @@ const Login = lazy(() =>
 );
 
 const Lobby = lazy(() =>
-  store
-    .dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Lobby })))
-    .then(() => import("./scenes/Lobby"))
+  Promise.all([
+    store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Lobby }))),
+    store.dispatch(user.sync()),
+    store.dispatch(user.item.sync()),
+  ]).then(() => import("./scenes/Lobby"))
 );
 
 const Room = lazy(() =>
