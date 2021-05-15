@@ -146,6 +146,7 @@ const Login = {
   Login_Logo: assets("/login/logo.png"),
   Login_Submit: assets("/login/submit-btn.png"),
   Login_Form: assets("/login/input-form.png"),
+  Login_Spine: assets("/animation/login/skeleton.json"),
 };
 
 const Common = {
