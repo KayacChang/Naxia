@@ -6,14 +6,11 @@ import {
   selectRoomIsJoin,
   useAppSelector,
   selectAssetIsLoading,
-  addAssets,
   room,
   useUser,
   selectRoomBossCurrent,
 } from "system";
-import { toTask } from "utils";
 import { Loading } from "components";
-import Assets from "assets";
 import { Game } from "layers";
 
 import GameUI from "./UI";
@@ -38,7 +35,6 @@ export default function Room() {
     if (!dungeon?.info.room) return;
 
     dispatch(room.join(dungeon.info.room));
-    dispatch(addAssets(toTask(Assets.Room)));
 
     return () => void dispatch(room.leave());
   }, [dungeon?.info.room, dispatch]);

@@ -2,9 +2,9 @@ import { assets } from "utils";
 
 const Room = {
   // Room
-  Background: assets("/room/background.png"),
-  Status: assets("/room/room_status.png"),
-  Back: assets("/room/back.png"),
+  Room_Background: assets("/room/background.png"),
+  Room_Status: assets("/room/room_status.png"),
+  Room_Back: assets("/room/back.png"),
 
   // Road
   Road_Frame_Small: assets("/road/frame_small.png"),
@@ -142,10 +142,10 @@ const Lobby = {
 };
 
 const Login = {
-  Background: assets("/login/background.png"),
-  Logo: assets("/login/logo.png"),
-  Submit: assets("/login/submit-btn.png"),
-  Form: assets("/login/input-form.png"),
+  Login_Background: assets("/login/background.png"),
+  Login_Logo: assets("/login/logo.png"),
+  Login_Submit: assets("/login/submit-btn.png"),
+  Login_Form: assets("/login/input-form.png"),
 };
 
 const Common = {

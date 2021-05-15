@@ -8,15 +8,12 @@ import {
   useMaps,
   useDungeons,
   useAppSelector,
-  selectAssetIsLoading,
   selectAssetsByName,
-  useAppDispatch,
-  addAssets,
   useUser,
   useUserItem,
   Spine,
 } from "system";
-import { useViewport, currency, toTask } from "utils";
+import { useViewport, currency } from "utils";
 import { Game, UI } from "layers";
 import {
   Modal,
@@ -30,8 +27,6 @@ import {
   Route,
   Camera,
 } from "components";
-
-import Assets from "assets";
 
 import { DungeonDetail, DungeonCondition } from "./Map";
 import Repository from "./Repository";
@@ -134,9 +129,7 @@ function Dungeon({
 }
 
 export default function Lobby() {
-  const loading = useAppSelector(selectAssetIsLoading);
   const assets = useAppSelector(selectAssetsByName);
-  const dispatch = useAppDispatch();
 
   const user = useUser();
   const items = useUserItem();
@@ -155,11 +148,7 @@ export default function Lobby() {
   const matchLobby = useRouteMatch("/lobby");
   const matchStory = useRouteMatch("/lobby/store");
 
-  useEffect(() => {
-    dispatch(addAssets(toTask(Assets.Lobby)));
-  }, [dispatch]);
-
-  if (loading || !user || !items || !map || !dungeons) {
+  if (!user || !items || !map || !dungeons) {
     return <Loading />;
   }
 

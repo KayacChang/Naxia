@@ -132,7 +132,7 @@ function Background() {
   const assets = useAppSelector(selectAssetsByName);
 
   return (
-    <Sprite width={width} height={height} texture={assets("Background")} />
+    <Sprite width={width} height={height} texture={assets("Room_Background")} />
   );
 }
 

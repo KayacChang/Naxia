@@ -1,17 +1,8 @@
 import clsx from "clsx";
 import { UI } from "layers";
-import { ReactNode, useEffect, useState, FormEvent } from "react";
-import { Loading } from "components";
-import {
-  addAssets,
-  selectAssetIsLoading,
-  useAppDispatch,
-  useAppSelector,
-  user,
-} from "system";
+import { ReactNode, useEffect, useState, FormEvent, useCallback } from "react";
+import { useAppDispatch, user } from "system";
 import { useHistory } from "react-router";
-import { toTask } from "utils";
-
 import Assets from "assets";
 
 type InputFieldProps = {
@@ -41,7 +32,7 @@ function InputField({
       onFocusCapture={() => setFocus(true)}
       onBlurCapture={() => setFocus(false)}
     >
-      <img src={Assets.Login.Form} alt="input's background" />
+      <img src={Assets.Login.Login_Form} alt="input's background" />
 
       <div className="absolute top-0 w-full h-full px-12 flex justify-center items-center">
         <span
@@ -71,7 +62,7 @@ type SubmitProps = {
 function Submit({ className, children }: SubmitProps) {
   return (
     <button className={clsx("relative ", className)}>
-      <img src={Assets.Login.Submit} alt="submit button" />
+      <img src={Assets.Login.Login_Submit} alt="submit button" />
 
       <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
         <span>{children}</span>
@@ -82,38 +73,31 @@ function Submit({ className, children }: SubmitProps) {
 
 export default function Login() {
   const dispatch = useAppDispatch();
-  const loading = useAppSelector(selectAssetIsLoading);
-
-  useEffect(() => {
-    dispatch(addAssets(toTask(Assets.Common)));
-  }, [dispatch]);
-
   const history = useHistory();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
+  const onSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
 
-    if (!username || !password) return;
+      if (!username || !password) return;
 
-    dispatch(user.auth({ username, password })).then(() =>
-      history.push("/lobby")
-    );
-  };
-
-  if (loading) {
-    return <Loading></Loading>;
-  }
+      dispatch(user.auth({ username, password })).then(() =>
+        history.push("/lobby")
+      );
+    },
+    [dispatch, history, username, password]
+  );
 
   return (
     <UI className="flex flex-col relative text-white font-noto">
-      <img src={Assets.Login.Background} alt="background" />
+      <img src={Assets.Login.Login_Background} alt="background" />
 
       <div className="absolute top-0 px-32 flex flex-col items-center">
         <div className="p-8">
-          <img src={Assets.Login.Logo} alt="logo" />
+          <img src={Assets.Login.Login_Logo} alt="logo" />
         </div>
 
         <form className="w-3/5 space-y-4" onSubmit={onSubmit}>
