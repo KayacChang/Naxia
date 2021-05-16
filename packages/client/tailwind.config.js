@@ -32,6 +32,7 @@ module.exports = {
         spin: "spin 10s linear infinite",
       },
       width: {
+        54: "13.5rem",
         126: "31.5rem",
       },
     },

@@ -8,6 +8,10 @@ const Room = {
 
   // Road
   Road_Frame_Small: assets("/road/frame_small.png"),
+  Road_Frame_Big: assets("/road/frame_big.png"),
+  Road_Frame: assets("/road/frame.png"),
+  Road_Ring_Red: assets("/road/big_ring_red.png"),
+  Road_Ring_Blue: assets("/road/big_ring_blue.png"),
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
