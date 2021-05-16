@@ -66,7 +66,7 @@ function Record({ results }: RecordProps) {
   return (
     <Circle
       className={clsx(
-        "rounded-full relative w-full h-full flex justify-center items-center",
+        "rounded-full relative w-5/6 h-5/6 flex justify-center items-center",
         cond<SkillOption[], string>([
           [includes("banker"), () => "from-red-500"],
           [includes("player"), () => "from-blue-500"],
@@ -139,17 +139,6 @@ function CountCube({ cubeClassName, color, role, count }: CountCubePorps) {
   );
 }
 
-function RoadLargeRecordItem({ results }: RecordProps) {
-  return (
-    <div
-      style={{ width: "1.48rem", height: "1.48rem" }}
-      className="flex justify-center items-center pl-1 pt-1"
-    >
-      <Record results={results} />
-    </div>
-  );
-}
-
 type RoadLargeProps = {
   rounds: Round[];
 };
@@ -199,36 +188,25 @@ function RoadLarge({ rounds }: RoadLargeProps) {
           />
         </div>
         <div className="w-full h-36 flex ">
-          {/* 左側 */}
-          <div className="w-54 h-full flex flex-wrap content-start">
-            {rounds.slice(-1 * 9 * 6).map(({ id, results }) => (
-              <RoadLargeRecordItem results={results} key={id} />
-            ))}
-          </div>
+          <MarkerRoad rounds={rounds} className="w-54 mt-0.5 px-0.5" />
 
-          {/* 右側 */}
           <div className="flex-1 mt-px ml-px -mr-px">
-            {/* 右上格-大圈 */}
             <div className="w-full h-1/2 flex flex-wrap content-start pl-px">
               <Ring color="red" size="lg" />
               <Ring color="blue" size="lg" />
             </div>
 
-            {/* 右中格-小圈 */}
             <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
               <Ring color="blue" size="sm" />
               <Ring color="red" size="sm" />
             </div>
 
-            {/* 右下格 */}
             <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
-              {/* 左格-小圓 */}
               <div className="w-1/2 h-full flex flex-wrap">
                 <Circle className="from-blue-500 w-1 h-1 m-px" />
                 <Circle className="from-red-500 w-1 h-1 m-px" />
               </div>
 
-              {/* 右格-小斜槓 */}
               <div className="w-1/2 h-full pl-px flex flex-wrap">
                 <Slash className="from-blue-500" />
                 <Slash className="from-red-500" />
@@ -293,7 +271,7 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
             <div className="flex-1 flex justify-center items-center">閒</div>
           </div>
 
-          <MarkerRoad rounds={rounds} className="flex-1 gap-0.5 mt-0.5" />
+          <MarkerRoad rounds={rounds} className="flex-1 mt-0.5 ml-0.5" />
 
           <div className="w-12 flex flex-col text-xs p-0.5">
             {skillOptions.map((type) => (
