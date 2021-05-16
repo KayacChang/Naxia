@@ -1,4 +1,6 @@
-import { Announcement, RoomRoad, Setting } from "components";
+import { Announcement, Setting } from "components";
+import { PrivateRoute, Switch } from "components/Router";
+import { Information } from "./Information";
 
 type SidebarProps = {
   className?: string;
@@ -6,11 +8,17 @@ type SidebarProps = {
 export function Sidebar({ className }: SidebarProps) {
   return (
     <aside className={className}>
-      <Announcement />
+      <Switch>
+        <PrivateRoute path="/lobby">
+          <Setting />
+          <Announcement />
+        </PrivateRoute>
 
-      <Setting />
-
-      {/* <RoomRoad className="w-full h-full" rounds={[]} /> */}
+        <PrivateRoute path="/room">
+          <Setting />
+          <Information />
+        </PrivateRoute>
+      </Switch>
     </aside>
   );
 }

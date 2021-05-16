@@ -1,0 +1,89 @@
+
+skeleton.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+LOGO-無底
+  rotate: false
+  xy: 534, 956
+  size: 1007, 288
+  orig: 1007, 288
+  offset: 0, 0
+  index: -1
+ren
+  rotate: true
+  xy: 2, 1109
+  size: 426, 530
+  orig: 426, 530
+  offset: 0, 0
+  index: -1
+shou
+  rotate: false
+  xy: 2, 503
+  size: 934, 451
+  orig: 934, 451
+  offset: 0, 0
+  index: -1
+shouguang
+  rotate: false
+  xy: 560, 1346
+  size: 703, 274
+  orig: 713, 274
+  offset: 3, 0
+  index: -1
+tou
+  rotate: true
+  xy: 1543, 640
+  size: 604, 478
+  orig: 604, 478
+  offset: 0, 0
+  index: -1
+wuqi1
+  rotate: false
+  xy: 1265, 1246
+  size: 754, 374
+  orig: 811, 385
+  offset: 57, 0
+  index: -1
+yangguang
+  rotate: true
+  xy: 938, 2
+  size: 636, 838
+  orig: 678, 879
+  offset: 42, 41
+  index: -1
+yanguang
+  rotate: false
+  xy: 2, 1537
+  size: 556, 83
+  orig: 564, 91
+  offset: 3, 3
+  index: -1
+
+skeleton2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+huoxing
+  rotate: false
+  xy: 2, 1200
+  size: 1920, 805
+  orig: 1920, 809
+  offset: 0, 2
+  index: -1
+huoyan
+  rotate: false
+  xy: 2, 2
+  size: 1920, 561
+  orig: 1920, 562
+  offset: 0, 0
+  index: -1
+wuqi2
+  rotate: false
+  xy: 2, 565
+  size: 1920, 633
+  orig: 1920, 656
+  offset: 0, 0
+  index: -1

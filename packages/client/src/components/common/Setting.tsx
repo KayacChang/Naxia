@@ -12,6 +12,7 @@ function SliderBar({ title, value, setValue }: SliderBarProps) {
     event.preventDefault();
     setValue(parseInt(event.currentTarget.value));
   }
+
   return (
     <div className="flex-1 text-base text-yellow-400 flex justify-between">
       <p>{title}</p>
@@ -73,7 +74,7 @@ export function Setting() {
         <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
           設定
         </div>
-        <button className="" onClick={() => setSettingOpen(true)}>
+        <button onClick={() => setSettingOpen(true)}>
           <img src={icon.icons.normal} alt={icon.key} />
         </button>
       </div>
@@ -86,6 +87,7 @@ export function Setting() {
               subButton="還原預設"
               onConfirm={() => setSettingOpen(false)}
               customFunc={resetVolume}
+              onClose={() => setSettingOpen(false)}
             >
               <div className="h-full flex font-noto text-xs text-white">
                 <div className="flex-1 flex flex-wrap justify-center items-center px-14 py-10">

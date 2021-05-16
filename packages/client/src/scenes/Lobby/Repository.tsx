@@ -44,15 +44,7 @@ type DetailProps = Item & {
   onConfirm?: () => void;
   onClose?: () => void;
 };
-function Detail({
-  name,
-  img,
-  point,
-  quality,
-  description,
-}: // onConfirm,
-// onClose,
-DetailProps) {
+function Detail({ name, img, point, quality, description }: DetailProps) {
   return (
     <div className="text-white flex justify-center">
       <div className="flex flex-col h-full space-y-1 absolute justify-center items-center w-2/3">
@@ -87,15 +79,6 @@ DetailProps) {
           </div>
         </div>
       </div>
-
-      {/* <div className="p-4 space-x-4 flex justify-end absolute bottom-0 right-0">
-        <Button className="bg-white text-black w-24" onClick={onConfirm}>
-          Exchange
-        </Button>
-        <Button className="bg-white text-black w-24" onClick={onClose}>
-          Back
-        </Button>
-      </div> */}
     </div>
   );
 }

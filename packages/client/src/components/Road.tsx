@@ -2,6 +2,7 @@ import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";
 import { ReactNode, CSSProperties, useCallback, useState } from "react";
+import { Continue } from "scenes/Room/Continue";
 import { SkillOption, Round } from "types";
 import { Modal } from "./lobby/Modal";
 import "./Road.css";
@@ -124,6 +125,7 @@ function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
   );
 }
 
+
 type CountCubePorps = {
   cubeClassName: string;
   color: string;
@@ -146,9 +148,11 @@ function RoadLargeRecordItem({ results }: RecordProps) {
       className="flex justify-center items-center pl-1 pt-1"
     >
       <Record results={results} />
+
     </div>
   );
 }
+
 
 type RoadLargeProps = {
   rounds: Round[];
@@ -237,6 +241,9 @@ function RoadLarge({ rounds }: RoadLargeProps) {
           </div>
         </div>
       </div>
+
+      <Continue className="font-kai" text="點擊繼續" />
+
     </div>
   );
 }
@@ -255,6 +262,14 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
     [rounds]
   );
 
+  const skillOptions: SkillOption[] = [
+    "banker",
+    "player",
+    "tie",
+    "player_pair",
+    "bank_pair",
+  ];
+
   return (
     <>
       <button
@@ -272,26 +287,32 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
           <MarkerRoad rounds={rounds} className="flex-1 gap-0.5 mt-0.5" />
 
           <div className="w-12 flex flex-col text-xs p-0.5">
-            <div className="flex-1 flex justify-between items-center text-red-500">
-              <span>莊</span>
-              <span>{countByResult("banker")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-blue-500">
-              <span>閒</span>
-              <span>{countByResult("player")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-green-400">
-              <span>和</span>
-              <span>{countByResult("tie")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-blue-400">
-              <span>閒對</span>
-              <span>{countByResult("player_pair")}</span>
-            </div>
-            <div className="flex-1 flex justify-between items-center text-red-400">
-              <span>莊對</span>
-              <span>{countByResult("bank_pair")}</span>
-            </div>
+            {skillOptions.map((type) => (
+              <div
+                key={type}
+                className={clsx(
+                  "flex-1 flex justify-between items-center ",
+                  cond<SkillOption, string>([
+                    [(type) => type === "banker", () => "text-red-500"],
+                    [(type) => type === "player", () => "text-blue-500"],
+                    [(type) => type === "tie", () => "text-green-400"],
+                    [(type) => type === "player_pair", () => "text-blue-400"],
+                    [(type) => type === "bank_pair", () => "text-red-400"],
+                  ])(type)
+                )}
+              >
+                <span>
+                  {cond<SkillOption, string>([
+                    [(type) => type === "banker", () => "莊"],
+                    [(type) => type === "player", () => "閒"],
+                    [(type) => type === "tie", () => "和"],
+                    [(type) => type === "player_pair", () => "閒對"],
+                    [(type) => type === "bank_pair", () => "莊對"],
+                  ])(type)}
+                </span>
+                <span>{countByResult(type)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </button>

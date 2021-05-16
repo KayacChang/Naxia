@@ -22,3 +22,4 @@ export { Icon };
 export * from "./Camera";
 export * from "./Canvas";
 export * from "./Router";
+export * from "./Spine";
