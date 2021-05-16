@@ -1,4 +1,4 @@
-import { Announcement, RoomRoad, Setting } from "components";
+import { Announcement, Setting } from "components";
 
 type SidebarProps = {
   className?: string;
@@ -9,8 +9,6 @@ export function Sidebar({ className }: SidebarProps) {
       <Announcement />
 
       <Setting />
-
-      {/* <RoomRoad className="w-full h-full" rounds={[]} /> */}
     </aside>
   );
 }
