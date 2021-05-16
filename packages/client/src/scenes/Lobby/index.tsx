@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
@@ -60,8 +60,14 @@ function Dungeon({
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
 
-  const colorMatrix = new filters.ColorMatrixFilter();
-  colorMatrix.blackAndWhite(true);
+  const filter = useMemo(() => {
+    if (!lock) return [];
+
+    const colorMatrix = new filters.ColorMatrixFilter();
+    colorMatrix.blackAndWhite(true);
+
+    return [colorMatrix];
+  }, [lock]);
 
   return (
     <Container
@@ -71,7 +77,7 @@ function Dungeon({
       buttonMode={true}
       pointerdown={onClick || identity}
     >
-      <Container filters={lock ? [colorMatrix] : []}>
+      <Container filters={filter}>
         <Sprite
           ref={(ref) => {
             setWidth(ref?.width || 0);
