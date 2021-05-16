@@ -2,7 +2,6 @@ import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";
 import { ReactNode, CSSProperties, useCallback, useState } from "react";
-import { Continue } from "scenes/Room/Continue";
 import { SkillOption, Round } from "types";
 import { Modal } from "./lobby/Modal";
 import "./Road.css";
@@ -125,7 +124,6 @@ function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
   );
 }
 
-
 type CountCubePorps = {
   cubeClassName: string;
   color: string;
@@ -151,7 +149,6 @@ function RoadLargeRecordItem({ results }: RecordProps) {
     </div>
   );
 }
-
 
 type RoadLargeProps = {
   rounds: Round[];
@@ -256,7 +253,6 @@ function Continue({ text }: ContinueProps) {
 
         <span className="absolute text-white font-noto text-xl">{text}</span>
       </div>
-
     </div>
   );
 }
