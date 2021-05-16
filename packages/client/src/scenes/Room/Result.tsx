@@ -12,6 +12,7 @@ import { Item, RoomStatus } from "types";
 import { useEffect, useState } from "react";
 import { cond, equals } from "ramda";
 import { Texture } from "@pixi/core";
+import { Continue } from "./Continue";
 
 type RewardItemsProps = {
   items: Item[];
@@ -34,19 +35,6 @@ function RewardItems({ items }: RewardItemsProps) {
           </div>
         </div>
       ))}
-    </div>
-  );
-}
-
-type ContinueProps = {
-  text: string;
-};
-function Continue({ text }: ContinueProps) {
-  return (
-    <div className="w-60 relative flex justify-center items-center">
-      <img src={Assets.Room.Result_Continue} alt="continue background" />
-
-      <span className="absolute text-white font-noto text-xl">{text}</span>
     </div>
   );
 }
@@ -88,7 +76,7 @@ export default function GameResult() {
       </Game>
 
       <UI
-        className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-50"
+        className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-40"
         onClick={() => setCurrentResult(undefined)}
       >
         <div className="relative mt-12 flex flex-col items-center space-y-4">

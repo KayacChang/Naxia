@@ -10,6 +10,7 @@ type SystemModalProps = {
   onConfirm?: () => void;
   subButton?: string;
   customFunc?: () => void;
+  onClose?: () => void;
 };
 export function SystemModal({
   title,
@@ -19,6 +20,7 @@ export function SystemModal({
   onConfirm,
   subButton,
   customFunc,
+  onClose,
 }: SystemModalProps) {
   return (
     <div className="flex h-full justify-center items-center">
@@ -91,6 +93,12 @@ export function SystemModal({
               </h2>
             </div>
           </div>
+        )}
+
+        {onClose && (
+          <button className="absolute -top-5 -right-5 w-12" onClick={onClose}>
+            <img src={Assets.Common.Modal_Close} alt="close button" />
+          </button>
         )}
       </div>
     </div>

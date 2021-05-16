@@ -15,6 +15,7 @@ export default function (fastify) {
                 quality: { type: "number" },
                 point: { type: "number" },
                 img: { type: "string" },
+                description: { type: "string" },
               },
             },
           },

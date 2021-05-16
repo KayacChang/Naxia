@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
@@ -8,15 +8,11 @@ import {
   useMaps,
   useDungeons,
   useAppSelector,
-  selectAssetIsLoading,
   selectAssetsByName,
-  useAppDispatch,
-  addAssets,
-  useUser,
-  useUserItem,
-  Spine,
+  selectUser,
+  selectUserItems,
 } from "system";
-import { useViewport, currency, toTask } from "utils";
+import { useViewport, currency } from "utils";
 import { Game, UI } from "layers";
 import {
   Modal,
@@ -29,16 +25,15 @@ import {
   Switch,
   Route,
   Camera,
+  Spine,
 } from "components";
-
-import Assets from "assets";
 
 import { DungeonDetail, DungeonCondition } from "./Map";
 import Repository from "./Repository";
 import Ranking from "./Ranking";
 
 import Store from "./Store";
-import { Container as TContainer, filters } from "pixi.js";
+import { filters } from "pixi.js";
 import { Dungeon as TDungeon } from "types";
 
 type DungeonProps = {
@@ -48,9 +43,19 @@ type DungeonProps = {
   y: number;
   lock?: boolean;
   onClick?: () => void;
-  lockAnim?: (ref: TContainer | null) => void;
+  showLockAnim?: boolean;
+  onClear?: () => void;
 };
-function Dungeon({ id, x, y, title, lock, onClick, lockAnim }: DungeonProps) {
+function Dungeon({
+  id,
+  x,
+  y,
+  title,
+  lock,
+  onClick,
+  showLockAnim = false,
+  onClear,
+}: DungeonProps) {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
@@ -87,8 +92,18 @@ function Dungeon({ id, x, y, title, lock, onClick, lockAnim }: DungeonProps) {
         />
       )}
 
-      {lockAnim && (
-        <Container anchor={0.5} x={width / 2} y={height / 2} ref={lockAnim} />
+      {showLockAnim && (
+        <Spine
+          x={width / 2}
+          y={height / 2}
+          data={assets("Lock_Anim")}
+          mount={(spine) => {
+            spine.state.setAnimation(0, "animation", false);
+            spine.state.addListener({
+              complete: onClear,
+            });
+          }}
+        />
       )}
 
       <Text
@@ -106,12 +121,9 @@ function Dungeon({ id, x, y, title, lock, onClick, lockAnim }: DungeonProps) {
 }
 
 export default function Lobby() {
-  const loading = useAppSelector(selectAssetIsLoading);
   const assets = useAppSelector(selectAssetsByName);
-  const dispatch = useAppDispatch();
-
-  const user = useUser();
-  const items = useUserItem();
+  const user = useAppSelector(selectUser);
+  const items = useAppSelector(selectUserItems);
 
   const { data: maps } = useMaps();
   const map = maps?.[0];
@@ -120,34 +132,14 @@ export default function Lobby() {
 
   const { width, height } = useViewport();
   const [dungeon, setDungeon] = useState<TDungeon | undefined>(undefined);
-  const [showLockByID, setShowLockByID] = useState<number | undefined>(
+  const [showLockAnimID, setShowLockAnim] = useState<number | undefined>(
     undefined
-  );
-
-  const showLockAnim = useCallback(
-    (ref: TContainer | null) => {
-      if (!ref) return;
-
-      const anim = new Spine(assets("Lock_Anim"));
-      anim.state.setAnimation(0, "animation", false);
-
-      anim.state.addListener({
-        complete: () => setShowLockByID(undefined),
-      });
-
-      ref.addChild(anim);
-    },
-    [assets, setShowLockByID]
   );
 
   const matchLobby = useRouteMatch("/lobby");
   const matchStory = useRouteMatch("/lobby/store");
 
-  useEffect(() => {
-    dispatch(addAssets(toTask(Assets.Lobby)));
-  }, [dispatch]);
-
-  if (loading || !user || !items || !map || !dungeons) {
+  if (!user || !items || !map || !dungeons) {
     return <Loading />;
   }
 
@@ -170,7 +162,8 @@ export default function Lobby() {
               y={1080 * (dungeon.location.y / 100)}
               onClick={() => setDungeon(dungeon)}
               lock={dungeon.lock}
-              lockAnim={showLockByID === dungeon.id ? showLockAnim : undefined}
+              showLockAnim={showLockAnimID === dungeon.id}
+              onClear={() => setShowLockAnim(undefined)}
             />
           ))}
         </Camera>
@@ -183,7 +176,7 @@ export default function Lobby() {
           <Status value={currency(user.balance)} />
         </header>
 
-        <main className="flex-1 flex justify-end space-x-2">
+        <main className="flex-1 flex justify-end">
           <Switch>
             <Route exact path="/lobby">
               {dungeon && (
@@ -199,7 +192,7 @@ export default function Lobby() {
                       mapID={map.id}
                       dungeonID={dungeon.id}
                       onConfirm={() => {
-                        setShowLockByID(dungeon.id);
+                        setShowLockAnim(dungeon.id);
                         setDungeon(undefined);
                       }}
                       onCancel={() => setDungeon(undefined)}

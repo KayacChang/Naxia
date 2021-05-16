@@ -41,7 +41,7 @@ function put<T>(url: string, authorization: string, payload: any): Promise<T> {
   return fetch(url, {
     method: "PUT",
     headers: {
-      authorization,
+      authorization: `Bearer ${authorization}`,
       "content-type": "application/json",
     },
     body: JSON.stringify(payload),

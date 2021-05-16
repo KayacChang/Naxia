@@ -83,7 +83,7 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
 
           <Button
             type="img"
-            img={Assets.Room.Back}
+            img={Assets.Room.Room_Back}
             className="w-8"
             onClick={() => history.replace("/lobby")}
           />

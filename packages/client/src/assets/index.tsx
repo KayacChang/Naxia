@@ -2,9 +2,9 @@ import { assets } from "utils";
 
 const Room = {
   // Room
-  Background: assets("/room/background.png"),
-  Status: assets("/room/room_status.png"),
-  Back: assets("/room/back.png"),
+  Room_Background: assets("/room/background.png"),
+  Room_Status: assets("/room/room_status.png"),
+  Room_Back: assets("/room/back.png"),
 
   // Road
   Road_Frame_Small: assets("/road/frame_small.png"),
@@ -12,6 +12,12 @@ const Room = {
   Road_Frame: assets("/road/frame.png"),
   Road_Ring_Red: assets("/road/big_ring_red.png"),
   Road_Ring_Blue: assets("/road/big_ring_blue.png"),
+  Road_Frame_Banker: assets("/road/frame_banker.png"),
+  Road_Frame_Player: assets("/road/frame_player.png"),
+  Road_Frame_Tie: assets("/road/frame_tie.png"),
+  Road_Frame_Banker_Pair: assets("/road/frame_banker_pair.png"),
+  Road_Frame_Player_Pair: assets("/road/frame_player_pair.png"),
+
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
@@ -140,10 +146,11 @@ const Lobby = {
 };
 
 const Login = {
-  Background: assets("/login/background.png"),
-  Logo: assets("/login/logo.png"),
-  Submit: assets("/login/submit-btn.png"),
-  Form: assets("/login/input-form.png"),
+  Login_Background: assets("/login/background.png"),
+  Login_Logo: assets("/login/logo.png"),
+  Login_Submit: assets("/login/submit-btn.png"),
+  Login_Form: assets("/login/input-form.png"),
+  Login_Spine: assets("/animation/login/skeleton.json"),
 };
 
 const Common = {
@@ -162,6 +169,8 @@ const Common = {
   Modal_Frame_Outer: assets("/modal/modal_frame_outer.png"),
   Modal_Title: assets("/modal/modal_title.png"),
   Modal_Button: assets("/modal/modal_button.png"),
+  Modal_Close: assets("/modal/close.png"),
+  Modal_Frame_Information: assets("/modal/information_frame.png"),
 
   // Road
   Road_Frame: assets("/road/frame.png"),
@@ -184,12 +193,16 @@ const Common = {
 
   // Sidebar
   Sidebar_Announcement: assets("/sidebar/announcement.png"),
+  Sidebar_Information: assets("/sidebar/information.png"),
+  Sidebar_Mail: assets("/sidebar/mail.png"),
+  Sidebar_Menu: assets("/sidebar/menu.png"),
   Sidebar_Setting: assets("/sidebar/setting.png"),
-  Sidebar_Mailbox: assets("/sidebar/mail.png"),
+  Sidebar_Stream: assets("/sidebar/stream.png"),
 
   // Fonts
   Font_Kai: assets("/fonts/kai.ttc"),
 
+  // Setting
   Setting_Check: assets("/sidebar/setting/check.png"),
   Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
   Setting_Reset_Button: assets("/sidebar/setting/reset_button.png"),
