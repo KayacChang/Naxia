@@ -155,7 +155,7 @@ type RoadLargeProps = {
 };
 function RoadLarge({ rounds }: RoadLargeProps) {
   return (
-    <div className="relative w-full h-full flex items-center">
+    <div className="relative w-full h-full flex items-center justify-center">
       <img
         className="p-2 pr-1"
         src={Assets.Room.Road_Frame_Big}
@@ -236,6 +236,22 @@ function RoadLarge({ rounds }: RoadLargeProps) {
             </div>
           </div>
         </div>
+      </div>
+      <Continue text="點擊繼續" />
+    </div>
+  );
+}
+
+type ContinueProps = {
+  text: string;
+};
+function Continue({ text }: ContinueProps) {
+  return (
+    <div className="absolute bottom-6">
+      <div className="w-60 relative flex justify-center items-center">
+        <img src={Assets.Room.Result_Continue} alt="continue background" />
+
+        <span className="absolute text-white font-noto text-xl">{text}</span>
       </div>
     </div>
   );
