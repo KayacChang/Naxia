@@ -9,11 +9,15 @@ const Room = {
   // Road
   Road_Frame_Small: assets("/road/frame_small.png"),
   Road_Frame_Big: assets("/road/frame_big.png"),
+  Road_Frame: assets("/road/frame.png"),
+  Road_Ring_Red: assets("/road/big_ring_red.png"),
+  Road_Ring_Blue: assets("/road/big_ring_blue.png"),
   Road_Frame_Banker: assets("/road/frame_banker.png"),
   Road_Frame_Player: assets("/road/frame_player.png"),
   Road_Frame_Tie: assets("/road/frame_tie.png"),
   Road_Frame_Banker_Pair: assets("/road/frame_banker_pair.png"),
   Road_Frame_Player_Pair: assets("/road/frame_player_pair.png"),
+
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
