@@ -18,7 +18,6 @@ const Room = {
   Road_Frame_Banker_Pair: assets("/road/frame_banker_pair.png"),
   Road_Frame_Player_Pair: assets("/road/frame_player_pair.png"),
 
-
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
   Bet_Active: assets("/room/bet/bet-active.png"),
@@ -109,6 +108,9 @@ const Lobby = {
   Repo_Item_Uncommon: assets("/lobby/repository/item_uncommon.png"),
   Repo_Item_Normal: assets("/lobby/repository/item_normal.png"),
   Repo_Item_Detail_Bg: assets("/lobby/repository/item_detail_bg.png"),
+
+  // Achievement
+  Achievement_Frame: assets("/lobby/achievement/frame.png"),
 
   // Store
   Store_Button_Disable: assets("/lobby/store/button_disable.png"),

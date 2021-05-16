@@ -31,6 +31,7 @@ import {
 import { DungeonDetail, DungeonCondition } from "./Map";
 import Repository from "./Repository";
 import Ranking from "./Ranking";
+import Achievement from "./Achievement";
 
 import Store from "./Store";
 import { filters } from "pixi.js";
@@ -207,13 +208,17 @@ export default function Lobby() {
                 </Modal>
               )}
             </Route>
+
             <Route path="/lobby/repository">
               <Repository items={items} className="w-3/5" />
             </Route>
-            <Route path="/lobby/book"></Route>
+
+            <Route path="/lobby/achievement">
+              <Achievement className="w-3/5" />
+            </Route>
 
             <Route path="/lobby/ranking">
-              <Ranking className=" w-3/5" />
+              <Ranking className="w-3/5" />
             </Route>
 
             <Route path="/lobby/store">

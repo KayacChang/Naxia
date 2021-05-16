@@ -13,6 +13,7 @@ export * from "./common/SystemModal";
 export * from "./lobby/InputField";
 export * from "./lobby/Navbar";
 export * from "./lobby/Modal";
+export * from "./lobby/Tab";
 
 export * from "./Button";
 export * from "./Road";

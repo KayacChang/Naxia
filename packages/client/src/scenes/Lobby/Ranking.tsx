@@ -1,6 +1,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
+import { Tab } from "components";
 
 const fakeUser = [
   {
@@ -65,43 +66,6 @@ function formatPoint(point: number): string {
   });
   const newNumArray = newNumArrayRe.flat().reverse().join("");
   return newNumArray;
-}
-
-type TabProps = {
-  label: string;
-  active?: boolean;
-  onClick?: () => void;
-};
-function Tab({ label, active, onClick }: TabProps) {
-  return (
-    <button
-      className="w-16 text-gray-500 text-xxs font-kai relative z-20"
-      onClick={onClick}
-    >
-      <img
-        className="w-full"
-        src={Assets.Lobby.Ranking_Tab_Normal}
-        alt="tab normal"
-      />
-
-      {active && (
-        <img
-          className="absolute top-1/2 left-0 transform -translate-y-1/2"
-          src={Assets.Lobby.Ranking_Tab_Active}
-          alt="tab active"
-        />
-      )}
-
-      <span
-        className={clsx(
-          "absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap",
-          active && "text-white"
-        )}
-      >
-        {label}
-      </span>
-    </button>
-  );
 }
 
 function RankingItem({
@@ -182,6 +146,8 @@ export default function Ranking({ className }: RankingProps) {
               <Tab
                 key={tab.key}
                 label={tab.label}
+                normalImage={Assets.Lobby.Ranking_Tab_Normal}
+                activeImage={Assets.Lobby.Ranking_Tab_Active}
                 active={tab.key === active.key}
                 onClick={() => setActive(tab)}
               />
