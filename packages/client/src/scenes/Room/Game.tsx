@@ -11,8 +11,8 @@ import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
 import { Container as TContainer } from "pixi.js";
 import anime from "animejs";
-import { memo, useMemo } from "react";
-import { Spine } from "@pixi-spine/all-3.8";
+import { memo } from "react";
+import { Spine } from "components";
 
 type FadeProps = {
   targets: any | any[];
@@ -71,29 +71,44 @@ const Boss = memo(() => {
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
 
-  const spine = useMemo(() => {
-    if (boss?.id === undefined) return;
-
-    return new Spine(assets(String(boss.id)));
-  }, [assets, boss?.id]);
+  if (boss?.id === undefined) {
+    return <Container />;
+  }
 
   return (
-    <Container
+    <Spine
       x={width / 2}
       y={height / 2}
       scale={1 / window.devicePixelRatio}
-      ref={(ref: TContainer | null) => {
-        if (!ref || !spine) return;
+      data={assets(String(boss.id))}
+      mount={(spine) => {
+        if (status === RoomStatus.Result) {
+          spine.state.setAnimation(0, "BeAttack", false);
 
-        ref.addChild(spine);
+          spine.state.addListener({
+            complete: () =>
+              anime({
+                targets: spine,
+                alpha: [1, 0],
+                duration: 1000,
+                easing: "easeOutCubic",
+              }),
+          });
 
-        if (status === RoomStatus.Change) {
+          return;
+        }
+
+        if (status === RoomStatus.Change || spine.state.tracks.length <= 0) {
+          spine.state.setAnimation(0, "Idle", true);
+
           anime({
             targets: spine,
             alpha: [0, 1],
             duration: 1000,
             easing: "easeOutCubic",
           });
+
+          return;
         }
       }}
     />
