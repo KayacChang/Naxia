@@ -1,5 +1,7 @@
 type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
 
+export type Tasks = { name: string; url: string }[];
+
 export interface Item {
   count: number;
   id: number;

@@ -1,4 +1,8 @@
-import { assets } from "utils";
+import { join } from "path";
+
+export function assets(src: string) {
+  return join("/", "assets", src);
+}
 
 const Room = {
   // Room
@@ -81,6 +85,20 @@ const Lobby = {
   // Lock
   Lock: assets("/lobby/lock.png"),
   Lock_Anim: assets("/animation/unlock/skeleton.json"),
+
+  // Navbar
+  Narbar_Frame: assets("/lobby/navbar/frame.png"),
+  Narbar_Back: assets("/lobby/navbar/back.png"),
+  Navbar_Dungeon_Normal: assets("/lobby/navbar/dungeon_normal.png"),
+  Narbar_Dungeon_Active: assets("/lobby/navbar/dungeon_active.png"),
+  Navbar_Repository_Normal: assets("/lobby/navbar/repository_normal.png"),
+  Navbar_Repository_Active: assets("/lobby/navbar/repository_active.png"),
+  Navbar_Achievement_Normal: assets("/lobby/navbar/achievement_normal.png"),
+  Navbar_Achievement_Active: assets("/lobby/navbar/achievement_active.png"),
+  Navbar_Ranking_Normal: assets("/lobby/navbar/ranking_normal.png"),
+  Navbar_Ranking_Active: assets("/lobby/navbar/ranking_active.png"),
+  Navbar_Store_Normal: assets("/lobby/navbar/store_normal.png"),
+  Navbar_Store_Active: assets("/lobby/navbar/store_active.png"),
 
   // Dungeon
   Dungeon_Frame: assets("/lobby/dungeon/dungeon_frame.png"),
@@ -213,6 +231,13 @@ const Common = {
   Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
 
   Announcement_Background: assets("/sidebar/announcement/background.png"),
+
+  // Progress
+  Progress_Background: assets("/loading/background.png"),
+  Progress_Frame: assets("/loading/loading-frame.png"),
+  Progress_Bar: assets("/loading/loading-bar.png"),
+  Progress_Effect: assets("/loading/glow.png"),
+  Progress_Item: assets("/loading/item.png"),
 };
 
 const Assets = {

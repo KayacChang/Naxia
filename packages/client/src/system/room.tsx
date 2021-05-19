@@ -2,10 +2,11 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bet } from "api";
 import invariant from "tiny-invariant";
 import { Item, RoomStatus, Boss, Order } from "types";
-import { assets, toTask, wait } from "utils";
+import { toTask, wait } from "utils";
 import { AppDispatch, RootState, store } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
 import { selectToken, selectUser } from "./user";
+import { assets } from "assets";
 
 type RoundResult = {
   items: Item[];

@@ -6,9 +6,11 @@ import {
   useAppDispatch,
   useAppSelector,
   user,
+  BGM,
 } from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
+import Sounds from "assets/sound";
 import { useViewport } from "utils";
 import { Spine } from "components";
 
@@ -121,6 +123,11 @@ function Form() {
 export default function Login() {
   const { width, height } = useViewport();
   const assets = useAppSelector(selectAssetsByName);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(BGM.play(Sounds.Login.BGM));
+  }, [dispatch]);
 
   return (
     <>

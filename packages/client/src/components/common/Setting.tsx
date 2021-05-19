@@ -2,6 +2,14 @@ import { useState } from "react";
 import Assets from "assets";
 import { Modal, SystemModal } from "components";
 import { Range } from "react-range";
+import {
+  selectBGMVolume,
+  selectEffectVolume,
+  useAppDispatch,
+  useAppSelector,
+  BGM,
+  Effect,
+} from "system";
 
 type InputRangeProps = {
   label: string;
@@ -36,7 +44,7 @@ function InputRange({
             <div className="absolute">
               <div
                 {...props}
-                className="relative mx-1.5 pointer-events-auto"
+                className="relative mx-1.5"
                 style={{
                   ...props.style,
                 }}
@@ -57,7 +65,7 @@ function InputRange({
           renderThumb={({ props }) => (
             <img
               {...props}
-              className="absolute top-0 w-5"
+              className="absolute top-0 w-5 pointer-events-auto"
               src={Assets.Common.Setting_Volume_Controller}
               alt="controller"
             />
@@ -67,6 +75,7 @@ function InputRange({
     </div>
   );
 }
+
 const icon = {
   key: "setting",
   icons: {
@@ -76,12 +85,13 @@ const icon = {
 };
 export function Setting() {
   const [isSettingOpen, setSettingOpen] = useState(false);
-  const [soundValue, setSoundValue] = useState(80);
-  const [musicValue, setMusicValue] = useState(80);
+  const dispatch = useAppDispatch();
+  const effectVolume = useAppSelector(selectEffectVolume);
+  const bgmVolume = useAppSelector(selectBGMVolume);
 
   function resetVolume() {
-    setSoundValue(80);
-    setMusicValue(80);
+    dispatch(BGM.volume(1));
+    dispatch(Effect.volume(1));
   }
 
   return (
@@ -108,15 +118,15 @@ export function Setting() {
           >
             <div className="h-full flex flex-col font-kai text-yellow-300 p-10">
               <InputRange
-                label="音效音量"
-                value={soundValue}
-                onChange={setSoundValue}
+                label="音樂音量"
+                value={bgmVolume * 100}
+                onChange={(value) => dispatch(BGM.volume(value / 100))}
               />
 
               <InputRange
-                label="音樂音量"
-                value={musicValue}
-                onChange={setMusicValue}
+                label="音效音量"
+                value={effectVolume * 100}
+                onChange={(value) => dispatch(Effect.volume(value / 100))}
               />
             </div>
           </SystemModal>

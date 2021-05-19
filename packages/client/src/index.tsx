@@ -7,14 +7,16 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, store, user } from "system";
+import { addAssets, addSounds, store, user } from "system";
 import { toTask } from "utils";
 import Assets from "assets";
+import Sound from "assets/sound";
 
 const Login = lazy(() =>
-  store
-    .dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Login })))
-    .then(() => import("./scenes/Login"))
+  Promise.all([
+    store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Login }))),
+    store.dispatch(addSounds(toTask(Sound.Login))),
+  ]).then(() => import("./scenes/Login"))
 );
 
 const Lobby = lazy(() =>
@@ -53,19 +55,17 @@ function App() {
   );
 }
 
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 unstable_createRoot(document.getElementById("app") as HTMLDivElement).render(
   <StrictMode>
-    <QueryClientProvider
-      client={
-        new QueryClient({
-          defaultOptions: {
-            queries: {
-              refetchOnWindowFocus: false,
-            },
-          },
-        })
-      }
-    >
+    <QueryClientProvider client={client}>
       <Provider store={store}>
         <App />
       </Provider>

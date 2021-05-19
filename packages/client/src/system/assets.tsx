@@ -7,15 +7,11 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "system";
-export { SpineParser };
-export * from "@pixi-spine/runtime-3.8";
-export * from "@pixi-spine/base";
+import { Tasks } from "types";
 
 SpineParser.registerLoaderPlugin();
 
 const loader = Loader.shared;
-
-export type Tasks = { name: string; url: string }[];
 
 function mapping(res: ILoaderResource) {
   if (res.type === Resource.TYPE.IMAGE && res.texture) {

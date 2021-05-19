@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import room from "./room";
 import assets from "./assets";
 import user from "./user";
+import sounds from "./sounds";
 
 export const store = configureStore({
   reducer: {
     room,
     assets,
     user,
+    sounds,
   },
 });
 
@@ -20,4 +22,5 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export * from "./maps";
 export * from "./user";
 export * from "./assets";
+export * from "./sounds";
 export * from "./room";

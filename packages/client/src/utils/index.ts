@@ -1,9 +1,4 @@
 import numeral from "numeral";
-import { join } from "path";
-
-export function assets(src: string) {
-  return join("/", "assets", src);
-}
 
 export const toTask = (assets: object) =>
   Object.entries(assets).map(([name, url]) => ({ name, url }));
