@@ -123,11 +123,6 @@ function Form() {
 export default function Login() {
   const { width, height } = useViewport();
   const assets = useAppSelector(selectAssetsByName);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(BGM.play(Sounds.Login.BGM));
-  }, [dispatch]);
 
   return (
     <>

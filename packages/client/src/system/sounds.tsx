@@ -33,6 +33,11 @@ export const BGM = {
   play: createAsyncThunk<string, string, { state: RootState }>(
     "sound/bgm/play",
     (audio, { getState }) => {
+      const current = selectBGM(getState());
+      if (current) {
+        sounds[current].stop();
+      }
+
       const volume = selectBGMVolume(getState());
 
       const sound = sounds[audio];
@@ -86,10 +91,10 @@ export interface SoundState {
 }
 const initialState: SoundState = {
   bgm: {
-    volume: 1,
+    volume: 0.8,
   },
   effect: {
-    volume: 1,
+    volume: 0.8,
   },
   loaded: [],
 };

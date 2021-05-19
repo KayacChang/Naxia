@@ -7,7 +7,7 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, addSounds, store, user } from "system";
+import { addAssets, addSounds, BGM, store, user } from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
@@ -16,20 +16,28 @@ const Login = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Login }))),
     store.dispatch(addSounds(toTask(Sound.Login))),
-  ]).then(() => import("./scenes/Login"))
+  ])
+    .then(() => store.dispatch(BGM.play(Sound.Login.BGM)))
+    .then(() => import("./scenes/Login"))
 );
 
 const Lobby = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Lobby }))),
+    store.dispatch(addSounds(toTask(Sound.Lobby))),
     store.dispatch(user.sync()),
     store.dispatch(user.item.sync()),
-  ]).then(() => import("./scenes/Lobby"))
+  ])
+    .then(() => store.dispatch(BGM.play(Sound.Lobby.BGM)))
+    .then(() => import("./scenes/Lobby"))
 );
 
 const Room = lazy(() =>
-  store
-    .dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Room })))
+  Promise.all([
+    store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Room }))),
+    store.dispatch(addSounds(toTask(Sound.Room))),
+  ])
+    .then(() => store.dispatch(BGM.play(Sound.Room.BGM)))
     .then(() => import("./scenes/Room"))
 );
 
