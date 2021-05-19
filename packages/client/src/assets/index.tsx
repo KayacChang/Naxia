@@ -129,6 +129,7 @@ const Lobby = {
 
   // Achievement
   Achievement_Frame: assets("/lobby/achievement/frame.png"),
+  Achievement_Card: assets("/lobby/achievement/card.png"),
 
   // Store
   Store_Button_Disable: assets("/lobby/store/button_disable.png"),
