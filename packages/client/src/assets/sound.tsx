@@ -10,10 +10,13 @@ const Login = {
 
 const Lobby = {
   BGM: assets("/bgm/lobby.mp3"),
+  Repo: assets("/effect/repo.webm"),
 };
 
 const Room = {
   BGM: assets("/bgm/room.mp3"),
+  Start: assets("/effect/start.webm"),
+  Reward: assets("/effect/reward.webm"),
 };
 
 const Sound = {

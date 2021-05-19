@@ -3,7 +3,7 @@ import { bet } from "api";
 import invariant from "tiny-invariant";
 import { Item, RoomStatus, Boss, Order } from "types";
 import { toTask, wait } from "utils";
-import { AppDispatch, RootState, store } from ".";
+import { AppDispatch, RootState, store, Effect } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
 import { selectToken, selectUser } from "./user";
 import { assets } from "assets";

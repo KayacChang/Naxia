@@ -4,6 +4,7 @@ import {
   selectRoomResult,
   selectRoomStatus,
   useAppSelector,
+  Effect,
 } from "system";
 import { Container, Sprite } from "@inlet/react-pixi";
 import { useViewport, wait } from "utils";
@@ -13,6 +14,8 @@ import { useEffect, useState } from "react";
 import { cond, equals } from "ramda";
 import { Texture } from "@pixi/core";
 import { Continue } from "./Continue";
+import { useDispatch } from "react-redux";
+import Sound from "assets/sound";
 
 type RewardItemsProps = {
   items: Item[];
@@ -41,6 +44,7 @@ function RewardItems({ items }: RewardItemsProps) {
 
 export default function GameResult() {
   const { width, height } = useViewport();
+  const dispatch = useDispatch();
 
   const { current: status } = useAppSelector(selectRoomStatus);
   const assets = useAppSelector(selectAssetsByName);
@@ -48,10 +52,15 @@ export default function GameResult() {
   const [currentResult, setCurrentResult] = useState<typeof result>();
 
   useEffect(() => {
-    if (status !== RoomStatus.Start) setCurrentResult(undefined);
+    if (status === RoomStatus.Change) {
+      setCurrentResult(undefined);
+    }
 
     if (status === RoomStatus.Result) {
-      wait(3000).then(() => setCurrentResult(result));
+      wait(3000).then(() => {
+        setCurrentResult(result);
+        dispatch(Effect.play(Sound.Room.Reward));
+      });
     }
   }, [status, result]);
 
