@@ -130,8 +130,11 @@ const Lobby = {
   // Achievement
   Achievement_Frame: assets("/lobby/achievement/frame.png"),
   Achievement_Card: assets("/lobby/achievement/card.png"),
+  Achievement_Thumbnail: assets("/lobby/achievement/thumbnail.png"),
+  Achievement_Thumbnail_Frame: assets("/lobby/achievement/thumbnail-frame.png"),
   Achievement_Glow: assets("/lobby/achievement/glow.png"),
   Achievement_Detail: assets("/lobby/achievement/detail.png"),
+  Achievement_Special: assets("/lobby/achievement/special.png"),
 
   // Store
   Store_Button_Disable: assets("/lobby/store/button_disable.png"),
