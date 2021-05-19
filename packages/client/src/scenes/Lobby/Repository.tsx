@@ -83,42 +83,6 @@ function Detail({ name, img, point, quality, description }: DetailProps) {
   );
 }
 
-type ExchangeProps = Item & {
-  onConfirm?: () => void;
-  onClose?: () => void;
-};
-function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
-  return (
-    <div className="flex justify-center items-center w-full h-full">
-      <div className="bg-white w-2/3 h-2/3 flex flex-col items-center p-4">
-        <h3>Confirm</h3>
-        <h4>{name}</h4>
-
-        <form className="flex-1 flex flex-col justify-center">
-          <div>
-            <label htmlFor="count">Count</label>
-            <input type="range" name="count" id="count" />
-          </div>
-
-          <div>
-            <label htmlFor="points">Points</label>
-            <input type="text" name="points" id="points" />
-          </div>
-        </form>
-
-        <div className="flex justify-center space-x-4">
-          <Button className="border" onClick={onConfirm}>
-            Confirm
-          </Button>
-          <Button className="border" onClick={onClose}>
-            Cancel
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 type RepositoryProps = {
   className?: string;
   items: Item[];
@@ -132,7 +96,6 @@ export default function Repository({ className, items }: RepositoryProps) {
   const [active, setActive] = useState(filters[0]);
 
   const [item, setItem] = useState<Item | undefined>();
-  const [exchange, setExchange] = useState<Item | undefined>();
 
   return (
     <>
@@ -183,17 +146,7 @@ export default function Repository({ className, items }: RepositoryProps) {
 
       {item && (
         <Modal className="z-20" onClose={() => setItem(undefined)}>
-          <Detail
-            {...item}
-            onConfirm={() => setExchange(item)}
-            onClose={() => setItem(undefined)}
-          />
-        </Modal>
-      )}
-
-      {exchange && (
-        <Modal className="z-20">
-          <Exchange {...exchange} onClose={() => setExchange(undefined)} />
+          <Detail {...item} onClose={() => setItem(undefined)} />
         </Modal>
       )}
     </>
