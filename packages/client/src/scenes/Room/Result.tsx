@@ -62,7 +62,7 @@ export default function GameResult() {
         dispatch(Effect.play(Sound.Room.Reward));
       });
     }
-  }, [status, result]);
+  }, [status, result, dispatch]);
 
   if (!currentResult) {
     return <></>;

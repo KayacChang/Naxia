@@ -1,4 +1,3 @@
-import { Button } from "components/Button";
 import { Item } from "types";
 import { useState } from "react";
 import { Modal, Tab } from "components";
