@@ -5,7 +5,7 @@ type StatusProps = {
 };
 export function Status({ value }: StatusProps) {
   return (
-    <div className="absolute right-0 p-2 pr-3 z-50">
+    <div className="absolute right-0 p-2 pr-3 z-30">
       <div className="relative w-44 text-white text-sm">
         <img src={Assets.Common.Balance} alt="status frame" />
 

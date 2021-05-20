@@ -11,6 +11,7 @@
     "@whiterussianstudio/tailwind-easing": "^1.0.0",
     "animejs": "^3.2.1",
     "clsx": "^1.1.1",
+    "date-fns": "^2.21.3",
     "howler": "^2.2.1",
     "numeral": "^2.0.6",
     "pixi-viewport": "^4.30.4",

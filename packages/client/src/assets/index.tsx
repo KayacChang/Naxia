@@ -207,6 +207,8 @@ const Common = {
   Avatar_Win: assets("/avatar/win.png"),
   Avatar_Lose: assets("/avatar/lose.png"),
   Avatar_Glow: assets("/avatar/glow.png"),
+  Avatar_History_Frame: assets("/avatar/history_frame.png"),
+  Avatar_Screen_Shot: assets("/avatar/screen-shot.png"),
 
   Avatar_01: assets("/avatar/01.png"),
   Avatar_02: assets("/avatar/02.png"),
@@ -236,6 +238,7 @@ const Common = {
   Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),
   Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
 
+  // Announcement
   Announcement_Background: assets("/sidebar/announcement/background.png"),
 
   // Progress
