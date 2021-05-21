@@ -51,41 +51,36 @@ const fakeUser = [
   },
 ];
 
-function splitRankNumber(rank: number): Array<string> {
-  const rankStr = String(rank);
-  const rankChar = rankStr.split("");
-  return rankChar;
+function splitRankNumber(rank: number) {
+  return String(rank).split("");
 }
 
 function formatPoint(point: number): string {
-  const numStr = String(point);
-  const numChar = numStr.split("").reverse();
-  const newNumArrayRe = numChar.map((char, index) => {
-    if (index !== 0 && index % 3 === 0) return [",", char];
-    return char;
-  });
-  const newNumArray = newNumArrayRe.flat().reverse().join("");
-  return newNumArray;
+  return String(point)
+    .split("")
+    .reverse()
+    .map((char, index) => (index !== 0 && index % 3 === 0 ? [",", char] : char))
+    .flat()
+    .reverse()
+    .join("");
 }
 
-function RankingItem({
-  rank,
-  userName,
-  point,
-}: {
+type RankingItemProps = {
   rank: number;
   userName: string;
   point: number;
-}) {
+};
+function RankingItem({ rank, userName, point }: RankingItemProps) {
   return (
-    <div className="relative mb-2 text-white text-xs ">
+    <div className="relative mb-2 text-white text-xs">
       <img
         src={Assets.Lobby.Ranking_Item_Background}
         alt="ranking item background"
       />
+
       <div className="absolute w-10 h-full top-0 left-0 transform -translate-x-1/2 flex justify-center items-center">
         <img
-          className={`absolute ${rank > 3 ? "w-8" : ""}`}
+          className={clsx(`absolute`, rank > 3 && "w-8")}
           src={
             rank > 3
               ? Assets.Lobby.Ranking_OtherNo
@@ -93,6 +88,7 @@ function RankingItem({
           }
           alt="Ranking"
         />
+
         {rank > 3 && (
           <div className="absolute flex transform -translate-y-1">
             {splitRankNumber(rank).map((char) => (
@@ -106,17 +102,25 @@ function RankingItem({
           </div>
         )}
       </div>
+
       <div className="absolute w-7 top-1/2 transform -translate-y-1/2 left-6 flex justify-center items-center">
         <img
           className="absolute"
           src={Assets.Lobby.Ranking_Avatar_Background}
           alt="background"
         />
-        <img className="absolute" src={Assets.Lobby.Ranking_Avatar} alt="" />
+
+        <img
+          className="absolute"
+          src={Assets.Lobby.Ranking_Avatar}
+          alt="avatar"
+        />
       </div>
+
       <div className="absolute font-kai top-1/2 transform -translate-y-1/2 left-16">
         {userName}
       </div>
+
       <div className="absolute top-1/2 transform -translate-y-1/2 left-56 text-fansy flex justify-center items-center">
         {formatPoint(point)}
       </div>
@@ -140,24 +144,28 @@ export default function Ranking({ className }: RankingProps) {
     <>
       <article className={clsx("relative", className)}>
         <img src={Assets.Lobby.Ranking_Background} alt="ranking background" />
+
         <div className="absolute top-0 w-full h-full pt-10 pb-17 px-8">
-          <nav className="relative">
-            {filters.map((tab) => (
-              <Tab
-                key={tab.key}
-                label={tab.label}
-                normalImage={Assets.Lobby.Ranking_Tab_Normal}
-                activeImage={Assets.Lobby.Ranking_Tab_Active}
-                active={tab.key === active.key}
-                onClick={() => setActive(tab)}
-              />
-            ))}
-            <div className="absolute w-24 top-0 right-0 text-xxs font-kai text-yellow-700 whitespace-nowrap">
+          <nav className="relative flex justify-between">
+            <div>
+              {filters.map((tab) => (
+                <Tab
+                  key={tab.key}
+                  label={tab.label}
+                  normalImage={Assets.Lobby.Ranking_Tab_Normal}
+                  activeImage={Assets.Lobby.Ranking_Tab_Active}
+                  active={tab.key === active.key}
+                  onClick={() => setActive(tab)}
+                />
+              ))}
+            </div>
+
+            <div className="relative flex justify-center items-center w-24 text-xxs font-kai text-yellow-700">
               <img
-                className="w-full h-auto absolute"
                 src={Assets.Lobby.Ranking_UpdateTime_background}
                 alt="ranking updateTime background"
               />
+
               <div className="absolute">更新時間:2021/03/03</div>
             </div>
           </nav>
@@ -172,6 +180,7 @@ export default function Ranking({ className }: RankingProps) {
               />
             ))}
           </div>
+
           <div className="w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75 transform -translate-y-6"></div>
 
           <div className="absolute bottom-0 transform -translate-y-7 pl-8 pr-10">
