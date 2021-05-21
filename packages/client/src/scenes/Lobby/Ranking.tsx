@@ -165,6 +165,7 @@ export default function Ranking({ className }: RankingProps) {
           <div className="relative pl-8 pr-2 h-5/6 overflow-y-scroll pointer-events-auto">
             {fakeUser.map((user) => (
               <RankingItem
+                key={user.rank}
                 rank={user.rank}
                 userName={user.username}
                 point={user.point}
