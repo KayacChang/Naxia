@@ -231,7 +231,7 @@ const Common = {
   Sidebar_Stream: assets("/sidebar/stream.png"),
 
   // Fonts
-  Font_Kai: assets("/fonts/kai.ttc"),
+  Font_Kai: assets("/fonts/FZKTB.ttf"),
 
   // Setting
   Setting_Check: assets("/sidebar/setting/check.png"),
