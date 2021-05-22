@@ -114,3 +114,7 @@ authorization: {{token}}
         }
     ]
 }
+
+### Get all stores items
+GET {{host}}/stores/items HTTP/1.1
+authorization: {{token}}
