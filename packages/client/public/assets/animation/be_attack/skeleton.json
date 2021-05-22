@@ -62,7 +62,7 @@
 	}
 ],
 "animations": {
-	"poli": {
+	"animation": {
 		"slots": {
 			"shibai": {
 				"attachment": [

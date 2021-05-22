@@ -5,6 +5,7 @@ import {
   selectRoomStatusCurrent,
   selectAssetsByName,
   selectRoomBossCurrent,
+  selectRoomResult,
 } from "system";
 import { useViewport } from "utils";
 import { RoomStatus } from "types";
@@ -70,6 +71,7 @@ const Boss = memo(() => {
   const boss = useAppSelector(selectRoomBossCurrent);
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
+  const result = useAppSelector(selectRoomResult);
 
   return (
     <Spine
@@ -77,10 +79,12 @@ const Boss = memo(() => {
       y={height / 2}
       visible={boss?.id !== undefined}
       scale={1 / window.devicePixelRatio}
-      data={assets(String(boss?.id || 0))}
+      data={assets(String(boss!.id))}
       mount={(spine) => {
         if (status === RoomStatus.Result) {
-          spine.state.setAnimation(0, "BeAttack", false);
+          if (result?.result === "win") {
+            spine.state.setAnimation(0, "BeAttack", false);
+          }
 
           spine.state.addListener({
             complete: () =>

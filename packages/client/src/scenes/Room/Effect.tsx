@@ -22,6 +22,10 @@ export default memo(function Effect() {
       return;
     }
 
+    if (roundResult.result === "lose") {
+      return assets("Anim_Be_Attack");
+    }
+
     const { game_round, ...rest } = roundResult.info;
     const target = Object.entries(rest).find(([, value]) => value);
 
