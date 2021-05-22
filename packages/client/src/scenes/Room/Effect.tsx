@@ -5,12 +5,13 @@ import {
   useAppSelector,
 } from "system";
 import { useViewport } from "utils";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { RoomStatus, SkillOption } from "types";
 import { Game } from "layers";
 import { Spine } from "components";
+import clsx from "clsx";
 
-export default function Effect() {
+export default memo(function Effect() {
   const { width, height } = useViewport();
   const status = useAppSelector(selectRoomStatusCurrent);
   const roundResult = useAppSelector(selectRoomResult);
@@ -35,21 +36,19 @@ export default function Effect() {
     }[target[0] as SkillOption];
   }, [status, roundResult, assets]);
 
-  if (!data) {
-    return <></>;
-  }
-
   return (
-    <Game className="absolute top-0 pointer-events-none">
-      <Spine
-        x={width / 2}
-        y={height / 2}
-        scale={1 / window.devicePixelRatio}
-        data={data}
-        mount={(spine) => {
-          spine.state.setAnimation(0, "animation", false);
-        }}
-      />
+    <Game
+      className={clsx("absolute top-0 pointer-events-none", !data && "hidden")}
+    >
+      {data && (
+        <Spine
+          x={width / 2}
+          y={height / 2}
+          scale={1 / window.devicePixelRatio}
+          data={data}
+          mount={(spine) => spine.state.setAnimation(0, "animation", false)}
+        />
+      )}
     </Game>
   );
-}
+});

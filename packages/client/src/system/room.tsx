@@ -228,10 +228,11 @@ const roomSlice = createSlice({
       .addCase(room.game.boss.fulfilled, (state, action) => {
         const boss = action.payload;
 
-        if (!state.boss.current) {
+        if (state.boss.current === undefined) {
           state.boss.current = boss;
+        } else {
+          state.boss.stage = boss;
         }
-        state.boss.stage = boss;
 
         if (state.boss.all.every(({ id }) => boss.id !== id)) {
           state.boss.all.push(action.payload);

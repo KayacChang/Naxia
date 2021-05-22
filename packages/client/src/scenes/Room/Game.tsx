@@ -71,16 +71,13 @@ const Boss = memo(() => {
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
 
-  if (boss?.id === undefined) {
-    return <Container />;
-  }
-
   return (
     <Spine
       x={width / 2}
       y={height / 2}
+      visible={boss?.id !== undefined}
       scale={1 / window.devicePixelRatio}
-      data={assets(String(boss.id))}
+      data={assets(String(boss?.id || 0))}
       mount={(spine) => {
         if (status === RoomStatus.Result) {
           spine.state.setAnimation(0, "BeAttack", false);
@@ -94,21 +91,20 @@ const Boss = memo(() => {
                 easing: "easeOutCubic",
               }).finished.then(() => spine.state.clearListeners()),
           });
-
-          return;
         }
 
-        if (status === RoomStatus.Change || spine.state.tracks.length <= 0) {
-          spine.state.setAnimation(0, "Idle", true);
-
+        if (status === RoomStatus.Change) {
           anime({
             targets: spine,
-            alpha: 1,
+            alpha: [0, 1],
+            delay: 1000,
             duration: 1000,
             easing: "easeOutCubic",
           });
+        }
 
-          return;
+        if (spine.state.tracks.length <= 0) {
+          spine.state.setAnimation(0, "Idle", true);
         }
       }}
     />

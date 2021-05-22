@@ -1,18 +1,14 @@
-import { Game, UI } from "layers";
+import { UI } from "layers";
 import {
-  selectAssetsByName,
   selectRoomResult,
   useAppSelector,
   Effect,
   selectRoomStatusCurrent,
 } from "system";
-import { Container, Sprite } from "@inlet/react-pixi";
-import { useViewport, wait } from "utils";
+import { wait } from "utils";
 import Assets from "assets";
 import { Item, RoomStatus } from "types";
 import { useEffect, useState } from "react";
-import { cond, equals } from "ramda";
-import { Texture } from "@pixi/core";
 import { Continue } from "./Continue";
 import { useDispatch } from "react-redux";
 import Sound from "assets/sound";
@@ -43,11 +39,9 @@ function RewardItems({ items }: RewardItemsProps) {
 }
 
 export default function GameResult() {
-  const { width, height } = useViewport();
   const dispatch = useDispatch();
 
   const status = useAppSelector(selectRoomStatusCurrent);
-  const assets = useAppSelector(selectAssetsByName);
   const result = useAppSelector(selectRoomResult);
 
   const [skip, setSkip] = useState(status !== RoomStatus.Result);
@@ -71,37 +65,31 @@ export default function GameResult() {
   }
 
   return (
-    <>
-      <Game className="absolute top-0" options={{ backgroundAlpha: 0.5 }}>
-        <Container x={width / 2} y={height / 2}>
-          <Sprite
-            y={-20}
-            anchor={0.5}
-            scale={1 / window.devicePixelRatio}
-            texture={cond<string, Texture>([
-              [equals("win"), () => assets("Result_Success")],
-              [equals("lose"), () => assets("Result_Failed")],
-            ])(result!.result)}
-          />
-        </Container>
-      </Game>
+    <UI
+      className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-50"
+      onClick={() => setSkip(true)}
+    >
+      <img
+        className="absolute w-4/5"
+        src={
+          result!.result === "lose"
+            ? Assets.Room.Result_Failed
+            : Assets.Room.Result_Success
+        }
+        alt="background"
+      />
 
-      <UI
-        className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-40"
-        onClick={() => setSkip(true)}
-      >
-        <div className="relative mt-12 flex flex-col items-center space-y-4">
-          <div className="relative text-yellow-200">
-            <img src={Assets.Room.Result_Frame} alt="result's frame" />
+      <div className="relative mt-12 flex flex-col items-center space-y-4">
+        <div className="relative text-yellow-200">
+          <img src={Assets.Room.Result_Frame} alt="result's frame" />
 
-            <div className="absolute top-0 w-full h-full pt-8 flex flex-col justify-center items-center">
-              <RewardItems items={result!.items} />
-            </div>
+          <div className="absolute top-0 w-full h-full pt-8 flex flex-col justify-center items-center">
+            <RewardItems items={result!.items} />
           </div>
-
-          <Continue text="點擊開始" />
         </div>
-      </UI>
-    </>
+
+        <Continue text="點擊開始" />
+      </div>
+    </UI>
   );
 }
