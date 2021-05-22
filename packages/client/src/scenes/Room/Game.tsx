@@ -92,7 +92,7 @@ const Boss = memo(() => {
                 alpha: [1, 0],
                 duration: 1000,
                 easing: "easeOutCubic",
-              }),
+              }).finished.then(() => spine.state.clearListeners()),
           });
 
           return;
@@ -103,7 +103,7 @@ const Boss = memo(() => {
 
           anime({
             targets: spine,
-            alpha: [0, 1],
+            alpha: 1,
             duration: 1000,
             easing: "easeOutCubic",
           });
@@ -151,6 +151,23 @@ function Background() {
   );
 }
 
+const Dealing = memo(() => {
+  const { width, height } = useViewport();
+  const assets = useAppSelector(selectAssetsByName);
+  const status = useAppSelector(selectRoomStatusCurrent);
+
+  return (
+    <Spine
+      x={width / 2}
+      y={height / 2}
+      visible={status === RoomStatus.Stop}
+      scale={1 / window.devicePixelRatio}
+      data={assets("Anim_Dealing")}
+      mount={(spine) => spine.state.setAnimation(0, "animation", true)}
+    />
+  );
+});
+
 export default function GameView() {
   return (
     <>
@@ -159,6 +176,8 @@ export default function GameView() {
       <Boss />
 
       <CountDown />
+
+      <Dealing />
 
       <RoundStatus />
     </>

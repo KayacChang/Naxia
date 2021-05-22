@@ -5,7 +5,7 @@ type LocationProps = {
 };
 export function Location({ value }: LocationProps) {
   return (
-    <div className="absolute left-1/2 transform -translate-x-1/2 z-20">
+    <div className="absolute left-1/2 transform -translate-x-1/2">
       <div className="relative w-52 text-white">
         <img src={Assets.Common.Location} alt="world frame" />
 

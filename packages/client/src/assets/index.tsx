@@ -76,6 +76,10 @@ const Room = {
   Skill_Hurricane_Normal: assets("/room/skill/hurricane_normal.png"),
   Skill_Hurricane_Active: assets("/room/skill/hurricane_active.png"),
   Skill_Hurricane_Spine: assets("/animation/wind/skeleton.json"),
+
+  // animation
+  Anim_Dealing: assets("/animation/dealing/skeleton.json"),
+  Anim_Be_Attack: assets("/animation/be_attack/skeleton.json"),
 };
 
 const Lobby = {

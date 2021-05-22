@@ -1,0 +1,258 @@
+
+skeleton.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shibai/playerGameOverEffect_000
+  rotate: false
+  xy: 324, 1077
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_001
+  rotate: false
+  xy: 646, 1077
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_002
+  rotate: false
+  xy: 968, 1077
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_003
+  rotate: false
+  xy: 1290, 1077
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_004
+  rotate: false
+  xy: 1612, 1077
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_005
+  rotate: false
+  xy: 2, 862
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_006
+  rotate: false
+  xy: 324, 862
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_007
+  rotate: false
+  xy: 646, 862
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_008
+  rotate: false
+  xy: 968, 862
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_009
+  rotate: false
+  xy: 1290, 862
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_010
+  rotate: false
+  xy: 1612, 862
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_011
+  rotate: false
+  xy: 2, 647
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_012
+  rotate: false
+  xy: 324, 647
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_013
+  rotate: false
+  xy: 646, 647
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_014
+  rotate: false
+  xy: 968, 647
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_015
+  rotate: false
+  xy: 1290, 647
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_016
+  rotate: false
+  xy: 1612, 647
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_017
+  rotate: false
+  xy: 2, 432
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_018
+  rotate: false
+  xy: 324, 432
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_019
+  rotate: false
+  xy: 646, 432
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_020
+  rotate: false
+  xy: 968, 432
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_021
+  rotate: false
+  xy: 1290, 432
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_022
+  rotate: false
+  xy: 1612, 432
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_023
+  rotate: false
+  xy: 2, 217
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_024
+  rotate: false
+  xy: 324, 217
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_025
+  rotate: false
+  xy: 646, 217
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_026
+  rotate: false
+  xy: 968, 217
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_027
+  rotate: false
+  xy: 1290, 217
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_028
+  rotate: false
+  xy: 1612, 217
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_029
+  rotate: false
+  xy: 2, 2
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_030
+  rotate: false
+  xy: 324, 2
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_031
+  rotate: false
+  xy: 646, 2
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_032
+  rotate: false
+  xy: 968, 2
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_033
+  rotate: false
+  xy: 1290, 2
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_034
+  rotate: false
+  xy: 1612, 2
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1
+shibai/playerGameOverEffect_035
+  rotate: false
+  xy: 2, 1077
+  size: 320, 213
+  orig: 320, 213
+  offset: 0, 0
+  index: -1

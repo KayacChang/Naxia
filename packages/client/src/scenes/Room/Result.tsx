@@ -2,9 +2,9 @@ import { Game, UI } from "layers";
 import {
   selectAssetsByName,
   selectRoomResult,
-  selectRoomStatus,
   useAppSelector,
   Effect,
+  selectRoomStatusCurrent,
 } from "system";
 import { Container, Sprite } from "@inlet/react-pixi";
 import { useViewport, wait } from "utils";
@@ -46,25 +46,27 @@ export default function GameResult() {
   const { width, height } = useViewport();
   const dispatch = useDispatch();
 
-  const { current: status } = useAppSelector(selectRoomStatus);
+  const status = useAppSelector(selectRoomStatusCurrent);
   const assets = useAppSelector(selectAssetsByName);
   const result = useAppSelector(selectRoomResult);
-  const [currentResult, setCurrentResult] = useState<typeof result>();
+
+  const [skip, setSkip] = useState(status !== RoomStatus.Result);
 
   useEffect(() => {
-    if (status === RoomStatus.Change) {
-      setCurrentResult(undefined);
-    }
-
     if (status === RoomStatus.Result) {
       wait(3000).then(() => {
-        setCurrentResult(result);
+        setSkip(false);
+
         dispatch(Effect.play(Sound.Room.Reward));
       });
-    }
-  }, [status, result, dispatch]);
 
-  if (!currentResult) {
+      return;
+    }
+
+    setSkip(true);
+  }, [status, dispatch, setSkip]);
+
+  if (skip) {
     return <></>;
   }
 
@@ -79,21 +81,21 @@ export default function GameResult() {
             texture={cond<string, Texture>([
               [equals("win"), () => assets("Result_Success")],
               [equals("lose"), () => assets("Result_Failed")],
-            ])(currentResult!.result)}
+            ])(result!.result)}
           />
         </Container>
       </Game>
 
       <UI
         className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-40"
-        onClick={() => setCurrentResult(undefined)}
+        onClick={() => setSkip(true)}
       >
         <div className="relative mt-12 flex flex-col items-center space-y-4">
           <div className="relative text-yellow-200">
             <img src={Assets.Room.Result_Frame} alt="result's frame" />
 
             <div className="absolute top-0 w-full h-full pt-8 flex flex-col justify-center items-center">
-              <RewardItems items={currentResult!.items} />
+              <RewardItems items={result!.items} />
             </div>
           </div>
 

@@ -1,0 +1,125 @@
+
+skeleton.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+miaozhun/image 1
+  rotate: false
+  xy: 850, 537
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+miaozhun/image 2
+  rotate: false
+  xy: 726, 344
+  size: 39, 42
+  orig: 39, 42
+  offset: 0, 0
+  index: -1
+miaozhun/image 3
+  rotate: true
+  xy: 679, 343
+  size: 43, 45
+  orig: 43, 45
+  offset: 0, 0
+  index: -1
+miaozhun/image 4
+  rotate: false
+  xy: 894, 581
+  size: 97, 97
+  orig: 97, 97
+  offset: 0, 0
+  index: -1
+miaozhun/image 5
+  rotate: false
+  xy: 789, 576
+  size: 103, 102
+  orig: 103, 102
+  offset: 0, 0
+  index: -1
+miaozhun/image 6
+  rotate: true
+  xy: 682, 574
+  size: 104, 105
+  orig: 104, 105
+  offset: 0, 0
+  index: -1
+miaozhun/image 7
+  rotate: false
+  xy: 679, 480
+  size: 91, 92
+  orig: 91, 92
+  offset: 0, 0
+  index: -1
+miaozhun/image 8
+  rotate: false
+  xy: 772, 496
+  size: 76, 76
+  orig: 76, 76
+  offset: 0, 0
+  index: -1
+miaozhun/image 9
+  rotate: false
+  xy: 679, 388
+  size: 90, 90
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+qichang/Image 1
+  rotate: false
+  xy: 345, 342
+  size: 332, 327
+  orig: 347, 338
+  offset: 4, 3
+  index: -1
+qichang/Image 2
+  rotate: false
+  xy: 2, 671
+  size: 343, 331
+  orig: 352, 340
+  offset: 3, 3
+  index: -1
+qichang/Image 3
+  rotate: false
+  xy: 2, 340
+  size: 341, 329
+  orig: 344, 338
+  offset: 3, 4
+  index: -1
+qichang/Image 4
+  rotate: true
+  xy: 347, 671
+  size: 331, 333
+  orig: 336, 343
+  offset: 4, 6
+  index: -1
+qichang/Image 5
+  rotate: false
+  xy: 2, 2
+  size: 325, 336
+  orig: 334, 346
+  offset: 5, 6
+  index: -1
+qichang/Image 6
+  rotate: true
+  xy: 682, 680
+  size: 322, 336
+  orig: 331, 347
+  offset: 4, 5
+  index: -1
+qichang/Image 8
+  rotate: false
+  xy: 329, 3
+  size: 320, 335
+  orig: 331, 344
+  offset: 8, 3
+  index: -1
+qichang/Image 9
+  rotate: false
+  xy: 651, 10
+  size: 324, 330
+  orig: 335, 345
+  offset: 7, 6
+  index: -1

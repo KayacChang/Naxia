@@ -1,0 +1,112 @@
+{
+"skeleton": {
+	"hash": "NcHc2TDVGNObnpZ1JVCPl8N0Vcc",
+	"spine": "3.8.99",
+	"x": -965.54,
+	"y": -544.59,
+	"width": 1931.07,
+	"height": 1094.33,
+	"images": "../",
+	"audio": "F:/百家乐RPG/shibai"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "shibai", "parent": "root", "scaleX": 6.0346, "scaleY": 5.1377 }
+],
+"slots": [
+	{ "name": "shibai", "bone": "shibai", "attachment": "shibai/playerGameOverEffect_014" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"shibai": {
+				"shibai/playerGameOverEffect_000": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_001": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_002": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_003": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_004": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_005": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_006": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_007": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_008": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_009": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_010": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_011": { "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_012": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_013": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_014": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_015": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_016": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_017": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_018": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_019": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_020": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_021": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_022": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_023": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_024": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_025": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_026": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_027": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_028": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_029": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_030": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_031": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_032": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_033": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_034": { "y": 0.5, "width": 320, "height": 213 },
+				"shibai/playerGameOverEffect_035": { "y": 0.5, "width": 320, "height": 213 }
+			}
+		}
+	}
+],
+"animations": {
+	"poli": {
+		"slots": {
+			"shibai": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.0667, "name": "shibai/playerGameOverEffect_000" },
+					{ "time": 0.1333, "name": "shibai/playerGameOverEffect_001" },
+					{ "time": 0.2, "name": "shibai/playerGameOverEffect_002" },
+					{ "time": 0.2667, "name": "shibai/playerGameOverEffect_003" },
+					{ "time": 0.3333, "name": "shibai/playerGameOverEffect_004" },
+					{ "time": 0.4, "name": "shibai/playerGameOverEffect_005" },
+					{ "time": 0.4667, "name": "shibai/playerGameOverEffect_006" },
+					{ "time": 0.5333, "name": "shibai/playerGameOverEffect_007" },
+					{ "time": 0.6, "name": "shibai/playerGameOverEffect_008" },
+					{ "time": 0.6667, "name": "shibai/playerGameOverEffect_009" },
+					{ "time": 0.7333, "name": "shibai/playerGameOverEffect_010" },
+					{ "time": 0.8, "name": "shibai/playerGameOverEffect_011" },
+					{ "time": 0.8667, "name": "shibai/playerGameOverEffect_012" },
+					{ "time": 0.9333, "name": "shibai/playerGameOverEffect_013" },
+					{ "time": 1, "name": "shibai/playerGameOverEffect_014" },
+					{ "time": 1.0667, "name": "shibai/playerGameOverEffect_015" },
+					{ "time": 1.1333, "name": "shibai/playerGameOverEffect_016" },
+					{ "time": 1.2, "name": "shibai/playerGameOverEffect_017" },
+					{ "time": 1.2667, "name": "shibai/playerGameOverEffect_018" },
+					{ "time": 1.3333, "name": "shibai/playerGameOverEffect_019" },
+					{ "time": 1.4, "name": "shibai/playerGameOverEffect_020" },
+					{ "time": 1.4667, "name": "shibai/playerGameOverEffect_021" },
+					{ "time": 1.5333, "name": "shibai/playerGameOverEffect_022" },
+					{ "time": 1.6, "name": "shibai/playerGameOverEffect_023" },
+					{ "time": 1.6667, "name": "shibai/playerGameOverEffect_024" },
+					{ "time": 1.7333, "name": "shibai/playerGameOverEffect_025" },
+					{ "time": 1.8, "name": "shibai/playerGameOverEffect_026" },
+					{ "time": 1.8667, "name": "shibai/playerGameOverEffect_027" },
+					{ "time": 1.9333, "name": "shibai/playerGameOverEffect_028" },
+					{ "time": 2, "name": "shibai/playerGameOverEffect_029" },
+					{ "time": 2.0667, "name": "shibai/playerGameOverEffect_030" },
+					{ "time": 2.1333, "name": "shibai/playerGameOverEffect_031" },
+					{ "time": 2.2, "name": "shibai/playerGameOverEffect_032" },
+					{ "time": 2.2667, "name": "shibai/playerGameOverEffect_033" },
+					{ "time": 2.3333, "name": "shibai/playerGameOverEffect_034" },
+					{ "time": 2.4, "name": "shibai/playerGameOverEffect_035" },
+					{ "time": 2.4667, "name": null }
+				]
+			}
+		}
+	}
+}
+}
