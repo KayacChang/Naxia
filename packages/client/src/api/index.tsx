@@ -328,3 +328,33 @@ export function unlock(token: string, mapID: number, dungeonID: number) {
     token
   ).then(({ data }) => data);
 }
+
+interface _StoreItem {
+  id: number;
+  name: string;
+  category: "card" | "other";
+  item_type: "item" | "point";
+  item_name: string | null;
+  item_count: number;
+  item_img: string;
+  requirements: {
+    type: "point" | "item";
+    count: number;
+    item_id: number | null;
+    item_name: string | null;
+    accumulate: number;
+  }[];
+}
+
+export interface GetStoreItemsResponse {
+  data: {
+    card: _StoreItem[];
+    other: _StoreItem[];
+  };
+  success: boolean;
+}
+export function getStoreItems(token: string): Promise<DungeonInfo> {
+  return get<GetInfoByDungeonIDResponse>(API(`stores/items`), token)
+    .then(({ data }) => data)
+    .then();
+}
