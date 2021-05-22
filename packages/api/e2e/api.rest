@@ -45,6 +45,11 @@ authorization: {{token}}
 GET {{host}}/maps/{{map}}/dungeons HTTP/1.1
 authorization: {{token}}
 
+### Get NPC in map
+# @name dungeons
+GET {{host}}/maps/{{map}}/npc HTTP/1.1
+authorization: {{token}}
+
 ### Unlock Dungeon
 POST {{host}}/maps/{{map}}/dungeons/{{dungeon}}/unlock HTTP/1.1
 content-type: {{contentType}}
