@@ -3,6 +3,7 @@ import {
   getAllMaps,
   getConditionsByDungeonID,
   getInfoByDungeonID,
+  getNPCInMap,
   getRoundsByDungeonID,
   unlock,
 } from "api";
@@ -32,6 +33,15 @@ export function useDungeons(mapID?: number) {
   );
 }
 
+export function useNPC(mapID?: number) {
+  const token = useAppSelector(selectToken);
+  invariant(token, "Unauthorized");
+
+  return useQuery(["npc", mapID], () => getNPCInMap(token, mapID!), {
+    enabled: Boolean(token && mapID),
+  });
+}
+
 export function useDungeon(mapID?: number, dungeonID?: number) {
   const token = useAppSelector(selectToken);
   invariant(token, "Unauthorized");
@@ -48,7 +58,6 @@ export function useDungeon(mapID?: number, dungeonID?: number) {
       queryKey: ["dungeon/rounds", mapID, dungeonID],
       queryFn: () => getRoundsByDungeonID(token, mapID!, dungeonID!),
       enabled,
-      // refetchInterval: 10 * 1000,
     },
     {
       queryKey: ["dungeon/info", mapID, dungeonID],

@@ -29,6 +29,13 @@ export interface Map {
   img: string;
 }
 
+export interface NPC {
+  id: number;
+  name: string;
+  img: string;
+  dialog: string[];
+}
+
 export interface Dungeon {
   id: number;
   name: string;

@@ -11,6 +11,7 @@ import {
   selectAssetsByName,
   selectUser,
   selectUserItems,
+  useNPC,
 } from "system";
 import { useViewport, currency } from "utils";
 import { Game, UI } from "layers";
@@ -32,6 +33,7 @@ import { DungeonDetail, DungeonCondition } from "./Map";
 import Repository from "./Repository";
 import Ranking from "./Ranking";
 import Achievement from "./Achievement";
+import NPC from "./NPC";
 
 import Store from "./Store";
 import { filters } from "pixi.js";
@@ -136,6 +138,7 @@ export default function Lobby() {
   const map = maps?.[0];
 
   const { data: dungeons } = useDungeons(map?.id);
+  const { data: npc } = useNPC(map?.id);
 
   const { width, height } = useViewport();
   const [dungeon, setDungeon] = useState<TDungeon | undefined>(undefined);
@@ -146,9 +149,11 @@ export default function Lobby() {
   const matchLobby = useRouteMatch("/lobby");
   const matchStory = useRouteMatch("/lobby/store");
 
-  if (!user || !items || !map || !dungeons) {
+  if (!user || !items || !map || !dungeons || !npc) {
     return <Loading />;
   }
+
+  console.log(npc);
 
   return (
     <>
@@ -186,6 +191,10 @@ export default function Lobby() {
         <main className="flex-1 flex justify-end">
           <Switch>
             <Route exact path="/lobby">
+              <NPC {...npc} />
+
+              <div className="w-3/5"></div>
+
               {dungeon && (
                 <Modal className="z-20">
                   {!dungeon.lock ? (
@@ -210,14 +219,17 @@ export default function Lobby() {
             </Route>
 
             <Route path="/lobby/repository">
+              <NPC {...npc} />
               <Repository items={items} className="w-3/5" />
             </Route>
 
             <Route path="/lobby/achievement">
+              <NPC {...npc} />
               <Achievement className="w-3/5" />
             </Route>
 
             <Route path="/lobby/ranking">
+              <NPC {...npc} />
               <Ranking className="w-3/5" />
             </Route>
 

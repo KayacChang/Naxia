@@ -9,6 +9,7 @@ import {
   DungeonInfo,
   SkillSet,
   SkillOption,
+  NPC,
 } from "types";
 
 const API = (...paths: string[]) =>
@@ -159,6 +160,16 @@ export function getAllDungeonsInMap(
         })
       )
     );
+}
+
+export interface GetNPCInMapResponse {
+  data: NPC;
+  success: boolean;
+}
+export function getNPCInMap(token: string, mapID: number): Promise<NPC> {
+  return get<GetNPCInMapResponse>(API(`maps/${mapID}/npc`), token).then(
+    ({ data }) => data
+  );
 }
 
 export interface GetConditionsByDungeonIDResponse {

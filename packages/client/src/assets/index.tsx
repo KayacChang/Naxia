@@ -86,6 +86,9 @@ const Lobby = {
   Lock: assets("/lobby/lock.png"),
   Lock_Anim: assets("/animation/unlock/skeleton.json"),
 
+  // Dialog
+  Dialog: assets("/lobby/dialog.png"),
+
   // Navbar
   Narbar_Frame: assets("/lobby/navbar/frame.png"),
   Narbar_Back: assets("/lobby/navbar/back.png"),
