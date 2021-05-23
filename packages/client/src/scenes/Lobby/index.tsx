@@ -13,6 +13,7 @@ import {
   selectUserItems,
   useNPC,
   Effect,
+  useAppDispatch,
 } from "system";
 import { currency, getViewPort } from "utils";
 import { Game, UI } from "layers";
@@ -65,7 +66,6 @@ function Dungeon({
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
-  const dispatch = useDispatch();
 
   const filter = useMemo(() => {
     if (!lock) return [];
@@ -112,10 +112,7 @@ function Dungeon({
           data={assets("Lock_Anim")}
           mount={(spine) => {
             spine.state.setAnimation(0, "animation", false);
-            spine.state.addListener({
-              start: () => dispatch(Effect.play(Sound.Lobby.Unlock)),
-              complete: onClear,
-            });
+            spine.state.addListener({ complete: onClear });
           }}
         />
       )}
@@ -173,6 +170,7 @@ function View({
 export default function Lobby() {
   const user = useAppSelector(selectUser);
   const items = useAppSelector(selectUserItems);
+  const dispatch = useAppDispatch();
 
   const { data: maps } = useMaps();
   const map = maps?.[0];
@@ -232,6 +230,7 @@ export default function Lobby() {
                       onConfirm={() => {
                         setShowLockAnim(dungeon.id);
                         setDungeon(undefined);
+                        dispatch(Effect.play(Sound.Lobby.Unlock));
                       }}
                       onCancel={() => setDungeon(undefined)}
                     />
