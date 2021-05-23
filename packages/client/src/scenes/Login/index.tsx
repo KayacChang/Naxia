@@ -9,8 +9,8 @@ import {
 } from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
-import { useViewport } from "utils";
 import { Spine } from "components";
+import { useApp } from "@inlet/react-pixi";
 
 type InputFieldProps = {
   type?: string;
@@ -118,24 +118,31 @@ function Form() {
   );
 }
 
-export default function Login() {
-  const { width, height } = useViewport();
+function View() {
   const assets = useAppSelector(selectAssetsByName);
+  const app = useApp();
+  const { width, height } = app.screen;
 
+  return (
+    <Spine
+      data={assets("Login_Spine")}
+      x={width / 2}
+      y={height / 2}
+      scale={0.4}
+      mount={(spine) => spine.state.setAnimation(0, "animation", true)}
+    />
+  );
+}
+
+export default function Login() {
   return (
     <>
       <UI>
         <img src={Assets.Login.Login_Background} alt="background" />
       </UI>
 
-      <Game className="absolute top-0">
-        <Spine
-          data={assets("Login_Spine")}
-          x={width / 2}
-          y={height / 2}
-          scale={0.4}
-          mount={(spine) => spine.state.setAnimation(0, "animation", true)}
-        />
+      <Game className="fixed top-0">
+        <View />
       </Game>
 
       <UI className="absolute top-0 flex flex-col items-center justify-center text-white font-noto space-y-4">

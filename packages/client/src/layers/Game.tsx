@@ -1,10 +1,12 @@
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Canvas } from "components";
-import { useViewport } from "utils";
+import { getViewPort } from "utils";
 import { IApplicationOptions } from "@pixi/app";
 import { Provider } from "react-redux";
 import { store } from "system";
+
+const { width, height } = getViewPort();
 
 type GameProps = {
   children?: ReactNode;
@@ -12,8 +14,6 @@ type GameProps = {
   options?: IApplicationOptions;
 };
 export function Game({ children, className, options }: GameProps) {
-  const { width, height } = useViewport();
-
   return createPortal(
     <Canvas
       width={width}
