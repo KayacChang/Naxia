@@ -94,17 +94,16 @@ export function Announcement() {
           <img src={icon.icons.normal} alt={icon.key} />
         </button>
       </div>
-      <div className="absolute left-0">
-        {isAnnouncementOpen && (
-          <Modal onClose={() => setAnnouncementOpen(false)}>
-            <SystemModal
-              title="公告"
-              button="確認"
-              onConfirm={() => setAnnouncementOpen(false)}
-            ></SystemModal>
-          </Modal>
-        )}
-      </div>
+
+      {isAnnouncementOpen && (
+        <Modal onClose={() => setAnnouncementOpen(false)}>
+          <SystemModal
+            title="公告"
+            button="確認"
+            onConfirm={() => setAnnouncementOpen(false)}
+          />
+        </Modal>
+      )}
     </>
   );
 }
