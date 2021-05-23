@@ -1,17 +1,6 @@
 import { ReactNode, useEffect, useRef } from "react";
-import {
-  settings,
-  ENV,
-  Application,
-  UPDATE_PRIORITY,
-  IApplicationOptions,
-} from "pixi.js";
-import { render, AppProvider } from "@inlet/react-pixi";
-
-// force using WEBGL2
-// because when start at using mobile emulator and then switch to desktop,
-// create renderer will throw error
-settings.PREFER_ENV = ENV.WEBGL2;
+import { Application, UPDATE_PRIORITY, IApplicationOptions } from "pixi.js";
+import { render } from "@inlet/react-pixi";
 
 type CanvasProps = {
   width?: number;
@@ -42,7 +31,7 @@ export function Canvas({
     });
 
     // react pixi fiber render
-    render(<AppProvider value={app}>{children}</AppProvider>, app.stage);
+    render(<>{children}</>, app.stage);
 
     // ticker render
     const update = () => app.renderer.render(app.stage);
@@ -53,8 +42,6 @@ export function Canvas({
     // unmount
     return () => {
       app.ticker.remove(update, null);
-
-      app.destroy();
     };
   }, [ref, width, height, children, options]);
 

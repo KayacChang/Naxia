@@ -40,7 +40,6 @@ import NPC from "./NPC";
 import Store from "./Store";
 import { filters } from "pixi.js";
 import { Dungeon as TDungeon } from "types";
-import { useDispatch } from "react-redux";
 import Sound from "assets/sound";
 
 type DungeonProps = {

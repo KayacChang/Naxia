@@ -68,10 +68,12 @@ export function Navbar() {
             to={href}
             className="w-16 relative flex justify-center"
           >
-            <img
-              src={location.pathname === href ? icons.active : icons.normal}
-              alt={key}
-            />
+            <div>
+              <img
+                src={location.pathname === href ? icons.active : icons.normal}
+                alt={key}
+              />
+            </div>
 
             <span className="absolute bottom-0 font-kai text-md text-fansy font-bold text-shadow-xl">
               {name}
