@@ -10,7 +10,7 @@ import {
 import { useHistory } from "react-router";
 import Assets from "assets";
 import { Spine } from "components";
-import { useApp } from "@inlet/react-pixi";
+import { getViewPort } from "utils";
 
 type InputFieldProps = {
   type?: string;
@@ -120,8 +120,7 @@ function Form() {
 
 function View() {
   const assets = useAppSelector(selectAssetsByName);
-  const app = useApp();
-  const { width, height } = app.screen;
+  const { width, height } = getViewPort();
 
   return (
     <Spine

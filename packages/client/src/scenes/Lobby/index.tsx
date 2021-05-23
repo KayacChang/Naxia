@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
-import { Sprite, Container, Text, useApp } from "@inlet/react-pixi";
+import { Sprite, Container, Text } from "@inlet/react-pixi";
 import clsx from "clsx";
 
 import {
@@ -12,8 +12,9 @@ import {
   selectUser,
   selectUserItems,
   useNPC,
+  Effect,
 } from "system";
-import { useViewport, currency } from "utils";
+import { currency, getViewPort } from "utils";
 import { Game, UI } from "layers";
 import {
   Modal,
@@ -38,6 +39,8 @@ import NPC from "./NPC";
 import Store from "./Store";
 import { filters } from "pixi.js";
 import { Dungeon as TDungeon } from "types";
+import { useDispatch } from "react-redux";
+import Sound from "assets/sound";
 
 type DungeonProps = {
   id: number;
@@ -62,6 +65,7 @@ function Dungeon({
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
+  const dispatch = useDispatch();
 
   const filter = useMemo(() => {
     if (!lock) return [];
@@ -109,6 +113,7 @@ function Dungeon({
           mount={(spine) => {
             spine.state.setAnimation(0, "animation", false);
             spine.state.addListener({
+              start: () => dispatch(Effect.play(Sound.Lobby.Unlock)),
               complete: onClear,
             });
           }}
@@ -142,8 +147,7 @@ function View({
   setShowLockAnim,
 }: ViewProps) {
   const assets = useAppSelector(selectAssetsByName);
-  const app = useApp();
-  const { width, height } = app.screen;
+  const { width, height } = getViewPort();
 
   return (
     <Camera screenWidth={width} screenHeight={height}>
