@@ -1,11 +1,17 @@
 import { ReactNode, useEffect, useRef } from "react";
-import { Application, UPDATE_PRIORITY, IApplicationOptions } from "pixi.js";
+import {
+  settings,
+  ENV,
+  Application,
+  UPDATE_PRIORITY,
+  IApplicationOptions,
+} from "pixi.js";
 import { render, AppProvider } from "@inlet/react-pixi";
 
 // force using WEBGL2
 // because when start at using mobile emulator and then switch to desktop,
 // create renderer will throw error
-// settings.PREFER_ENV = ENV.WEBGL2;
+settings.PREFER_ENV = ENV.WEBGL2;
 
 type CanvasProps = {
   width?: number;

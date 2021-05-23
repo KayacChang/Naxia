@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
-import { Sprite, Container, Text } from "@inlet/react-pixi";
+import { Sprite, Container, Text, useApp } from "@inlet/react-pixi";
 import clsx from "clsx";
 
 import {
@@ -129,8 +129,44 @@ function Dungeon({
   );
 }
 
-export default function Lobby() {
+type ViewProps = {
+  dungeons: TDungeon[];
+  setDungeon: (dungeon: TDungeon) => void;
+  showLockAnimID?: number;
+  setShowLockAnim: (id: number | undefined) => void;
+};
+function View({
+  dungeons,
+  setDungeon,
+  showLockAnimID,
+  setShowLockAnim,
+}: ViewProps) {
   const assets = useAppSelector(selectAssetsByName);
+  const app = useApp();
+  const { width, height } = app.screen;
+
+  return (
+    <Camera screenWidth={width} screenHeight={height}>
+      <Sprite texture={assets("Map")} />
+
+      {dungeons.map((dungeon) => (
+        <Dungeon
+          key={dungeon.id}
+          id={dungeon.id}
+          title={dungeon.name}
+          x={1920 * (dungeon.location.x / 100)}
+          y={1080 * (dungeon.location.y / 100)}
+          onClick={() => setDungeon(dungeon)}
+          lock={dungeon.lock}
+          showLockAnim={showLockAnimID === dungeon.id}
+          onClear={() => setShowLockAnim(undefined)}
+        />
+      ))}
+    </Camera>
+  );
+}
+
+export default function Lobby() {
   const user = useAppSelector(selectUser);
   const items = useAppSelector(selectUserItems);
 
@@ -140,7 +176,6 @@ export default function Lobby() {
   const { data: dungeons } = useDungeons(map?.id);
   const { data: npc } = useNPC(map?.id);
 
-  const { width, height } = useViewport();
   const [dungeon, setDungeon] = useState<TDungeon | undefined>(undefined);
   const [showLockAnimID, setShowLockAnim] = useState<number | undefined>(
     undefined
@@ -153,32 +188,15 @@ export default function Lobby() {
     return <Loading />;
   }
 
-  console.log(npc);
-
   return (
     <>
       <Game className={clsx(matchLobby?.isExact || "pointer-events-none")}>
-        <Camera
-          screenWidth={width}
-          screenHeight={height}
-          pause={!matchLobby?.isExact}
-        >
-          <Sprite texture={assets("Map")} />
-
-          {dungeons.map((dungeon) => (
-            <Dungeon
-              key={dungeon.id}
-              id={dungeon.id}
-              title={dungeon.name}
-              x={1920 * (dungeon.location.x / 100)}
-              y={1080 * (dungeon.location.y / 100)}
-              onClick={() => setDungeon(dungeon)}
-              lock={dungeon.lock}
-              showLockAnim={showLockAnimID === dungeon.id}
-              onClear={() => setShowLockAnim(undefined)}
-            />
-          ))}
-        </Camera>
+        <View
+          dungeons={dungeons}
+          setDungeon={setDungeon}
+          showLockAnimID={showLockAnimID}
+          setShowLockAnim={setShowLockAnim}
+        />
       </Game>
 
       <UI className="flex flex-col">
