@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
-import { useViewport } from "utils";
+import { getViewPort } from "utils";
 
 type UIProps = {
   style?: CSSProperties;
@@ -10,7 +10,7 @@ type UIProps = {
   onClick?: () => void;
 };
 export function UI({ style, className, children, onClick }: UIProps) {
-  const { width, height } = useViewport();
+  const { width, height } = getViewPort();
 
   return createPortal(
     <div
