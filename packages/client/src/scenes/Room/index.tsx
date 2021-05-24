@@ -11,12 +11,13 @@ import {
   selectRoomBossCurrent,
 } from "system";
 import { Loading } from "components";
-import { Game } from "layers";
+import { Game, UI } from "layers";
 
 import GameUI from "./UI";
 import GameView from "./Game";
 import GameResult from "./Result";
 import GameEffect from "./Effect";
+import Assets from "assets";
 
 export default function Room() {
   const dispatch = useAppDispatch();
@@ -49,17 +50,25 @@ export default function Room() {
     return <Loading></Loading>;
   }
 
+  if (!user || !dungeon || !boss) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <Game>
+      <UI className="flex flex-col">
+        <img src={Assets.Room.Room_Background} alt="background" />
+      </UI>
+
+      <Game className="absolute top-0">
         <GameView />
       </Game>
 
       <GameUI
-        user={user!}
-        info={dungeon!.info}
-        rounds={dungeon!.rounds}
-        boss={boss!}
+        user={user}
+        info={dungeon.info}
+        rounds={dungeon.rounds}
+        boss={boss}
       />
 
       <GameEffect />

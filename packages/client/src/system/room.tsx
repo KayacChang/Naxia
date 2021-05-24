@@ -230,6 +230,7 @@ const roomSlice = createSlice({
 
         if (state.boss.current === undefined) {
           state.boss.current = boss;
+          state.boss.stage = boss;
         } else {
           state.boss.stage = boss;
         }

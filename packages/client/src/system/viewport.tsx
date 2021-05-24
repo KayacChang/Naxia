@@ -2,7 +2,7 @@ import { ReactNode, useLayoutEffect, useState } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, useAppDispatch, useAppSelector } from "system";
 import { Map } from "immutable";
-import { debounce, throttle } from "utils";
+import { throttle } from "utils";
 import Assets from "assets";
 import { createPortal } from "react-dom";
 
@@ -13,7 +13,7 @@ export function getOrientation(): "portrait" | "landscape" {
 }
 
 export function getViewPort(ratio = 16 / 9) {
-  const height = window.screen.availHeight;
+  const height = window.innerHeight;
 
   return {
     width: height * ratio,

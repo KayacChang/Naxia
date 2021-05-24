@@ -6,7 +6,7 @@ export function assets(src: string) {
 
 const Room = {
   // Room
-  Room_Background: assets("/room/background.png"),
+  Room_Background: assets("/room/background.jpg"),
   Room_Status: assets("/room/room_status.png"),
   Room_Back: assets("/room/back.png"),
 
@@ -84,7 +84,7 @@ const Room = {
 
 const Lobby = {
   // Map
-  Map: assets("/lobby/map.png"),
+  Map: assets("/lobby/map.jpg"),
 
   // Lock
   Lock: assets("/lobby/lock.png"),
@@ -253,7 +253,7 @@ const Common = {
   Announcement_Background: assets("/sidebar/announcement/background.png"),
 
   // Progress
-  Progress_Background: assets("/loading/background.png"),
+  Progress_Background: assets("/loading/background.jpg"),
   Progress_Frame: assets("/loading/loading-frame.png"),
   Progress_Bar: assets("/loading/loading-bar.png"),
   Progress_Effect: assets("/loading/glow.png"),

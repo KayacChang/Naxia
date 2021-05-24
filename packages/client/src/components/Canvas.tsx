@@ -27,6 +27,7 @@ export function Canvas({
       view: ref.current,
       autoDensity: true,
       backgroundAlpha: 0,
+      forceCanvas: true,
       ...options,
     });
 
