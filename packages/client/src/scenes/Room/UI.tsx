@@ -24,6 +24,8 @@ import {
   useUser,
   selectRoomBossCurrent,
   TDungeon,
+  selectRoomStatus,
+  selectRoomCountDown,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
@@ -53,6 +55,46 @@ function ControlButton({ img, children, onClick }: ControlButtonProps) {
   );
 }
 
+function CountDown() {
+  const { current, countdown } = useAppSelector(selectRoomStatus);
+
+  if (current !== TRoomStatus.Start) return <></>;
+
+  return (
+    <div className="relative flex justify-center items-center">
+      <div className="w-16 animate-pulse">
+        <img src={Assets.Room.CountDown_Frame} alt="frame" />
+      </div>
+
+      <span className="absolute text-3xl text-fansy">{countdown}</span>
+    </div>
+  );
+}
+
+function RoundStatus() {
+  const status = useAppSelector(selectRoomStatusCurrent);
+
+  return (
+    <div className="relative flex justify-center items-center">
+      <div className="w-28">
+        <img src={Assets.Room.Round_Status_Frame} alt="frame" />
+      </div>
+
+      <span className="absolute text-lg font-kai text-yellow-100">
+        {status === TRoomStatus.Change
+          ? "洗牌中"
+          : status === TRoomStatus.Start
+          ? "開始下注"
+          : status === TRoomStatus.Stop
+          ? "停止下注"
+          : status === TRoomStatus.Result
+          ? "開牌結果"
+          : ""}
+      </span>
+    </div>
+  );
+}
+
 type GameUIProps = {
   dungeon: TDungeon;
 };
@@ -75,7 +117,15 @@ export default function GameUI({ dungeon }: GameUIProps) {
         <Status value={currency(user.balance)} />
       </header>
 
-      <div className="flex-1 flex">
+      <div className="flex-1 flex relative">
+        <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <CountDown />
+        </div>
+
+        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <RoundStatus />
+        </div>
+
         <div className="w-2/3 flex flex-col justify-between px-2 mt-8">
           <RoomStatus className="w-52" skills={dungeon.info.skills} />
 

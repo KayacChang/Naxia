@@ -31,6 +31,8 @@ export const selectRoom = (state: RootState) => state.room;
 export const selectRoomID = (state: RootState) => state.room.room_id;
 export const selectRoomIsJoin = (state: RootState) => state.room.isJoin;
 export const selectRoomStatus = (state: RootState) => state.room.status;
+export const selectRoomCountDown = (state: RootState) =>
+  state.room.status.countdown;
 export const selectRoomStatusCurrent = (state: RootState) =>
   state.room.status.current;
 export const selectRoomResult = (state: RootState) => state.room.result;
