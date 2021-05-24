@@ -21,6 +21,19 @@ export function getViewPort(ratio = 16 / 9) {
   };
 }
 
+export function isChrome() {
+  const userAgent = window.navigator.userAgent;
+  return /Chrome/i.test(userAgent) || /CriOS/i.test(userAgent);
+}
+
+export function isBarOpen() {
+  const diff = window.outerHeight - window.innerHeight;
+
+  const trigger = isChrome() ? window.outerHeight / 10 : 0;
+
+  return diff > trigger;
+}
+
 type Viewport = { width: number; height: number };
 
 const initialState: Viewport = getViewPort();
@@ -49,6 +62,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const dispatch = useAppDispatch();
   const viewport = useAppSelector(selectViewport);
   const [orientation, setOrientation] = useState(getOrientation());
+  const [isToolbarVisible, setToolbarVisible] = useState(() => isBarOpen());
 
   useLayoutEffect(() => {
     const refresh = throttle(100, () => {
@@ -57,10 +71,8 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
         dispatch(viewportSlice.actions.update(cur));
       }
 
-      const curOrientation = getOrientation();
-      if (orientation !== curOrientation) {
-        setOrientation(curOrientation);
-      }
+      setOrientation(getOrientation());
+      setToolbarVisible(isBarOpen());
     });
 
     let id = requestAnimationFrame(function update() {
@@ -70,11 +82,11 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     });
 
     return () => cancelAnimationFrame(id);
-  }, [dispatch, viewport, orientation, setOrientation]);
+  }, [dispatch, viewport, setOrientation, setToolbarVisible]);
 
   if (orientation === "portrait") {
     return createPortal(
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
         <div className="w-3/5">
           <img src={Assets.Common.Rotate} alt="rotate" />
         </div>
@@ -83,7 +95,26 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+
+      {isToolbarVisible &&
+        createPortal(
+          <div
+            className="absolute top-0 w-full pointer-events-auto"
+            style={{ height: `400vh`, zIndex: 999 }}
+          >
+            <div className="fixed top-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50">
+              <div className="w-1/5">
+                <img src={Assets.Common.Scroll} alt="scroll" />
+              </div>
+            </div>
+          </div>,
+          document.getElementById("root") as HTMLElement
+        )}
+    </>
+  );
 }
 
 export function useViewport() {
