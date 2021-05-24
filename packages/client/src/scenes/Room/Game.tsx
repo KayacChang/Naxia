@@ -75,13 +75,17 @@ const Boss = memo(() => {
   const status = useAppSelector(selectRoomStatusCurrent);
   const result = useAppSelector(selectRoomResult);
 
+  if (!boss) {
+    return <Container />;
+  }
+
   return (
     <Spine
       x={width / 2}
       y={height / 2}
       visible={boss?.id !== undefined}
       scale={1 / window.devicePixelRatio}
-      data={assets(String(boss!.id))}
+      data={assets(String(boss.id))}
       mount={(spine) => {
         if (status === RoomStatus.Result) {
           if (result?.result === "win") {

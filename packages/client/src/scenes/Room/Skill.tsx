@@ -152,7 +152,9 @@ export default function Skill({
           state === "failed" && "filter grayscale"
         )}
       >
-        <img src={Assets.Room.Skill_Frame} alt="frame" />
+        <div>
+          <img src={Assets.Room.Skill_Frame} alt="frame" />
+        </div>
 
         <span className="text-xxs absolute top-0 text-fansy">{value}</span>
       </div>
