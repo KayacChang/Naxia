@@ -187,6 +187,10 @@ const Login = {
 };
 
 const Common = {
+  // System
+  Rotate: assets("/rotate.png"),
+  Scroll: assets("/scroll.png"),
+
   // Header
   Profile: assets("/lobby/profile.png"),
   Location: assets("/lobby/location.png"),

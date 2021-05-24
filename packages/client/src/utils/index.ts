@@ -20,3 +20,17 @@ export function nextFrame() {
     requestAnimationFrame((end) => resolve(end - start))
   );
 }
+
+export function throttle(wait: number, callback: (...args: any[]) => void) {
+  let last: number;
+
+  return function call(...args: any[]) {
+    const now = performance.now();
+    const delta = now - last;
+
+    if (delta < wait) return;
+
+    callback(...args);
+    last = now;
+  };
+}

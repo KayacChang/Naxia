@@ -1,12 +1,23 @@
-import { ReactNode, useLayoutEffect } from "react";
+import { ReactNode, useLayoutEffect, useState } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, useAppDispatch, useAppSelector } from "system";
 import { Map } from "immutable";
+import { throttle } from "utils";
+import Assets from "assets";
+import { createPortal } from "react-dom";
+
+export function getOrientation(): "portrait" | "landscape" {
+  const mql = window.matchMedia("(orientation: portrait)");
+
+  return mql.matches ? "portrait" : "landscape";
+}
 
 export function getViewPort(ratio = 16 / 9) {
+  const height = window.screen.availHeight;
+
   return {
-    width: window.innerHeight * ratio,
-    height: window.innerHeight,
+    width: height * ratio,
+    height,
   };
 }
 
@@ -37,15 +48,20 @@ type ViewportProviderProps = {
 export function ViewportProvider({ children }: ViewportProviderProps) {
   const dispatch = useAppDispatch();
   const viewport = useAppSelector(selectViewport);
+  const [orientation, setOrientation] = useState(getOrientation());
 
   useLayoutEffect(() => {
-    function refresh() {
+    const refresh = throttle(100, () => {
       const cur = getViewPort();
+      if (!Map(cur).equals(Map(viewport))) {
+        dispatch(viewportSlice.actions.update(cur));
+      }
 
-      if (Map(cur).equals(Map(viewport))) return;
-
-      dispatch(viewportSlice.actions.update(cur));
-    }
+      const curOrientation = getOrientation();
+      if (orientation !== curOrientation) {
+        setOrientation(curOrientation);
+      }
+    });
 
     let id = requestAnimationFrame(function update() {
       refresh();
@@ -53,14 +69,19 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       id = requestAnimationFrame(update);
     });
 
-    window.addEventListener("resize", refresh);
+    return () => cancelAnimationFrame(id);
+  }, [dispatch, viewport, orientation, setOrientation]);
 
-    return () => {
-      window.removeEventListener("resize", refresh);
-
-      cancelAnimationFrame(id);
-    };
-  }, [dispatch, viewport]);
+  if (orientation === "portrait") {
+    return createPortal(
+      <div className="w-full h-full flex justify-center items-center">
+        <div className="w-3/5">
+          <img src={Assets.Common.Rotate} alt="rotate" />
+        </div>
+      </div>,
+      document.getElementById("root") as HTMLElement
+    );
+  }
 
   return <>{children}</>;
 }
