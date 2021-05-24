@@ -7,7 +7,14 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, addSounds, BGM, store, user } from "system";
+import {
+  addAssets,
+  addSounds,
+  BGM,
+  store,
+  user,
+  ViewportProvider,
+} from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
@@ -75,7 +82,9 @@ unstable_createRoot(document.getElementById("app") as HTMLDivElement).render(
   <StrictMode>
     <QueryClientProvider client={client}>
       <Provider store={store}>
-        <App />
+        <ViewportProvider>
+          <App />
+        </ViewportProvider>
       </Provider>
     </QueryClientProvider>
   </StrictMode>

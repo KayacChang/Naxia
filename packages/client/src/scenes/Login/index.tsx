@@ -6,11 +6,11 @@ import {
   useAppDispatch,
   useAppSelector,
   user,
+  useViewport,
 } from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
 import { Spine } from "components";
-import { getViewPort } from "utils";
 
 type InputFieldProps = {
   type?: string;
@@ -120,7 +120,7 @@ function Form() {
 
 function View() {
   const assets = useAppSelector(selectAssetsByName);
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
 
   return (
     <Spine

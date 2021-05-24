@@ -6,6 +6,7 @@ import {
   selectAssetsByName,
   selectRoomBossCurrent,
   selectRoomResult,
+  useViewport,
 } from "system";
 import { RoomStatus } from "types";
 import { cond, SafePred } from "ramda";
@@ -13,7 +14,6 @@ import { Container as TContainer } from "pixi.js";
 import anime from "animejs";
 import { memo } from "react";
 import { Spine } from "components";
-import { getViewPort } from "utils";
 
 type FadeProps = {
   targets: any | any[];
@@ -30,7 +30,8 @@ function fade({ targets, alpha }: FadeProps) {
 }
 
 function CountDown() {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
+
   const { current: status, countdown } = useAppSelector(selectRoomStatus);
   const assets = useAppSelector(selectAssetsByName);
 
@@ -67,7 +68,8 @@ function CountDown() {
 }
 
 const Boss = memo(() => {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
+
   const boss = useAppSelector(selectRoomBossCurrent);
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
@@ -120,7 +122,7 @@ function equals<T>(a: T): SafePred<T> {
 }
 
 function RoundStatus() {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
   const { current: status } = useAppSelector(selectRoomStatus);
   const assets = useAppSelector(selectAssetsByName);
 
@@ -143,7 +145,7 @@ function RoundStatus() {
 }
 
 function Background() {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
   const assets = useAppSelector(selectAssetsByName);
 
   return (
@@ -152,7 +154,7 @@ function Background() {
 }
 
 const Dealing = memo(() => {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
 

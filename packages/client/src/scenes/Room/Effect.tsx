@@ -5,17 +5,18 @@ import {
   selectRoomStatusCurrent,
   useAppDispatch,
   useAppSelector,
+  useViewport,
 } from "system";
 import { memo, useMemo } from "react";
 import { RoomStatus, SkillOption } from "types";
 import { Game } from "layers";
 import { Spine } from "components";
 import clsx from "clsx";
-import { getViewPort } from "utils";
 import Sound from "assets/sound";
 
 export default memo(() => {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
+
   const status = useAppSelector(selectRoomStatusCurrent);
   const roundResult = useAppSelector(selectRoomResult);
   const assets = useAppSelector(selectAssetsByName);

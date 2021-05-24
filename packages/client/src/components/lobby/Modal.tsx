@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
-import { getViewPort } from "utils";
+import { useViewport } from "system";
 
 type ModalProps = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type ModalProps = {
   onClose?: () => void;
 };
 export function Modal({ children, className, onClose }: ModalProps) {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
 
   return (
     <div

@@ -4,6 +4,7 @@ import room from "./room";
 import assets from "./assets";
 import user from "./user";
 import sounds from "./sounds";
+import viewport from "./viewport";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     assets,
     user,
     sounds,
+    viewport,
   },
 });
 
@@ -24,3 +26,4 @@ export * from "./user";
 export * from "./assets";
 export * from "./sounds";
 export * from "./room";
+export * from "./viewport";

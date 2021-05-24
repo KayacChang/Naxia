@@ -14,8 +14,9 @@ import {
   useNPC,
   Effect,
   useAppDispatch,
+  useViewport,
 } from "system";
-import { currency, getViewPort } from "utils";
+import { currency } from "utils";
 import { Game, UI } from "layers";
 import {
   Modal,
@@ -143,7 +144,7 @@ function View({
   setShowLockAnim,
 }: ViewProps) {
   const assets = useAppSelector(selectAssetsByName);
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
 
   return (
     <Camera screenWidth={width} screenHeight={height}>
