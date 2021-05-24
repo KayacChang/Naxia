@@ -35,7 +35,7 @@ const links = [
     name: "排行榜",
     icons: {
       normal: Assets.Lobby.Navbar_Ranking_Normal,
-      active: Assets.Lobby.Narbar_Dungeon_Active,
+      active: Assets.Lobby.Navbar_Ranking_Active,
     },
     href: "/lobby/ranking",
   },

@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
 import { useViewport } from "system";
@@ -11,11 +11,17 @@ type UIProps = {
 };
 export function UI({ style, className, children, onClick }: UIProps) {
   const { width, height } = useViewport();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // return () => void ref.current?.remove();
+  }, []);
 
   return createPortal(
     <div
+      ref={ref}
       style={{ width: `${width}px`, height: `${height}px`, ...style }}
-      className={clsx("absolute top-0 overflow-hidden", className)}
+      className={clsx("fixed top-0 overflow-hidden", className)}
       onClick={onClick}
     >
       {children}

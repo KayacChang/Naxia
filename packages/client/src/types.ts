@@ -64,7 +64,6 @@ export type SkillOption =
 export interface Round {
   id: number;
   results: SkillOption[];
-  createdAt: Date;
 }
 
 export interface Skill {

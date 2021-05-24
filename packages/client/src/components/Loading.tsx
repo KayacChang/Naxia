@@ -1,5 +1,5 @@
-import { UI } from "layers";
 import Assets from "assets";
+import { UI } from "layers";
 
 function Progress() {
   return (
@@ -28,8 +28,8 @@ function Progress() {
 
 export function Loading() {
   return (
-    <UI className="  font-noto">
-      <div className="relative">
+    <UI>
+      <div className="relative font-noto">
         <img src={Assets.Common.Progress_Background} alt="background" />
 
         <div className="absolute bottom-0 py-6 space-y-1">

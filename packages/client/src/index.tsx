@@ -1,6 +1,5 @@
 import { lazy, StrictMode, Suspense } from "react";
 import { unstable_createRoot } from "react-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 
 import "styles/base.css";
@@ -70,22 +69,12 @@ function App() {
   );
 }
 
-const client = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
 unstable_createRoot(document.getElementById("app") as HTMLDivElement).render(
   <StrictMode>
-    <QueryClientProvider client={client}>
-      <Provider store={store}>
-        <ViewportProvider>
-          <App />
-        </ViewportProvider>
-      </Provider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <ViewportProvider>
+        <App />
+      </ViewportProvider>
+    </Provider>
   </StrictMode>
 );

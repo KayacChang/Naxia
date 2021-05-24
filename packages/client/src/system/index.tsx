@@ -5,6 +5,7 @@ import assets from "./assets";
 import user from "./user";
 import sounds from "./sounds";
 import viewport from "./viewport";
+import map from "./maps";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     user,
     sounds,
     viewport,
+    map,
   },
 });
 

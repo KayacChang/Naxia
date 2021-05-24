@@ -13,13 +13,7 @@ import {
 import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
 import Assets from "assets";
-import {
-  Round,
-  User,
-  DungeonInfo,
-  RoomStatus as TRoomStatus,
-  Boss,
-} from "types";
+import { RoomStatus as TRoomStatus } from "types";
 import {
   useAppDispatch,
   room,
@@ -27,6 +21,9 @@ import {
   selectRoomOrder,
   selectRoomStatusCurrent,
   selectRoomHasSubmitted,
+  useUser,
+  selectRoomBossCurrent,
+  TDungeon,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
@@ -57,17 +54,18 @@ function ControlButton({ img, children, onClick }: ControlButtonProps) {
 }
 
 type GameUIProps = {
-  user: User;
-  rounds: Round[];
-  info: DungeonInfo;
-  boss: Boss;
+  dungeon: TDungeon;
 };
-export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
+export default function GameUI({ dungeon }: GameUIProps) {
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const user = useUser();
   const order = useAppSelector(selectRoomOrder);
   const status = useAppSelector(selectRoomStatusCurrent);
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
+  const boss = useAppSelector(selectRoomBossCurrent);
+
+  if (!user || !boss) return <></>;
 
   return (
     <UI className="flex flex-col text-white">
@@ -79,7 +77,7 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
 
       <div className="flex-1 flex">
         <div className="w-2/3 flex flex-col justify-between px-2 mt-8">
-          <RoomStatus className="w-52" skills={info.skills} />
+          <RoomStatus className="w-52" skills={dungeon.info.skills} />
 
           <Button
             type="img"
@@ -88,7 +86,7 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
             onClick={() => history.replace("/lobby")}
           />
 
-          <Road className="w-3/5" rounds={rounds} />
+          <Road className="w-3/5" rounds={dungeon.rounds} />
         </div>
 
         <div className="w-1/3 flex flex-col">
@@ -127,7 +125,7 @@ export default function GameUI({ user, rounds, info, boss }: GameUIProps) {
             <Sidebar className="w-12" />
           </div>
 
-          <BetSection skills={info.skills} bets={info.bets} />
+          <BetSection skills={dungeon.info.skills} bets={dungeon.info.bets} />
         </div>
       </div>
     </UI>

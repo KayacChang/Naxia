@@ -1,11 +1,11 @@
 import {
   Effect,
+  getViewPort,
   selectAssetsByName,
   selectRoomResult,
   selectRoomStatusCurrent,
   useAppDispatch,
   useAppSelector,
-  useViewport,
 } from "system";
 import { memo, useMemo } from "react";
 import { RoomStatus, SkillOption } from "types";
@@ -15,7 +15,7 @@ import clsx from "clsx";
 import Sound from "assets/sound";
 
 export default memo(() => {
-  const { width, height } = useViewport();
+  const { width, height } = getViewPort();
 
   const status = useAppSelector(selectRoomStatusCurrent);
   const roundResult = useAppSelector(selectRoomResult);

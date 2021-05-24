@@ -222,10 +222,9 @@ export function getRoundsByDungeonID(
   )
     .then(({ data }) => data)
     .then((data) =>
-      data.map(({ id, results, created_at }) => ({
+      data.map(({ id, results }) => ({
         id,
         results,
-        createdAt: new Date(created_at),
       }))
     );
 }

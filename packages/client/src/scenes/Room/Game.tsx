@@ -1,21 +1,19 @@
-import { Sprite, Container, Text } from "@inlet/react-pixi";
+import { Container } from "@inlet/react-pixi";
 import {
   useAppSelector,
-  selectRoomStatus,
   selectRoomStatusCurrent,
   selectAssetsByName,
   selectRoomBossCurrent,
   selectRoomResult,
-  useViewport,
+  getViewPort,
 } from "system";
 import { RoomStatus } from "types";
-import { cond } from "ramda";
 import anime from "animejs";
 import { Spine } from "components";
+import { memo } from "react";
 
-const Boss = () => {
-  const { width, height } = useViewport();
-
+const Boss = memo(() => {
+  const { width, height } = getViewPort();
   const boss = useAppSelector(selectRoomBossCurrent);
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
@@ -64,10 +62,10 @@ const Boss = () => {
       }}
     />
   );
-};
+});
 
-const Dealing = () => {
-  const { width, height } = useViewport();
+const Dealing = memo(() => {
+  const { width, height } = getViewPort();
   const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
 
@@ -81,7 +79,7 @@ const Dealing = () => {
       mount={(spine) => spine.state.setAnimation(0, "animation", true)}
     />
   );
-};
+});
 
 export default function GameView() {
   return (

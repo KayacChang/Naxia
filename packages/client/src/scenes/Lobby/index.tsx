@@ -14,13 +14,12 @@ import {
   useNPC,
   Effect,
   useAppDispatch,
-  useViewport,
+  getViewPort,
 } from "system";
 import { currency } from "utils";
 import { Game, UI } from "layers";
 import {
   Modal,
-  Loading,
   Navbar,
   Profile,
   Location,
@@ -146,7 +145,7 @@ function View({
   pause,
 }: ViewProps) {
   const assets = useAppSelector(selectAssetsByName);
-  const { width, height } = useViewport();
+  const { width, height } = getViewPort();
 
   return (
     <Camera screenWidth={width} screenHeight={height} pause={pause}>
@@ -174,11 +173,11 @@ export default function Lobby() {
   const items = useAppSelector(selectUserItems);
   const dispatch = useAppDispatch();
 
-  const { data: maps } = useMaps();
+  const maps = useMaps();
   const map = maps?.[0];
 
-  const { data: dungeons } = useDungeons(map?.id);
-  const { data: npc } = useNPC(map?.id);
+  const dungeons = useDungeons(map?.id);
+  const npc = useNPC(map?.id);
 
   const [dungeon, setDungeon] = useState<TDungeon | undefined>(undefined);
   const [showLockAnimID, setShowLockAnim] = useState<number | undefined>(
@@ -189,7 +188,7 @@ export default function Lobby() {
   const matchStory = useRouteMatch("/lobby/store");
 
   if (!user || !items || !map || !dungeons || !npc) {
-    return <Loading />;
+    return <></>;
   }
 
   return (

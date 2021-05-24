@@ -1,5 +1,5 @@
 import { useHistory } from "react-router";
-import { useDungeon } from "system";
+import { Dungeon, useAppDispatch, useDungeon } from "system";
 import { Button, LobbyRoad as Road, SystemModal } from "components";
 import Assets from "assets";
 import clsx from "clsx";
@@ -94,6 +94,7 @@ export function DungeonCondition({
   onConfirm,
   onCancel,
 }: DungeonConditionProps) {
+  const dispatch = useAppDispatch();
   const dungeon = useDungeon(mapID, dungeonID);
 
   if (!dungeon) return <></>;
@@ -102,9 +103,10 @@ export function DungeonCondition({
     <SystemModal
       button="確認"
       subButton="取消"
-      onConfirm={() => {
+      onConfirm={async () => {
+        await dispatch(Dungeon.unlock({ mapID, dungeonID }));
+
         onConfirm?.();
-        dungeon.unlock({ mapID, dungeonID });
       }}
       customFunc={onCancel}
     >

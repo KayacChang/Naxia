@@ -92,15 +92,14 @@ const slice = createSlice({
 export const selectAssets = (state: RootState) => state.assets;
 export const selectAssetIsLoading = (state: RootState) => state.assets.loading;
 
-export const selectAssetsByName = createSelector(
-  selectAssets,
-  () => (name: string) => {
-    const existed = name in loader.resources;
+function getAssets(name: string) {
+  const existed = name in loader.resources;
 
-    if (!existed) throw new Error(`resource name: ${name} not existed`);
+  if (!existed) throw new Error(`resource name: ${name} not existed`);
 
-    return mapping(loader.resources[name]);
-  }
-);
+  return mapping(loader.resources[name]);
+}
+
+export const selectAssetsByName = createSelector(selectAssets, () => getAssets);
 
 export default slice.reducer;

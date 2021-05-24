@@ -7,10 +7,7 @@ import {
   useAppSelector,
   selectAssetIsLoading,
   room,
-  useUser,
-  selectRoomBossCurrent,
 } from "system";
-import { Loading } from "components";
 import { Game, UI } from "layers";
 
 import GameUI from "./UI";
@@ -23,11 +20,9 @@ export default function Room() {
   const dispatch = useAppDispatch();
   const isJoin = useAppSelector(selectRoomIsJoin);
   const loading = useAppSelector(selectAssetIsLoading);
-  const boss = useAppSelector(selectRoomBossCurrent);
 
-  const user = useUser();
+  const maps = useMaps();
 
-  const { data: maps } = useMaps();
   const dungeon = useDungeon(maps?.[0].id, 1);
 
   const [backgroundLoad, setBackgroundLoadEnable] = useState(false);
@@ -43,15 +38,15 @@ export default function Room() {
   useEffect(() => {
     if (backgroundLoad || loading) return;
 
-    setBackgroundLoadEnable(Boolean(user && dungeon && isJoin && boss));
-  }, [backgroundLoad, loading, user, dungeon, isJoin, boss]);
+    setBackgroundLoadEnable(Boolean(dungeon && isJoin));
+  }, [backgroundLoad, loading, dungeon, isJoin]);
 
   if (!backgroundLoad) {
-    return <Loading></Loading>;
+    return <></>;
   }
 
-  if (!user || !dungeon || !boss) {
-    return <Loading />;
+  if (!dungeon) {
+    return <></>;
   }
 
   return (
@@ -64,12 +59,7 @@ export default function Room() {
         <GameView />
       </Game>
 
-      <GameUI
-        user={user}
-        info={dungeon.info}
-        rounds={dungeon.rounds}
-        boss={boss}
-      />
+      <GameUI dungeon={dungeon} />
 
       <GameEffect />
 
