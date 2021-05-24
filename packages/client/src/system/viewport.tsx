@@ -2,7 +2,7 @@ import { ReactNode, useLayoutEffect, useState } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, useAppDispatch, useAppSelector } from "system";
 import { Map } from "immutable";
-import { throttle } from "utils";
+import { debounce, throttle } from "utils";
 import Assets from "assets";
 import { createPortal } from "react-dom";
 
@@ -65,7 +65,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const [isToolbarVisible, setToolbarVisible] = useState(() => isBarOpen());
 
   useLayoutEffect(() => {
-    const refresh = throttle(100, () => {
+    const refresh = throttle(300, () => {
       const cur = getViewPort();
       if (!Map(cur).equals(Map(viewport))) {
         dispatch(viewportSlice.actions.update(cur));

@@ -22,7 +22,7 @@ export function nextFrame() {
 }
 
 export function throttle(wait: number, callback: (...args: any[]) => void) {
-  let last: number;
+  let last = 0;
 
   return function call(...args: any[]) {
     const now = performance.now();
@@ -32,5 +32,18 @@ export function throttle(wait: number, callback: (...args: any[]) => void) {
 
     callback(...args);
     last = now;
+  };
+}
+
+export function debounce(wait: number, callback: (...args: any[]) => void) {
+  let timer: NodeJS.Timeout | undefined;
+
+  return (...args: any[]) => {
+    if (!timer) {
+      callback(...args);
+    }
+
+    timer && clearTimeout(timer);
+    timer = setTimeout(() => timer = undefined, wait);
   };
 }
