@@ -136,18 +136,20 @@ type ViewProps = {
   setDungeon: (dungeon: TDungeon) => void;
   showLockAnimID?: number;
   setShowLockAnim: (id: number | undefined) => void;
+  pause: boolean;
 };
 function View({
   dungeons,
   setDungeon,
   showLockAnimID,
   setShowLockAnim,
+  pause,
 }: ViewProps) {
   const assets = useAppSelector(selectAssetsByName);
   const { width, height } = useViewport();
 
   return (
-    <Camera screenWidth={width} screenHeight={height}>
+    <Camera screenWidth={width} screenHeight={height} pause={pause}>
       <Sprite texture={assets("Map")} />
 
       {dungeons.map((dungeon) => (
@@ -198,6 +200,7 @@ export default function Lobby() {
           setDungeon={setDungeon}
           showLockAnimID={showLockAnimID}
           setShowLockAnim={setShowLockAnim}
+          pause={!Boolean(matchLobby?.isExact)}
         />
       </Game>
 
