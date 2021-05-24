@@ -22,7 +22,12 @@ export function DungeonDetail({
   return (
     <div className="flex flex-col h-full relative font-noto text-white">
       <div className="flex mt-8 relative">
-        <img src={Assets.Lobby.Dungeon_Info_Background} alt="info background" />
+        <div>
+          <img
+            src={Assets.Lobby.Dungeon_Info_Background}
+            alt="info background"
+          />
+        </div>
 
         <div className="absolute top-0 h-full w-full py-8 flex">
           <div className="w-5/6 h-full flex items-center">
