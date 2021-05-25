@@ -1,4 +1,4 @@
-FROM node:15-alpine
+FROM node:14-alpine
 
 RUN npm install -g http-server
 
@@ -12,6 +12,6 @@ COPY . .
 
 RUN yarn run build
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD [ "http-server", "build" ]
