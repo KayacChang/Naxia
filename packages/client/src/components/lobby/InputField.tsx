@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 type InputFieldProps = {
   id: string;
   label: string;

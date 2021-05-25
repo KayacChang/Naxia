@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { UI } from "layers";
 import {
   selectRoomResult,

@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { lazy, StrictMode, Suspense } from "react";
 import { unstable_createRoot } from "react-dom";
 import { Provider } from "react-redux";

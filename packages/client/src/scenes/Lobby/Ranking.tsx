@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";

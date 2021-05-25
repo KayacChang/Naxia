@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { useViewport } from "system";

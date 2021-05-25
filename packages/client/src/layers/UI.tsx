@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
