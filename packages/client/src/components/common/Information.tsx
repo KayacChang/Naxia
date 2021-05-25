@@ -30,30 +30,29 @@ export function Information() {
           <img src={icon.icons.normal} alt={icon.key} />
         </button>
       </div>
-      <div className="absolute left-0">
-        {isOpen && (
-          <Modal onClose={() => setOpen(false)}>
-            <SystemModal
-              title="牌桌資訊"
-              button="確認"
-              onConfirm={() => setOpen(false)}
-            >
-              <div className="relative flex justify-center items-center w-full h-full">
-                <img src={Assets.Common.Modal_Frame_Information} alt="frame" />
 
-                <div className="absolute flex flex-col p-4 text-sm font-kai w-full">
-                  {information.map(({ label, value }) => (
-                    <div key={label} className="flex space-x-4 py-1">
-                      <h3>{label}:</h3>
-                      <p className="text-yellow-300">{value}</p>
-                    </div>
-                  ))}
-                </div>
+      {isOpen && (
+        <Modal onClose={() => setOpen(false)}>
+          <SystemModal
+            title="牌桌資訊"
+            button="確認"
+            onConfirm={() => setOpen(false)}
+          >
+            <div className="relative flex justify-center items-center w-full h-full">
+              <img src={Assets.Common.Modal_Frame_Information} alt="frame" />
+
+              <div className="absolute flex flex-col p-4 text-sm font-kai w-full">
+                {information.map(({ label, value }) => (
+                  <div key={label} className="flex space-x-4 py-1">
+                    <h3>{label}:</h3>
+                    <p className="text-yellow-300">{value}</p>
+                  </div>
+                ))}
               </div>
-            </SystemModal>
-          </Modal>
-        )}
-      </div>
+            </div>
+          </SystemModal>
+        </Modal>
+      )}
     </>
   );
 }

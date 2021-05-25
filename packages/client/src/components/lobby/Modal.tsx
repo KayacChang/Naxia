@@ -13,7 +13,7 @@ export function Modal({ children, className, onClose }: ModalProps) {
   return (
     <div
       className={clsx(
-        "absolute top-0 left-0 w-full h-full z-50 flex justify-center",
+        "fixed top-0 left-0 w-full h-full z-50 flex justify-center",
         className
       )}
     >
