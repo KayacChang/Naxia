@@ -254,15 +254,15 @@ const results = [
 ];
 
 const bosses = [
-  {
-    id: 0,
-    name: "骷顱人",
-    spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
-    spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
-    spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
-    hp: 1,
-    rate: "30.0000",
-  },
+  // {
+  //   id: 0,
+  //   name: "骷顱人",
+  //   spine: "https://storage.googleapis.com/naxia-dev/guaiwu1.png",
+  //   spine_json: "https://storage.googleapis.com/naxia-dev/guaiwu1.json",
+  //   spine_atlas: "https://storage.googleapis.com/naxia-dev/guaiwu1.atlas",
+  //   hp: 1,
+  //   rate: "30.0000",
+  // },
   {
     id: 1,
     name: "怪人",
