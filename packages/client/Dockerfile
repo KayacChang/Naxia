@@ -12,6 +12,6 @@ COPY . .
 
 RUN yarn run build
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD [ "http-server", "build" ]
