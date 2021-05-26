@@ -66,6 +66,10 @@ steps:
       local: true
       event:
         - push
+  - name: test
+    image: docker/whalesay:latest
+    commands:
+      - cowsay ${DRONE_BUILD_NUMBER}
 
 #  - name: deploy dev
 #    image: odaniait/aws-kubectl
