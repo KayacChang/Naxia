@@ -6,7 +6,9 @@ WORKDIR /
 
 COPY package*.json ./
 
-RUN ls 
+RUN ls
+
+RUN cat package.json
 
 RUN yarn install
 
