@@ -47,7 +47,7 @@ steps:
   - name: push to ecr
     image: plugins/ecr
     settings:
-      context: ./pacakge/client/
+      context: ./pacakges/client/
       build_args:
         - progress=plain
       registry:
