@@ -53,7 +53,8 @@ steps:
       repo: naxia-frontend
       region: ap-northeast-1
       tags:
-        - ${DRONE_BRANCH}
+      #  - ${DRONE_BRANCH}
+        - test
         - ${DRONE_BUILD_NUMBER}
       access_key:
         from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
