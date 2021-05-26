@@ -1,0 +1,90 @@
+kind: secret
+name: AWS_ACCESS_KEY_ID_TGC_DEV
+get:
+  path: docker
+  name: AWS_ACCESS_KEY_ID_TGC_DEV
+---
+kind: secret
+name: AWS_SECRET_ACCESS_KEY_TGC_DEV
+get:
+  path: docker
+  name: AWS_SECRET_ACCESS_KEY_TGC_DEV
+---
+kind: secret
+name: AWS_DEFAULT_REGION
+get:
+  path: docker
+  name: AWS_DEFAULT_REGION
+---
+kind: secret
+name: AWS_DOCKER_REPO_TGC_DEV
+get:
+  path: docker
+  name: AWS_DOCKER_REPO_TGC_DEV
+---
+kind: secret
+name: KUBERNETES_SERVER_TGC_DEV
+get:
+  path: docker
+  name: KUBERNETES_SERVER_TGC_DEV
+---
+kind: secret
+name: KUBERNETES_TOKEN_TGC_DEV
+get:
+  path: docker
+  name: KUBERNETES_TOKEN_TGC_DEV
+---
+
+kind: pipeline
+type: kubernetes
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: push to ecr
+    image: plugins/ecr
+    settings:
+      registry:
+        from_secret: AWS_DOCKER_REPO_TGC_DEV
+      dockerfile: ../packages/client/Dockerfile
+      repo: naxia-frontend
+      region: ap-northeast-1
+      tags:
+        - ${DRONE_BRANCH}
+        - ${DRONE_BUILD_NUMBER}
+      access_key:
+        from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
+      secret_key:
+        from_secret: AWS_SECRET_ACCESS_KEY_TGC_DEV
+    when:
+      branch:
+        - dev
+        - stg
+      local: true
+      event:
+        - push
+
+#  - name: deploy dev
+#    image: odaniait/aws-kubectl
+#    environment:
+#      KUBERNETES_SERVER_DEV:
+#        from_secret: KUBERNETES_SERVER_TGC_DEV
+#      KUBERNETES_TOKEN_DEV:
+#        from_secret: KUBERNETES_TOKEN_TGC_DEV
+#      KUBERNETES_NAMESPACE: naxia-dev
+#      KUBERNETES_DEPLOYMENT: deployment.apps/naxia-frontend
+#    commands:
+#      - kubectl config set-credentials microk8s-secret --token=$KUBERNETES_TOKEN_DEV
+#      - kubectl config set-cluster microk8s-cluster --server=$KUBERNETES_SERVER_DEV
+#      - kubectl config set-context microk8s --cluster=microk8s-cluster --user=microk8s-secret
+#      - kubectl config use-context microk8s
+#      - kubectl --insecure-skip-tls-verify rollout restart $KUBERNETES_DEPLOYMENT -n $KUBERNETES_NAMESPACE
+#    when:
+#      branch:
+#        - dev
+#      local: true
+#      event:
+#        - push
