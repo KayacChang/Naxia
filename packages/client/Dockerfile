@@ -4,7 +4,7 @@ RUN npm install -g http-server
 
 WORKDIR /
 
-COPY ./packages/client/package*.json ./
+COPY package*.json ./
 
 RUN ls
 
