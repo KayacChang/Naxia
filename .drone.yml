@@ -47,6 +47,8 @@ steps:
   - name: push to ecr
     image: plugins/ecr
     settings:
+      build_args:
+        - progress=plain
       registry:
         from_secret: AWS_DOCKER_REPO_TGC_DEV
       dockerfile: ./packages/client/Dockerfile
@@ -67,6 +69,7 @@ steps:
       local: true
       event:
         - push
+
   - name: test
     image: docker/whalesay:latest
     commands:

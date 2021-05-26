@@ -6,6 +6,8 @@ WORKDIR /
 
 COPY package*.json ./
 
+RUN ls 
+
 RUN yarn install
 
 COPY . .
