@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
 import { useViewport } from "system";
@@ -12,10 +12,6 @@ type UIProps = {
 export function UI({ style, className, children, onClick }: UIProps) {
   const { width, height } = useViewport();
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // return () => void ref.current?.remove();
-  }, []);
 
   return createPortal(
     <div
