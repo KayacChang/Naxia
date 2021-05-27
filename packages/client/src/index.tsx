@@ -22,9 +22,7 @@ const Login = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Login }))),
     store.dispatch(addSounds(toTask(Sound.Login))),
-  ])
-    .then(() => store.dispatch(BGM.play(Sound.Login.BGM)))
-    .then(() => import("./scenes/Login"))
+  ]).then(() => import("./scenes/Login"))
 );
 
 const Lobby = lazy(() =>
@@ -33,18 +31,14 @@ const Lobby = lazy(() =>
     store.dispatch(addSounds(toTask(Sound.Lobby))),
     store.dispatch(user.sync()),
     store.dispatch(user.item.sync()),
-  ])
-    .then(() => store.dispatch(BGM.play(Sound.Lobby.BGM)))
-    .then(() => import("./scenes/Lobby"))
+  ]).then(() => import("./scenes/Lobby"))
 );
 
 const Room = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Room }))),
     store.dispatch(addSounds(toTask(Sound.Room))),
-  ])
-    .then(() => store.dispatch(BGM.play(Sound.Room.BGM)))
-    .then(() => import("./scenes/Room"))
+  ]).then(() => import("./scenes/Room"))
 );
 
 function App() {

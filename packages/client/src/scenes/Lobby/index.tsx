@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { identity } from "ramda";
 import { useRouteMatch } from "react-router";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
@@ -15,6 +15,7 @@ import {
   Effect,
   useAppDispatch,
   getViewPort,
+  BGM,
 } from "system";
 import { currency } from "utils";
 import { Game, UI } from "layers";
@@ -186,6 +187,10 @@ export default function Lobby() {
 
   const matchLobby = useRouteMatch("/lobby");
   const matchStory = useRouteMatch("/lobby/store");
+
+  useEffect(() => {
+    dispatch(BGM.play(Sound.Lobby.BGM));
+  }, [dispatch]);
 
   if (!user || !items || !map || !dungeons || !npc) {
     return <></>;

@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { UI, Game } from "layers";
 import { ReactNode, useEffect, useState, FormEvent, useCallback } from "react";
 import {
+  BGM,
   selectAssetsByName,
   useAppDispatch,
   useAppSelector,
@@ -11,6 +12,7 @@ import {
 import { useHistory } from "react-router";
 import Assets from "assets";
 import { Spine } from "components";
+import Sound from "assets/sound";
 
 type InputFieldProps = {
   type?: string;
@@ -134,6 +136,12 @@ function View() {
 }
 
 export default function Login() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(BGM.play(Sound.Login.BGM));
+  }, [dispatch]);
+
   return (
     <>
       <UI>

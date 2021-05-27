@@ -7,6 +7,7 @@ import {
   useAppSelector,
   selectAssetIsLoading,
   room,
+  BGM,
 } from "system";
 import { Game, UI } from "layers";
 
@@ -15,6 +16,7 @@ import GameView from "./Game";
 import GameResult from "./Result";
 import GameEffect from "./Effect";
 import Assets from "assets";
+import Sound from "assets/sound";
 
 export default function Room() {
   const dispatch = useAppDispatch();
@@ -40,6 +42,10 @@ export default function Room() {
 
     setBackgroundLoadEnable(Boolean(dungeon && isJoin));
   }, [backgroundLoad, loading, dungeon, isJoin]);
+
+  useEffect(() => {
+    dispatch(BGM.play(Sound.Room.BGM));
+  }, [dispatch]);
 
   if (!backgroundLoad) {
     return <></>;
