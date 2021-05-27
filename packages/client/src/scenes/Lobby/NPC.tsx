@@ -12,7 +12,7 @@ export default function NPC({ img, name, dialog }: Props) {
       10 * 1000
     );
 
-    return () => clearInterval(id);
+    return () => void clearInterval(id);
   }, [dialog.length, setCurrent]);
 
   return (
