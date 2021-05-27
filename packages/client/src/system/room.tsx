@@ -48,8 +48,8 @@ export const selectRoomBossStage = (state: RootState) => state.room.boss.stage;
 let ws: WebSocket | undefined;
 
 const bosses = [
-  assets("/boss/guaiwu1/guaiwu1.json"),
-  assets("/boss/guaiwu2/guaiwu2.json"),
+  assets("/boss/guaishou1/guaiwu1.json"),
+  assets("/boss/guaishou2/guaiwu2.json"),
 ];
 
 const game = {
