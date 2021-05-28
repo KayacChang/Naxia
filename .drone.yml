@@ -55,7 +55,7 @@ steps:
       region: ap-northeast-1
       tags:
       #  - ${DRONE_BRANCH}
-        - test
+        - latest
         - ${DRONE_BUILD_NUMBER}
       access_key:
         from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
@@ -65,6 +65,7 @@ steps:
       branch:
         - dev
         - stg
+        - master
       local: true
       event:
         - push
