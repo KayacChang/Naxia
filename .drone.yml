@@ -55,7 +55,7 @@ steps:
       region: ap-northeast-1
       tags:
       #  - ${DRONE_BRANCH}
-        - latest
+        - dev
         - ${DRONE_BUILD_NUMBER}
       access_key:
         from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
@@ -78,7 +78,7 @@ steps:
       KUBERNETES_TOKEN_DEV:
         from_secret: KUBERNETES_TOKEN_TGC_DEV
       KUBERNETES_NAMESPACE: naxia-dev
-      KUBERNETES_DEPLOYMENT: deployment.apps/naxia-frontend
+      KUBERNETES_DEPLOYMENT: deployment.apps/naxia-front
     commands:
       - kubectl config set-credentials microk8s-secret --token=$KUBERNETES_TOKEN_DEV
       - kubectl config set-cluster microk8s-cluster --server=$KUBERNETES_SERVER_DEV
