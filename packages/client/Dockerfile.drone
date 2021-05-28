@@ -1,7 +1,5 @@
 FROM node:14-alpine AS builder
 
-RUN npm install -g http-server
-
 WORKDIR /
 
 COPY package*.json ./
