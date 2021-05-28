@@ -108,7 +108,7 @@ function Form() {
         type="password"
       />
 
-      <Submit className="mx-14">{"登入1"}</Submit>
+      <Submit className="mx-14">{"登入2"}</Submit>
 
       <div className="flex justify-between text-shadow">
         <a href="/">{"還沒有帳號?"}</a>
