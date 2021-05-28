@@ -44,13 +44,28 @@ platform:
   arch: amd64
 
 steps:
+  - name: build dev
+    image: node:15.0.1-buster
+    commands:
+      - whoami
+      - pwd
+      - cd ./packages/client && yarn install && yarn run build
+    when:
+      local: false
+      branch:
+        - dev
+        - stg
+        - master
+      event:
+        - push
+
   - name: push to ecr
     image: plugins/ecr
     settings:
       context: ./packages/client/
       registry:
         from_secret: AWS_DOCKER_REPO_TGC_DEV
-      dockerfile: ./packages/client/Dockerfile
+      dockerfile: ./packages/client/Dockerfile.drone
       repo: naxia-front
       region: ap-northeast-1
       tags:
