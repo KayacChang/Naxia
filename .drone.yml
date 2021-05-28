@@ -70,29 +70,24 @@ steps:
       event:
         - push
 
-  # - name: test
-  #   image: docker/whalesay:latest
-  #   commands:
-  #     - cowsay ${DRONE_BUILD_NUMBER}
-
- - name: deploy dev
-   image: odaniait/aws-kubectl
-   environment:
-     KUBERNETES_SERVER_DEV:
-       from_secret: KUBERNETES_SERVER_TGC_DEV
-     KUBERNETES_TOKEN_DEV:
-       from_secret: KUBERNETES_TOKEN_TGC_DEV
-     KUBERNETES_NAMESPACE: naxia-dev
-     KUBERNETES_DEPLOYMENT: deployment.apps/naxia-frontend
-   commands:
-     - kubectl config set-credentials microk8s-secret --token=$KUBERNETES_TOKEN_DEV
-     - kubectl config set-cluster microk8s-cluster --server=$KUBERNETES_SERVER_DEV
-     - kubectl config set-context microk8s --cluster=microk8s-cluster --user=microk8s-secret
-     - kubectl config use-context microk8s
-     - kubectl --insecure-skip-tls-verify rollout restart $KUBERNETES_DEPLOYMENT -n $KUBERNETES_NAMESPACE
-   when:
-     branch:
-       - dev
-     local: true
-     event:
-       - push
+  - name: deploy dev
+    image: odaniait/aws-kubectl
+    environment:
+      KUBERNETES_SERVER_DEV:
+        from_secret: KUBERNETES_SERVER_TGC_DEV
+      KUBERNETES_TOKEN_DEV:
+        from_secret: KUBERNETES_TOKEN_TGC_DEV
+      KUBERNETES_NAMESPACE: naxia-dev
+      KUBERNETES_DEPLOYMENT: deployment.apps/naxia-frontend
+    commands:
+      - kubectl config set-credentials microk8s-secret --token=$KUBERNETES_TOKEN_DEV
+      - kubectl config set-cluster microk8s-cluster --server=$KUBERNETES_SERVER_DEV
+      - kubectl config set-context microk8s --cluster=microk8s-cluster --user=microk8s-secret
+      - kubectl config use-context microk8s
+      - kubectl --insecure-skip-tls-verify rollout restart $KUBERNETES_DEPLOYMENT -n $KUBERNETES_NAMESPACE
+    when:
+      branch:
+        - dev
+      local: true
+      event:
+        - push
