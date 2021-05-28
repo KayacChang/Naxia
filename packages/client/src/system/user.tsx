@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUser, getUserItem, login, updateUser } from "api";
 import { useEffect } from "react";
 import { RootState, useAppDispatch, useAppSelector } from "system";
@@ -27,8 +27,13 @@ const item = {
   ),
 };
 
+const balance = {
+  update: createAction<number>("user/balance/update"),
+};
+
 export const user = {
   item,
+  balance,
   auth: createAsyncThunk<string, AuthRequest>("user/auth", async (req) => {
     const { token } = await login(req);
 
@@ -73,6 +78,11 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(user.balance.update, (state, action) => {
+        if (!state.user) return;
+
+        state.user.balance = action.payload;
+      })
       .addCase(user.auth.fulfilled, (state, action) => {
         state.token = action.payload;
       })
