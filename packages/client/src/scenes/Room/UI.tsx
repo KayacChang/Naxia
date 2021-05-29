@@ -1,6 +1,5 @@
 import { useHistory } from "react-router";
 import { UI } from "layers";
-import { currency } from "utils";
 import {
   Sidebar,
   Profile,
@@ -23,8 +22,8 @@ import {
   selectRoomHasSubmitted,
   useUser,
   selectRoomBossCurrent,
-  TDungeon,
   selectRoomStatus,
+  useDungeon,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
@@ -94,10 +93,8 @@ function RoundStatus() {
   );
 }
 
-type GameUIProps = {
-  dungeon: TDungeon;
-};
-export default function GameUI({ dungeon }: GameUIProps) {
+export default function GameUI() {
+  const dungeon = useDungeon();
   const history = useHistory();
   const dispatch = useAppDispatch();
   const user = useUser();
@@ -106,14 +103,14 @@ export default function GameUI({ dungeon }: GameUIProps) {
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
   const boss = useAppSelector(selectRoomBossCurrent);
 
-  if (!user || !boss) return <></>;
+  if (!user || !boss || !dungeon) return <></>;
 
   return (
     <UI className="flex flex-col text-white">
       <header className="h-10 relative">
-        <Profile user={user} />
-        <Location value={boss.name} />
-        <Status value={currency(user.balance)} />
+        <Profile />
+        <Location />
+        <Status />
       </header>
 
       <div className="flex-1 flex relative">

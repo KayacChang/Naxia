@@ -83,9 +83,6 @@ const Room = {
 };
 
 const Lobby = {
-  // Map
-  Map: assets("/lobby/map.jpg"),
-
   // Lock
   Lock: assets("/lobby/lock.png"),
   Lock_Anim: assets("/animation/unlock/skeleton.json"),
@@ -235,8 +232,8 @@ const Common = {
   Sidebar_Stream: assets("/sidebar/stream.png"),
 
   // Setting
-  Setting_Check: assets("/sidebar/setting/check.png"),
-  Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
+  // Setting_Check: assets("/sidebar/setting/check.png"),
+  // Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
   Setting_Reset_Button: assets("/sidebar/setting/reset_button.png"),
   Setting_Volume_Bar: assets("/sidebar/setting/volume_bar.png"),
   Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),

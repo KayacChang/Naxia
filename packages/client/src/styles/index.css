@@ -14,12 +14,20 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .text-sonora {
+    @apply text-gradient bg-gradient-to-br from-yellow-200 to-yellow-500;
+  }
+
   .text-creamsicle {
-    @apply text-gradient bg-gradient-to-b from-yellow-100 to-yellow-500;
+    @apply text-gradient bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400;
   }
 
   .text-fansy {
     @apply text-gradient bg-gradient-to-b from-yellow-100 via-yellow-200 to-yellow-400;
+  }
+
+  .glow {
+    text-shadow: 0 0 0px var(--tw-gradient-from), 0 0 2px var(--tw-gradient-to);
   }
 }
 
@@ -59,8 +67,4 @@ canvas {
   display: flex;
   justify-content: center;
   height: 100vh;
-}
-
-.glow {
-  text-shadow: 0 0 0px var(--tw-gradient-from), 0 0 2px var(--tw-gradient-to);
 }

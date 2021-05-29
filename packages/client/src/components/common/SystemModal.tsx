@@ -25,7 +25,7 @@ function Default({
 }: SystemModalProps) {
   return (
     <div className={"flex justify-center pointer-events-auto"}>
-      <div className="relative w-8/12 m-2">
+      <div className="relative w-8/12 m-2 flex justify-center">
         <img src={Assets.Common.Modal_Frame_Outer} alt="modal frame outer" />
 
         <div className="absolute top-0 w-full h-full flex flex-col p-2">
@@ -159,9 +159,10 @@ function History({
 
 export function SystemModal({ type = "default", ...props }: SystemModalProps) {
   return (
-    <div className="flex h-full justify-center items-center">
+    <>
       {type === "default" && <Default {...props} />}
+
       {type === "history" && <History {...props} />}
-    </div>
+    </>
   );
 }

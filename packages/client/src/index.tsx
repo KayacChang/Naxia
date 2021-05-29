@@ -6,10 +6,23 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, addSounds, store, user, ViewportProvider } from "system";
+import {
+  addAssets,
+  addSounds,
+  store,
+  user,
+  ViewportProvider,
+  Map,
+  room,
+  selectDungeonInfos,
+  selectCurrentDungeon,
+  selectCurrentMap,
+} from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
+import { Map as TMap } from "types";
+import invariant from "tiny-invariant";
 
 const Login = lazy(() =>
   Promise.all([
@@ -24,6 +37,20 @@ const Lobby = lazy(() =>
     store.dispatch(addSounds(toTask(Sound.Lobby))),
     store.dispatch(user.sync()),
     store.dispatch(user.item.sync()),
+
+    store
+      .dispatch(Map.all())
+      .then(({ payload }) =>
+        Promise.all(
+          (payload as TMap[]).map(({ id, img }) =>
+            Promise.all([
+              store.dispatch(Map.npc(id)),
+              store.dispatch(Map.dungeons(id)),
+              store.dispatch(addAssets(toTask({ [`Map.${id}`]: img }))),
+            ])
+          )
+        )
+      ),
   ]).then(() => import("./scenes/Lobby"))
 );
 
@@ -31,6 +58,17 @@ const Room = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Room }))),
     store.dispatch(addSounds(toTask(Sound.Room))),
+
+    (async () => {
+      const state = store.getState();
+      const map = selectCurrentMap(state);
+      const dungeon = selectCurrentDungeon(state);
+      const dungeonInfo = selectDungeonInfos(state, map.id, dungeon);
+
+      invariant(dungeonInfo, `Dungeon ${map.id}.${dungeon} not found`);
+
+      await store.dispatch(room.join(dungeonInfo.info.room));
+    })(),
   ]).then(() => import("./scenes/Room"))
 );
 
