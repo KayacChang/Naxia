@@ -179,7 +179,7 @@ const Lobby = {
 };
 
 const Login = {
-  Login_Background: assets("/login/background.png"),
+  Login_Background: assets("/login/background.jpg"),
   Login_Logo: assets("/login/logo.png"),
   Login_Submit: assets("/login/submit-btn.png"),
   Login_Form: assets("/login/input-form.png"),
@@ -187,10 +187,6 @@ const Login = {
 };
 
 const Common = {
-  // System
-  Rotate: assets("/rotate.png"),
-  Scroll: assets("/scroll.png"),
-
   // Header
   Profile: assets("/lobby/profile.png"),
   Location: assets("/lobby/location.png"),
@@ -248,6 +244,12 @@ const Common = {
 
   // Announcement
   Announcement_Background: assets("/sidebar/announcement/background.png"),
+};
+
+const System = {
+  // System
+  Rotate: assets("/rotate.png"),
+  Scroll: assets("/scroll.png"),
 
   // Progress
   Progress_Background: assets("/loading/background.jpg"),
@@ -258,6 +260,7 @@ const Common = {
 };
 
 const Assets = {
+  System,
   Common,
   Login,
   Lobby,

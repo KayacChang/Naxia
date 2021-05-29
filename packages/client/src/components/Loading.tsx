@@ -4,12 +4,12 @@ import { UI } from "layers";
 function Progress() {
   return (
     <div className="relative flex items-center justify-center">
-      <img src={Assets.Common.Progress_Frame} alt="progress frame" />
+      <img src={Assets.System.Progress_Frame} alt="progress frame" />
 
       <div className="absolute px-5">
         <div className="relative flex items-center">
           <img
-            src={Assets.Common.Progress_Bar}
+            src={Assets.System.Progress_Bar}
             alt="progress bar"
             style={{ clipPath: `inset(0 ${50}% 0 0)` }}
           />
@@ -17,7 +17,7 @@ function Progress() {
           <img
             className="absolute w-3 transform -translate-x-1/2 animate-pulse"
             style={{ left: `${50}%` }}
-            src={Assets.Common.Progress_Effect}
+            src={Assets.System.Progress_Effect}
             alt="glow effect"
           />
         </div>
@@ -30,13 +30,13 @@ export function Loading() {
   return (
     <UI>
       <div className="relative font-noto">
-        <img src={Assets.Common.Progress_Background} alt="background" />
+        <img src={Assets.System.Progress_Background} alt="background" />
 
         <div className="absolute bottom-0 py-6 space-y-1">
           <div className="flex items-center justify-center space-x-3">
             <img
               className="transform -scale-x-100 w-14"
-              src={Assets.Common.Progress_Item}
+              src={Assets.System.Progress_Item}
               alt="decorator"
             />
 
@@ -44,7 +44,7 @@ export function Loading() {
 
             <img
               className="w-14"
-              src={Assets.Common.Progress_Item}
+              src={Assets.System.Progress_Item}
               alt="decorator"
             />
           </div>

@@ -13,7 +13,7 @@ import Sound from "assets/sound";
 
 const Login = lazy(() =>
   Promise.all([
-    store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Login }))),
+    store.dispatch(addAssets(toTask({ ...Assets.System, ...Assets.Login }))),
     store.dispatch(addSounds(toTask(Sound.Login))),
   ]).then(() => import("./scenes/Login"))
 );

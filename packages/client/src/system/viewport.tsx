@@ -88,7 +88,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     return createPortal(
       <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
         <div className="w-3/5">
-          <img src={Assets.Common.Rotate} alt="rotate" />
+          <img src={Assets.System.Rotate} alt="rotate" />
         </div>
       </div>,
       document.getElementById("root") as HTMLElement
@@ -107,7 +107,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
           >
             <div className="fixed top-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50">
               <div className="w-1/5">
-                <img src={Assets.Common.Scroll} alt="scroll" />
+                <img src={Assets.System.Scroll} alt="scroll" />
               </div>
             </div>
           </div>,

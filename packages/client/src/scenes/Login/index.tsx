@@ -28,7 +28,6 @@ function InputField({
 }: InputFieldProps) {
   const [isFocus, setFocus] = useState(false);
   const [value, setValue] = useState("");
-
   const hasValue = value.length > 0;
 
   useEffect(() => {
@@ -57,6 +56,7 @@ function InputField({
         <input
           className="bg-transparent w-full"
           type={type}
+          value={value}
           onChange={(event) => setValue(event.target.value)}
         />
       </div>
