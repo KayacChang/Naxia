@@ -98,7 +98,7 @@ function Form() {
   );
 
   return (
-    <form className="mt-32 w-2/5 space-y-4" onSubmit={onSubmit}>
+    <form className="mt-32 w-2/5 space-y-4 font-kai" onSubmit={onSubmit}>
       <InputField placeholder="輸入帳號" onChange={setUsername} />
 
       <InputField
@@ -109,10 +109,17 @@ function Form() {
 
       <Submit className="mx-14">{"登入"}</Submit>
 
-      <div className="flex justify-between text-shadow">
-        <a href="/">{"還沒有帳號?"}</a>
+      <div className="flex justify-between">
+        <a className="text-shadow-md" href="/">
+          {"還沒有帳號?"}
+        </a>
 
-        <a href="/">{"申請帳號"}</a>
+        <a
+          className="text-fansy text-shadow-xl underline filter brightness-150"
+          href="/"
+        >
+          {"申請帳號"}
+        </a>
       </div>
     </form>
   );
