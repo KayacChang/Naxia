@@ -6,14 +6,7 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import {
-  addAssets,
-  addSounds,
-  BGM,
-  store,
-  user,
-  ViewportProvider,
-} from "system";
+import { addAssets, addSounds, store, user, ViewportProvider } from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
