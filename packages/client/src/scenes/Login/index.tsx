@@ -30,9 +30,7 @@ function InputField({
   const [value, setValue] = useState("");
   const hasValue = value.length > 0;
 
-  useEffect(() => {
-    onChange?.(value);
-  }, [value, onChange]);
+  useEffect(() => onChange?.(value), [value, onChange]);
 
   return (
     <div
@@ -138,9 +136,7 @@ function View() {
 export default function Login() {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(BGM.play(Sound.Login.BGM));
-  }, [dispatch]);
+  useEffect(() => void dispatch(BGM.play(Sound.Login.BGM)), [dispatch]);
 
   return (
     <>
