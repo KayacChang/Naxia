@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { Link } from "components";
 import { useLocation } from "react-router";
 import Assets from "assets";

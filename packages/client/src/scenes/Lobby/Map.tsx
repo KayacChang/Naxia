@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { useHistory } from "react-router";
 import { useAppDispatch, useDungeon, Dungeon, useMap } from "system";
 import { Button, LobbyRoad as Road, Modal } from "components";

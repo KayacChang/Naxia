@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { Modal, SystemModal } from "components";
 import { useState, ReactNode } from "react";
 import Assets from "assets";

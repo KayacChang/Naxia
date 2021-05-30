@@ -1,0 +1,15 @@
+FROM node:14-alpine AS builder
+
+WORKDIR /
+
+COPY package*.json ./
+
+RUN yarn install
+
+COPY . .
+
+RUN yarn run build
+
+# production stage
+FROM nginx:stable-alpine
+COPY --from=builder /build /usr/share/nginx/html
