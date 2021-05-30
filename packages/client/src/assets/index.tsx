@@ -83,9 +83,6 @@ const Room = {
 };
 
 const Lobby = {
-  // Map
-  Map: assets("/lobby/map.jpg"),
-
   // Lock
   Lock: assets("/lobby/lock.png"),
   Lock_Anim: assets("/animation/unlock/skeleton.json"),
@@ -179,7 +176,7 @@ const Lobby = {
 };
 
 const Login = {
-  Login_Background: assets("/login/background.png"),
+  Login_Background: assets("/login/background.jpg"),
   Login_Logo: assets("/login/logo.png"),
   Login_Submit: assets("/login/submit-btn.png"),
   Login_Form: assets("/login/input-form.png"),
@@ -187,10 +184,6 @@ const Login = {
 };
 
 const Common = {
-  // System
-  Rotate: assets("/rotate.png"),
-  Scroll: assets("/scroll.png"),
-
   // Header
   Profile: assets("/lobby/profile.png"),
   Location: assets("/lobby/location.png"),
@@ -238,12 +231,9 @@ const Common = {
   Sidebar_Setting: assets("/sidebar/setting.png"),
   Sidebar_Stream: assets("/sidebar/stream.png"),
 
-  // Fonts
-  Font_Kai: assets("/fonts/FZKTB.ttf"),
-
   // Setting
-  Setting_Check: assets("/sidebar/setting/check.png"),
-  Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
+  // Setting_Check: assets("/sidebar/setting/check.png"),
+  // Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
   Setting_Reset_Button: assets("/sidebar/setting/reset_button.png"),
   Setting_Volume_Bar: assets("/sidebar/setting/volume_bar.png"),
   Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),
@@ -251,6 +241,12 @@ const Common = {
 
   // Announcement
   Announcement_Background: assets("/sidebar/announcement/background.png"),
+};
+
+const System = {
+  // System
+  Rotate: assets("/rotate.png"),
+  Scroll: assets("/scroll.png"),
 
   // Progress
   Progress_Background: assets("/loading/background.jpg"),
@@ -261,6 +257,7 @@ const Common = {
 };
 
 const Assets = {
+  System,
   Common,
   Login,
   Lobby,
