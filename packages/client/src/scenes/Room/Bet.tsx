@@ -34,7 +34,7 @@ export default function Bet({ enable = true, value, active }: BetProps) {
         alt="bet background"
       />
 
-      <span className="absolute text-xs font-noto font-bold tracking-wider text-creamsicle glow mt-0.5">
+      <span className="absolute text-xs font-noto font-bold tracking-wider text-sonora glow mt-0.5">
         {value}
       </span>
     </button>

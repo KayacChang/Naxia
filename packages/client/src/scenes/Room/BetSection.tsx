@@ -47,25 +47,24 @@ export function useSwipe() {
 type BetsProps = {
   enable?: boolean;
   options: number[];
+  value: number;
   onChange?: (bet: number) => void;
 };
-function Bets({ options, onChange, enable }: BetsProps) {
+function Bets({ options, value, onChange, enable }: BetsProps) {
   const status = useAppSelector(selectRoomStatusCurrent);
   const show = status === RoomStatus.Start;
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(options.indexOf(value));
 
   const { direction, onPressEnd, onPressStart } = useSwipe();
 
   useEffect(() => {
-    const _clamp = clamp(-1, options.length - 2);
+    const _clamp = clamp(0, options.length - 1);
 
     setActive((active) => _clamp(active + direction));
   }, [direction, setActive, options.length]);
 
-  useEffect(() => {
-    onChange?.(options[active]);
-  }, [onChange, options, active]);
+  useEffect(() => onChange?.(options[active]), [onChange, options, active]);
 
   return (
     <div
@@ -94,15 +93,11 @@ function Bets({ options, onChange, enable }: BetsProps) {
             {options.map((option, index) => (
               <Radian
                 key={option}
-                radian={Math.PI * (1.06 + 0.2 * (index - active))}
+                radian={Math.PI * (1.06 + 0.2 * (index - active + 1))}
                 className="transition-transform"
                 style={{ willChange: "transform" }}
               >
-                <Bet
-                  value={option}
-                  enable={enable}
-                  active={index === active + 1}
-                />
+                <Bet value={option} enable={enable} active={index === active} />
               </Radian>
             ))}
           </CircleLayout>
@@ -123,7 +118,7 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
 
   return (
     <div className="relative w-full h-full">
-      <Bets options={bets} onChange={setBet} />
+      <Bets options={bets} value={bet} onChange={setBet} />
 
       <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
         <CircleLayout radius={8.4}>

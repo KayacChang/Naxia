@@ -1,12 +1,18 @@
 import { useHistory } from "react-router";
 import { UI } from "layers";
-import { currency } from "utils";
-import { Sidebar, Profile, Location, Status, Road, Button } from "components";
+import {
+  Sidebar,
+  Profile,
+  Location,
+  Status,
+  Button,
+  RoomRoad as Road,
+} from "components";
 
 import RoomStatus from "./RoomStatus";
 import BetSection from "./BetSection";
 import Assets from "assets";
-import { Round, User, DungeonInfo, RoomStatus as TRoomStatus } from "types";
+import { RoomStatus as TRoomStatus } from "types";
 import {
   useAppDispatch,
   room,
@@ -14,6 +20,10 @@ import {
   selectRoomOrder,
   selectRoomStatusCurrent,
   selectRoomHasSubmitted,
+  useUser,
+  selectRoomBossCurrent,
+  selectRoomStatus,
+  useDungeon,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
@@ -43,38 +53,86 @@ function ControlButton({ img, children, onClick }: ControlButtonProps) {
   );
 }
 
-type GameUIProps = {
-  user: User;
-  rounds: Round[];
-  info: DungeonInfo;
-};
-export default function GameUI({ user, rounds, info }: GameUIProps) {
+function CountDown() {
+  const { current, countdown } = useAppSelector(selectRoomStatus);
+
+  if (current !== TRoomStatus.Start) return <></>;
+
+  return (
+    <div className="relative flex justify-center items-center">
+      <div className="w-16 animate-pulse">
+        <img src={Assets.Room.CountDown_Frame} alt="frame" />
+      </div>
+
+      <span className="absolute text-3xl text-fansy">{countdown}</span>
+    </div>
+  );
+}
+
+function RoundStatus() {
+  const status = useAppSelector(selectRoomStatusCurrent);
+
+  return (
+    <div className="relative flex justify-center items-center">
+      <div className="w-28">
+        <img src={Assets.Room.Round_Status_Frame} alt="frame" />
+      </div>
+
+      <span className="absolute text-lg font-kai text-yellow-100">
+        {status === TRoomStatus.Change
+          ? "洗牌中"
+          : status === TRoomStatus.Start
+          ? "開始下注"
+          : status === TRoomStatus.Stop
+          ? "停止下注"
+          : status === TRoomStatus.Result
+          ? "開牌結果"
+          : ""}
+      </span>
+    </div>
+  );
+}
+
+export default function GameUI() {
+  const dungeon = useDungeon();
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const user = useUser();
   const order = useAppSelector(selectRoomOrder);
   const status = useAppSelector(selectRoomStatusCurrent);
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
+  const boss = useAppSelector(selectRoomBossCurrent);
+
+  if (!user || !boss || !dungeon) return <></>;
 
   return (
     <UI className="flex flex-col text-white">
       <header className="h-10 relative">
-        <Profile user={user} />
-        <Location value="娜希雅大陸" />
-        <Status value={currency(user.balance)} />
+        <Profile />
+        <Location />
+        <Status />
       </header>
 
-      <div className="flex-1 flex">
-        <div className="w-2/3 flex flex-col justify-between p-2">
-          <RoomStatus className="w-52 mt-8" skills={info.skills} />
+      <div className="flex-1 flex relative">
+        <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <CountDown />
+        </div>
+
+        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <RoundStatus />
+        </div>
+
+        <div className="w-2/3 flex flex-col justify-between px-2 mt-8">
+          <RoomStatus className="w-52" skills={dungeon.info.skills} />
 
           <Button
             type="img"
-            img={Assets.Room.Back}
+            img={Assets.Room.Room_Back}
             className="w-8"
             onClick={() => history.replace("/lobby")}
           />
 
-          <Road rounds={rounds} />
+          <Road className="w-3/5" rounds={dungeon.rounds} />
         </div>
 
         <div className="w-1/3 flex flex-col">
@@ -113,7 +171,7 @@ export default function GameUI({ user, rounds, info }: GameUIProps) {
             <Sidebar className="w-12" />
           </div>
 
-          <BetSection skills={info.skills} bets={info.bets} />
+          <BetSection skills={dungeon.info.skills} bets={dungeon.info.bets} />
         </div>
       </div>
     </UI>

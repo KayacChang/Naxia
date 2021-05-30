@@ -2,8 +2,8 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bet } from "api";
 import invariant from "tiny-invariant";
 import { Item, RoomStatus, Boss, Order } from "types";
-import { assets, removeTrailingSlashes, toTask, wait } from "utils";
-import { AppDispatch, RootState, store } from ".";
+import { toTask, wait } from "utils";
+import { AppDispatch, RootState, user } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
 import { selectToken, selectUser } from "./user";
 
@@ -30,6 +30,8 @@ export const selectRoom = (state: RootState) => state.room;
 export const selectRoomID = (state: RootState) => state.room.room_id;
 export const selectRoomIsJoin = (state: RootState) => state.room.isJoin;
 export const selectRoomStatus = (state: RootState) => state.room.status;
+export const selectRoomCountDown = (state: RootState) =>
+  state.room.status.countdown;
 export const selectRoomStatusCurrent = (state: RootState) =>
   state.room.status.current;
 export const selectRoomResult = (state: RootState) => state.room.result;
@@ -43,11 +45,6 @@ export const selectRoomBossCurrent = (state: RootState) =>
 export const selectRoomBossStage = (state: RootState) => state.room.boss.stage;
 
 let ws: WebSocket | undefined;
-
-const bosses = [
-  assets("/boss/guaiwu1/guaiwu1.json"),
-  assets("/boss/guaiwu2/guaiwu2.json"),
-];
 
 const game = {
   status: createAction<RoomStatus>("room/game/status"),
@@ -68,7 +65,7 @@ const game = {
       await wait(100);
     }
 
-    await dispatch(addAssets(toTask({ [boss.id]: bosses[boss.id] })));
+    await dispatch(addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json })));
 
     return boss;
   }),
@@ -103,55 +100,144 @@ const order = {
       condition: (order) => Object.entries(order).length > 0,
     }
   ),
-  add: createAction<Order>("room/order/add"),
-  clear: createAction("room/order/clear"),
-  redo: createAction("room/order/redo"),
+  add: createAsyncThunk<
+    Order,
+    Order,
+    { state: RootState; dispatch: AppDispatch }
+  >(
+    "room/order/add",
+    (order, { getState, dispatch }) => {
+      const {
+        user: { user: currentUser },
+      } = getState();
+
+      invariant(currentUser, "Unauthorized");
+
+      const totalbet =
+        Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
+
+      dispatch(user.balance.update(currentUser.balance - totalbet));
+
+      return order;
+    },
+    {
+      condition: (order, { getState }) => {
+        const {
+          user: { user },
+        } = getState();
+
+        invariant(user, "Unauthorized");
+
+        const totalbet =
+          Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
+
+        return user.balance >= totalbet;
+      },
+    }
+  ),
+  clear: createAsyncThunk<
+    void,
+    void,
+    { state: RootState; dispatch: AppDispatch }
+  >("room/order/clear", (_, { getState, dispatch }) => {
+    const {
+      room: { order },
+      user: { user: currentUser },
+    } = getState();
+
+    invariant(currentUser, "Unauthorized");
+
+    const totalbet =
+      Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
+
+    dispatch(user.balance.update(currentUser.balance + totalbet));
+  }),
+  redo: createAsyncThunk<
+    Order,
+    void,
+    { state: RootState; dispatch: AppDispatch }
+  >(
+    "room/order/redo",
+    (_, { getState, dispatch }) => {
+      const {
+        room: { history },
+        user: { user: currentUser },
+      } = getState();
+
+      invariant(currentUser, "Unauthorized");
+
+      const order = history[history.length - 1] || {};
+
+      const totalbet =
+        Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
+
+      dispatch(user.balance.update(currentUser.balance - totalbet));
+
+      return order;
+    },
+    {
+      condition: (_, { getState }) => {
+        const {
+          room: { history },
+          user: { user },
+        } = getState();
+
+        invariant(user, "Unauthorized");
+
+        const order = history[history.length - 1] || {};
+
+        const totalbet =
+          Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
+
+        return user.balance >= totalbet;
+      },
+    }
+  ),
 };
 
 export const room = {
   game,
   order,
-  join: createAsyncThunk<string, string, { state: RootState }>(
-    "room/join",
-    (roomID, { getState }) => {
-      const token = selectToken(getState());
+  join: createAsyncThunk<
+    string,
+    string,
+    { state: RootState; dispatch: AppDispatch }
+  >("room/join", (roomID, { getState, dispatch }) => {
+    const token = selectToken(getState());
 
-      invariant(token, "Unauthorized");
+    invariant(token, "Unauthorized");
 
-      const url = new URL(
-        removeTrailingSlashes(process.env.REACT_APP_WS || "")
-      );
+    const url = new URL(process.env.REACT_APP_WS || "");
+    url.searchParams.append("roomID", roomID);
+    url.searchParams.append("token", token);
 
-      url.searchParams.append("roomID", roomID);
-      url.searchParams.append("token", token);
+    ws = new WebSocket(url.toString());
 
-      ws = new WebSocket(url.href);
+    ws.addEventListener("message", (event: MessageEvent) => {
+      const data = JSON.parse(event.data) as RoomResponse;
 
-      ws.addEventListener("message", (event: MessageEvent) => {
-        const data = JSON.parse(event.data) as RoomResponse;
+      if (data.event === "room_status") {
+        dispatch(room.order.clear());
+        dispatch(game.status(data.data.status));
+      }
 
-        if (data.event === "room_status") {
-          store.dispatch(game.status(data.data.status));
-        }
+      if (data.event === "next_status_countdown") {
+        dispatch(game.countdown(data.timer));
+      }
 
-        if (data.event === "next_status_countdown") {
-          store.dispatch(game.countdown(data.timer));
-        }
+      if (data.event === "round_result") {
+        dispatch(game.result(data.data));
+      }
 
-        if (data.event === "round_result") {
-          store.dispatch(game.result(data.data));
-        }
+      if (data.event === "next_round_monster") {
+        dispatch(game.boss(data.data));
+      }
+    });
 
-        if (data.event === "next_round_monster") {
-          store.dispatch(game.boss(data.data));
-        }
-      });
-
-      return new Promise((resolve) => {
-        ws?.addEventListener("open", () => resolve(roomID));
-      });
-    }
-  ),
+    return new Promise((resolve) => {
+      ws?.addEventListener("open", () => resolve(roomID));
+    });
+  }),
   leave: createAsyncThunk("room/leave", async () => {
     ws?.close();
     ws = undefined;
@@ -184,11 +270,9 @@ const initialState: RoomState = {
     current: RoomStatus.Change,
     countdown: 0,
   },
-
   boss: {
     all: [],
   },
-
   hasSubmitted: false,
   history: [],
   order: {},
@@ -210,15 +294,12 @@ const roomSlice = createSlice({
       .addCase(room.game.status, (state, action) => {
         state.status.current = action.payload;
 
-        if (state.status.current === RoomStatus.Stop && !state.hasSubmitted) {
-          state.order = {};
-        }
-
         if (state.status.current === RoomStatus.Change) {
           state.boss.current = state.boss.stage;
+        }
 
+        if (state.status.current === RoomStatus.Result) {
           state.hasSubmitted = false;
-          state.order = {};
         }
       })
       .addCase(room.game.countdown, (state, action) => {
@@ -230,16 +311,18 @@ const roomSlice = createSlice({
       .addCase(room.game.boss.fulfilled, (state, action) => {
         const boss = action.payload;
 
-        if (!state.boss.current) {
+        if (state.boss.current === undefined) {
           state.boss.current = boss;
+          state.boss.stage = boss;
+        } else {
+          state.boss.stage = boss;
         }
-        state.boss.stage = boss;
 
         if (state.boss.all.every(({ id }) => boss.id !== id)) {
           state.boss.all.push(action.payload);
         }
       })
-      .addCase(room.order.add, (state, action) => {
+      .addCase(room.order.add.fulfilled, (state, action) => {
         state.order = Object.entries(action.payload).reduce(
           (order, [name, value]) => ({
             ...order,
@@ -248,13 +331,14 @@ const roomSlice = createSlice({
           state.order
         );
       })
-      .addCase(room.order.clear, (state) => {
+      .addCase(room.order.clear.fulfilled, (state) => {
         state.order = {};
       })
-      .addCase(room.order.redo, (state) => {
-        state.order = state.history[state.history.length - 1] || {};
+      .addCase(room.order.redo.fulfilled, (state, action) => {
+        state.order = action.payload;
       })
       .addCase(room.order.submit.fulfilled, (state, action) => {
+        state.order = {};
         state.hasSubmitted = true;
 
         state.history.push(action.payload);

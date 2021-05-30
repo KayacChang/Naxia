@@ -1,6 +1,7 @@
 import { BehaviorSubject, interval } from "rxjs";
 import { filter, map, share, throttleTime } from "rxjs/operators";
 import { Random, MersenneTwister19937 } from "random-js";
+import fetch from "node-fetch";
 
 const random = new Random(MersenneTwister19937.autoSeed());
 
@@ -67,21 +68,21 @@ const results = [
       {
         id: 1,
         name: "美杜莎碎片",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 12,
         name: "黃金",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 10,
         name: "金屬塊",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 4,
       },
@@ -101,21 +102,21 @@ const results = [
       {
         id: 1,
         name: "美杜莎碎片",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 12,
         name: "黃金",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 10,
         name: "金屬塊",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 4,
       },
@@ -135,21 +136,21 @@ const results = [
       {
         id: 1,
         name: "美杜莎碎片",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 12,
         name: "黃金",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 10,
         name: "金屬塊",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 4,
       },
@@ -160,7 +161,7 @@ const results = [
     info: {
       game_round: "1620099597851",
       banker: false,
-      player: false,
+      player: true,
       tie: false,
       bank_pair: true,
       player_pair: false,
@@ -169,21 +170,21 @@ const results = [
       {
         id: 1,
         name: "美杜莎碎片",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 12,
         name: "黃金",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 10,
         name: "金屬塊",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 4,
       },
@@ -193,7 +194,7 @@ const results = [
     result: "lose",
     info: {
       game_round: "1620099597851",
-      banker: false,
+      banker: true,
       player: false,
       tie: false,
       bank_pair: false,
@@ -203,21 +204,21 @@ const results = [
       {
         id: 1,
         name: "美杜莎碎片",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 12,
         name: "黃金",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 10,
         name: "金屬塊",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 4,
       },
@@ -237,14 +238,14 @@ const results = [
       {
         id: 10,
         name: "金屬塊",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
       {
         id: 11,
         name: "樹枝",
-        img: "https://storage.googleapis.com/naxia-dev/maxresdefault.jpg",
+        img: "https://storage.googleapis.com/naxia-dev/photos/key.png",
         quality: 1,
         count: 1,
       },
@@ -315,7 +316,22 @@ const Result = Status.pipe(
 Status.subscribe(console.log);
 Count.subscribe(console.log);
 Boss.subscribe(console.log);
-Result.subscribe(console.log);
+Result.subscribe((result) => {
+  if (!result) return;
+
+  console.log(result);
+
+  const results = Object.entries(result.data.info)
+    .filter(([key]) => key !== "game_round")
+    .filter(([, value]) => value === true)
+    .map(([name]) => name);
+
+  fetch(`${process.env.API}/maps/1/dungeons/1/rounds`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ results }),
+  });
+});
 
 export function join(connection) {
   function send(event) {

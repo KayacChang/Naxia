@@ -1,0 +1,178 @@
+{
+"skeleton": {
+	"hash": "zPv2LuM3/k0Loswi4xL8dPMUWWw",
+	"spine": "3.8.99",
+	"x": -495,
+	"y": -516,
+	"width": 993,
+	"height": 1032,
+	"images": "../miaozhun/",
+	"audio": "F:/百家乐RPG/miaozhun"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "miaozhun", "parent": "root", "x": -74.05, "y": 74.05, "scaleX": 3, "scaleY": 3 },
+	{ "name": "qichang", "parent": "root", "scaleX": 3, "scaleY": 3 }
+],
+"slots": [
+	{ "name": "miaozhun", "bone": "miaozhun", "attachment": "miaozhun/image 9" },
+	{ "name": "qichang", "bone": "qichang", "attachment": "qichang/Image 8" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"miaozhun": {
+				"miaozhun/image 1": { "y": 0.5, "width": 38, "height": 37 },
+				"miaozhun/image 2": { "x": 0.5, "width": 39, "height": 42 },
+				"miaozhun/image 3": { "x": 0.5, "y": 0.5, "width": 43, "height": 45 },
+				"miaozhun/image 4": { "x": 0.5, "y": 0.5, "width": 97, "height": 97 },
+				"miaozhun/image 5": { "x": 0.5, "width": 103, "height": 102 },
+				"miaozhun/image 6": { "y": 0.5, "width": 104, "height": 105 },
+				"miaozhun/image 7": { "x": 0.5, "width": 91, "height": 92 },
+				"miaozhun/image 8": { "width": 76, "height": 76 },
+				"miaozhun/image 9": { "width": 90, "height": 90 }
+			},
+			"qichang": {
+				"qichang/Image 1": { "x": 0.5, "width": 347, "height": 338 },
+				"qichang/Image 2": { "width": 352, "height": 340 },
+				"qichang/Image 3": { "width": 344, "height": 338 },
+				"qichang/Image 4": { "y": 0.5, "width": 336, "height": 343 },
+				"qichang/Image 5": { "width": 334, "height": 346 },
+				"qichang/Image 6": { "x": 0.5, "y": 0.5, "width": 331, "height": 347 },
+				"qichang/Image 8": { "x": 0.5, "width": 331, "height": 344 },
+				"qichang/Image 9": { "x": 0.5, "y": 0.5, "width": 335, "height": 345 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"slots": {
+			"miaozhun": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.1, "name": "miaozhun/image 1" },
+					{ "time": 0.2, "name": "miaozhun/image 2" },
+					{ "time": 0.3, "name": "miaozhun/image 3" },
+					{ "time": 0.4, "name": "miaozhun/image 4" },
+					{ "time": 0.4667, "name": "miaozhun/image 5" },
+					{ "time": 0.5667, "name": "miaozhun/image 6" },
+					{ "time": 0.6667, "name": "miaozhun/image 7" },
+					{ "time": 0.7667, "name": "miaozhun/image 8" },
+					{ "time": 0.8667, "name": "miaozhun/image 9" },
+					{ "time": 0.9667, "name": null },
+					{ "time": 1.2667, "name": "miaozhun/image 1" },
+					{ "time": 1.3333, "name": "miaozhun/image 2" },
+					{ "time": 1.4333, "name": "miaozhun/image 3" },
+					{ "time": 1.5333, "name": "miaozhun/image 4" },
+					{ "time": 1.6333, "name": "miaozhun/image 5" },
+					{ "time": 1.7333, "name": "miaozhun/image 6" },
+					{ "time": 1.8333, "name": "miaozhun/image 7" },
+					{ "time": 1.9333, "name": "miaozhun/image 8" },
+					{ "time": 2.0333, "name": "miaozhun/image 9" },
+					{ "time": 2.1333, "name": null },
+					{ "time": 2.4667, "name": "miaozhun/image 1" },
+					{ "time": 2.5667, "name": "miaozhun/image 2" },
+					{ "time": 2.6667, "name": "miaozhun/image 3" },
+					{ "time": 2.7333, "name": "miaozhun/image 4" },
+					{ "time": 2.8333, "name": "miaozhun/image 5" },
+					{ "time": 2.9333, "name": "miaozhun/image 6" },
+					{ "time": 3.0333, "name": "miaozhun/image 7" },
+					{ "time": 3.1333, "name": "miaozhun/image 8" },
+					{ "time": 3.2333, "name": "miaozhun/image 9" },
+					{ "time": 3.3333, "name": null }
+				]
+			},
+			"qichang": {
+				"color": [
+					{ "color": "ff1717ff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7333, "color": "1cff16ff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.7333, "color": "1567ffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.7, "color": "eeff14ff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333, "color": "ff1717ff" }
+				],
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.0333, "name": "qichang/Image 1" },
+					{ "time": 0.1333, "name": "qichang/Image 3" },
+					{ "time": 0.2333, "name": "qichang/Image 4" },
+					{ "time": 0.3333, "name": "qichang/Image 5" },
+					{ "time": 0.4333, "name": "qichang/Image 6" },
+					{ "time": 0.5333, "name": "qichang/Image 8" },
+					{ "time": 0.6333, "name": "qichang/Image 9" },
+					{ "time": 0.7333, "name": "qichang/Image 1" },
+					{ "time": 0.8333, "name": "qichang/Image 3" },
+					{ "time": 0.9333, "name": "qichang/Image 4" },
+					{ "time": 1, "name": "qichang/Image 5" },
+					{ "time": 1.1, "name": "qichang/Image 6" },
+					{ "time": 1.2, "name": "qichang/Image 8" },
+					{ "time": 1.3, "name": "qichang/Image 9" },
+					{ "time": 1.4, "name": "qichang/Image 1" },
+					{ "time": 1.5, "name": "qichang/Image 3" },
+					{ "time": 1.6, "name": "qichang/Image 4" },
+					{ "time": 1.7, "name": "qichang/Image 5" },
+					{ "time": 1.8, "name": "qichang/Image 6" },
+					{ "time": 1.9, "name": "qichang/Image 8" },
+					{ "time": 1.9667, "name": "qichang/Image 9" },
+					{ "time": 2.0667, "name": "qichang/Image 1" },
+					{ "time": 2.1667, "name": "qichang/Image 3" },
+					{ "time": 2.2667, "name": "qichang/Image 4" },
+					{ "time": 2.3667, "name": "qichang/Image 5" },
+					{ "time": 2.4667, "name": "qichang/Image 6" },
+					{ "time": 2.5667, "name": "qichang/Image 8" },
+					{ "time": 2.6667, "name": "qichang/Image 9" },
+					{ "time": 2.7667, "name": "qichang/Image 1" },
+					{ "time": 2.8333, "name": "qichang/Image 3" },
+					{ "time": 2.9333, "name": "qichang/Image 4" },
+					{ "time": 3.0333, "name": "qichang/Image 5" },
+					{ "time": 3.1333, "name": "qichang/Image 6" },
+					{ "time": 3.2333, "name": "qichang/Image 8" },
+					{ "time": 3.3, "name": "qichang/Image 9" },
+					{ "time": 3.3333, "name": "qichang/Image 8" }
+				]
+			}
+		},
+		"bones": {
+			"qichang": {
+				"rotate": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				],
+				"translate": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				],
+				"scale": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				],
+				"shear": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				]
+			},
+			"miaozhun": {
+				"rotate": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				],
+				"translate": [
+					{ "x": -26.75, "y": -150.23 },
+					{ "time": 1.1, "x": 76.11, "y": 232.44, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2.3, "x": 213.93, "y": -39.58, "curve": 0.25, "c3": 0.75 },
+					{ "time": 3.3333, "x": -26.75, "y": -150.23 }
+				],
+				"scale": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				],
+				"shear": [
+					{ "curve": "stepped" },
+					{ "time": 3.3333 }
+				]
+			}
+		}
+	}
+}
+}

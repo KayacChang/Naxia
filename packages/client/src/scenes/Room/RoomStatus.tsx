@@ -10,7 +10,7 @@ type RoomStatusProps = {
 export default function RoomStatus({ skills, className }: RoomStatusProps) {
   return (
     <div className={clsx("relative", className)}>
-      <img src={Assets.Room.Status} alt="bet information" />
+      <img src={Assets.Room.Room_Status} alt="bet information" />
 
       <div className="absolute top-0 h-full w-full px-4">
         <div className="w-full h-full text-white">

@@ -1,17 +1,16 @@
-import { Game, UI } from "layers";
+import { UI } from "layers";
 import {
-  selectAssetsByName,
   selectRoomResult,
-  selectRoomStatus,
   useAppSelector,
+  Effect,
+  selectRoomStatusCurrent,
 } from "system";
-import { Container, Sprite } from "@inlet/react-pixi";
-import { useViewport, wait } from "utils";
 import Assets from "assets";
 import { Item, RoomStatus } from "types";
 import { useEffect, useState } from "react";
-import { cond, equals } from "ramda";
-import { Texture } from "@pixi/core";
+import { Continue } from "./Continue";
+import { useDispatch } from "react-redux";
+import Sound from "assets/sound";
 
 type RewardItemsProps = {
   items: Item[];
@@ -38,71 +37,60 @@ function RewardItems({ items }: RewardItemsProps) {
   );
 }
 
-type ContinueProps = {
-  text: string;
-};
-function Continue({ text }: ContinueProps) {
-  return (
-    <div className="w-60 relative flex justify-center items-center">
-      <img src={Assets.Room.Result_Continue} alt="continue background" />
-
-      <span className="absolute text-white font-noto text-xl">{text}</span>
-    </div>
-  );
-}
-
 export default function GameResult() {
-  const { width, height } = useViewport();
+  const dispatch = useDispatch();
 
-  const { current: status } = useAppSelector(selectRoomStatus);
-  const assets = useAppSelector(selectAssetsByName);
+  const status = useAppSelector(selectRoomStatusCurrent);
   const result = useAppSelector(selectRoomResult);
-  const [currentResult, setCurrentResult] = useState<typeof result>();
+
+  const [skip, setSkip] = useState(status !== RoomStatus.Result);
 
   useEffect(() => {
-    if (status !== RoomStatus.Start) setCurrentResult(undefined);
-
     if (status === RoomStatus.Result) {
-      wait(3000).then(() => setCurrentResult(result));
-    }
-  }, [status, result]);
+      const id = setTimeout(() => {
+        setSkip(false);
 
-  if (!currentResult) {
+        dispatch(Effect.play(Sound.Room.Reward));
+      }, 3000);
+
+      return () => void clearTimeout(id);
+    }
+
+    setSkip(true);
+
+    return;
+  }, [status, dispatch, setSkip]);
+
+  if (skip) {
     return <></>;
   }
 
   return (
-    <>
-      <Game className="absolute top-0" options={{ backgroundAlpha: 0.5 }}>
-        <Container x={width / 2} y={height / 2}>
-          <Sprite
-            y={-20}
-            anchor={0.5}
-            scale={1 / window.devicePixelRatio}
-            texture={cond<string, Texture>([
-              [equals("win"), () => assets("Result_Success")],
-              [equals("lose"), () => assets("Result_Failed")],
-            ])(currentResult!.result)}
-          />
-        </Container>
-      </Game>
+    <UI
+      className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-50"
+      onClick={() => setSkip(true)}
+    >
+      <img
+        className="absolute w-4/5"
+        src={
+          result!.result === "lose"
+            ? Assets.Room.Result_Failed
+            : Assets.Room.Result_Success
+        }
+        alt="background"
+      />
 
-      <UI
-        className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-50"
-        onClick={() => setCurrentResult(undefined)}
-      >
-        <div className="relative mt-12 flex flex-col items-center space-y-4">
-          <div className="relative text-yellow-200">
-            <img src={Assets.Room.Result_Frame} alt="result's frame" />
+      <div className="relative mt-12 flex flex-col items-center space-y-4">
+        <div className="relative text-yellow-200">
+          <img src={Assets.Room.Result_Frame} alt="result's frame" />
 
-            <div className="absolute top-0 w-full h-full pt-8 flex flex-col justify-center items-center">
-              <RewardItems items={currentResult!.items} />
-            </div>
+          <div className="absolute top-0 w-full h-full pt-8 flex flex-col justify-center items-center">
+            <RewardItems items={result!.items} />
           </div>
-
-          <Continue text="點擊開始" />
         </div>
-      </UI>
-    </>
+
+        <Continue text="點擊開始" />
+      </div>
+    </UI>
   );
 }

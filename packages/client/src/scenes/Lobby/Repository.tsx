@@ -1,9 +1,9 @@
-import { Button } from "components/Button";
 import { Item } from "types";
 import { useState } from "react";
-import { Modal } from "components";
+import { Modal, Tab } from "components";
 import clsx from "clsx";
 import Assets from "assets";
+import { useUserItem } from "system";
 
 function qualityCheck(quality: number) {
   // 這裡要重新設定 quality 對應 顏色
@@ -44,15 +44,7 @@ type DetailProps = Item & {
   onConfirm?: () => void;
   onClose?: () => void;
 };
-function Detail({
-  name,
-  img,
-  point,
-  quality,
-  description,
-}: // onConfirm,
-// onClose,
-DetailProps) {
+function Detail({ name, img, point, quality, description }: DetailProps) {
   return (
     <div className="text-white flex justify-center">
       <div className="flex flex-col h-full space-y-1 absolute justify-center items-center w-2/3">
@@ -87,89 +79,16 @@ DetailProps) {
           </div>
         </div>
       </div>
-
-      {/* <div className="p-4 space-x-4 flex justify-end absolute bottom-0 right-0">
-        <Button className="bg-white text-black w-24" onClick={onConfirm}>
-          Exchange
-        </Button>
-        <Button className="bg-white text-black w-24" onClick={onClose}>
-          Back
-        </Button>
-      </div> */}
     </div>
-  );
-}
-
-type ExchangeProps = Item & {
-  onConfirm?: () => void;
-  onClose?: () => void;
-};
-function Exchange({ name, onConfirm, onClose }: ExchangeProps) {
-  return (
-    <div className="flex justify-center items-center w-full h-full">
-      <div className="bg-white w-2/3 h-2/3 flex flex-col items-center p-4">
-        <h3>Confirm</h3>
-        <h4>{name}</h4>
-
-        <form className="flex-1 flex flex-col justify-center">
-          <div>
-            <label htmlFor="count">Count</label>
-            <input type="range" name="count" id="count" />
-          </div>
-
-          <div>
-            <label htmlFor="points">Points</label>
-            <input type="text" name="points" id="points" />
-          </div>
-        </form>
-
-        <div className="flex justify-center space-x-4">
-          <Button className="border" onClick={onConfirm}>
-            Confirm
-          </Button>
-          <Button className="border" onClick={onClose}>
-            Cancel
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type TabProps = {
-  label: string;
-  active?: boolean;
-  onClick?: () => void;
-};
-function Tab({ label, active, onClick }: TabProps) {
-  return (
-    <button className="w-16 text-white text-xs relative z-20" onClick={onClick}>
-      <img
-        className="w-full"
-        src={Assets.Lobby.Repo_Tab_Normal}
-        alt="tab normal"
-      />
-
-      {active && (
-        <img
-          className="absolute top-1/2 left-0 transform -translate-y-1/2"
-          src={Assets.Lobby.Repo_Tab_Active}
-          alt="tab active"
-        />
-      )}
-
-      <span className="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        {label}
-      </span>
-    </button>
   );
 }
 
 type RepositoryProps = {
   className?: string;
-  items: Item[];
 };
-export default function Repository({ className, items }: RepositoryProps) {
+export default function Repository({ className }: RepositoryProps) {
+  const items = useUserItem();
+
   const filters = [
     { key: "all", label: "全部", cond: () => true },
     { key: "card", label: "卡牌", cond: () => true },
@@ -178,7 +97,6 @@ export default function Repository({ className, items }: RepositoryProps) {
   const [active, setActive] = useState(filters[0]);
 
   const [item, setItem] = useState<Item | undefined>();
-  const [exchange, setExchange] = useState<Item | undefined>();
 
   return (
     <>
@@ -191,6 +109,8 @@ export default function Repository({ className, items }: RepositoryProps) {
               <Tab
                 key={tab.key}
                 label={tab.label}
+                normalImage={Assets.Lobby.Repo_Tab_Normal}
+                activeImage={Assets.Lobby.Repo_Tab_Active}
                 active={tab.key === active.key}
                 onClick={() => setActive(tab)}
               />
@@ -204,7 +124,7 @@ export default function Repository({ className, items }: RepositoryProps) {
             />
 
             <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
-              {items.filter(active.cond).map((item) => (
+              {items?.filter(active.cond).map((item) => (
                 <ItemGrid
                   key={item.id}
                   {...item}
@@ -227,17 +147,7 @@ export default function Repository({ className, items }: RepositoryProps) {
 
       {item && (
         <Modal className="z-20" onClose={() => setItem(undefined)}>
-          <Detail
-            {...item}
-            onConfirm={() => setExchange(item)}
-            onClose={() => setItem(undefined)}
-          />
-        </Modal>
-      )}
-
-      {exchange && (
-        <Modal className="z-20">
-          <Exchange {...exchange} onClose={() => setExchange(undefined)} />
+          <Detail {...item} onClose={() => setItem(undefined)} />
         </Modal>
       )}
     </>

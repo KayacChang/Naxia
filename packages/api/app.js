@@ -129,46 +129,6 @@ export default async function (fastify, opts) {
 
       return Promise.all(dungeons.map(fastify.addDungeon));
     })
-    .then(async () => {
-      const rounds = [
-        {
-          id: 126,
-          dungeon_id: 1,
-          result: "player_pair",
-          created_at: "2021-04-15T07:50:56.000Z",
-        },
-        {
-          id: 125,
-          dungeon_id: 1,
-          result: "banker",
-          created_at: "2021-04-15T07:50:56.000Z",
-        },
-        {
-          id: 124,
-          dungeon_id: 1,
-          result: "bank_pair",
-          created_at: "2021-04-15T07:50:55.000Z",
-        },
-        {
-          id: 123,
-          dungeon_id: 1,
-          result: "player",
-          created_at: "2021-04-15T07:50:55.000Z",
-        },
-        {
-          id: 122,
-          dungeon_id: 1,
-          result: "banker",
-          created_at: "2021-04-15T07:50:55.000Z",
-        },
-      ];
-
-      for (const round of rounds) {
-        await fastify.addRound(round);
-      }
-
-      return fastify.findRoundsBelongDungeon(1);
-    })
     .then(() => {
       const monsters = [
         {

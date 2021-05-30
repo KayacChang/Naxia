@@ -1,10 +1,26 @@
-import { assets } from "utils";
+import { join } from "path";
+
+export function assets(src: string) {
+  return join("/", "assets", src);
+}
 
 const Room = {
   // Room
-  Background: assets("/room/background.png"),
-  Status: assets("/room/room_status.png"),
-  Back: assets("/room/back.png"),
+  Room_Background: assets("/room/background.jpg"),
+  Room_Status: assets("/room/room_status.png"),
+  Room_Back: assets("/room/back.png"),
+
+  // Road
+  Road_Frame_Small: assets("/road/frame_small.png"),
+  Road_Frame_Big: assets("/road/frame_big.png"),
+  Road_Frame: assets("/road/frame.png"),
+  Road_Ring_Red: assets("/road/big_ring_red.png"),
+  Road_Ring_Blue: assets("/road/big_ring_blue.png"),
+  Road_Frame_Banker: assets("/road/frame_banker.png"),
+  Road_Frame_Player: assets("/road/frame_player.png"),
+  Road_Frame_Tie: assets("/road/frame_tie.png"),
+  Road_Frame_Banker_Pair: assets("/road/frame_banker_pair.png"),
+  Road_Frame_Player_Pair: assets("/road/frame_player_pair.png"),
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
@@ -60,14 +76,33 @@ const Room = {
   Skill_Hurricane_Normal: assets("/room/skill/hurricane_normal.png"),
   Skill_Hurricane_Active: assets("/room/skill/hurricane_active.png"),
   Skill_Hurricane_Spine: assets("/animation/wind/skeleton.json"),
+
+  // animation
+  Anim_Dealing: assets("/animation/dealing/skeleton.json"),
+  Anim_Be_Attack: assets("/animation/be_attack/skeleton.json"),
 };
 
 const Lobby = {
-  // Map
-  Map: assets("/lobby/map.png"),
-
   // Lock
   Lock: assets("/lobby/lock.png"),
+  Lock_Anim: assets("/animation/unlock/skeleton.json"),
+
+  // Dialog
+  Dialog: assets("/lobby/dialog.png"),
+
+  // Navbar
+  Narbar_Frame: assets("/lobby/navbar/frame.png"),
+  Narbar_Back: assets("/lobby/navbar/back.png"),
+  Navbar_Dungeon_Normal: assets("/lobby/navbar/dungeon_normal.png"),
+  Narbar_Dungeon_Active: assets("/lobby/navbar/dungeon_active.png"),
+  Navbar_Repository_Normal: assets("/lobby/navbar/repository_normal.png"),
+  Navbar_Repository_Active: assets("/lobby/navbar/repository_active.png"),
+  Navbar_Achievement_Normal: assets("/lobby/navbar/achievement_normal.png"),
+  Navbar_Achievement_Active: assets("/lobby/navbar/achievement_active.png"),
+  Navbar_Ranking_Normal: assets("/lobby/navbar/ranking_normal.png"),
+  Navbar_Ranking_Active: assets("/lobby/navbar/ranking_active.png"),
+  Navbar_Store_Normal: assets("/lobby/navbar/store_normal.png"),
+  Navbar_Store_Active: assets("/lobby/navbar/store_active.png"),
 
   // Dungeon
   Dungeon_Frame: assets("/lobby/dungeon/dungeon_frame.png"),
@@ -95,6 +130,15 @@ const Lobby = {
   Repo_Item_Uncommon: assets("/lobby/repository/item_uncommon.png"),
   Repo_Item_Normal: assets("/lobby/repository/item_normal.png"),
   Repo_Item_Detail_Bg: assets("/lobby/repository/item_detail_bg.png"),
+
+  // Achievement
+  Achievement_Frame: assets("/lobby/achievement/frame.png"),
+  Achievement_Card: assets("/lobby/achievement/card.png"),
+  Achievement_Thumbnail: assets("/lobby/achievement/thumbnail.png"),
+  Achievement_Thumbnail_Frame: assets("/lobby/achievement/thumbnail-frame.png"),
+  Achievement_Glow: assets("/lobby/achievement/glow.png"),
+  Achievement_Detail: assets("/lobby/achievement/detail.png"),
+  Achievement_Special: assets("/lobby/achievement/special.png"),
 
   // Store
   Store_Button_Disable: assets("/lobby/store/button_disable.png"),
@@ -132,10 +176,11 @@ const Lobby = {
 };
 
 const Login = {
-  Background: assets("/login/background.png"),
-  Logo: assets("/login/logo.png"),
-  Submit: assets("/login/submit-btn.png"),
-  Form: assets("/login/input-form.png"),
+  Login_Background: assets("/login/background.jpg"),
+  Login_Logo: assets("/login/logo.png"),
+  Login_Submit: assets("/login/submit-btn.png"),
+  Login_Form: assets("/login/input-form.png"),
+  Login_Spine: assets("/animation/login/skeleton.json"),
 };
 
 const Common = {
@@ -154,11 +199,11 @@ const Common = {
   Modal_Frame_Outer: assets("/modal/modal_frame_outer.png"),
   Modal_Title: assets("/modal/modal_title.png"),
   Modal_Button: assets("/modal/modal_button.png"),
+  Modal_Close: assets("/modal/close.png"),
+  Modal_Frame_Information: assets("/modal/information_frame.png"),
 
   // Road
   Road_Frame: assets("/road/frame.png"),
-  Road_Blue: assets("/road/blue.png"),
-  Road_Red: assets("/road/red.png"),
 
   // Avatar
   Avatar_Frame: assets("/avatar/avatar_frame.png"),
@@ -166,6 +211,8 @@ const Common = {
   Avatar_Win: assets("/avatar/win.png"),
   Avatar_Lose: assets("/avatar/lose.png"),
   Avatar_Glow: assets("/avatar/glow.png"),
+  Avatar_History_Frame: assets("/avatar/history_frame.png"),
+  Avatar_Screen_Shot: assets("/avatar/screen-shot.png"),
 
   Avatar_01: assets("/avatar/01.png"),
   Avatar_02: assets("/avatar/02.png"),
@@ -178,23 +225,39 @@ const Common = {
 
   // Sidebar
   Sidebar_Announcement: assets("/sidebar/announcement.png"),
+  Sidebar_Information: assets("/sidebar/information.png"),
+  Sidebar_Mail: assets("/sidebar/mail.png"),
+  Sidebar_Menu: assets("/sidebar/menu.png"),
   Sidebar_Setting: assets("/sidebar/setting.png"),
-  Sidebar_Mailbox: assets("/sidebar/mail.png"),
+  Sidebar_Stream: assets("/sidebar/stream.png"),
 
-  // Fonts
-  Font_Kai: assets("/fonts/kai.ttc"),
-
-  Setting_Check: assets("/sidebar/setting/check.png"),
-  Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
+  // Setting
+  // Setting_Check: assets("/sidebar/setting/check.png"),
+  // Setting_Checkbox: assets("/sidebar/setting/checkbox.png"),
   Setting_Reset_Button: assets("/sidebar/setting/reset_button.png"),
   Setting_Volume_Bar: assets("/sidebar/setting/volume_bar.png"),
   Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),
   Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
 
+  // Announcement
   Announcement_Background: assets("/sidebar/announcement/background.png"),
 };
 
+const System = {
+  // System
+  Rotate: assets("/rotate.png"),
+  Scroll: assets("/scroll.png"),
+
+  // Progress
+  Progress_Background: assets("/loading/background.jpg"),
+  Progress_Frame: assets("/loading/loading-frame.png"),
+  Progress_Bar: assets("/loading/loading-bar.png"),
+  Progress_Effect: assets("/loading/glow.png"),
+  Progress_Item: assets("/loading/item.png"),
+};
+
 const Assets = {
+  System,
   Common,
   Login,
   Lobby,

@@ -1,192 +1,150 @@
-import { useEffect, useState } from "react";
-import { identity } from "ramda";
-import { useRouteMatch } from "react-router";
-import { Sprite, Container, Text } from "@inlet/react-pixi";
-import clsx from "clsx";
+import { memo, useEffect } from "react";
+import { Sprite } from "@inlet/react-pixi";
 
 import {
-  useMaps,
   useDungeons,
-  useAppSelector,
-  selectAssetIsLoading,
-  selectAssetsByName,
   useAppDispatch,
-  addAssets,
-  useUser,
-  useUserItem,
+  BGM,
+  useViewport,
+  getAssets,
+  Dungeon as DungeonSystem,
+  useMap,
 } from "system";
-import { useViewport, currency, toTask } from "utils";
 import { Game, UI } from "layers";
 import {
-  Modal,
-  Loading,
   Navbar,
   Profile,
-  Location,
   Status,
   Sidebar,
   Switch,
   Route,
   Camera,
+  Location,
 } from "components";
 
-import Assets from "assets";
-
-import { DungeonDetail } from "./Map";
 import Repository from "./Repository";
 import Ranking from "./Ranking";
+import Achievement from "./Achievement";
+import Dungeon from "./Dungeon";
+import NPC from "./NPC";
 
 import Store from "./Store";
-import { filters } from "pixi.js";
+import Sound from "assets/sound";
+import { matchPath, useHistory } from "react-router";
+import { DungeonDetail } from "./Map";
 
-type DungeonProps = {
-  id: number;
-  title: string;
-  x: number;
-  y: number;
-  lock?: boolean;
-  onClick?: () => void;
-};
-function Dungeon({ id, x, y, title, lock, onClick }: DungeonProps) {
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const assets = useAppSelector(selectAssetsByName);
-
-  const colorMatrix = new filters.ColorMatrixFilter();
-  colorMatrix.blackAndWhite(true);
-
+const LobbyUI = memo(() => {
   return (
-    <Container
-      x={x}
-      y={y}
-      interactive={true}
-      buttonMode={true}
-      pointerdown={onClick || identity}
-    >
-      <Container filters={lock ? [colorMatrix] : []}>
-        <Sprite
-          ref={(ref) => {
-            setWidth(ref?.width || 0);
-            setHeight(ref?.height || 0);
-          }}
-          texture={assets(`Dungeon_${id}`)}
-        />
+    <UI className="flex flex-col">
+      <header className="h-12 relative">
+        <Profile />
 
-        <Sprite x={-68} y={-16} texture={assets("Dungeon_Frame")} />
-      </Container>
+        <Location />
 
-      {lock && (
-        <Sprite
-          anchor={0.5}
-          x={width / 2}
-          y={height / 2}
-          texture={assets("Lock")}
-        />
-      )}
+        <Status />
+      </header>
 
-      <Text
-        anchor={{ x: 0.5, y: 0 }}
-        x={width / 2}
-        y={202}
-        style={{
-          fill: lock ? ["#ffffff"] : ["#fef3c7", "#fde68a", "#fbbf24"],
-          fontFamily: "kai",
-        }}
-        text={title}
-      />
-    </Container>
+      <main className="flex-1 flex justify-end">
+        <NPC />
+
+        <Switch>
+          <Route exact path="/lobby">
+            <div className="w-3/5"></div>
+
+            <DungeonDetail />
+
+            {/*
+                <DungeonCondition
+                  mapID={map.id}
+                  dungeonID={dungeon.id}
+                  onConfirm={() => {
+                    setShowLockAnim(dungeon.id);
+                    setDungeon(undefined);
+                    dispatch(Effect.play(Sound.Lobby.Unlock));
+                  }}
+                  onCancel={() => setDungeon(undefined)}
+                />
+          */}
+          </Route>
+
+          <Route path="/lobby/repository">
+            <Repository className="w-3/5" />
+          </Route>
+
+          <Route path="/lobby/achievement">
+            <Achievement className="w-3/5" />
+          </Route>
+
+          <Route path="/lobby/ranking">
+            <Ranking className="w-3/5" />
+          </Route>
+
+          <Route path="/lobby/store">
+            <Store className="w-full" />
+          </Route>
+        </Switch>
+
+        <Sidebar className="w-12 mr-2" />
+      </main>
+
+      <Navbar />
+    </UI>
   );
-}
+});
 
-export default function Lobby() {
-  const loading = useAppSelector(selectAssetIsLoading);
-  const assets = useAppSelector(selectAssetsByName);
-  const dispatch = useAppDispatch();
-
-  const user = useUser();
-  const items = useUserItem();
-
-  const { data: maps } = useMaps();
-  const map = maps?.[0];
-
-  const { data: dungeons } = useDungeons(map?.id);
-
+const LobbyView = memo(() => {
   const { width, height } = useViewport();
-  const [dungeonID, setDungeonID] = useState<number | undefined>(undefined);
-  const matchLobby = useRouteMatch("/lobby");
-  const matchStory = useRouteMatch("/lobby/store");
-
-  useEffect(() => {
-    dispatch(addAssets(toTask(Assets.Lobby)));
-  }, [dispatch]);
-
-  if (loading || !user || !items || !map || !dungeons) {
-    return <Loading />;
-  }
+  const map = useMap();
+  const dungeons = useDungeons();
+  const dispatch = useAppDispatch();
+  const history = useHistory();
 
   return (
     <>
-      <Game className={clsx(matchLobby?.isExact || "pointer-events-none")}>
+      <Game>
         <Camera
           screenWidth={width}
           screenHeight={height}
-          pause={!matchLobby?.isExact}
+          mount={(viewport) => {
+            history.listen((location) => {
+              const match = matchPath(location.pathname, {
+                path: "/lobby",
+                exact: true,
+              });
+
+              viewport.pause = !Boolean(match);
+            });
+          }}
         >
-          <Sprite texture={assets("Map")} />
+          <Sprite texture={getAssets(`Map.${map.id}`)} />
 
           {dungeons.map((dungeon) => (
             <Dungeon
               key={dungeon.id}
               id={dungeon.id}
+              title={dungeon.name}
               x={1920 * (dungeon.location.x / 100)}
               y={1080 * (dungeon.location.y / 100)}
-              title={dungeon.name}
-              onClick={() => setDungeonID(dungeon.id)}
               lock={dungeon.lock}
+              onClick={() => dispatch(DungeonSystem.open(dungeon.id))}
             />
           ))}
         </Camera>
       </Game>
+    </>
+  );
+});
 
-      <UI className="flex flex-col">
-        <header className="h-12 relative">
-          <Profile user={user} />
-          <Location value={matchStory?.isExact ? "兌換商店" : map.name} />
-          <Status value={currency(user.balance)} />
-        </header>
+export default function Lobby() {
+  const dispatch = useAppDispatch();
 
-        <main className="flex-1 flex justify-end space-x-2">
-          <Switch>
-            <Route exact path="/lobby">
-              {dungeonID && (
-                <Modal className="z-20">
-                  <DungeonDetail
-                    mapID={map.id}
-                    dungeonID={dungeonID}
-                    onCancel={() => setDungeonID(undefined)}
-                  />
-                </Modal>
-              )}
-            </Route>
-            <Route path="/lobby/repository">
-              <Repository items={items} className="w-3/5" />
-            </Route>
-            <Route path="/lobby/book"></Route>
+  useEffect(() => void dispatch(BGM.play(Sound.Lobby.BGM)), [dispatch]);
 
-            <Route path="/lobby/ranking">
-              <Ranking className=" w-3/5" />
-            </Route>
+  return (
+    <>
+      <LobbyView />
 
-            <Route path="/lobby/store">
-              <Store className="w-full" />
-            </Route>
-          </Switch>
-
-          <Sidebar className="w-12 mr-2" />
-        </main>
-
-        <Navbar />
-      </UI>
+      <LobbyUI />
     </>
   );
 }

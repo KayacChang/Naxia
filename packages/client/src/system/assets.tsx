@@ -7,15 +7,12 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "system";
-export { SpineParser };
-export * from "@pixi-spine/runtime-3.8";
-export * from "@pixi-spine/base";
+import { Tasks } from "types";
+import { wait } from "utils";
 
 SpineParser.registerLoaderPlugin();
 
 const loader = Loader.shared;
-
-export type Tasks = { name: string; url: string }[];
 
 function mapping(res: ILoaderResource) {
   if (res.type === Resource.TYPE.IMAGE && res.texture) {
@@ -62,6 +59,10 @@ export const addAssets = createAsyncThunk<
 >("assets/add", async (tasks, { getState }) => {
   const newTasks = selectNotLoadedTasks(getState(), tasks);
 
+  while (loader.loading) {
+    await wait(300);
+  }
+
   await new Promise<void>((resolve) => loader.add(newTasks).load(resolve));
 
   return newTasks;
@@ -96,15 +97,14 @@ const slice = createSlice({
 export const selectAssets = (state: RootState) => state.assets;
 export const selectAssetIsLoading = (state: RootState) => state.assets.loading;
 
-export const selectAssetsByName = createSelector(
-  selectAssets,
-  () => (name: string) => {
-    const existed = name in loader.resources;
+export function getAssets(name: string) {
+  const existed = name in loader.resources;
 
-    if (!existed) throw new Error(`resource name: ${name} not existed`);
+  if (!existed) throw new Error(`resource name: ${name} not existed`);
 
-    return mapping(loader.resources[name]);
-  }
-);
+  return mapping(loader.resources[name]);
+}
+
+export const selectAssetsByName = createSelector(selectAssets, () => getAssets);
 
 export default slice.reducer;

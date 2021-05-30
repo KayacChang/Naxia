@@ -8,6 +8,9 @@ import {
   Round,
   DungeonInfo,
   SkillSet,
+  SkillOption,
+  NPC,
+  Ranking,
 } from "types";
 
 const API = (...paths: string[]) =>
@@ -30,7 +33,7 @@ function post<T>(
     method: "POST",
     headers: {
       "content-type": "application/json",
-      ...(authorization ? { authorization } : {}),
+      ...(authorization ? { authorization: `Bearer ${authorization}` } : {}),
     },
     body: JSON.stringify(payload),
   }).then((res) => res.json());
@@ -40,7 +43,7 @@ function put<T>(url: string, authorization: string, payload: any): Promise<T> {
   return fetch(url, {
     method: "PUT",
     headers: {
-      authorization,
+      authorization: `Bearer ${authorization}`,
       "content-type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -160,6 +163,16 @@ export function getAllDungeonsInMap(
     );
 }
 
+export interface GetNPCInMapResponse {
+  data: NPC;
+  success: boolean;
+}
+export function getNPCInMap(token: string, mapID: number): Promise<NPC> {
+  return get<GetNPCInMapResponse>(API(`maps/${mapID}/npc`), token).then(
+    ({ data }) => data
+  );
+}
+
 export interface GetConditionsByDungeonIDResponse {
   data: {
     type: "item" | "point";
@@ -194,7 +207,7 @@ export function getConditionsByDungeonID(
 export interface GetRoundsByDungeonIDResponse {
   data: {
     id: number;
-    result: "banker" | "player" | "tie" | "bank_pair" | "player_pair";
+    results: SkillOption[];
     created_at: string;
   }[];
   success: boolean;
@@ -210,10 +223,9 @@ export function getRoundsByDungeonID(
   )
     .then(({ data }) => data)
     .then((data) =>
-      data.map(({ id, result, created_at }) => ({
+      data.map(({ id, results }) => ({
         id,
-        result,
-        createdAt: new Date(created_at),
+        results,
       }))
     );
 }
@@ -293,4 +305,65 @@ export interface BetRequest {
 }
 export function bet(token: string, req: BetRequest) {
   return post<BetResponse>(API("bet"), req, token).then(({ data }) => data);
+}
+
+export interface UnlockResponse {
+  data: {
+    id: number;
+    map_id: number;
+    name: string;
+    img: string;
+    room_id: string;
+    stream_link: string;
+    location_x: number;
+    location_y: number;
+    is_lock: boolean;
+  };
+  success: boolean;
+}
+export function unlock(token: string, mapID: number, dungeonID: number) {
+  return post<UnlockResponse>(
+    API(`maps/${mapID}/dungeons/${dungeonID}/unlock`),
+    {},
+    token
+  ).then(({ data }) => data);
+}
+
+interface _StoreItem {
+  id: number;
+  name: string;
+  category: "card" | "other";
+  item_type: "item" | "point";
+  item_name: string | null;
+  item_count: number;
+  item_img: string;
+  requirements: {
+    type: "point" | "item";
+    count: number;
+    item_id: number | null;
+    item_name: string | null;
+    accumulate: number;
+  }[];
+}
+
+export interface GetStoreItemsResponse {
+  data: {
+    card: _StoreItem[];
+    other: _StoreItem[];
+  };
+  success: boolean;
+}
+export function getStoreItems(token: string): Promise<DungeonInfo> {
+  // TODO
+  return get<GetInfoByDungeonIDResponse>(API(`stores/items`), token)
+    .then(({ data }) => data)
+    .then();
+}
+
+export interface GetRankResponse {
+  data: Ranking;
+  success: boolean;
+}
+export function getRank(token: string) {
+  return get<GetRankResponse>(API(`rank`), token).then(({ data }) => data);
 }

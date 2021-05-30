@@ -1,72 +1,74 @@
 import {
+  Effect,
+  getViewPort,
   selectAssetsByName,
   selectRoomResult,
   selectRoomStatusCurrent,
+  useAppDispatch,
   useAppSelector,
 } from "system";
-import { useViewport } from "utils";
-import { useEffect, useState } from "react";
-import { RoomStatus } from "types";
+import { memo, useMemo } from "react";
+import { RoomStatus, SkillOption } from "types";
 import { Game } from "layers";
-import { Container } from "@inlet/react-pixi";
-import { Container as TContainer } from "@pixi/display";
-import { Spine } from "@pixi-spine/all-3.8";
+import { Spine } from "components";
+import clsx from "clsx";
+import Sound from "assets/sound";
 
-export default function Effect() {
-  const { width, height } = useViewport();
+export default memo(() => {
+  const { width, height } = getViewPort();
+
   const status = useAppSelector(selectRoomStatusCurrent);
   const roundResult = useAppSelector(selectRoomResult);
-
   const assets = useAppSelector(selectAssetsByName);
-  const [skill, setSkill] = useState<string | undefined>();
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (status !== RoomStatus.Result || !roundResult) return;
+  const data = useMemo(() => {
+    if (status !== RoomStatus.Result || !roundResult) {
+      return;
+    }
+
+    if (roundResult.result === "lose") {
+      return assets("Anim_Be_Attack");
+    }
 
     const { game_round, ...rest } = roundResult.info;
     const target = Object.entries(rest).find(([, value]) => value);
     if (!target) return;
 
-    const [animation] = target;
+    const result = target[0] as SkillOption;
 
-    switch (animation) {
-      case "bank_pair":
-        setSkill("Skill_FlameThrower_Spine");
-        return;
-      case "player_pair":
-        setSkill("Skill_IceBeam_Spine");
-        return;
-      case "player":
-        setSkill("Skill_FlareBlitz_Spine");
-        return;
-      case "banker":
-        setSkill("Skill_Blizzard_Spine");
-        return;
-      case "tie":
-        setSkill("Skill_Hurricane_Spine");
-        return;
-    }
-  }, [roundResult, status, setSkill]);
+    const sound = {
+      bank_pair: Sound.Room.Skill_Fire,
+      player_pair: Sound.Room.Skill_IceHit,
+      player: Sound.Room.Skill_DoubleFire,
+      banker: Sound.Room.Skill_DoubleIceHit,
+      tie: Sound.Room.Skill_Wind,
+    }[result];
+
+    dispatch(Effect.play(sound));
+
+    return {
+      bank_pair: assets("Skill_FlameThrower_Spine"),
+      player_pair: assets("Skill_IceBeam_Spine"),
+      player: assets("Skill_FlareBlitz_Spine"),
+      banker: assets("Skill_Blizzard_Spine"),
+      tie: assets("Skill_Hurricane_Spine"),
+    }[result];
+  }, [status, roundResult, assets, dispatch]);
 
   return (
-    <Game className="absolute top-0 pointer-events-none">
-      <Container
-        x={width / 2}
-        y={height / 2}
-        scale={1 / window.devicePixelRatio}
-        ref={(ref: TContainer | null) => {
-          if (!ref || !skill) return;
-
-          const spine = new Spine(assets(skill));
-          spine.state.setAnimation(0, "animation", false);
-
-          spine.state.addListener({
-            complete: () => setSkill(undefined),
-          });
-
-          ref.addChild(spine);
-        }}
-      />
+    <Game
+      className={clsx("absolute top-0 pointer-events-none", !data && "hidden")}
+    >
+      {data && (
+        <Spine
+          x={width / 2}
+          y={height / 2}
+          scale={1 / window.devicePixelRatio}
+          data={data}
+          mount={(spine) => spine.state.setAnimation(0, "animation", false)}
+        />
+      )}
     </Game>
   );
-}
+});

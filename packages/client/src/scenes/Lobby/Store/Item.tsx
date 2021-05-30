@@ -37,7 +37,7 @@ function ItemCollectionBox({
 }
 type ItemButtonProps = {
   alive: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 function ItemButton({ alive, onClick }: ItemButtonProps) {
   return (
@@ -52,6 +52,7 @@ function ItemButton({ alive, onClick }: ItemButtonProps) {
           }
           alt="store button"
         />
+
         <p className="absolute w-full text-center text-xxs font-kai mb-px">
           兌換
         </p>
@@ -72,25 +73,21 @@ export default function Item({ item }: ItemProps) {
 
   return (
     <div className="relative h-12 flex justify-center items-center">
-      <div className="p-1">
-        <img
-          src={Assets.Lobby.Store_Item_Bar_Bg}
-          alt="store item bar bg"
-          className="m-px"
-        />
+      <div className="m-1">
+        <img src={Assets.Lobby.Store_Item_Bar_Bg} alt="store item bar bg" />
       </div>
-      <div className="absolute w-full ml-2 pr-3 flex">
-        <div className="" style={{ width: "62px" }}>
+
+      <div className="absolute w-full flex space-x-2 px-2">
+        <div className="w-14">
           <img src={item.itemImg} alt="store item img" />
         </div>
-        <div className="flex-1 flex flex-row items-center p-1">
-          <p
-            className="font-kai text-fansy text-xs"
-            style={{ minWidth: "4.5rem" }}
-          >
-            {item.title}
-          </p>
-          <div className="flex-1 flex flex-row justify-between items-center pl-1">
+
+        <div className="flex-1 flex items-center">
+          <div className="w-1/4">
+            <p className="font-kai text-fansy text-xs">{item.title}</p>
+          </div>
+
+          <div className="w-3/4 flex justify-between items-center">
             <ItemCollectionBox
               currentNumber={item.gemCurrentNumber}
               totalNumber={item.gemTotalNumber}
@@ -103,18 +100,12 @@ export default function Item({ item }: ItemProps) {
               totalNumber={item.cardTotalNumber}
             />
 
-            <ItemButton
-              alive={isAlive}
-              onClick={() => {
-                if (isAlive) {
-                  console.log(item.title);
-                }
-              }}
-            />
+            <ItemButton alive={isAlive} />
           </div>
         </div>
       </div>
-      <div className="absolute">
+
+      <div className="absolute w-full">
         <img
           src={Assets.Lobby.Store_Item_Bar_Frame}
           alt="store item bar frame"

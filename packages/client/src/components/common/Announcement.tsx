@@ -11,19 +11,19 @@ type SystemModalProps = {
 function SystemModal({ title, button, onConfirm }: SystemModalProps) {
   return (
     <div className="flex h-full justify-center">
-      <div className="w-full relative flex justify-center pointer-events-auto my-4 mx-28">
+      <div className="w-full relative flex justify-center items-center">
         <img
-          className="absolute top-0 w-full h-4/5"
+          className="w-3/4"
           src={Assets.Common.Announcement_Background}
           alt="modal announcement background"
         />
 
-        <div className="w-full h-full my-6 flex flex-col italic z-50">
+        <div className="absolute top-0 flex flex-col italic h-full w-60 my-16 space-y-8 pointer-events-auto">
           <TextFancyShadow className="w-full text-3xl font-bold tracking-wide">
             {title}
           </TextFancyShadow>
 
-          <div className="w-full h-full flex-1 flex flex-wrap justify-between content-between text-center pt-6 pb-20">
+          <div className="w-full h-full flex-1 flex flex-col space-y-6">
             <TextFancyShadow className="w-full text-2xl">
               今日福利活動
             </TextFancyShadow>
@@ -33,8 +33,6 @@ function SystemModal({ title, button, onConfirm }: SystemModalProps) {
             <TextFancyShadow className="w-full text-xl">
               200%爆率 500%經驗
             </TextFancyShadow>
-
-            <TextFancyShadow className="w-full h-4"> </TextFancyShadow>
 
             {button && (
               <div className="w-full flex justify-center items-start">
@@ -63,9 +61,9 @@ type TextFancyShadowProps = {
 };
 function TextFancyShadow({ className, children }: TextFancyShadowProps) {
   return (
-    <div className={clsx("flex justify-center", className)}>
-      <div className="absolute text-fansy">{children}</div>
+    <div className={clsx("flex justify-center relative", className)}>
       <div className="text-2d">{children}</div>
+      <div className="text-fansy absolute top-0">{children}</div>
       <style>{`
       .text-2d{
         color: #fdde63;
@@ -92,21 +90,20 @@ export function Announcement() {
         <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
           公告
         </div>
-        <button className="" onClick={() => setAnnouncementOpen(true)}>
+        <button onClick={() => setAnnouncementOpen(true)}>
           <img src={icon.icons.normal} alt={icon.key} />
         </button>
       </div>
-      <div className="absolute left-0">
-        {isAnnouncementOpen && (
-          <Modal onClose={() => setAnnouncementOpen(false)}>
-            <SystemModal
-              title="公告"
-              button="確認"
-              onConfirm={() => setAnnouncementOpen(false)}
-            ></SystemModal>
-          </Modal>
-        )}
-      </div>
+
+      {isAnnouncementOpen && (
+        <Modal onClose={() => setAnnouncementOpen(false)}>
+          <SystemModal
+            title="公告"
+            button="確認"
+            onConfirm={() => setAnnouncementOpen(false)}
+          />
+        </Modal>
+      )}
     </>
   );
 }

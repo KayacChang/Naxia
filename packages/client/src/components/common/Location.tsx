@@ -1,16 +1,18 @@
 import Assets from "assets";
+import { useMap } from "system";
 
-type LocationProps = {
-  value: string;
-};
-export function Location({ value }: LocationProps) {
+export function Location() {
+  const map = useMap();
+
   return (
-    <div className="absolute left-1/2 transform -translate-x-1/2 z-20">
-      <div className="relative w-52 text-white">
-        <img src={Assets.Common.Location} alt="world frame" />
+    <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
+      <div className="relative w-52 text-white flex justify-center items-center">
+        <div>
+          <img src={Assets.Common.Location} alt="world frame" />
+        </div>
 
-        <h1 className="absolute top-0 h-full w-full flex items-center justify-center font-kai text-fansy text-xl tracking-wider">
-          {value}
+        <h1 className="absolute font-kai text-xl text-fansy tracking-widest">
+          {map.name}
         </h1>
       </div>
     </div>

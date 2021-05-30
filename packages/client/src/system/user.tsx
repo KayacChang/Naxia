@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUser, getUserItem, login, updateUser } from "api";
-import { useEffect } from "react";
-import { RootState, useAppDispatch, useAppSelector } from "system";
+import { RootState, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { User, Item } from "types";
 
@@ -12,6 +11,7 @@ type AuthRequest = {
 
 export const selectToken = (state: RootState) => state.user.token;
 export const selectUser = (state: RootState) => state.user.user;
+export const selectUserBalance = (state: RootState) => state.user.user?.balance;
 export const selectUserItems = (state: RootState) => state.user.items;
 
 const item = {
@@ -27,8 +27,13 @@ const item = {
   ),
 };
 
+const balance = {
+  update: createAction<number>("user/balance/update"),
+};
+
 export const user = {
   item,
+  balance,
   auth: createAsyncThunk<string, AuthRequest>("user/auth", async (req) => {
     const { token } = await login(req);
 
@@ -73,6 +78,11 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(user.balance.update, (state, action) => {
+        if (!state.user) return;
+
+        state.user.balance = action.payload;
+      })
       .addCase(user.auth.fulfilled, (state, action) => {
         state.token = action.payload;
       })
@@ -91,29 +101,13 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 
 export function useUser() {
-  const dispatch = useAppDispatch();
-  const token = useAppSelector(selectToken);
-  const _user = useAppSelector(selectUser);
-
-  useEffect(() => {
-    if (!token) return;
-
-    dispatch(user.sync());
-  }, [token, dispatch]);
-
-  return _user;
+  return useAppSelector(selectUser);
 }
 
 export function useUserItem() {
-  const dispatch = useAppDispatch();
-  const token = useAppSelector(selectToken);
-  const _items = useAppSelector(selectUserItems);
+  return useAppSelector(selectUserItems);
+}
 
-  useEffect(() => {
-    if (!token) return;
-
-    dispatch(user.item.sync());
-  }, [token, dispatch]);
-
-  return _items;
+export function useUserBalance() {
+  return useAppSelector(selectUserBalance);
 }

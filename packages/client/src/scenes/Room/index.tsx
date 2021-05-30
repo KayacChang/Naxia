@@ -1,65 +1,34 @@
-import { useEffect, useState } from "react";
-import {
-  useDungeon,
-  useMaps,
-  useAppDispatch,
-  selectRoomIsJoin,
-  useAppSelector,
-  selectAssetIsLoading,
-  addAssets,
-  room,
-  useUser,
-  selectRoomBossCurrent,
-} from "system";
-import { toTask } from "utils";
-import { Loading } from "components";
-import Assets from "assets";
-import { Game } from "layers";
+import { useEffect } from "react";
+import { useAppDispatch, BGM, room } from "system";
+import { Game, UI } from "layers";
 
 import GameUI from "./UI";
 import GameView from "./Game";
 import GameResult from "./Result";
 import GameEffect from "./Effect";
+import Assets from "assets";
+import Sound from "assets/sound";
 
 export default function Room() {
   const dispatch = useAppDispatch();
-  const isJoin = useAppSelector(selectRoomIsJoin);
-  const loading = useAppSelector(selectAssetIsLoading);
-  const boss = useAppSelector(selectRoomBossCurrent);
-
-  const user = useUser();
-
-  const { data: maps } = useMaps();
-  const dungeon = useDungeon(maps?.[0].id, 1);
-
-  const [backgroundLoad, setBackgroundLoadEnable] = useState(false);
 
   useEffect(() => {
-    if (!dungeon?.info.room) return;
-
-    dispatch(room.join(dungeon.info.room));
-    dispatch(addAssets(toTask(Assets.Room)));
-
     return () => void dispatch(room.leave());
-  }, [dungeon?.info.room, dispatch]);
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (backgroundLoad || loading) return;
-
-    setBackgroundLoadEnable(Boolean(user && dungeon && isJoin && boss));
-  }, [backgroundLoad, loading, user, dungeon, isJoin, boss]);
-
-  if (!backgroundLoad) {
-    return <Loading></Loading>;
-  }
+  useEffect(() => void dispatch(BGM.play(Sound.Room.BGM)), [dispatch]);
 
   return (
     <>
-      <Game>
+      <UI className="flex flex-col">
+        <img src={Assets.Room.Room_Background} alt="background" />
+      </UI>
+
+      <Game className="absolute top-0">
         <GameView />
       </Game>
 
-      <GameUI user={user!} info={dungeon!.info} rounds={dungeon!.rounds} />
+      <GameUI />
 
       <GameEffect />
 

@@ -1,9 +1,4 @@
 import numeral from "numeral";
-import { join } from "path";
-
-export function assets(src: string) {
-  return join("/", "assets", src);
-}
 
 export const toTask = (assets: object) =>
   Object.entries(assets).map(([name, url]) => ({ name, url }));
@@ -26,10 +21,29 @@ export function nextFrame() {
   );
 }
 
-export function removeTrailingSlashes(url: string) {
-  return url.replace(/\/+$/, "");
+export function throttle(wait: number, callback: (...args: any[]) => void) {
+  let last = 0;
+
+  return function call(...args: any[]) {
+    const now = performance.now();
+    const delta = now - last;
+
+    if (delta < wait) return;
+
+    callback(...args);
+    last = now;
+  };
 }
 
-export * from "./undoable";
-export * from "./useViewport";
-export * from "./useThunkReducer";
+export function debounce(wait: number, callback: (...args: any[]) => void) {
+  let timer: NodeJS.Timeout | undefined;
+
+  return (...args: any[]) => {
+    if (!timer) {
+      callback(...args);
+    }
+
+    timer && clearTimeout(timer);
+    timer = setTimeout(() => timer = undefined, wait);
+  };
+}

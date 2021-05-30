@@ -74,16 +74,13 @@ function SystemModal({ children, className }: SystemModalProps) {
         <img src={Assets.Lobby.Store_Frame_Bg} alt="store frame bg" />
 
         <div className="absolute top-0 w-full px-18 mt-12 text-2xl">
-          <div className="h-48 w-full overflow-auto flex flex-col space-y-1 pointer-events-auto overflow-x-hidden pb-12">
-            {children}
+          <div className="relative">
+            <div className="h-48 overflow-scroll pointer-events-auto flex flex-col items-center space-y-1">
+              {children}
+            </div>
+
+            <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
           </div>
-        </div>
-        <div className="absolute bottom-6 w-full px-14">
-          <img
-            src={Assets.Lobby.Store_Frame_Top_Mask}
-            alt="store frame top mask"
-            className="w-full"
-          />
         </div>
       </div>
     </div>
@@ -102,9 +99,9 @@ export default function Store({ className }: StoreProps) {
       )}
     >
       <SystemModal>
-        {mockItem.map((item, index) => {
-          return <Item key={index} item={item}></Item>;
-        })}
+        {mockItem.map((item, index) => (
+          <Item key={index} item={item}></Item>
+        ))}
       </SystemModal>
     </div>
   );

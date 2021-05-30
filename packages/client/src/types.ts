@@ -1,5 +1,7 @@
 type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
 
+export type Tasks = { name: string; url: string }[];
+
 export interface Item {
   count: number;
   id: number;
@@ -25,6 +27,13 @@ export interface Map {
   name: string;
   status: number;
   img: string;
+}
+
+export interface NPC {
+  id: number;
+  name: string;
+  img: string;
+  dialog: string[];
 }
 
 export interface Dungeon {
@@ -54,8 +63,7 @@ export type SkillOption =
 
 export interface Round {
   id: number;
-  result: SkillOption;
-  createdAt: Date;
+  results: SkillOption[];
 }
 
 export interface Skill {
@@ -102,4 +110,25 @@ export interface ItemDataProps {
   gemTotalNumber: number;
   cardCurrentNumber: number;
   cardTotalNumber: number;
+}
+
+export interface RankingRecord {
+  name: string;
+  avatar: number;
+  value: number;
+}
+
+export interface Ranking {
+  achievement: {
+    data: RankingRecord[];
+    current: RankingRecord;
+  };
+  sp: {
+    data: RankingRecord[];
+    current: RankingRecord;
+  };
+  exp: {
+    data: RankingRecord[];
+    current: RankingRecord;
+  };
 }

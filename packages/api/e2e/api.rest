@@ -45,6 +45,11 @@ authorization: {{token}}
 GET {{host}}/maps/{{map}}/dungeons HTTP/1.1
 authorization: {{token}}
 
+### Get NPC in map
+# @name dungeons
+GET {{host}}/maps/{{map}}/npc HTTP/1.1
+authorization: {{token}}
+
 ### Unlock Dungeon
 POST {{host}}/maps/{{map}}/dungeons/{{dungeon}}/unlock HTTP/1.1
 content-type: {{contentType}}
@@ -59,6 +64,15 @@ authorization: {{token}}
 ### Get rounds by dungeon"s id
 GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/rounds HTTP/1.1
 authorization: {{token}}
+
+### Create round by dungeon"s id
+POST {{host}}/maps/{{map}}/dungeons/{{dungeon}}/rounds HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "results": ["player"],
+    "created_at": "2021-04-15T07:50:56.000Z"
+}
 
 ### Get info by dungeon"s id
 GET {{host}}/maps/{{map}}/dungeons/{{dungeon}}/info HTTP/1.1
@@ -100,3 +114,7 @@ authorization: {{token}}
         }
     ]
 }
+
+### Get all stores items
+GET {{host}}/stores/items HTTP/1.1
+authorization: {{token}}
