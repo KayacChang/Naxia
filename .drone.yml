@@ -84,6 +84,9 @@ steps:
       local: true
       event:
         - push
+      ref:
+        include:
+          - refs/tags/*
 
   - name: deploy dev
     image: odaniait/aws-kubectl
