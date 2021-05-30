@@ -91,7 +91,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       id = requestAnimationFrame(update);
     });
     return () => cancelAnimationFrame(id);
-  }, [dispatch, setOrientation, setToolbarVisible, isToolbarVisible]);
+  }, [viewport, dispatch, setOrientation, setToolbarVisible, isToolbarVisible]);
 
   if (orientation === "portrait") {
     return createPortal(

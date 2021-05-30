@@ -1,6 +1,5 @@
-import { memo, useEffect } from "react";
+import React, { memo, useEffect, Component } from "react";
 import { Sprite } from "@inlet/react-pixi";
-
 import {
   useDungeons,
   useAppDispatch,
@@ -106,14 +105,17 @@ const LobbyView = memo(() => {
           screenWidth={width}
           screenHeight={height}
           mount={(viewport) => {
-            history.listen((location) => {
-              const match = matchPath(location.pathname, {
+            function updatePause() {
+              const match = matchPath(history.location.pathname, {
                 path: "/lobby",
                 exact: true,
               });
 
               viewport.pause = !Boolean(match);
-            });
+            }
+
+            updatePause();
+            history.listen(updatePause);
           }}
         >
           <Sprite texture={getAssets(`Map.${map.id}`)} />

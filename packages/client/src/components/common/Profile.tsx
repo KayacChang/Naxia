@@ -97,7 +97,6 @@ function History({ onClose }: HistoryProps) {
           <div className="w-1/12">投注內容</div>
           <div className="w-3/12">結果</div>
           <div className="w-1/12">有效投注</div>
-          <div className="w-1/12">截圖</div>
         </div>
 
         <div className="text-yellow-50 overflow-scroll pointer-events-auto h-60">
@@ -113,9 +112,6 @@ function History({ onClose }: HistoryProps) {
                 <span>{"+94.05"}</span>
               </div>
               <div className="w-1/12">{"99.00"}</div>
-              <div className="w-1/12">
-                <img src={Assets.Common.Avatar_Screen_Shot} alt="screen shot" />
-              </div>
             </div>
           ))}
         </div>
@@ -244,7 +240,7 @@ export function Profile() {
 
           <div className="absolute top-0 w-full pl-17 m-2 flex flex-col space-y-1">
             <h2 className="text-sm">{user.name}</h2>
-            <h3 className="text-xxs text-sonora">LV.{user.level}</h3>
+            <h3 className="text-xxs text-fansy">LV.{user.level}</h3>
           </div>
         </button>
       </div>

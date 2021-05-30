@@ -89,6 +89,8 @@ type RepositoryProps = {
 export default function Repository({ className }: RepositoryProps) {
   const items = useUserItem();
 
+  console.log(items);
+
   const filters = [
     { key: "all", label: "全部", cond: () => true },
     { key: "card", label: "卡牌", cond: () => true },

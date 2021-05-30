@@ -116,19 +116,23 @@ export interface RankingRecord {
   name: string;
   avatar: number;
   value: number;
+  rank: number;
 }
 
 export interface Ranking {
   achievement: {
     data: RankingRecord[];
     current: RankingRecord;
+    updated: string;
   };
   sp: {
     data: RankingRecord[];
     current: RankingRecord;
+    updated: string;
   };
   exp: {
     data: RankingRecord[];
     current: RankingRecord;
+    updated: string;
   };
 }

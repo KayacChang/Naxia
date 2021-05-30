@@ -365,5 +365,34 @@ export interface GetRankResponse {
   success: boolean;
 }
 export function getRank(token: string) {
-  return get<GetRankResponse>(API(`rank`), token).then(({ data }) => data);
+  return get<GetRankResponse>(API(`rank`), token)
+    .then(({ data }) => data)
+    .then(({ achievement, sp, exp }) => {
+      return {
+        achievement: {
+          data: achievement.data.map((record, index) => ({
+            ...record,
+            rank: index + 1,
+          })),
+          current: achievement.current,
+          updated: achievement["updated_time"],
+        },
+        sp: {
+          data: sp.data.map((record, index) => ({
+            ...record,
+            rank: index + 1,
+          })),
+          current: sp.current,
+          updated: sp["updated_time"],
+        },
+        exp: {
+          data: exp.data.map((record, index) => ({
+            ...record,
+            rank: index + 1,
+          })),
+          current: exp.current,
+          updated: exp["updated_time"],
+        },
+      };
+    });
 }

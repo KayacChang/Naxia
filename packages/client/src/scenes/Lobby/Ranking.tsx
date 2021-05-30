@@ -49,7 +49,9 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
 
           <p className="font-kai flex-1 mx-2">{userName}</p>
 
-          <p className="flex-1 flex justify-end">{currency(point)}</p>
+          <p className="flex-1 flex justify-end text-fansy">
+            {currency(point)}
+          </p>
         </div>
       </div>
     </div>
@@ -84,6 +86,7 @@ export default function Rank({ className }: RankingProps) {
 
   const data = ranking?.[active.key].data;
   const current = ranking?.[active.key].current;
+  const updated = ranking?.[active.key].updated;
 
   return (
     <>
@@ -111,7 +114,7 @@ export default function Rank({ className }: RankingProps) {
                 alt="ranking updateTime background"
               />
 
-              <div className="absolute">更新時間:2021/03/03</div>
+              <div className="absolute">更新時間: {updated?.split(" ")[0]}</div>
             </div>
           </nav>
 
@@ -123,7 +126,7 @@ export default function Rank({ className }: RankingProps) {
               {data?.map((user, index) => (
                 <RankingItem
                   key={user.name}
-                  rank={index + 1}
+                  rank={user.rank}
                   userName={user.name}
                   point={user.value}
                 />
@@ -135,7 +138,7 @@ export default function Rank({ className }: RankingProps) {
             {current && (
               <div className="absolute bottom-0 transform translate-y-full py-2 pl-6 pr-2">
                 <RankingItem
-                  rank={40}
+                  rank={current.rank}
                   userName={current.name}
                   point={current.value}
                 />
