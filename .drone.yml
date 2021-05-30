@@ -83,8 +83,8 @@ steps:
         - stg
         - master
       ref:
-        - refs/heads/*
-        - refs/tags/*
+        include:
+          - refs/tags/*
       local: true
       event:
         - push
