@@ -84,6 +84,7 @@ steps:
       local: true
       event:
         - push
+        - tag
       ref:
         include:
           - refs/tags/*
