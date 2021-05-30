@@ -64,7 +64,7 @@ type RankingProps = {
   className?: string;
 };
 
-export default function ({ className }: RankingProps) {
+export default function Rank({ className }: RankingProps) {
   const filters: Filter[] = [
     { key: "achievement", label: "成就排名" },
     { key: "sp", label: "SP排名" },

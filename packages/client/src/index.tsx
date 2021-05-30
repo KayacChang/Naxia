@@ -23,6 +23,9 @@ import Assets from "assets";
 import Sound from "assets/sound";
 import { Map as TMap } from "types";
 import invariant from "tiny-invariant";
+import GitInfo from "react-git-info/macro";
+
+document.title = `${GitInfo().tags.pop()}`;
 
 const Login = lazy(() =>
   Promise.all([
