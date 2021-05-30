@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import clsx from "clsx";
 import { UI, Game } from "layers";
 import { ReactNode, useEffect, useState, FormEvent, useCallback } from "react";

@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { CircleLayout, Radian } from "components";
 import Assets from "assets";
 

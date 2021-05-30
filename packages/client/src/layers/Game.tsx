@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Canvas } from "components";

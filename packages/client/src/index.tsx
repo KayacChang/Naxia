@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { lazy, StrictMode, Suspense } from "react";
 import { unstable_createRoot } from "react-dom";
 import { Provider } from "react-redux";
@@ -26,7 +25,7 @@ import { Map as TMap } from "types";
 import invariant from "tiny-invariant";
 import GitInfo from "react-git-info/macro";
 
-document.title = `${GitInfo().tags.pop()}`;
+document.title = `${GitInfo().tags[0]}`;
 
 const Login = lazy(() =>
   Promise.all([

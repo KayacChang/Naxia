@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";

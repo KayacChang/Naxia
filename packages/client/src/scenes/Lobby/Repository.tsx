@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { Item } from "types";
 import { useState } from "react";
 import { Modal, Tab } from "components";
@@ -89,6 +88,8 @@ type RepositoryProps = {
 };
 export default function Repository({ className }: RepositoryProps) {
   const items = useUserItem();
+
+  console.log(items);
 
   const filters = [
     { key: "all", label: "全部", cond: () => true },

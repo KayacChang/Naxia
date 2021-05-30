@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { CSSProperties, ReactNode, useRef } from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";

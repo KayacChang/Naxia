@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import Assets from "assets";
 import { UI } from "layers";
 

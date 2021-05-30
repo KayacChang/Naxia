@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import clsx from "clsx";
 import Assets from "assets";
 import { Tab, Modal, Button } from "components";

@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import anime from "animejs";
 import Assets from "assets";
 import { useEffect, useState } from "react";

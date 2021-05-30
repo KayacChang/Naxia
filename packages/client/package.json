@@ -73,7 +73,6 @@
     "@types/webpack-env": "^1.16.0",
     "@whiterussianstudio/tailwind-easing": "^1.0.0",
     "autoprefixer": "^9.8.6",
-    "craco-esbuild": "^0.3.2",
     "file-loader": "^6.2.0",
     "postcss": "^7",
     "react-scripts": "^4.0.3",

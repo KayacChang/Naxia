@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { ReactNode, useLayoutEffect, useState } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, useAppDispatch, useAppSelector } from "system";
@@ -92,7 +91,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       id = requestAnimationFrame(update);
     });
     return () => cancelAnimationFrame(id);
-  }, [dispatch, setOrientation, setToolbarVisible, isToolbarVisible]);
+  }, [viewport, dispatch, setOrientation, setToolbarVisible, isToolbarVisible]);
 
   if (orientation === "portrait") {
     return createPortal(
