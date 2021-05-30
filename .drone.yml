@@ -71,7 +71,6 @@ steps:
       tags:
       #  - ${DRONE_BRANCH}
         - dev
-        - ${DRONE_TAG##v}
         - ${DRONE_BUILD_NUMBER}
       access_key:
         from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
@@ -82,13 +81,9 @@ steps:
         - dev
         - stg
         - master
-      ref:
-        include:
-          - refs/tags/*
       local: true
       event:
         - push
-        - tag
 
   - name: deploy dev
     image: odaniait/aws-kubectl
@@ -108,10 +103,6 @@ steps:
     when:
       branch:
         - dev
-      ref:
-        - refs/heads/*
-        - refs/tags/*
       local: true
       event:
         - push
-        - tag
