@@ -4,7 +4,7 @@ services:
   app:
     build: ./
     environment:
-      - REACT_APP_API=http://localhost:5000:3001
-      - REACT_APP_WS=ws://localhost:5000:3002
+      - REACT_APP_API=https://naxia-dev.sevenone.online:3001
+      - REACT_APP_WS=ws://naxia-dev.sevenone.online/:3002
     ports:
       - 8080:8080
