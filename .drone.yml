@@ -83,7 +83,8 @@ steps:
         - stg
         - master
       ref:
-        - refs/tags/v*
+        include:
+          - refs/tags/v*
       local: true
       event:
         - push
@@ -107,7 +108,8 @@ steps:
       branch:
         - dev
       ref:
-        - refs/tags/v*
+        include:
+          - refs/tags/v*
       local: true
       event:
         - push
