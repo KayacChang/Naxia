@@ -88,6 +88,7 @@ steps:
       local: true
       event:
         - push
+        - tag
 
   - name: deploy dev
     image: odaniait/aws-kubectl
