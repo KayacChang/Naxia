@@ -1,9 +1,11 @@
 import anime from "animejs";
 import Assets from "assets";
 import { useEffect, useState } from "react";
+import { useRouteMatch } from "react-router-dom";
 import { useNPC } from "system";
 
 export default function NPC() {
+  const isStore = useRouteMatch("/lobby/store");
   const { img, name, dialog } = useNPC();
   const [current, setCurrent] = useState(0);
 
@@ -15,6 +17,8 @@ export default function NPC() {
 
     return () => void clearInterval(id);
   }, [dialog.length, setCurrent]);
+
+  if (isStore?.isExact) return <></>;
 
   return (
     <div className="flex-1 relative px-2 flex items-end">

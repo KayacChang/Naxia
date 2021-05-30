@@ -30,12 +30,10 @@ import NPC from "./NPC";
 
 import Store from "./Store";
 import Sound from "assets/sound";
-import { useRouteMatch } from "react-router";
+import { matchPath, useHistory } from "react-router";
 import { DungeonDetail } from "./Map";
 
 const LobbyUI = memo(() => {
-  const isStore = useRouteMatch("/lobby/store");
-
   return (
     <UI className="flex flex-col">
       <header className="h-12 relative">
@@ -47,7 +45,7 @@ const LobbyUI = memo(() => {
       </header>
 
       <main className="flex-1 flex justify-end">
-        {isStore?.isExact || <NPC />}
+        <NPC />
 
         <Switch>
           <Route exact path="/lobby">
@@ -55,15 +53,7 @@ const LobbyUI = memo(() => {
 
             <DungeonDetail />
 
-            {/* {dungeon && (
-            <Modal className="z-20">
-              {!dungeon.lock ? (
-                <DungeonDetail
-                  mapID={map.id}
-                  dungeonID={dungeon.id}
-                  onCancel={() => setDungeon(undefined)}
-                />
-              ) : (
+            {/*
                 <DungeonCondition
                   mapID={map.id}
                   dungeonID={dungeon.id}
@@ -74,9 +64,7 @@ const LobbyUI = memo(() => {
                   }}
                   onCancel={() => setDungeon(undefined)}
                 />
-              )}
-            </Modal>
-          )} */}
+          */}
           </Route>
 
           <Route path="/lobby/repository">
@@ -109,11 +97,25 @@ const LobbyView = memo(() => {
   const map = useMap();
   const dungeons = useDungeons();
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   return (
     <>
       <Game>
-        <Camera screenWidth={width} screenHeight={height}>
+        <Camera
+          screenWidth={width}
+          screenHeight={height}
+          mount={(viewport) => {
+            history.listen((location) => {
+              const match = matchPath(location.pathname, {
+                path: "/lobby",
+                exact: true,
+              });
+
+              viewport.pause = !Boolean(match);
+            });
+          }}
+        >
           <Sprite texture={getAssets(`Map.${map.id}`)} />
 
           {dungeons.map((dungeon) => (

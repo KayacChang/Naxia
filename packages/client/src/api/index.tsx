@@ -10,6 +10,7 @@ import {
   SkillSet,
   SkillOption,
   NPC,
+  Ranking,
 } from "types";
 
 const API = (...paths: string[]) =>
@@ -353,7 +354,16 @@ export interface GetStoreItemsResponse {
   success: boolean;
 }
 export function getStoreItems(token: string): Promise<DungeonInfo> {
+  // TODO
   return get<GetInfoByDungeonIDResponse>(API(`stores/items`), token)
     .then(({ data }) => data)
     .then();
+}
+
+export interface GetRankResponse {
+  data: Ranking;
+  success: boolean;
+}
+export function getRank(token: string) {
+  return get<GetRankResponse>(API(`rank`), token).then(({ data }) => data);
 }

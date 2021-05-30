@@ -111,3 +111,24 @@ export interface ItemDataProps {
   cardCurrentNumber: number;
   cardTotalNumber: number;
 }
+
+export interface RankingRecord {
+  name: string;
+  avatar: number;
+  value: number;
+}
+
+export interface Ranking {
+  achievement: {
+    data: RankingRecord[];
+    current: RankingRecord;
+  };
+  sp: {
+    data: RankingRecord[];
+    current: RankingRecord;
+  };
+  exp: {
+    data: RankingRecord[];
+    current: RankingRecord;
+  };
+}

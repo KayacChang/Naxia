@@ -1,69 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { Tab } from "components";
-
-const fakeUser = [
-  {
-    rank: 1,
-    username: "test1",
-    point: 1232,
-  },
-  {
-    rank: 2,
-    username: "test2",
-    point: 12321,
-  },
-  {
-    rank: 3,
-    username: "test3",
-    point: 23321,
-  },
-  {
-    rank: 4,
-    username: "test4",
-    point: 2232,
-  },
-  {
-    rank: 5,
-    username: "test5",
-    point: 232,
-  },
-  {
-    rank: 6,
-    username: "test6",
-    point: 32,
-  },
-  {
-    rank: 7,
-    username: "test7",
-    point: 565,
-  },
-  {
-    rank: 8,
-    username: "test8",
-    point: 6654,
-  },
-  {
-    rank: 9,
-    username: "test9",
-    point: 555555,
-  },
-];
-
-function splitRankNumber(rank: number) {
-  return String(rank).split("");
-}
-
-function formatPoint(point: number): string {
-  return String(point)
-    .split("")
-    .reverse()
-    .map((char, index) => (index !== 0 && index % 3 === 0 ? [",", char] : char))
-    .flat()
-    .reverse()
-    .join("");
-}
+import { currency } from "utils";
+import { getRank } from "api";
+import { selectToken, useAppSelector } from "system";
+import invariant from "tiny-invariant";
+import { Ranking } from "types";
 
 type RankingItemProps = {
   rank: number;
@@ -79,7 +22,7 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
       />
 
       <div className="absolute top-0 w-full h-full">
-        <div className="relative w-full h-full flex items-center">
+        <div className="relative w-full h-full flex items-center pr-3">
           <div className="absolute w-10 transform -translate-x-1/2">
             <img
               src={
@@ -90,61 +33,57 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
               alt="Ranking"
             />
           </div>
+
+          <div className="relative w-7 ml-5 flex justify-center items-center">
+            <img
+              src={Assets.Lobby.Ranking_Avatar_Background}
+              alt="background"
+            />
+
+            <img
+              className="absolute w-full p-0.5"
+              src={Assets.Lobby.Ranking_Avatar}
+              alt="avatar"
+            />
+          </div>
+
+          <p className="font-kai flex-1 mx-2">{userName}</p>
+
+          <p className="flex-1 flex justify-end">{currency(point)}</p>
         </div>
       </div>
-
-      {/* <div className="absolute w-10 h-full top-0 left-0 transform -translate-x-1/2 flex justify-center items-center">
-
-        {rank > 3 && (
-          <div className="absolute flex transform -translate-y-1">
-            {splitRankNumber(rank).map((char) => (
-              <img
-                key={`${char} in ${rank}`}
-                className="w-2"
-                src={Assets.Lobby[`Ranking_Number${char}`]}
-                alt="Ranking"
-              />
-            ))}
-          </div>
-        )}
-      </div> */}
-
-      {/* <div className="absolute w-7 top-1/2 transform -translate-y-1/2 left-6 flex justify-center items-center">
-        <img
-          className="absolute"
-          src={Assets.Lobby.Ranking_Avatar_Background}
-          alt="background"
-        />
-
-        <img
-          className="absolute"
-          src={Assets.Lobby.Ranking_Avatar}
-          alt="avatar"
-        />
-      </div>
-
-      <div className="absolute font-kai top-1/2 transform -translate-y-1/2 left-16">
-        {userName}
-      </div>
-
-      <div className="absolute top-1/2 transform -translate-y-1/2 left-56 text-fansy flex justify-center items-center">
-        {formatPoint(point)}
-      </div> */}
     </div>
   );
 }
 
+type Filter = {
+  key: "achievement" | "sp" | "exp";
+  label: string;
+};
 type RankingProps = {
   className?: string;
 };
 
-export default function Ranking({ className }: RankingProps) {
-  const filters = [
-    { key: "achievement", label: "成就排名", cond: () => true },
-    { key: "sp", label: "SP排名", cond: () => true },
-    { key: "exp", label: "Exp排名", cond: () => true },
+export default function ({ className }: RankingProps) {
+  const filters: Filter[] = [
+    { key: "achievement", label: "成就排名" },
+    { key: "sp", label: "SP排名" },
+    { key: "exp", label: "Exp排名" },
   ];
   const [active, setActive] = useState(filters[0]);
+
+  const [ranking, setRanking] = useState<Ranking>();
+
+  const token = useAppSelector(selectToken);
+
+  useEffect(() => {
+    invariant(token, "Unauthorization");
+
+    getRank(token).then(setRanking);
+  }, [token]);
+
+  const data = ranking?.[active.key].data;
+  const current = ranking?.[active.key].current;
 
   return (
     <>
@@ -176,24 +115,33 @@ export default function Ranking({ className }: RankingProps) {
             </div>
           </nav>
 
-          <div className="relative flex-1 overflow-scroll pointer-events-auto">
-            <div className="w-full h-full space-y-2 py-2 pl-8 pr-2">
-              {fakeUser.map((user) => (
+          <div className="relative flex-1">
+            <div
+              className="w-full space-y-2 py-2 pl-6 pr-2 overflow-scroll pointer-events-auto"
+              style={{ height: `9.5rem` }}
+            >
+              {data?.map((user, index) => (
                 <RankingItem
-                  key={user.rank}
-                  rank={user.rank}
-                  userName={user.username}
-                  point={user.point}
+                  key={user.name}
+                  rank={index + 1}
+                  userName={user.name}
+                  point={user.value}
                 />
               ))}
             </div>
 
             <div className="absolute bottom-0 w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75"></div>
-          </div>
 
-          {/* <div className="absolute bottom-0 transform -translate-y-7 pl-8 pr-10">
-            <RankingItem rank={40} userName={"current user"} point={12312} />
-          </div> */}
+            {current && (
+              <div className="absolute bottom-0 transform translate-y-full py-2 pl-6 pr-2">
+                <RankingItem
+                  rank={40}
+                  userName={current.name}
+                  point={current.value}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </article>
     </>

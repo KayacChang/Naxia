@@ -1,7 +1,7 @@
 import { Viewport as _Viewport } from "pixi-viewport";
 import { PixiComponent, Container, applyDefaultProps } from "@inlet/react-pixi";
 import { Container as TContainer } from "@pixi/display";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 const viewport = new _Viewport();
 
@@ -18,7 +18,7 @@ const Viewport = PixiComponent<ViewportProps, _Viewport>("Viewport", {
 
     return viewport;
   },
-  didMount: (viewport, parent) => {
+  didMount: (viewport) => {
     const root = viewport.children[0] as TContainer;
     viewport.worldWidth = root.width;
     viewport.worldHeight = root.height;
@@ -35,12 +35,28 @@ const Viewport = PixiComponent<ViewportProps, _Viewport>("Viewport", {
   },
 });
 
-type CameraProps = ViewportProps & {
+type CameraProps = {
+  screenWidth: number;
+  screenHeight: number;
   children: ReactNode;
+  mount?: (viewport: _Viewport) => void;
+  unmount?: (viewport: _Viewport) => void;
 };
-export function Camera({ children, ...props }: CameraProps) {
+export function Camera({ children, mount, unmount, ...props }: CameraProps) {
+  const ref = useRef<_Viewport>(null);
+
+  useEffect(() => {
+    const current = ref.current;
+
+    if (!current) return;
+
+    mount?.(current);
+
+    return () => void unmount?.(current);
+  }, [mount, unmount]);
+
   return (
-    <Viewport {...props}>
+    <Viewport {...props} ref={ref}>
       <Container>{children}</Container>
     </Viewport>
   );
