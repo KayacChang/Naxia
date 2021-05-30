@@ -82,10 +82,11 @@ steps:
         - dev
         - stg
         - master
+      ref:
+        - refs/tags/v*
       local: true
       event:
         - push
-        - tag
 
   - name: deploy dev
     image: odaniait/aws-kubectl
@@ -105,6 +106,8 @@ steps:
     when:
       branch:
         - dev
+      ref:
+        - refs/tags/v*
       local: true
       event:
         - push
