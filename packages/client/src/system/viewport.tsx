@@ -6,6 +6,15 @@ import { throttle } from "utils";
 import Assets from "assets";
 import { createPortal } from "react-dom";
 
+export function isChrome() {
+  const userAgent = window.navigator.userAgent;
+  return /Chrome/i.test(userAgent) || /CriOS/i.test(userAgent);
+}
+
+export function isIOS() {
+  return window.navigator.platform.match(/iPad|iPhone|iPod/i);
+}
+
 export function getOrientation(): "portrait" | "landscape" {
   const mql = window.matchMedia("(orientation: portrait)");
 
@@ -13,17 +22,14 @@ export function getOrientation(): "portrait" | "landscape" {
 }
 
 export function getViewPort(ratio = 16 / 9) {
-  const height = window.innerHeight;
+  const height = Math.min(window.screen.width, window.screen.height);
+
+  const width = height * ratio;
 
   return {
-    width: height * ratio,
+    width,
     height,
   };
-}
-
-export function isChrome() {
-  const userAgent = window.navigator.userAgent;
-  return /Chrome/i.test(userAgent) || /CriOS/i.test(userAgent);
 }
 
 export function isBarOpen() {
@@ -70,19 +76,22 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       if (!Map(cur).equals(Map(viewport))) {
         dispatch(viewportSlice.actions.update(cur));
       }
-
       setOrientation(getOrientation());
       setToolbarVisible(isBarOpen());
     });
 
+    if (!isToolbarVisible) {
+      window.addEventListener("resize", refresh);
+
+      return () => window.removeEventListener("resize", refresh);
+    }
+
     let id = requestAnimationFrame(function update() {
       refresh();
-
       id = requestAnimationFrame(update);
     });
-
     return () => cancelAnimationFrame(id);
-  }, [dispatch, viewport, setOrientation, setToolbarVisible]);
+  }, [dispatch, setOrientation, setToolbarVisible, isToolbarVisible]);
 
   if (orientation === "portrait") {
     return createPortal(
