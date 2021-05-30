@@ -1,3 +1,4 @@
+import React from "react";
 import Assets from "assets";
 import { useMap } from "system";
 

@@ -1,3 +1,4 @@
+import React from "react";
 import { Viewport as _Viewport } from "pixi-viewport";
 import { PixiComponent, Container, applyDefaultProps } from "@inlet/react-pixi";
 import { Container as TContainer } from "@pixi/display";

@@ -2,10 +2,10 @@ FROM node:alpine AS build
 
 WORKDIR /app
 
-COPY . .
+COPY packages/client .
 
 # for git version taging
-COPY ../.git .
+COPY ../../.git .
 
 RUN apk add git
 
@@ -13,7 +13,9 @@ RUN yarn install && yarn build
 
 FROM steebchen/nginx-spa:stable
 
-COPY --from=build /app/build /app
+WORKDIR /app
+COPY ../../.git .
+COPY --from=build /app/build .
 
 EXPOSE 80
 

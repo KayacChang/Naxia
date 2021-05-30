@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { ReactNode } from "react";
+import clsx from "clsx";
 
 type BaseButtonProps = {
   className?: string;
