@@ -4,11 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-# for git version taging
-COPY ../.git .
-
-RUN apk add git
-
 RUN yarn install && yarn build
 
 FROM steebchen/nginx-spa:stable

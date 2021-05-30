@@ -1,3 +1,4 @@
+import React from "react";
 import { Container } from "@inlet/react-pixi";
 import { SkeletonData, Spine as _Spine } from "@pixi-spine/runtime-3.8";
 import { ComponentProps, memo, useEffect, useRef } from "react";

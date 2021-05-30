@@ -1,3 +1,4 @@
+import React from "react";
 import { CircleLayout, Radian } from "components";
 import Assets from "assets";
 

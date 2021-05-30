@@ -1,3 +1,4 @@
+import React from "react";
 import { join } from "path";
 
 export function assets(src: string) {

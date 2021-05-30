@@ -1,3 +1,4 @@
+import React from "react";
 import { ReactNode, useEffect, useRef } from "react";
 import { Application, UPDATE_PRIORITY, IApplicationOptions } from "pixi.js";
 import { render } from "@inlet/react-pixi";
