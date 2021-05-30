@@ -1,17 +1,20 @@
-FROM node:14-alpine
+FROM node:alpine AS build
 
-RUN npm install -g http-server
-
-WORKDIR /
-
-COPY package*.json ./
-
-RUN yarn install
+WORKDIR /app
 
 COPY . .
 
-RUN yarn run build
+# for git version taging
+COPY ../.git .
+
+RUN apk add git
+
+RUN yarn install && yarn build
+
+FROM steebchen/nginx-spa:stable
+
+COPY --from=build /app/build /app
 
 EXPOSE 80
 
-CMD [ "http-server", "build" ]
+CMD ["nginx"]
