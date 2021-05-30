@@ -73,22 +73,28 @@ type RankingItemProps = {
 };
 function RankingItem({ rank, userName, point }: RankingItemProps) {
   return (
-    <div className="relative mb-2 text-white text-xs">
+    <div className="relative text-white text-xs">
       <img
         src={Assets.Lobby.Ranking_Item_Background}
         alt="ranking item background"
       />
 
-      <div className="absolute w-10 h-full top-0 left-0 transform -translate-x-1/2 flex justify-center items-center">
-        <img
-          className={clsx(`absolute`, rank > 3 && "w-8")}
-          src={
-            rank > 3
-              ? Assets.Lobby.Ranking_OtherNo
-              : Assets.Lobby[`Ranking_No${rank}`]
-          }
-          alt="Ranking"
-        />
+      <div className="absolute top-0 w-full h-full">
+        <div className="relative w-full h-full flex items-center">
+          <div className="absolute w-10 transform -translate-x-1/2">
+            <img
+              src={
+                rank > 3
+                  ? Assets.Lobby.Ranking_OtherNo
+                  : Assets.Lobby[`Ranking_No${rank}`]
+              }
+              alt="Ranking"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="absolute w-10 h-full top-0 left-0 transform -translate-x-1/2 flex justify-center items-center">
 
         {rank > 3 && (
           <div className="absolute flex transform -translate-y-1">
@@ -102,9 +108,9 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
 
-      <div className="absolute w-7 top-1/2 transform -translate-y-1/2 left-6 flex justify-center items-center">
+      {/* <div className="absolute w-7 top-1/2 transform -translate-y-1/2 left-6 flex justify-center items-center">
         <img
           className="absolute"
           src={Assets.Lobby.Ranking_Avatar_Background}
@@ -124,7 +130,7 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
 
       <div className="absolute top-1/2 transform -translate-y-1/2 left-56 text-fansy flex justify-center items-center">
         {formatPoint(point)}
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -146,9 +152,9 @@ export default function Ranking({ className }: RankingProps) {
       <article className={clsx("relative", className)}>
         <img src={Assets.Lobby.Ranking_Background} alt="ranking background" />
 
-        <div className="absolute top-0 w-full h-full pt-10 pb-17 px-8">
+        <div className="absolute top-0 w-full h-full pt-10 pb-18 px-8 flex flex-col">
           <nav className="relative flex justify-between">
-            <div>
+            <div className="flex">
               {filters.map((tab) => (
                 <Tab
                   key={tab.key}
@@ -171,22 +177,24 @@ export default function Ranking({ className }: RankingProps) {
             </div>
           </nav>
 
-          <div className="relative pl-8 pr-2 h-5/6 overflow-y-scroll pointer-events-auto">
-            {fakeUser.map((user) => (
-              <RankingItem
-                key={user.rank}
-                rank={user.rank}
-                userName={user.username}
-                point={user.point}
-              />
-            ))}
+          <div className="relative flex-1 overflow-scroll pointer-events-auto">
+            <div className="w-full h-full space-y-2 py-2 pl-8 pr-2">
+              {fakeUser.map((user) => (
+                <RankingItem
+                  key={user.rank}
+                  rank={user.rank}
+                  userName={user.username}
+                  point={user.point}
+                />
+              ))}
+            </div>
+
+            <div className="absolute bottom-0 w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75"></div>
           </div>
 
-          <div className="w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75 transform -translate-y-6"></div>
-
-          <div className="absolute bottom-0 transform -translate-y-7 pl-8 pr-10">
+          {/* <div className="absolute bottom-0 transform -translate-y-7 pl-8 pr-10">
             <RankingItem rank={40} userName={"current user"} point={12312} />
-          </div>
+          </div> */}
         </div>
       </article>
     </>

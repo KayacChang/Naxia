@@ -6,7 +6,6 @@ import {
   Effect,
   selectRoomStatusCurrent,
 } from "system";
-import { wait } from "utils";
 import Assets from "assets";
 import { Item, RoomStatus } from "types";
 import { useEffect, useState } from "react";
@@ -49,16 +48,18 @@ export default function GameResult() {
 
   useEffect(() => {
     if (status === RoomStatus.Result) {
-      wait(3000).then(() => {
+      const id = setTimeout(() => {
         setSkip(false);
 
         dispatch(Effect.play(Sound.Room.Reward));
-      });
+      }, 3000);
 
-      return;
+      return () => void clearTimeout(id);
     }
 
     setSkip(true);
+
+    return;
   }, [status, dispatch, setSkip]);
 
   if (skip) {

@@ -5,6 +5,6 @@ services:
     build: ./
     environment:
       - REACT_APP_API=https://naxia-dev.sevenone.online/api/v1/
-      - REACT_APP_WS=wss://naxia-dev.sevenone.online/wsapi      
+      - REACT_APP_WS=wss://naxia-dev.sevenone.online/wsapi
     ports:
       - 8080:8080

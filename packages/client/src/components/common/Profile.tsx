@@ -4,7 +4,7 @@ import { useState, ReactNode } from "react";
 import Assets from "assets";
 import { range } from "ramda";
 import { User } from "types";
-import { useAppDispatch, user as UserSystem } from "system";
+import { useAppDispatch, user as UserSystem, useUser } from "system";
 import { format } from "date-fns";
 
 const AvatarList = {
@@ -219,11 +219,11 @@ function Detail({ user, onClose }: DetailProps) {
   );
 }
 
-type ProfileProps = {
-  user: User;
-};
-export function Profile({ user }: ProfileProps) {
+export function Profile() {
+  const user = useUser();
   const [isPersonalInfoOpen, setPersonalInfoOpen] = useState(false);
+
+  if (!user) return <></>;
 
   return (
     <>
@@ -245,7 +245,7 @@ export function Profile({ user }: ProfileProps) {
 
           <div className="absolute top-0 w-full pl-17 m-2 flex flex-col space-y-1">
             <h2 className="text-sm">{user.name}</h2>
-            <h3 className="text-xxs text-fansy">LV.{user.level}</h3>
+            <h3 className="text-xxs text-sonora">LV.{user.level}</h3>
           </div>
         </button>
       </div>

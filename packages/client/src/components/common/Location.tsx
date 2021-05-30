@@ -1,10 +1,10 @@
 import React, { Component }  from 'react';
 import Assets from "assets";
+import { useMap } from "system";
 
-type LocationProps = {
-  value: string;
-};
-export function Location({ value }: LocationProps) {
+export function Location() {
+  const map = useMap();
+
   return (
     <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
       <div className="relative w-52 text-white flex justify-center items-center">
@@ -13,7 +13,7 @@ export function Location({ value }: LocationProps) {
         </div>
 
         <h1 className="absolute font-kai text-xl text-fansy tracking-widest">
-          {value}
+          {map.name}
         </h1>
       </div>
     </div>
