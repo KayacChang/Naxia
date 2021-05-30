@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { Sprite, Container, Text } from "@inlet/react-pixi";

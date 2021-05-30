@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import { useEffect } from "react";
 import { useAppDispatch, BGM, room } from "system";
 import { Game, UI } from "layers";
