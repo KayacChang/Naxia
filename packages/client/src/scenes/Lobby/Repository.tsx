@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Modal, Tab } from "components";
 import clsx from "clsx";
 import Assets from "assets";
+import { useUserItem } from "system";
 
 function qualityCheck(quality: number) {
   // 這裡要重新設定 quality 對應 顏色
@@ -85,9 +86,10 @@ function Detail({ name, img, point, quality, description }: DetailProps) {
 
 type RepositoryProps = {
   className?: string;
-  items: Item[];
 };
-export default function Repository({ className, items }: RepositoryProps) {
+export default function Repository({ className }: RepositoryProps) {
+  const items = useUserItem();
+
   const filters = [
     { key: "all", label: "全部", cond: () => true },
     { key: "card", label: "卡牌", cond: () => true },
@@ -123,7 +125,7 @@ export default function Repository({ className, items }: RepositoryProps) {
             />
 
             <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
-              {items.filter(active.cond).map((item) => (
+              {items?.filter(active.cond).map((item) => (
                 <ItemGrid
                   key={item.id}
                   {...item}

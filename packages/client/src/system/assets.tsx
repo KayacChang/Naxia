@@ -8,6 +8,7 @@ import {
 } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "system";
 import { Tasks } from "types";
+import { wait } from "utils";
 
 SpineParser.registerLoaderPlugin();
 
@@ -58,6 +59,10 @@ export const addAssets = createAsyncThunk<
 >("assets/add", async (tasks, { getState }) => {
   const newTasks = selectNotLoadedTasks(getState(), tasks);
 
+  while (loader.loading) {
+    await wait(300);
+  }
+
   await new Promise<void>((resolve) => loader.add(newTasks).load(resolve));
 
   return newTasks;
@@ -92,7 +97,7 @@ const slice = createSlice({
 export const selectAssets = (state: RootState) => state.assets;
 export const selectAssetIsLoading = (state: RootState) => state.assets.loading;
 
-function getAssets(name: string) {
+export function getAssets(name: string) {
   const existed = name in loader.resources;
 
   if (!existed) throw new Error(`resource name: ${name} not existed`);
