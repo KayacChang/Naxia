@@ -1,6 +1,6 @@
 {
   "name": "@kayac/naxia-client",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "dependencies": {
     "@inlet/react-pixi": "^6.5.2",
@@ -30,6 +30,7 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
+    "predev": "./update.sh",
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test"

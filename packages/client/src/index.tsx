@@ -24,9 +24,6 @@ import Assets from "assets";
 import Sound from "assets/sound";
 import { Map as TMap } from "types";
 import invariant from "tiny-invariant";
-import { version } from "../package.json";
-
-document.title = `${version}`;
 
 const Login = lazy(() =>
   Promise.all([
