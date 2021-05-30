@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import {
   getAllDungeonsInMap,
   getAllMaps,
@@ -8,8 +12,7 @@ import {
   getRoundsByDungeonID,
   unlock,
 } from "api";
-import { useEffect, useMemo } from "react";
-import { AppDispatch, RootState, useAppDispatch, useAppSelector } from "system";
+import { AppDispatch, RootState, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import {
   Condition,
@@ -31,23 +34,22 @@ export const Map = {
       return getAllMaps(token);
     }
   ),
-  npc: createAsyncThunk<
-    { [id: string]: NPC },
-    { mapID: number },
-    { state: RootState }
-  >("map/npc", async ({ mapID }, { getState }) => {
-    const token = selectToken(getState());
-    invariant(token, "Unauthorized");
+  npc: createAsyncThunk<{ [id: string]: NPC }, number, { state: RootState }>(
+    "map/npc",
+    async (mapID, { getState }) => {
+      const token = selectToken(getState());
+      invariant(token, "Unauthorized");
 
-    const npc = await getNPCInMap(token, mapID);
+      const npc = await getNPCInMap(token, mapID);
 
-    return { [mapID]: npc };
-  }),
+      return { [mapID]: npc };
+    }
+  ),
   dungeons: createAsyncThunk<
     { [id: string]: IDungeon },
-    { mapID: number },
+    number,
     { state: RootState }
-  >("map/dungeons", async ({ mapID }, { getState }) => {
+  >("map/dungeons", async (mapID, { getState }) => {
     const token = selectToken(getState());
     invariant(token, "Unauthorized");
 
@@ -90,9 +92,27 @@ export const Dungeon = {
 
       await unlock(token, mapID, dungeonID);
 
-      await dispatch(Map.dungeons({ mapID }));
+      await dispatch(Map.dungeons(mapID));
     }
   ),
+  open: createAsyncThunk<
+    number,
+    number,
+    { state: RootState; dispatch: AppDispatch }
+  >("map/dungeon/open", async (dungeonID, { getState, dispatch }) => {
+    const map = selectCurrentMap(getState());
+
+    const target = selectDungeonInfos(getState(), map.id, dungeonID);
+
+    if (!target) {
+      await dispatch(Dungeon.get({ mapID: map.id, dungeonID }));
+    }
+
+    return dungeonID;
+  }),
+  close: createAsyncThunk("map/dungeon/close", () => {
+    return;
+  }),
 };
 
 export type TDungeon = {
@@ -103,15 +123,21 @@ export type TDungeon = {
 
 type MapState = {
   npc: { [id: string]: NPC };
+  currentMap: number;
   maps: TMap[];
   dungeons: { [id: string]: IDungeon };
+
+  currentDungeon?: number;
   dungeonInfos: { [id: string]: TDungeon };
 };
 
 const initialState: MapState = {
   npc: {},
+  currentMap: 0,
   maps: [],
+
   dungeons: {},
+  currentDungeon: undefined,
   dungeonInfos: {},
 };
 
@@ -132,76 +158,73 @@ const mapSlice = createSlice({
       })
       .addCase(Dungeon.get.fulfilled, (state, { payload }) => {
         state.dungeonInfos = { ...state.dungeonInfos, ...payload };
+      })
+      .addCase(Dungeon.open.fulfilled, (state, { payload }) => {
+        state.currentDungeon = payload;
+      })
+      .addCase(Dungeon.close.fulfilled, (state) => {
+        state.currentDungeon = undefined;
       });
   },
 });
 
+export const selectDungeonInfos = (
+  state: RootState,
+  mapID?: number,
+  dungeonID?: number
+) =>
+  mapID && dungeonID
+    ? state.map.dungeonInfos[`${mapID}.${dungeonID}`]
+    : undefined;
+
+export const selectCurrentMap = (state: RootState) =>
+  state.map.maps[state.map.currentMap];
+
+export const selectCurrentDungeon = (state: RootState) =>
+  state.map.currentDungeon;
+
 const selectMaps = (state: RootState) => state.map.maps;
-const selectDungeons = (state: RootState) => state.map.dungeons;
-const selectDungeonInfos = (state: RootState) => state.map.dungeonInfos;
-const selectNPC = (state: RootState) => state.map.npc;
+
+const selectNPC = (state: RootState) =>
+  state.map.npc[selectCurrentMap(state).id];
+
+const selectDungeons = createSelector(
+  [
+    (state: RootState) => state.map.dungeons,
+    (_: RootState, mapID: number) => mapID,
+  ],
+  (dungeons, mapID) =>
+    Object.entries(dungeons)
+      .filter(([key]) => key.split(".")[0] === String(mapID))
+      .map(([, dungeon]) => dungeon)
+);
 
 export default mapSlice.reducer;
 
 export function useMaps() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(Map.all());
-  }, [dispatch]);
-
   const maps = useAppSelector(selectMaps);
 
   return maps.length ? maps : undefined;
 }
 
-export function useNPC(mapID?: number) {
-  const dispatch = useAppDispatch();
-  const map = useAppSelector(selectNPC);
-
-  useEffect(() => {
-    if (!mapID) return;
-
-    dispatch(Map.npc({ mapID }));
-  }, [dispatch, mapID]);
-
-  if (!mapID) return;
-
-  return map[mapID];
+export function useMap() {
+  return useAppSelector(selectCurrentMap);
 }
 
-export function useDungeons(mapID?: number) {
-  const dispatch = useAppDispatch();
-  const dungeons = useAppSelector(selectDungeons);
-
-  useEffect(() => {
-    if (!mapID) return;
-
-    dispatch(Map.dungeons({ mapID }));
-  }, [dispatch, mapID]);
-
-  if (!mapID) return;
-
-  return Object.entries(dungeons)
-    .filter(([key]) => key.split(".")[0] === String(mapID))
-    .map(([, dungeon]) => dungeon);
+export function useNPC() {
+  return useAppSelector(selectNPC);
 }
 
-export function useDungeon(mapID?: number, dungeonID?: number) {
-  const dispatch = useAppDispatch();
-  const dungeons = useAppSelector(selectDungeonInfos);
+export function useDungeons() {
+  const map = useAppSelector(selectCurrentMap);
+  return useAppSelector((state) => selectDungeons(state, map.id));
+}
 
-  useEffect(() => {
-    if (!mapID || !dungeonID) return;
+export function useDungeon() {
+  const map = useAppSelector(selectCurrentMap);
+  const dungeonID = useAppSelector(selectCurrentDungeon);
 
-    dispatch(Dungeon.get({ mapID, dungeonID }));
-  }, [mapID, dungeonID, dispatch]);
-
-  const dungeon = useMemo(() => {
-    if (!mapID || !dungeonID) return;
-
-    return dungeons[`${mapID}.${dungeonID}`];
-  }, [mapID, dungeonID, dungeons]);
-
-  return dungeon;
+  return useAppSelector((state) =>
+    selectDungeonInfos(state, map.id, dungeonID)
+  );
 }

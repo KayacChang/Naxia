@@ -6,7 +6,6 @@ import { toTask, wait } from "utils";
 import { AppDispatch, RootState, user } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
 import { selectToken, selectUser } from "./user";
-import { assets } from "assets";
 
 type RoundResult = {
   items: Item[];
@@ -47,11 +46,6 @@ export const selectRoomBossStage = (state: RootState) => state.room.boss.stage;
 
 let ws: WebSocket | undefined;
 
-const bosses = [
-  assets("/boss/guaishou1/guaiwu1.json"),
-  assets("/boss/guaishou2/guaiwu2.json"),
-];
-
 const game = {
   status: createAction<RoomStatus>("room/game/status"),
   countdown: createAction<number>("room/game/countdown"),
@@ -71,20 +65,16 @@ const game = {
       await wait(100);
     }
 
-    await dispatch(addAssets(toTask({ [boss.id]: bosses[boss.id] })));
+    await dispatch(addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json })));
 
     return boss;
   }),
 };
 
 const order = {
-  submit: createAsyncThunk<
-    Order,
-    Order,
-    { state: RootState; dispatch: AppDispatch }
-  >(
+  submit: createAsyncThunk<Order, Order, { state: RootState }>(
     "room/order/submit",
-    async (order, { getState, dispatch }) => {
+    async (order, { getState }) => {
       const token = selectToken(getState());
       const user = selectUser(getState());
       const room_id = selectRoomID(getState());
@@ -306,7 +296,9 @@ const roomSlice = createSlice({
 
         if (state.status.current === RoomStatus.Change) {
           state.boss.current = state.boss.stage;
+        }
 
+        if (state.status.current === RoomStatus.Result) {
           state.hasSubmitted = false;
         }
       })

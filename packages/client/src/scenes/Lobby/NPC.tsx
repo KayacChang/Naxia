@@ -2,9 +2,10 @@ import React, { Component }  from 'react';
 import anime from "animejs";
 import Assets from "assets";
 import { useEffect, useState } from "react";
-import { NPC as Props } from "types";
+import { useNPC } from "system";
 
-export default function NPC({ img, name, dialog }: Props) {
+export default function NPC() {
+  const { img, name, dialog } = useNPC();
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function NPC({ img, name, dialog }: Props) {
       10 * 1000
     );
 
-    return () => clearInterval(id);
+    return () => void clearInterval(id);
   }, [dialog.length, setCurrent]);
 
   return (
@@ -31,7 +32,7 @@ export default function NPC({ img, name, dialog }: Props) {
           </div>
 
           <div className="flex-1 mt-2 px-4 flex items-center">
-            <p className="text-sm text-white">{dialog[current]}</p>
+            <p className="text-xs text-white">{dialog[current]}</p>
           </div>
         </div>
       </div>

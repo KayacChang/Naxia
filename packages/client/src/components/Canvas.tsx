@@ -31,6 +31,9 @@ export function Canvas({
       ...options,
     });
 
+    // disable accessibility
+    app.renderer.plugins.accessibility.destroy();
+
     // react pixi fiber render
     render(<>{children}</>, app.stage);
 

@@ -10,22 +10,26 @@ import { Switch, Router, Route, PrivateRoute, Loading } from "components";
 import {
   addAssets,
   addSounds,
-  BGM,
   store,
   user,
   ViewportProvider,
+  Map,
+  room,
+  selectDungeonInfos,
+  selectCurrentDungeon,
+  selectCurrentMap,
 } from "system";
-import { toTask } from "utils";
+import { toTask, wait } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
+import { Map as TMap } from "types";
+import invariant from "tiny-invariant";
 
 const Login = lazy(() =>
   Promise.all([
-    store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Login }))),
+    store.dispatch(addAssets(toTask({ ...Assets.System, ...Assets.Login }))),
     store.dispatch(addSounds(toTask(Sound.Login))),
-  ])
-    .then(() => store.dispatch(BGM.play(Sound.Login.BGM)))
-    .then(() => import("./scenes/Login"))
+  ]).then(() => import("./scenes/Login"))
 );
 
 const Lobby = lazy(() =>
@@ -34,18 +38,50 @@ const Lobby = lazy(() =>
     store.dispatch(addSounds(toTask(Sound.Lobby))),
     store.dispatch(user.sync()),
     store.dispatch(user.item.sync()),
-  ])
-    .then(() => store.dispatch(BGM.play(Sound.Lobby.BGM)))
-    .then(() => import("./scenes/Lobby"))
+
+    store
+      .dispatch(Map.all())
+      .then(({ payload }) =>
+        Promise.all(
+          (payload as TMap[]).map(({ id, img }) =>
+            Promise.all([
+              store.dispatch(Map.npc(id)),
+              store.dispatch(Map.dungeons(id)),
+              store.dispatch(addAssets(toTask({ [`Map.${id}`]: img }))),
+            ])
+          )
+        )
+      ),
+  ]).then(() => import("./scenes/Lobby"))
 );
 
 const Room = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Room }))),
     store.dispatch(addSounds(toTask(Sound.Room))),
-  ])
-    .then(() => store.dispatch(BGM.play(Sound.Room.BGM)))
-    .then(() => import("./scenes/Room"))
+
+    (async () => {
+      const state = store.getState();
+      const map = selectCurrentMap(state);
+      const dungeon = selectCurrentDungeon(state);
+      const dungeonInfo = selectDungeonInfos(state, map.id, dungeon);
+
+      invariant(dungeonInfo, `Dungeon ${map.id}.${dungeon} not found`);
+
+      await store.dispatch(room.join(dungeonInfo.info.room));
+
+      let boss = store.getState().room.boss.current;
+      while (!boss) {
+        await wait(300);
+
+        boss = store.getState().room.boss.current;
+      }
+
+      await store.dispatch(
+        addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json }))
+      );
+    })(),
+  ]).then(() => import("./scenes/Room"))
 );
 
 function App() {
