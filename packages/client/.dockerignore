@@ -1,6 +1,7 @@
 node_modules  
 build  
 .dockerignore  
-.git  
-.md  
 .gitignore 
+**/*.md
+**/.DS_Store
+**/LICENSE
