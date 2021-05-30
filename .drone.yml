@@ -108,3 +108,4 @@ steps:
       local: true
       event:
         - push
+        - tag
