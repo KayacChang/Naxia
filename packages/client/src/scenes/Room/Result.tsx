@@ -51,7 +51,7 @@ export default function GameResult() {
         setSkip(false);
 
         dispatch(Effect.play(Sound.Room.Reward));
-      }, 300);
+      }, 3000);
 
       return () => void clearTimeout(id);
     }

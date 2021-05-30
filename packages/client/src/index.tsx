@@ -18,7 +18,7 @@ import {
   selectCurrentDungeon,
   selectCurrentMap,
 } from "system";
-import { toTask } from "utils";
+import { toTask, wait } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
 import { Map as TMap } from "types";
@@ -68,6 +68,17 @@ const Room = lazy(() =>
       invariant(dungeonInfo, `Dungeon ${map.id}.${dungeon} not found`);
 
       await store.dispatch(room.join(dungeonInfo.info.room));
+
+      let boss = store.getState().room.boss.current;
+      while (!boss) {
+        await wait(300);
+
+        boss = store.getState().room.boss.current;
+      }
+
+      await store.dispatch(
+        addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json }))
+      );
     })(),
   ]).then(() => import("./scenes/Room"))
 );

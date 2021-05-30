@@ -28,7 +28,7 @@ function Progress() {
 
 export function Loading() {
   return (
-    <UI>
+    <UI className="z-50">
       <div className="relative font-noto">
         <img src={Assets.System.Progress_Background} alt="background" />
 

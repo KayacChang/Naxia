@@ -23,7 +23,7 @@ export function DungeonDetail() {
   if (!dungeon) return <></>;
 
   return (
-    <Modal>
+    <Modal className="z-10">
       <div className="flex flex-col h-full relative font-noto text-white">
         <div className="flex mt-8 relative">
           <div>

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { UI } from "layers";
 import { ReactNode } from "react";
 
@@ -8,7 +9,7 @@ type ModalProps = {
 };
 export function Modal({ children, className, onClose }: ModalProps) {
   return (
-    <UI className="flex items-center">
+    <UI className={clsx("flex items-center", className)}>
       <div
         className="bg-black bg-opacity-75 absolute w-full h-full top-0 pointer-events-auto -z-10"
         onClick={onClose}

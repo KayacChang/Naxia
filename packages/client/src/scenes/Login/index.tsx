@@ -1,14 +1,7 @@
 import clsx from "clsx";
 import { UI, Game } from "layers";
 import { ReactNode, useEffect, useState, FormEvent, useCallback } from "react";
-import {
-  BGM,
-  selectAssetsByName,
-  useAppDispatch,
-  useAppSelector,
-  user,
-  useViewport,
-} from "system";
+import { BGM, getAssets, useAppDispatch, user, useViewport } from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
 import { Spine } from "components";
@@ -126,17 +119,18 @@ function Form() {
 }
 
 function View() {
-  const assets = useAppSelector(selectAssetsByName);
   const { width, height } = useViewport();
 
   return (
-    <Spine
-      data={assets("Login_Spine")}
-      x={width / 2}
-      y={height / 2}
-      scale={0.4}
-      mount={(spine) => spine.state.setAnimation(0, "animation", true)}
-    />
+    <Game className="fixed top-0">
+      <Spine
+        data={getAssets("Login_Spine")}
+        x={width / 2}
+        y={height / 2}
+        scale={0.4}
+        mount={(spine) => spine.state.setAnimation(0, "animation", true)}
+      />
+    </Game>
   );
 }
 
@@ -151,9 +145,7 @@ export default function Login() {
         <img src={Assets.Login.Login_Background} alt="background" />
       </UI>
 
-      <Game className="fixed top-0">
-        <View />
-      </Game>
+      <View />
 
       <UI className="absolute top-0 flex flex-col items-center justify-center text-white font-noto space-y-4">
         <Form />

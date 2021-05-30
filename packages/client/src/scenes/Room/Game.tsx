@@ -1,39 +1,43 @@
-import { Container } from "@inlet/react-pixi";
 import {
   useAppSelector,
   selectRoomStatusCurrent,
-  selectAssetsByName,
   selectRoomBossCurrent,
   selectRoomResult,
-  getViewPort,
+  getAssets,
+  useViewport,
 } from "system";
 import { RoomStatus } from "types";
-import anime from "animejs";
 import { Spine } from "components";
 import { memo } from "react";
+import anime from "animejs";
 
 const Boss = memo(() => {
-  const { width, height } = getViewPort();
+  const { width, height } = useViewport();
   const boss = useAppSelector(selectRoomBossCurrent);
-  const assets = useAppSelector(selectAssetsByName);
   const status = useAppSelector(selectRoomStatusCurrent);
   const result = useAppSelector(selectRoomResult);
-
-  if (boss === undefined) {
-    return <Container />;
-  }
 
   return (
     <Spine
       x={width / 2}
       y={height / 2}
       scale={1 / window.devicePixelRatio}
-      data={assets(String(boss.id))}
+      data={boss?.id && getAssets(`Boss.${boss.id}`)}
       mount={(spine) => {
-        if (status === RoomStatus.Result) {
-          if (result?.result === "win") {
-            spine.state.setAnimation(0, "BeAttack", false);
-          }
+        if (
+          status === RoomStatus.Start ||
+          status === RoomStatus.Stop ||
+          status === RoomStatus.Result
+        ) {
+          spine.alpha = 1;
+        }
+
+        if (status === RoomStatus.Result && result?.result) {
+          spine.state.setAnimation(
+            0,
+            result.result === "win" ? "BeAttack" : "Attack",
+            false
+          );
 
           spine.state.addListener({
             complete: () =>
@@ -60,13 +64,13 @@ const Boss = memo(() => {
           spine.state.setAnimation(0, "Idle", true);
         }
       }}
+      unmount={(spine) => spine.state.clearListeners()}
     />
   );
 });
 
 const Dealing = memo(() => {
-  const { width, height } = getViewPort();
-  const assets = useAppSelector(selectAssetsByName);
+  const { width, height } = useViewport();
   const status = useAppSelector(selectRoomStatusCurrent);
 
   return (
@@ -75,18 +79,16 @@ const Dealing = memo(() => {
       y={height / 2}
       visible={status === RoomStatus.Stop}
       scale={1 / window.devicePixelRatio}
-      data={assets("Anim_Dealing")}
+      data={getAssets("Anim_Dealing")}
       mount={(spine) => spine.state.setAnimation(0, "animation", true)}
     />
   );
 });
 
-export default function GameView() {
-  return (
-    <>
-      <Boss />
+export default memo(() => (
+  <>
+    <Boss />
 
-      <Dealing />
-    </>
-  );
-}
+    <Dealing />
+  </>
+));
