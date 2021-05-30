@@ -84,10 +84,33 @@ steps:
       local: true
       event:
         - push
+
+  - name: push to ecr with tags
+    image: plugins/ecr
+    settings:
+      context: ./packages/client/
+      registry:
+        from_secret: AWS_DOCKER_REPO_TGC_DEV
+      dockerfile: ./packages/client/Dockerfile.drone
+      repo: naxia-front
+      region: ap-northeast-1
+      tags:
+        #  - ${DRONE_BRANCH}
+        - dev
+        - ${DRONE_BUILD_NUMBER}
+        - ${DRONE_TAG}
+      access_key:
+        from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
+      secret_key:
+        from_secret: AWS_SECRET_ACCESS_KEY_TGC_DEV
+    when:
+      local: true
+      event:
         - tag
       ref:
         include:
           - refs/tags/*
+
 
   - name: deploy dev
     image: odaniait/aws-kubectl
