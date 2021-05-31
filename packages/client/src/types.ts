@@ -141,6 +141,9 @@ export interface Ranking {
 export interface Achievement {
   name: string;
   type: "card" | "other";
-  img: string;
+  count: number;
   done: boolean;
+  description: string;
+  img: string;
+  cardImg: string;
 }

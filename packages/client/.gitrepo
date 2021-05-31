@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/kayac-chang/naxia-client-app.git
 	branch = master
-	commit = e962be75c49d028cb52e6c3fe5f644d48e06ec97
-	parent = fceeba45c48450e8619f48799a06bcae19155ca1
+	commit = b1f7c5f335d055a2c922abd9dd448559e9430f64
+	parent = d06e1f0438728f5a60e2136b88de7a11357a6a40
 	method = merge
 	cmdver = 0.4.1

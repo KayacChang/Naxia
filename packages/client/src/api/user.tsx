@@ -58,8 +58,16 @@ export interface GetUserAchievementResponse {
 export function getUserAchievement(token: string) {
   return get<GetUserAchievementResponse>(API("achievement"), token).then(
     ({ data }) => ({
-      cart: data.cart.map((props) => ({ ...props, done: props["is_done"] })),
-      other: data.other.map((props) => ({ ...props, done: props["is_done"] })),
+      cart: data.cart.map((props) => ({
+        ...props,
+        done: props["is_done"],
+        cardImg: props["card_img"],
+      })),
+      other: data.other.map((props) => ({
+        ...props,
+        done: props["is_done"],
+        cardImg: props["card_img"],
+      })),
     })
   );
 }
