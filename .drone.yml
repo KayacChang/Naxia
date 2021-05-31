@@ -69,8 +69,8 @@ steps:
       repo: naxia-front
       region: ap-northeast-1
       tags:
-      #  - ${DRONE_BRANCH}
-        - dev
+        - ${DRONE_BRANCH}
+        - latest
         - ${DRONE_BUILD_NUMBER}
       access_key:
         from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
@@ -80,7 +80,6 @@ steps:
       branch:
         - dev
         - stg
-        - master
       local: true
       event:
         - push
@@ -95,8 +94,7 @@ steps:
       repo: naxia-front
       region: ap-northeast-1
       tags:
-        #  - ${DRONE_BRANCH}
-        - dev
+        - ${DRONE_BRANCH}
         - ${DRONE_BUILD_NUMBER}
         - ${DRONE_TAG}
       access_key:
