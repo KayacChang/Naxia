@@ -40,6 +40,8 @@ export const user = {
     (req, { rejectWithValue }) =>
       login(req)
         .then(({ token }) => {
+          localStorage.setItem("TOKEN", token);
+
           return token;
         })
         .catch((error) => {

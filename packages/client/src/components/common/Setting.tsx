@@ -91,8 +91,8 @@ export function Setting() {
   const bgmVolume = useAppSelector(selectBGMVolume);
 
   function resetVolume() {
-    dispatch(BGM.volume(1));
-    dispatch(Effect.volume(1));
+    dispatch(BGM.volume(0.8));
+    dispatch(Effect.volume(0.8));
   }
 
   return (

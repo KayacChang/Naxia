@@ -25,7 +25,7 @@ const Viewport = PixiComponent<ViewportProps, _Viewport>("Viewport", {
     viewport.worldHeight = root.height;
     viewport.clamp({ direction: "all" });
     viewport.clampZoom({
-      maxScale: 0.7,
+      maxScale: 1,
       minScale: 0.5,
     });
     viewport.drag().pinch().wheel().decelerate();

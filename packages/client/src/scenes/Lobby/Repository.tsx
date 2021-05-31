@@ -47,7 +47,7 @@ type DetailProps = Item & {
 };
 function Detail({ name, img, point, quality, description }: DetailProps) {
   return (
-    <div className="text-white flex justify-center">
+    <div className="fixed left-0 top-0 w-full h-full text-white flex justify-center">
       <div className="flex flex-col h-full space-y-1 absolute justify-center items-center w-2/3">
         <div className="relative flex w-20 h-20 mx-auto">
           <img src={qualityCheck(quality).img} alt="items frame" />
