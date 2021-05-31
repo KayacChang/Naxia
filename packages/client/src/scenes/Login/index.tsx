@@ -2,10 +2,17 @@ import React from "react";
 import clsx from "clsx";
 import { UI, Game } from "layers";
 import { ReactNode, useEffect, useState, FormEvent, useCallback } from "react";
-import { BGM, getAssets, useAppDispatch, user, useViewport } from "system";
+import {
+  BGM,
+  getAssets,
+  useAppDispatch,
+  user,
+  useUserError,
+  useViewport,
+} from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
-import { Spine } from "components";
+import { Modal, Spine, SystemModal } from "components";
 import Sound from "assets/sound";
 
 type InputFieldProps = {
@@ -78,15 +85,21 @@ function Form() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const error = useUserError();
+
   const onSubmit = useCallback(
-    (event: FormEvent) => {
+    async (event: FormEvent) => {
       event.preventDefault();
 
       if (!username || !password) return;
 
-      dispatch(user.auth({ username, password })).then(() =>
-        history.push("/lobby")
-      );
+      const action = await dispatch(user.auth({ username, password }));
+
+      if (user.auth.fulfilled.match(action)) {
+        return history.push("/lobby");
+      }
+
+      console.log("failed");
     },
     [dispatch, history, username, password]
   );
@@ -115,6 +128,20 @@ function Form() {
           {"申請帳號"}
         </a>
       </div>
+
+      {error && (
+        <Modal className="z-20">
+          <SystemModal
+            subButton="確認"
+            customFunc={() => dispatch(user.error.clear())}
+            onClose={() => dispatch(user.error.clear())}
+          >
+            <p className="w-full h-full flex justify-center items-center text-white text-lg">
+              {error}
+            </p>
+          </SystemModal>
+        </Modal>
+      )}
     </form>
   );
 }

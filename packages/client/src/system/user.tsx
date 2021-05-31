@@ -13,6 +13,7 @@ export const selectToken = (state: RootState) => state.user.token;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectUserBalance = (state: RootState) => state.user.user?.balance;
 export const selectUserItems = (state: RootState) => state.user.items;
+export const selectUserError = (state: RootState) => state.user.error;
 
 const item = {
   sync: createAsyncThunk<Item[], void, { state: RootState }>(
@@ -34,13 +35,17 @@ const balance = {
 export const user = {
   item,
   balance,
-  auth: createAsyncThunk<string, AuthRequest>("user/auth", async (req) => {
-    const { token } = await login(req);
-
-    localStorage.setItem("TOKEN", token);
-
-    return token;
-  }),
+  auth: createAsyncThunk<string, AuthRequest, { rejectValue: string }>(
+    "user/auth",
+    (req, { rejectWithValue }) =>
+      login(req)
+        .then(({ token }) => {
+          return token;
+        })
+        .catch((error) => {
+          return rejectWithValue(error);
+        })
+  ),
   sync: createAsyncThunk<User, void, { state: RootState }>(
     "user/sync",
     (_, { getState }) => {
@@ -61,12 +66,17 @@ export const user = {
       return updateUser(token, user);
     }
   ),
+
+  error: {
+    clear: createAction("user/error/clear"),
+  },
 };
 
 type UserState = {
   token?: string;
   user?: User;
   items?: Item[];
+  error?: string;
 };
 const initialState: UserState = {
   token: localStorage.getItem("TOKEN") || undefined,
@@ -86,6 +96,9 @@ const userSlice = createSlice({
       .addCase(user.auth.fulfilled, (state, action) => {
         state.token = action.payload;
       })
+      .addCase(user.auth.rejected, (state, action) => {
+        state.error = action.payload;
+      })
       .addCase(user.sync.fulfilled, (state, action) => {
         state.user = action.payload;
       })
@@ -94,6 +107,9 @@ const userSlice = createSlice({
       })
       .addCase(user.item.sync.fulfilled, (state, action) => {
         state.items = action.payload;
+      })
+      .addCase(user.error.clear, (state) => {
+        state.error = undefined;
       });
   },
 });
@@ -110,4 +126,8 @@ export function useUserItem() {
 
 export function useUserBalance() {
   return useAppSelector(selectUserBalance);
+}
+
+export function useUserError() {
+  return useAppSelector(selectUserError);
 }

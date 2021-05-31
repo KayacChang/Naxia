@@ -2,11 +2,8 @@ import { Achievement, Item, User } from "types";
 import { API, get, post, put } from "./base";
 
 export interface LoginResponse {
-  data: {
-    token: string;
-    ttl: string;
-  };
-  success: boolean;
+  token: string;
+  ttl: string;
 }
 export interface LoginRequest {
   username: string;
@@ -16,54 +13,34 @@ export function login({ username, password }: LoginRequest) {
   return post<LoginResponse>(API("auth/login"), {
     username,
     password,
-  }).then(({ data }) => data);
-}
-
-export interface GetUserResponse {
-  data: User;
-  success: boolean;
+  });
 }
 
 export function getUser(token: string) {
-  return get<GetUserResponse>(API("users"), token).then(({ data }) => data);
+  return get<User>(API("users"), token);
 }
 
-export interface UpdateUserResponse {
-  data: User;
-  success: boolean;
-}
 export function updateUser(token: string, user: User) {
-  return put<UpdateUserResponse>(API("users"), token, user).then(
-    ({ data }) => data
-  );
+  return put<User>(API("users"), token, user);
 }
 
-export interface GetUserItemResponse {
-  data: Item[];
-  success: boolean;
-}
 export function getUserItem(token: string) {
-  return get<GetUserItemResponse>(API("users/items"), token).then(
-    ({ data }) => data
-  );
+  return get<Item[]>(API("users/items"), token);
 }
 
 export interface GetUserAchievementResponse {
-  data: {
-    cart: Achievement[];
-    other: Achievement[];
-  };
-  success: boolean;
+  cart: Achievement[];
+  other: Achievement[];
 }
 export function getUserAchievement(token: string) {
   return get<GetUserAchievementResponse>(API("achievement"), token).then(
-    ({ data }) => ({
-      cart: data.cart.map((props) => ({
+    ({ cart, other }) => ({
+      cart: cart.map((props) => ({
         ...props,
         done: props["is_done"],
         cardImg: props["card_img"],
       })),
-      other: data.other.map((props) => ({
+      other: other.map((props) => ({
         ...props,
         done: props["is_done"],
         cardImg: props["card_img"],
@@ -73,11 +50,8 @@ export function getUserAchievement(token: string) {
 }
 
 export interface BetResponse {
-  data: {
-    status: "error" | "success";
-    data: string;
-  };
-  success: boolean;
+  status: "error" | "success";
+  data: string;
 }
 export interface BetRequest {
   room_id: string;
@@ -88,5 +62,5 @@ export interface BetRequest {
   }[];
 }
 export function bet(token: string, req: BetRequest) {
-  return post<BetResponse>(API("bet"), req, token).then(({ data }) => data);
+  return post<BetResponse>(API("bet"), req, token);
 }

@@ -17,7 +17,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "allowJs": false,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "moduleResolution": "node",
     "baseUrl": "src",
     "forceConsistentCasingInFileNames": true,
