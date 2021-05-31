@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/kayac-chang/naxia-api-service.git
 	branch = master
-	commit = da9f715771a3962ced59f99f0821c262698fafd1
-	parent = 11e612c8c16bc34782af976db261181c12856055
+	commit = 03f278928ef3e4fe1995ef026a3ab8cda8338564
+	parent = 510d9afd46b799dd931c661ea41058722eca0964
 	method = merge
 	cmdver = 0.4.1
