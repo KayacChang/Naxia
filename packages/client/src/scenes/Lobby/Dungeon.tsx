@@ -14,22 +14,21 @@ type DungeonProps = {
   y: number;
   lock?: boolean;
   onClick?: () => void;
-  showLockAnim?: boolean;
-  onClear?: () => void;
 };
 export default function Dungeon({
   id,
   x,
   y,
   title,
-  lock,
+  lock: _lock,
   onClick,
-  showLockAnim = false,
-  onClear,
 }: DungeonProps) {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
+
+  const [lock, setLock] = useState(() => _lock);
+  const [showLockAnim, setShowLockAnim] = useState(false);
 
   const filter = useMemo(() => {
     if (!lock) return [];
@@ -69,17 +68,18 @@ export default function Dungeon({
         />
       )}
 
-      {showLockAnim && (
-        <Spine
-          x={width / 2}
-          y={height / 2}
-          data={assets("Lock_Anim")}
-          mount={(spine) => {
-            spine.state.setAnimation(0, "animation", false);
-            spine.state.addListener({ complete: onClear });
-          }}
-        />
-      )}
+      <Spine
+        visible={showLockAnim}
+        x={width / 2}
+        y={height / 2}
+        data={assets("Lock_Anim")}
+        mount={(spine) => {
+          if (!showLockAnim) return;
+
+          spine.state.setAnimation(0, "animation", false);
+          spine.state.addListener({ complete: () => setShowLockAnim(false) });
+        }}
+      />
 
       <Text
         anchor={{ x: 0.5, y: 0 }}

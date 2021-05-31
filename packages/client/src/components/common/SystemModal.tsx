@@ -9,6 +9,7 @@ type SystemModalProps = {
   children?: ReactNode;
   className?: string;
   button?: string;
+  disalbeButton?: boolean;
   onConfirm?: () => void;
   subButton?: string;
   customFunc?: () => void;
@@ -19,6 +20,7 @@ function Default({
   children,
   className,
   button,
+  disalbeButton,
   onConfirm,
   subButton,
   customFunc,
@@ -71,7 +73,10 @@ function Default({
             {button && (
               <div className="flex-1 flex justify-center items-center">
                 <button
-                  className="w-32 relative flex justify-center items-center"
+                  className={clsx(
+                    "w-32 relative flex justify-center items-center",
+                    disalbeButton && "pointer-events-none filter grayscale"
+                  )}
                   onClick={onConfirm}
                 >
                   <img src={Assets.Common.Modal_Button} alt="button" />
