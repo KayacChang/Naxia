@@ -1,4 +1,3 @@
-import React from "react";
 import { join } from "path";
 import {
   User,

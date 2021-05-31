@@ -1,4 +1,3 @@
-import React from "react";
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Howl } from "howler";
 import { RootState } from "system";

@@ -1,4 +1,3 @@
-import React from "react";
 import * as Icon from "./Icon";
 export * from "react-circle-layout";
 

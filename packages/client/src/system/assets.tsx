@@ -1,4 +1,3 @@
-import React from "react";
 import { Loader, ILoaderResource } from "pixi.js";
 import { Resource } from "resource-loader";
 import { SpineParser } from "@pixi-spine/loader-3.8";
