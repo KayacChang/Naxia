@@ -59,6 +59,20 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
   );
 }
 
+function useRanking() {
+  const [ranking, setRanking] = useState<Ranking>();
+
+  const token = useAppSelector(selectToken);
+
+  useEffect(() => {
+    invariant(token, "Unauthorization");
+
+    getRank(token).then(setRanking);
+  }, [token]);
+
+  return ranking;
+}
+
 type Filter = {
   key: "achievement" | "sp" | "exp";
   label: string;
@@ -74,16 +88,7 @@ export default function Rank({ className }: RankingProps) {
     { key: "exp", label: "Exp排名" },
   ];
   const [active, setActive] = useState(filters[0]);
-
-  const [ranking, setRanking] = useState<Ranking>();
-
-  const token = useAppSelector(selectToken);
-
-  useEffect(() => {
-    invariant(token, "Unauthorization");
-
-    getRank(token).then(setRanking);
-  }, [token]);
+  const ranking = useRanking();
 
   const data = ranking?.[active.key].data;
   const current = ranking?.[active.key].current;

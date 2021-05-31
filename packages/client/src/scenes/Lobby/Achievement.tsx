@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { Tab, Modal, Button } from "components";
 import { useState } from "react";
 import { range } from "ramda";
+import { Achievement } from "types";
+import { selectToken, useAppSelector } from "system";
+import invariant from "tiny-invariant";
+import { getUserAchievement } from "api";
 
 type DetailProps = {
   onClose: () => void;
@@ -61,27 +65,27 @@ function Detail({ onClose }: DetailProps) {
   );
 }
 
-function Special() {
+type SpecialProps = {
+  items?: Achievement[];
+};
+function Special({ items = [] }: SpecialProps) {
   return (
     <div className="flex-1 overflow-scroll pointer-events-auto mx-2">
-      {range(0, 12).map((key) => (
-        <div key={key} className="relative">
+      {items.map(({ name, img }, index) => (
+        <div key={index} className="relative">
           <img src={Assets.Lobby.Achievement_Special} alt="card" />
+
           <div className="absolute top-0 w-full h-full flex px-1">
             <div className="relative flex justify-center items-center w-14">
               <img
                 src={Assets.Lobby.Achievement_Thumbnail_Frame}
                 alt="thumbnail frame"
               />
-              <img
-                src={Assets.Lobby.Achievement_Thumbnail}
-                alt="thumbnail"
-                className="absolute p-1"
-              />
+              <img src={img} alt="thumbnail" className="absolute p-1" />
             </div>
 
             <div className="flex-1 flex items-center px-2">
-              <h3 className="text-fansy font-kai">食人獸卡牌</h3>
+              <h3 className="text-fansy font-kai">{name}</h3>
             </div>
 
             <div className="w-20 flex flex-col items-end px-1">
@@ -102,28 +106,49 @@ function Special() {
 }
 
 type BookProps = {
+  items?: Achievement[];
   onItemClick: () => void;
 };
-function Book({ onItemClick }: BookProps) {
+function Book({ items = [], onItemClick }: BookProps) {
   return (
     <div className="flex-1 overflow-scroll pointer-events-auto m-2 grid grid-cols-3 gap-2">
-      {range(0, 12).map((key) => (
-        <button key={key} onClick={onItemClick}>
-          <img src={Assets.Lobby.Achievement_Card} alt="card" />
+      {items.map(({ img }, index) => (
+        <button key={index} onClick={onItemClick}>
+          <img src={img} alt="card" />
         </button>
       ))}
     </div>
   );
 }
 
+function useAchievement() {
+  const [achievement, setAchievement] = useState<{
+    cart: Achievement[];
+    other: Achievement[];
+  }>();
+
+  const token = useAppSelector(selectToken);
+
+  useEffect(() => {
+    invariant(token, "Unauthorization");
+
+    getUserAchievement(token).then(setAchievement);
+  }, [token, setAchievement]);
+
+  return achievement;
+}
+
 type AchievementProps = {
   className?: string;
 };
-export default function Achievement({ className }: AchievementProps) {
+export default function _Achievement({ className }: AchievementProps) {
   const filters = [
-    { key: "book", label: "卡片圖鑑", cond: () => true },
-    { key: "special", label: "特殊成就", cond: () => true },
+    { key: "cart", label: "卡片圖鑑" },
+    { key: "other", label: "特殊成就" },
   ];
+
+  const achievement = useAchievement();
+
   const [active, setActive] = useState(filters[0]);
 
   const [item, setItem] = useState<boolean>(false);
@@ -148,11 +173,16 @@ export default function Achievement({ className }: AchievementProps) {
               ))}
             </nav>
 
-            {active.key === "book" && (
-              <Book onItemClick={() => setItem(true)} />
+            {active.key === "cart" && (
+              <Book
+                items={achievement?.[active.key]}
+                onItemClick={() => setItem(true)}
+              />
             )}
 
-            {active.key === "special" && <Special />}
+            {active.key === "other" && (
+              <Special items={achievement?.[active.key]} />
+            )}
 
             <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
           </div>

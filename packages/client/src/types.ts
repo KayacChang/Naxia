@@ -137,3 +137,10 @@ export interface Ranking {
     updated: string;
   };
 }
+
+export interface Achievement {
+  name: string;
+  type: "card" | "other";
+  img: string;
+  done: boolean;
+}
