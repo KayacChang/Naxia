@@ -26,44 +26,34 @@ export interface GetStoreItemsResponse {
 }
 export function getStoreItems(token: string) {
   // TODO
-  return get<GetStoreItemsResponse>(API(`stores/items`), token)
-    .then(({ data }) => data)
-    .then();
+  return get<GetStoreItemsResponse>(API(`stores/items`), token).then();
 }
 
-export interface GetRankResponse {
-  data: Ranking;
-  success: boolean;
-}
 export function getRank(token: string) {
-  return get<GetRankResponse>(API(`rank`), token)
-    .then(({ data }) => data)
-    .then(({ achievement, sp, exp }) => {
-      return {
-        achievement: {
-          data: achievement.data.map((record, index) => ({
-            ...record,
-            rank: index + 1,
-          })),
-          current: achievement.current,
-          updated: achievement["updated_time"],
-        },
-        sp: {
-          data: sp.data.map((record, index) => ({
-            ...record,
-            rank: index + 1,
-          })),
-          current: sp.current,
-          updated: sp["updated_time"],
-        },
-        exp: {
-          data: exp.data.map((record, index) => ({
-            ...record,
-            rank: index + 1,
-          })),
-          current: exp.current,
-          updated: exp["updated_time"],
-        },
-      };
-    });
+  return get<Ranking>(API(`rank`), token).then(({ achievement, sp, exp }) => ({
+    achievement: {
+      data: achievement.data.map((record, index) => ({
+        ...record,
+        rank: index + 1,
+      })),
+      current: achievement.current,
+      updated: achievement["updated_time"],
+    },
+    sp: {
+      data: sp.data.map((record, index) => ({
+        ...record,
+        rank: index + 1,
+      })),
+      current: sp.current,
+      updated: sp["updated_time"],
+    },
+    exp: {
+      data: exp.data.map((record, index) => ({
+        ...record,
+        rank: index + 1,
+      })),
+      current: exp.current,
+      updated: exp["updated_time"],
+    },
+  }));
 }

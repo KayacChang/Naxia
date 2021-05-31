@@ -8,7 +8,15 @@ export function get<T>(url: string, authorization: string): Promise<T> {
     headers: {
       authorization: `Bearer ${authorization}`,
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then(({ data, success, error }) => {
+      if (!success) {
+        throw new Error(error);
+      }
+
+      return data as T;
+    });
 }
 
 export function post<T>(
@@ -23,7 +31,15 @@ export function post<T>(
       ...(authorization ? { authorization: `Bearer ${authorization}` } : {}),
     },
     body: JSON.stringify(payload),
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then(({ data, success, error }) => {
+      if (!success) {
+        return Promise.reject(error);
+      }
+
+      return data as T;
+    });
 }
 
 export function put<T>(
@@ -38,5 +54,13 @@ export function put<T>(
       "content-type": "application/json",
     },
     body: JSON.stringify(payload),
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then(({ data, success, error }) => {
+      if (!success) {
+        throw new Error(error);
+      }
+
+      return data as T;
+    });
 }
