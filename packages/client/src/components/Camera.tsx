@@ -3,6 +3,8 @@ import { Viewport as _Viewport } from "pixi-viewport";
 import { PixiComponent, Container, applyDefaultProps } from "@inlet/react-pixi";
 import { Container as TContainer } from "@pixi/display";
 import { ReactNode, useEffect, useRef } from "react";
+import { Rectangle } from "@pixi/math";
+import { throttle } from "utils";
 
 const viewport = new _Viewport();
 
@@ -26,7 +28,7 @@ const Viewport = PixiComponent<ViewportProps, _Viewport>("Viewport", {
     viewport.clamp({ direction: "all" });
     viewport.clampZoom({
       maxScale: 1,
-      minScale: 0.5,
+      minScale: 0.6,
     });
     viewport.drag().pinch().wheel().decelerate();
   },
@@ -52,6 +54,19 @@ export function Camera({ children, mount, unmount, ...props }: CameraProps) {
     if (!current) return;
 
     mount?.(current);
+
+    const stage = current.children[0];
+    const hitArea = new Rectangle(0, 0, current.width, current.height);
+
+    function interactive(flag: boolean) {
+      stage.hitArea = flag ? hitArea : new Rectangle(0, 0, 0, 0);
+    }
+
+    current.on("drag-start", () => interactive(false));
+    current.on(
+      "drag-end",
+      throttle(300, () => interactive(true))
+    );
 
     return () => void unmount?.(current);
   }, [mount, unmount]);

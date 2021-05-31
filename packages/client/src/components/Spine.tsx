@@ -30,6 +30,7 @@ export const Spine = memo(({ data, mount, unmount, ...props }: SpineProps) => {
     return () => {
       unmount?.(spine);
       spine.state.clearTracks();
+      spine.state.clearListeners();
       current.removeChildren();
     };
   }, [data, mount, unmount]);

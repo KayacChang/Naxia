@@ -72,11 +72,22 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const [isToolbarVisible, setToolbarVisible] = useState(() => isBarOpen());
 
   useLayoutEffect(() => {
-    const refresh = throttle(300, () => {
+    const refresh = () => {
       const cur = getViewPort();
       if (!Map(cur).equals(Map(viewport))) {
         dispatch(viewportSlice.actions.update(cur));
       }
+    };
+
+    let id = requestAnimationFrame(function update() {
+      refresh();
+      id = requestAnimationFrame(update);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [viewport, dispatch]);
+
+  useLayoutEffect(() => {
+    const refresh = throttle(300, () => {
       setOrientation(getOrientation());
       setToolbarVisible(isBarOpen());
     });
@@ -92,7 +103,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       id = requestAnimationFrame(update);
     });
     return () => cancelAnimationFrame(id);
-  }, [viewport, dispatch, setOrientation, setToolbarVisible, isToolbarVisible]);
+  }, [setOrientation, setToolbarVisible, isToolbarVisible]);
 
   if (orientation === "portrait") {
     return createPortal(

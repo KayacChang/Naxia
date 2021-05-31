@@ -155,7 +155,7 @@ function View() {
         data={getAssets("Login_Spine")}
         x={width / 2}
         y={height / 2}
-        scale={0.4}
+        scale={1 / window.devicePixelRatio}
         mount={(spine) => spine.state.setAnimation(0, "animation", true)}
       />
     </Game>

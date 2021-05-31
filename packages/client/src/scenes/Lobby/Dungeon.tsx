@@ -11,7 +11,7 @@ import {
   Dungeon as DungeonSystem,
 } from "system";
 import { Spine } from "components";
-import { filters } from "pixi.js";
+import { Circle, filters } from "pixi.js";
 
 type DungeonProps = {
   id: number;
@@ -51,7 +51,8 @@ export default function Dungeon({
       y={y}
       interactive={true}
       buttonMode={true}
-      pointerdown={onClick || identity}
+      pointerup={onClick || identity}
+      hitArea={new Circle(width / 2, height / 2, 100)}
     >
       <Container filters={filter}>
         <Sprite
