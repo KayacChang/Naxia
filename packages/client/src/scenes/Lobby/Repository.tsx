@@ -90,12 +90,10 @@ type RepositoryProps = {
 export default function Repository({ className }: RepositoryProps) {
   const items = useUserItem();
 
-  console.log(items);
-
   const filters = [
     { key: "all", label: "全部", cond: () => true },
-    { key: "card", label: "卡牌", cond: () => true },
-    { key: "chip", label: "碎片", cond: () => true },
+    { key: "card", label: "卡牌", cond: (item: Item) => item.type === "card" },
+    { key: "chip", label: "碎片", cond: (item: Item) => item.type === "frag" },
   ];
   const [active, setActive] = useState(filters[0]);
 

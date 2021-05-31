@@ -10,6 +10,7 @@ export interface Item {
   point?: number;
   quality: number;
   description?: string;
+  type: "card" | "frag";
 }
 
 export interface User {
