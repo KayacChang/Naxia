@@ -1,4 +1,5 @@
 import {
+  createAction,
   createAsyncThunk,
   createSelector,
   createSlice,
@@ -127,6 +128,11 @@ export const Dungeon = {
     }
   ),
 
+  anim: {
+    play: createAction<number>("map/dungeon/anim/play"),
+    clear: createAction("map/dungeon/anim/stop"),
+  },
+
   modal: {
     condition: createAsyncThunk<
       number,
@@ -182,6 +188,8 @@ type MapState = {
 
   currentDungeon?: number;
 
+  unlockAnim?: number;
+
   infos: { [id: string]: DungeonInfo };
   conditions: { [id: string]: Condition[] };
   rounds: { [id: string]: Round[] };
@@ -194,6 +202,8 @@ const initialState: MapState = {
 
   dungeons: {},
   currentDungeon: undefined,
+
+  unlockAnim: undefined,
 
   infos: {},
   conditions: {},
@@ -214,6 +224,12 @@ const mapSlice = createSlice({
       })
       .addCase(Map.dungeons.fulfilled, (state, { payload }) => {
         state.dungeons = { ...state.dungeons, ...payload };
+      })
+      .addCase(Dungeon.anim.play, (state, { payload }) => {
+        state.unlockAnim = payload;
+      })
+      .addCase(Dungeon.anim.clear, (state) => {
+        state.unlockAnim = undefined;
       })
       .addCase(Dungeon.get.conditions.fulfilled, (state, { payload }) => {
         state.conditions = { ...state.conditions, ...payload };
@@ -264,6 +280,8 @@ const selectMaps = (state: RootState) => state.map.maps;
 
 const selectNPC = (state: RootState) =>
   state.map.npc[selectCurrentMap(state).id];
+
+export const selectUnlockAnim = (state: RootState) => state.map.unlockAnim;
 
 const selectDungeons = createSelector(
   [

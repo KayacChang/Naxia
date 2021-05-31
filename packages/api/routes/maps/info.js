@@ -40,7 +40,7 @@ export default async function (fastify) {
               },
               location_x: { type: "number" },
               location_y: { type: "number" },
-              is_lock: { type: "boolean" },
+              isLock: { type: "boolean" },
             },
           },
           success: { type: "boolean" },

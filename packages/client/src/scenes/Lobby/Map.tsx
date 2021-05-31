@@ -96,7 +96,7 @@ export function DungeonCondition() {
 
   if (!info || !conditions || !info.lock) return <></>;
 
-  const pass = conditions.every(({ accumulate, count }) => count > accumulate);
+  const pass = conditions.every(({ accumulate, count }) => count >= accumulate);
 
   return (
     <Modal>
@@ -108,6 +108,8 @@ export function DungeonCondition() {
           if (!pass) return;
 
           await dispatch(Dungeon.unlock({ mapID: map.id, dungeonID: info.id }));
+
+          dispatch(Dungeon.anim.play(info.id));
 
           dispatch(Dungeon.modal.close());
         }}

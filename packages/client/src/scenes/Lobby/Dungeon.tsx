@@ -3,7 +3,13 @@ import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
 
-import { useAppSelector, selectAssetsByName } from "system";
+import {
+  useAppSelector,
+  selectAssetsByName,
+  selectUnlockAnim,
+  useAppDispatch,
+  Dungeon as DungeonSystem,
+} from "system";
 import { Spine } from "components";
 import { filters } from "pixi.js";
 
@@ -20,15 +26,15 @@ export default function Dungeon({
   x,
   y,
   title,
-  lock: _lock,
+  lock,
   onClick,
 }: DungeonProps) {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
+  const dispatch = useAppDispatch();
 
-  const [lock, setLock] = useState(() => _lock);
-  const [showLockAnim, setShowLockAnim] = useState(false);
+  const showLockAnim = useAppSelector(selectUnlockAnim) === id;
 
   const filter = useMemo(() => {
     if (!lock) return [];
@@ -77,7 +83,12 @@ export default function Dungeon({
           if (!showLockAnim) return;
 
           spine.state.setAnimation(0, "animation", false);
-          spine.state.addListener({ complete: () => setShowLockAnim(false) });
+
+          spine.state.addListener({
+            complete: () => {
+              requestAnimationFrame(() => dispatch(DungeonSystem.anim.clear()));
+            },
+          });
         }}
       />
 
