@@ -1,27 +1,28 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { useAppDispatch, useDungeon, Dungeon, useMap } from "system";
-import { Button, LobbyRoad as Road, Modal } from "components";
+import { Button, LobbyRoad as Road, Modal, SystemModal } from "components";
 import Assets from "assets";
 import { useEffect } from "react";
+import clsx from "clsx";
 
 export function DungeonDetail() {
   const dispatch = useAppDispatch();
   const map = useMap();
-  const dungeon = useDungeon();
+  const { info, rounds } = useDungeon();
   const history = useHistory();
 
   useEffect(() => {
-    if (!dungeon?.info.id) return;
+    if (!info?.id) return;
 
     const id = setInterval(() => {
-      dispatch(Dungeon.get({ mapID: map.id, dungeonID: dungeon.info.id }));
+      dispatch(Dungeon.get.rounds({ mapID: map.id, dungeonID: info.id }));
     }, 30 * 1000);
 
     return () => clearInterval(id);
-  }, [map.id, dungeon?.info.id, dispatch]);
+  }, [map.id, info?.id, dispatch]);
 
-  if (!dungeon) return <></>;
+  if (!info || !rounds || info.lock) return <></>;
 
   return (
     <Modal className="z-10">
@@ -36,7 +37,7 @@ export function DungeonDetail() {
 
           <div className="absolute top-0 h-full w-full py-8 flex">
             <div className="w-5/6 h-full flex items-center">
-              <Road rounds={dungeon.rounds} />
+              <Road rounds={rounds} />
             </div>
 
             <div className="w-1/3 h-full flex flex-col pl-2 pr-4">
@@ -56,7 +57,7 @@ export function DungeonDetail() {
                   alt="name background"
                 />
 
-                <div className="absolute -mb-1">{dungeon.info.name}</div>
+                <div className="absolute -mb-1">{info.name}</div>
               </div>
             </div>
           </div>
@@ -68,7 +69,7 @@ export function DungeonDetail() {
               type="img"
               img={Assets.Lobby.Dungeon_Info_Btn_Back}
               className="relative flex items-center"
-              onClick={() => dispatch(Dungeon.close())}
+              onClick={() => dispatch(Dungeon.modal.close())}
             >
               <div className="absolute w-full mb-1">{"返回"}</div>
             </Button>
@@ -88,57 +89,62 @@ export function DungeonDetail() {
   );
 }
 
-type DungeonConditionProps = {
-  mapID: number;
-  dungeonID: number;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-};
-export function DungeonCondition({
-  mapID,
-  dungeonID,
-  onConfirm,
-  onCancel,
-}: DungeonConditionProps) {
-  // const dungeon = useDungeon(mapID, dungeonID);
-  // return (
-  //   <SystemModal
-  //     button="確認"
-  //     subButton="取消"
-  //     onConfirm={async () => {
-  //       await dispatch(Dungeon.unlock({ mapID, dungeonID }));
-  //       onConfirm?.();
-  //     }}
-  //     customFunc={onCancel}
-  //   >
-  //     <div className="px-6 py-4">
-  //       <p className="text-white space-x-2">
-  //         <span>解鎖</span>
-  //         <span className="text-yellow-500">{dungeon.info.name}</span>
-  //         <span>需要達成以下條件:</span>
-  //       </p>
-  //       <div className="py-4">
-  //         <table className="table-auto w-full">
-  //           <tbody>
-  //             {dungeon.conditions.map((condition, index) => (
-  //               <tr
-  //                 className={clsx(
-  //                   condition.achieve ? "text-green-400" : "text-red-500"
-  //                 )}
-  //                 key={index}
-  //               >
-  //                 <th className="font-kai text-left">
-  //                   {condition.item
-  //                     ? `累積取得${condition.item}:`
-  //                     : `擁有點數:`}
-  //                 </th>
-  //                 <td className="text-right">{`${condition.accumulate} / ${condition.count}`}</td>
-  //               </tr>
-  //             ))}
-  //           </tbody>
-  //         </table>
-  //       </div>
-  //     </div>
-  //   </SystemModal>
-  // );
+export function DungeonCondition() {
+  const dispatch = useAppDispatch();
+  const map = useMap();
+  const { info, conditions } = useDungeon();
+
+  if (!info || !conditions || !info.lock) return <></>;
+
+  const pass = conditions.every(({ accumulate, count }) => count >= accumulate);
+
+  return (
+    <Modal>
+      <SystemModal
+        button="確認"
+        subButton="取消"
+        disalbeButton={!pass}
+        onConfirm={async () => {
+          if (!pass) return;
+
+          await dispatch(Dungeon.unlock({ mapID: map.id, dungeonID: info.id }));
+
+          dispatch(Dungeon.anim.play(info.id));
+
+          dispatch(Dungeon.modal.close());
+        }}
+        customFunc={() => dispatch(Dungeon.modal.close())}
+      >
+        <div className="px-6 py-4">
+          <p className="text-white space-x-2">
+            <span>解鎖</span>
+            <span className="text-yellow-500">{info.name}</span>
+            <span>需要達成以下條件:</span>
+          </p>
+          <div className="py-4">
+            <table className="table-auto w-full">
+              <tbody>
+                {conditions.map((condition, index) => (
+                  <tr
+                    className={clsx(
+                      condition.achieve ? "text-green-400" : "text-red-500"
+                    )}
+                    key={index}
+                  >
+                    <th className="font-kai text-left">
+                      {condition.item
+                        ? `累積取得${condition.item}:`
+                        : `擁有點數:`}
+                    </th>
+
+                    <td className="text-right">{`${condition.count} / ${condition.accumulate}`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </SystemModal>
+    </Modal>
+  );
 }

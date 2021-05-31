@@ -3,7 +3,13 @@ import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
 
-import { useAppSelector, selectAssetsByName } from "system";
+import {
+  useAppSelector,
+  selectAssetsByName,
+  selectUnlockAnim,
+  useAppDispatch,
+  Dungeon as DungeonSystem,
+} from "system";
 import { Spine } from "components";
 import { filters } from "pixi.js";
 
@@ -14,8 +20,6 @@ type DungeonProps = {
   y: number;
   lock?: boolean;
   onClick?: () => void;
-  showLockAnim?: boolean;
-  onClear?: () => void;
 };
 export default function Dungeon({
   id,
@@ -24,12 +28,13 @@ export default function Dungeon({
   title,
   lock,
   onClick,
-  showLockAnim = false,
-  onClear,
 }: DungeonProps) {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const assets = useAppSelector(selectAssetsByName);
+  const dispatch = useAppDispatch();
+
+  const showLockAnim = useAppSelector(selectUnlockAnim) === id;
 
   const filter = useMemo(() => {
     if (!lock) return [];
@@ -69,17 +74,23 @@ export default function Dungeon({
         />
       )}
 
-      {showLockAnim && (
-        <Spine
-          x={width / 2}
-          y={height / 2}
-          data={assets("Lock_Anim")}
-          mount={(spine) => {
-            spine.state.setAnimation(0, "animation", false);
-            spine.state.addListener({ complete: onClear });
-          }}
-        />
-      )}
+      <Spine
+        visible={showLockAnim}
+        x={width / 2}
+        y={height / 2}
+        data={assets("Lock_Anim")}
+        mount={(spine) => {
+          if (!showLockAnim) return;
+
+          spine.state.setAnimation(0, "animation", false);
+
+          spine.state.addListener({
+            complete: () => {
+              requestAnimationFrame(() => dispatch(DungeonSystem.anim.clear()));
+            },
+          });
+        }}
+      />
 
       <Text
         anchor={{ x: 0.5, y: 0 }}

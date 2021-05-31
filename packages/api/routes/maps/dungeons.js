@@ -19,7 +19,7 @@ export default async function (fastify) {
                 stream_link: { type: "string" },
                 location_x: { type: "number" },
                 location_y: { type: "number" },
-                is_lock: { type: "boolean" },
+                isLock: { type: "boolean" },
               },
             },
           },

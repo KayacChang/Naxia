@@ -95,7 +95,7 @@ function RoundStatus() {
 }
 
 export default function GameUI() {
-  const dungeon = useDungeon();
+  const { info, rounds } = useDungeon();
   const history = useHistory();
   const dispatch = useAppDispatch();
   const user = useUser();
@@ -104,7 +104,7 @@ export default function GameUI() {
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
   const boss = useAppSelector(selectRoomBossCurrent);
 
-  if (!user || !boss || !dungeon) return <></>;
+  if (!user || !boss || !info || !rounds) return <></>;
 
   return (
     <UI className="flex flex-col text-white">
@@ -124,7 +124,7 @@ export default function GameUI() {
         </div>
 
         <div className="w-2/3 flex flex-col justify-between px-2 mt-8">
-          <RoomStatus className="w-52" skills={dungeon.info.skills} />
+          <RoomStatus className="w-52" skills={info.skills} />
 
           <Button
             type="img"
@@ -133,7 +133,7 @@ export default function GameUI() {
             onClick={() => history.replace("/lobby")}
           />
 
-          <Road className="w-3/5" rounds={dungeon.rounds} />
+          <Road className="w-3/5" rounds={rounds} />
         </div>
 
         <div className="w-1/3 flex flex-col">
@@ -172,7 +172,7 @@ export default function GameUI() {
             <Sidebar className="w-12" />
           </div>
 
-          <BetSection skills={dungeon.info.skills} bets={dungeon.info.bets} />
+          <BetSection skills={info.skills} bets={info.bets} />
         </div>
       </div>
     </UI>

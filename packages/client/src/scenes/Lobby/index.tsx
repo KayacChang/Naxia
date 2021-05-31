@@ -30,7 +30,7 @@ import NPC from "./NPC";
 import Store from "./Store";
 import Sound from "assets/sound";
 import { matchPath, useHistory } from "react-router";
-import { DungeonDetail } from "./Map";
+import { DungeonDetail, DungeonCondition } from "./Map";
 
 const LobbyUI = memo(() => {
   return (
@@ -52,18 +52,7 @@ const LobbyUI = memo(() => {
 
             <DungeonDetail />
 
-            {/*
-                <DungeonCondition
-                  mapID={map.id}
-                  dungeonID={dungeon.id}
-                  onConfirm={() => {
-                    setShowLockAnim(dungeon.id);
-                    setDungeon(undefined);
-                    dispatch(Effect.play(Sound.Lobby.Unlock));
-                  }}
-                  onCancel={() => setDungeon(undefined)}
-                />
-          */}
+            <DungeonCondition />
           </Route>
 
           <Route path="/lobby/repository">
@@ -128,7 +117,11 @@ const LobbyView = memo(() => {
               x={1920 * (dungeon.location.x / 100)}
               y={1080 * (dungeon.location.y / 100)}
               lock={dungeon.lock}
-              onClick={() => dispatch(DungeonSystem.open(dungeon.id))}
+              onClick={() => {
+                !dungeon.lock
+                  ? dispatch(DungeonSystem.modal.detail(dungeon.id))
+                  : dispatch(DungeonSystem.modal.condition(dungeon.id));
+              }}
             />
           ))}
         </Camera>

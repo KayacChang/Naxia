@@ -15,9 +15,9 @@ import {
   ViewportProvider,
   Map,
   room,
-  selectDungeonInfos,
   selectCurrentDungeon,
   selectCurrentMap,
+  selectDungeonInfo,
 } from "system";
 import { toTask, wait } from "utils";
 import Assets from "assets";
@@ -64,11 +64,11 @@ const Room = lazy(() =>
       const state = store.getState();
       const map = selectCurrentMap(state);
       const dungeon = selectCurrentDungeon(state);
-      const dungeonInfo = selectDungeonInfos(state, map.id, dungeon);
+      const dungeonInfo = selectDungeonInfo(state, map.id, dungeon);
 
       invariant(dungeonInfo, `Dungeon ${map.id}.${dungeon} not found`);
 
-      await store.dispatch(room.join(dungeonInfo.info.room));
+      await store.dispatch(room.join(dungeonInfo.room));
 
       let boss = store.getState().room.boss.current;
       while (!boss) {

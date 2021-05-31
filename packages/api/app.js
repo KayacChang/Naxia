@@ -79,7 +79,7 @@ export default async function (fastify, opts) {
           stream_link: "https://storage.googleapis.com/naxia-dev/video.flv",
           location_x: 10,
           location_y: 50,
-          is_lock: true,
+          isLock: true,
           bet_options: [100, 200, 500, 1000],
           skill_options: {
             banker: {
@@ -112,7 +112,7 @@ export default async function (fastify, opts) {
             {
               type: "item",
               item_name: "美杜莎碎片",
-              count: 0,
+              count: 10,
               accumulate: 10,
               is_reach: false,
             },
