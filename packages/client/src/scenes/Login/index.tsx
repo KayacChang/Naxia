@@ -132,7 +132,7 @@ function Form() {
       {error && (
         <Modal className="z-20">
           <SystemModal
-            subButton="確認"
+            subButton="返回"
             customFunc={() => dispatch(user.error.clear())}
             onClose={() => dispatch(user.error.clear())}
           >
