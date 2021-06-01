@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";
 import { ReactNode, CSSProperties, useCallback, useState } from "react";
-import { SkillOption, Round } from "types";
+import { SkillOption, Round, RoomStatus } from "types";
 import { Modal } from "./lobby/Modal";
 import "./Road.css";
+import {
+  Dungeon,
+  selectRoomStatusCurrent,
+  useAppSelector,
+  useDungeon,
+  useMap,
+} from "system";
+import { useDispatch } from "react-redux";
 
 type CircleProps = {
   className?: string;
@@ -238,17 +246,30 @@ function Continue({ text }: ContinueProps) {
 
 type RoomRoadProps = {
   className?: string;
-  rounds: Round[];
 };
-export function RoomRoad({ className, rounds }: RoomRoadProps) {
+export function RoomRoad({ className }: RoomRoadProps) {
   const [open, setOpen] = useState(false);
+
+  const map = useMap();
+  const { rounds, info } = useDungeon();
 
   const countByResult = useCallback(
     (result: SkillOption) =>
-      rounds.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
-        .length,
+      rounds
+        ?.slice(-1 * 9 * 6)
+        .filter(({ results }) => results.includes(result)).length,
     [rounds]
   );
+
+  const dispatch = useDispatch();
+  const status = useAppSelector(selectRoomStatusCurrent);
+
+  useEffect(() => {
+    if (!map || !info) return;
+
+    status === RoomStatus.Result &&
+      dispatch(Dungeon.get.rounds({ mapID: map.id, dungeonID: info.id }));
+  }, [status, map, info, dispatch]);
 
   const skillOptions: SkillOption[] = [
     "banker",
@@ -257,6 +278,8 @@ export function RoomRoad({ className, rounds }: RoomRoadProps) {
     "player_pair",
     "bank_pair",
   ];
+
+  if (!rounds) return <></>;
 
   return (
     <>
