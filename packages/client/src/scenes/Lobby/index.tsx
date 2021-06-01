@@ -89,7 +89,7 @@ const LobbyView = memo(() => {
 
   return (
     <>
-      <Game>
+      <Game className="fixed top-0">
         <Camera
           screenWidth={width}
           screenHeight={height}
