@@ -175,7 +175,7 @@ export default function Login() {
 
       <View />
 
-      <UI className="absolute top-0 flex flex-col items-center justify-center text-white font-noto space-y-4">
+      <UI className="flex flex-col items-center justify-center text-white font-noto space-y-4">
         <Form />
       </UI>
     </>
