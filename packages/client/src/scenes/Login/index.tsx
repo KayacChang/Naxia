@@ -9,6 +9,7 @@ import {
   user,
   useUserError,
   useViewport,
+  ViewportProvider,
 } from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
@@ -175,7 +176,7 @@ export default function Login() {
   useEffect(() => void dispatch(BGM.play(Sound.Login.BGM)), [dispatch]);
 
   return (
-    <>
+    <ViewportProvider>
       <UI>
         <img src={Assets.Login.Login_Background} alt="background" />
       </UI>
@@ -185,6 +186,6 @@ export default function Login() {
       <UI className="flex flex-col items-center justify-center text-white font-noto space-y-4">
         <Form />
       </UI>
-    </>
+    </ViewportProvider>
   );
 }

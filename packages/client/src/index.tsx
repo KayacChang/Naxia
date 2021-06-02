@@ -1,4 +1,3 @@
-import React from "react";
 import { lazy, StrictMode, Suspense } from "react";
 import { unstable_createRoot } from "react-dom";
 import { Provider } from "react-redux";
@@ -12,7 +11,6 @@ import {
   addSounds,
   store,
   user,
-  ViewportProvider,
   Map,
   room,
   selectCurrentDungeon,
@@ -86,32 +84,30 @@ const Room = lazy(() =>
 
 function App() {
   return (
-    <Router>
-      <Suspense fallback={<Loading />}>
-        <Switch>
-          <Route exact path="/">
-            <Login />
-          </Route>
+    <Suspense fallback={<Loading />}>
+      <Switch>
+        <Route exact path="/">
+          <Login />
+        </Route>
 
-          <PrivateRoute path="/lobby">
-            <Lobby />
-          </PrivateRoute>
+        <PrivateRoute path="/lobby">
+          <Lobby />
+        </PrivateRoute>
 
-          <PrivateRoute path="/room">
-            <Room />
-          </PrivateRoute>
-        </Switch>
-      </Suspense>
-    </Router>
+        <PrivateRoute path="/room">
+          <Room />
+        </PrivateRoute>
+      </Switch>
+    </Suspense>
   );
 }
 
 unstable_createRoot(document.getElementById("app") as HTMLDivElement).render(
   <StrictMode>
     <Provider store={store}>
-      <ViewportProvider>
+      <Router>
         <App />
-      </ViewportProvider>
+      </Router>
     </Provider>
   </StrictMode>
 );

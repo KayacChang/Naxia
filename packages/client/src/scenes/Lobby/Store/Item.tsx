@@ -1,9 +1,7 @@
-import React from "react";
 import clsx from "clsx";
 import Assets from "assets";
 
 import { StoreItem } from "types";
-import { exchange } from "api";
 
 type ItemCollectionBoxProps = {
   className?: string;

@@ -1,6 +1,5 @@
-import React from "react";
 import { useEffect } from "react";
-import { useAppDispatch, BGM, room } from "system";
+import { useAppDispatch, BGM, room, ViewportProvider } from "system";
 import { Game, UI } from "layers";
 
 import GameUI from "./UI";
@@ -20,7 +19,7 @@ export default function Room() {
   useEffect(() => void dispatch(BGM.play(Sound.Room.BGM)), [dispatch]);
 
   return (
-    <>
+    <ViewportProvider>
       <UI className="flex flex-col">
         <img src={Assets.Room.Room_Background} alt="background" />
       </UI>
@@ -34,6 +33,6 @@ export default function Room() {
       <GameEffect />
 
       <GameResult />
-    </>
+    </ViewportProvider>
   );
 }

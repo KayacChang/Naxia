@@ -9,6 +9,7 @@ import {
   Dungeon as DungeonSystem,
   useMap,
   isMobile,
+  ViewportProvider,
 } from "system";
 import { Game, UI } from "layers";
 import {
@@ -140,10 +141,10 @@ export default function Lobby() {
   useEffect(() => void dispatch(BGM.play(Sound.Lobby.BGM)), [dispatch]);
 
   return (
-    <>
+    <ViewportProvider>
       <LobbyView />
 
       <LobbyUI />
-    </>
+    </ViewportProvider>
   );
 }
