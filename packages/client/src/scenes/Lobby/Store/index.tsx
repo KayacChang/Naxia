@@ -69,10 +69,8 @@ type SystemModalProps = {
 function SystemModal({ children, className }: SystemModalProps) {
   return (
     <div className={clsx("flex h-full justify-center", className)}>
-      <div className="relative flex justify-center w-2/3">
-        <div>
-          <img src={Assets.Lobby.Store_Frame_Bg} alt="store frame bg" />
-        </div>
+      <div className="relative flex items-center justify-center w-2/3">
+        <img src={Assets.Lobby.Store_Frame_Bg} alt="store frame bg" />
 
         <div className="absolute w-full h-full text-2xl">
           <div className="relative">
