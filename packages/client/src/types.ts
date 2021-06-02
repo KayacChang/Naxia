@@ -103,16 +103,6 @@ export interface Boss {
   rate: string;
 }
 
-export interface ItemDataProps {
-  title: string;
-  itemImg: string;
-  cardImg: string;
-  gemCurrentNumber: number;
-  gemTotalNumber: number;
-  cardCurrentNumber: number;
-  cardTotalNumber: number;
-}
-
 export interface RankingRecord {
   name: string;
   avatar: number;
@@ -146,4 +136,33 @@ export interface Achievement {
   description: string;
   img: string;
   cardImg: string;
+}
+
+export interface RequireItem {
+  type: "item";
+  count: number;
+  item_id: number;
+  item_name: string;
+  accumulate: number;
+}
+
+export interface RequirePoint {
+  type: "point";
+  count: number;
+  item_id: null;
+  item_name: null;
+  accumulate: number;
+}
+
+export type Requirement = RequireItem | RequirePoint;
+
+export interface StoreItem {
+  id: number;
+  name: string;
+  category: "card" | "other";
+  item_type: "item" | "point";
+  item_name: string | null;
+  item_count: number;
+  item_img: string | null;
+  requirements: Requirement[];
 }

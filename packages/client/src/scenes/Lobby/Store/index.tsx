@@ -1,107 +1,125 @@
-import React from "react";
-import { ReactNode } from "react";
+import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
-import { ItemDataProps } from "types";
+import { StoreItem } from "types";
 import Item from "./Item";
+import { Modal, Tab, SystemModal } from "components";
+import { exchange, ExchangeRequest, getStoreItems } from "api";
+import { selectToken, useAppSelector, useUser } from "system";
+import invariant from "tiny-invariant";
 
-const mockItem: ItemDataProps[] = [
-  {
-    title: "哥布林碎片",
-    itemImg: Assets.Lobby.Store_Mob_01,
-    cardImg: Assets.Lobby.Store_Item_Card,
-    gemCurrentNumber: 25,
-    gemTotalNumber: 20,
-    cardCurrentNumber: 20,
-    cardTotalNumber: 20,
-  },
-  {
-    title: "藍色行星",
-    itemImg: Assets.Lobby.Store_Mob_01,
-    cardImg: Assets.Lobby.Store_Item_Card,
-    gemCurrentNumber: 25,
-    gemTotalNumber: 20,
-    cardCurrentNumber: 5,
-    cardTotalNumber: 20,
-  },
-  {
-    title: "聖騎士的首飾",
-    itemImg: Assets.Lobby.Store_Mob_01,
-    cardImg: Assets.Lobby.Store_Item_Card,
-    gemCurrentNumber: 25,
-    gemTotalNumber: 20,
-    cardCurrentNumber: 20,
-    cardTotalNumber: 20,
-  },
-  {
-    title: "大天使的呼吸",
-    itemImg: Assets.Lobby.Store_Mob_01,
-    cardImg: Assets.Lobby.Store_Item_Card,
-    gemCurrentNumber: 25,
-    gemTotalNumber: 20,
-    cardCurrentNumber: 0,
-    cardTotalNumber: 20,
-  },
-  {
-    title: "風險骰子",
-    itemImg: Assets.Lobby.Store_Mob_01,
-    cardImg: Assets.Lobby.Store_Item_Card,
-    gemCurrentNumber: 25,
-    gemTotalNumber: 20,
-    cardCurrentNumber: 0,
-    cardTotalNumber: 20,
-  },
-  {
-    title: "魔女的回春藥",
-    itemImg: Assets.Lobby.Store_Mob_01,
-    cardImg: Assets.Lobby.Store_Item_Card,
-    gemCurrentNumber: 20,
-    gemTotalNumber: 20,
-    cardCurrentNumber: 5,
-    cardTotalNumber: 5,
-  },
-];
+function useStoreItem() {
+  const [store, setItems] = useState<{
+    card: StoreItem[];
+    other: StoreItem[];
+  }>();
 
-type SystemModalProps = {
-  children?: ReactNode;
-  className?: string;
-};
-function SystemModal({ children, className }: SystemModalProps) {
-  return (
-    <div className={clsx("flex h-full justify-center", className)}>
-      <div className="relative flex items-center justify-center w-2/3">
-        <img src={Assets.Lobby.Store_Frame_Bg} alt="store frame bg" />
+  const token = useAppSelector(selectToken);
 
-        <div className="absolute w-full h-full text-2xl">
-          <div className="relative">
-            <div className="h-48 overflow-scroll pointer-events-auto flex flex-col items-center space-y-1">
-              {/* {children} */}
-            </div>
+  useEffect(() => {
+    invariant(token, "Unauthorization");
 
-            <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
-          </div>
-        </div>
-      </div>
-    </div>
+    getStoreItems(token).then(setItems);
+  }, [token]);
+
+  const onExchange = useCallback(
+    (req: ExchangeRequest) => {
+      invariant(token, "Unauthorization");
+
+      return exchange(token, req)
+        .then(() => getStoreItems(token))
+        .then(setItems);
+    },
+    [token]
   );
+
+  return { store, onExchange };
 }
 
 type StoreProps = {
   className: string;
 };
 export default function Store({ className }: StoreProps) {
+  const { store, onExchange } = useStoreItem();
+  const user = useUser();
+
+  invariant(user, "Unauthorization");
+
+  const filters = [
+    { key: "card", label: "熱門商品" },
+    { key: "other", label: "特殊兌換" },
+  ];
+
+  const [active, setActive] = useState(filters[0]);
+
+  const [show, setOpen] = useState(false);
+
   return (
-    <div
-      className={clsx(
-        "absolute w-full h-full left-0 top-0 bg-black bg-opacity-50",
-        className
+    <>
+      <div
+        className={clsx(
+          "absolute w-full h-full left-0 top-0 bg-black bg-opacity-50 flex justify-center items-center",
+          className
+        )}
+      >
+        <div className="flex justify-center w-2/3">
+          <div className="relative flex items-center justify-center">
+            <img src={Assets.Lobby.Store_Frame_Bg} alt="store frame bg" />
+
+            <div className="absolute w-full h-full px-1/12 pt-1/12 pb-1/24">
+              <div className="relative h-full">
+                <nav className="flex">
+                  {filters.map((tab) => (
+                    <Tab
+                      className="w-1/4"
+                      key={tab.key}
+                      label={tab.label}
+                      normalImage={Assets.Lobby.Store_Tab_Disable}
+                      activeImage={Assets.Lobby.Store_Tab_Enable}
+                      active={tab.key === active.key}
+                      onClick={() => setActive(tab)}
+                    />
+                  ))}
+                </nav>
+
+                <div
+                  className={clsx(
+                    "overflow-scroll pointer-events-auto",
+                    "h-5/6 flex flex-col items-center py-2",
+                    "text-sm"
+                  )}
+                >
+                  {store?.[active.key].map((item: StoreItem) => (
+                    <Item
+                      key={item.id}
+                      item={item}
+                      onExchange={() =>
+                        onExchange({
+                          uid: user.uid,
+                          point: String(user.balance),
+                          attr_id: String(item.id),
+                        }).then(() => setOpen(true))
+                      }
+                    />
+                  ))}
+                </div>
+
+                <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {show && (
+        <Modal onClose={() => setOpen(false)}>
+          <SystemModal button="確認" onConfirm={() => setOpen(false)}>
+            <p className="w-full h-full flex justify-center items-center text-white text-lg">
+              交易完成
+            </p>
+          </SystemModal>
+        </Modal>
       )}
-    >
-      <SystemModal>
-        {mockItem.map((item, index) => (
-          <Item key={index} item={item}></Item>
-        ))}
-      </SystemModal>
-    </div>
+    </>
   );
 }

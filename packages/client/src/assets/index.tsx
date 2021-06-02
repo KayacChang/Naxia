@@ -150,6 +150,8 @@ const Lobby = {
   Store_Item_Frame: assets("/lobby/store/item_frame.png"),
   Store_Number_Frame_Bg: assets("/lobby/store/number_frame_bg.png"),
   Store_Mob_01: assets("/lobby/store/mob_goblin.png"),
+  Store_Tab_Enable: assets("/lobby/store/tab_enable.png"),
+  Store_Tab_Disable: assets("/lobby/store/tab_disable.png"),
 
   //Ranking
   Ranking_Background: assets("/lobby/ranking/background.png"),

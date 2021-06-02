@@ -2,7 +2,8 @@ import React from "react";
 import clsx from "clsx";
 import Assets from "assets";
 
-import { ItemDataProps } from "types";
+import { StoreItem } from "types";
+import { exchange } from "api";
 
 type ItemCollectionBoxProps = {
   className?: string;
@@ -18,20 +19,30 @@ function ItemCollectionBox({
   currentNumber,
 }: ItemCollectionBoxProps) {
   return (
-    <div className={clsx("relative h-6 flex items-center", className)}>
+    <div
+      className={clsx(
+        "relative flex items-center text-xxs lg:text-xl",
+        className
+      )}
+    >
       <img
-        className="h-4 ml-3"
+        className="ml-3 w-12 lg:w-auto"
         src={Assets.Lobby.Store_Number_Frame_Bg}
         alt="store number frame"
       />
-      <div className="absolute w-6">
+
+      <div className="absolute w-6 lg:w-auto">
         <img src={icon} alt="store gem sm" />
       </div>
-      <div className="absolute text-green-500 text-xxs font-bold right-0.5">
+
+      <div className="absolute text-green-500 font-bold right-1 lg:right-2 lg:space-x-1">
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>
           {currentNumber}
         </span>
-        <span>/{totalNumber}</span>
+
+        <span>/</span>
+
+        <span>{totalNumber}</span>
       </div>
     </div>
   );
@@ -42,8 +53,14 @@ type ItemButtonProps = {
 };
 function ItemButton({ alive, onClick }: ItemButtonProps) {
   return (
-    <div className="h-7 w-16">
-      <button className="h-full relative flex items-center" onClick={onClick}>
+    <div className="w-1/4 text-xs lg:text-xl">
+      <button
+        className={clsx(
+          "h-full relative flex items-center",
+          alive && "pointer-events-none"
+        )}
+        onClick={onClick}
+      >
         <img
           className="h-full w-full"
           src={
@@ -54,54 +71,61 @@ function ItemButton({ alive, onClick }: ItemButtonProps) {
           alt="store button"
         />
 
-        <p className="absolute w-full text-center text-xxs font-kai mb-px">
-          兌換
-        </p>
+        <p className="absolute w-full text-center font-kai mb-px">兌換</p>
       </button>
     </div>
   );
 }
 
 type ItemProps = {
-  item: ItemDataProps;
+  item: StoreItem;
+  onExchange: () => void;
 };
-export default function Item({ item }: ItemProps) {
-  const isAlive =
-    item.cardCurrentNumber >= item.cardTotalNumber &&
-    item.gemCurrentNumber >= item.gemTotalNumber
-      ? true
-      : false;
+export default function Item({ item, onExchange }: ItemProps) {
+  const alive = item.requirements.every(
+    ({ count, accumulate }) => accumulate >= count
+  );
 
   return (
-    <div className="relative h-12 flex justify-center items-center">
-      <div className="m-1">
-        <img src={Assets.Lobby.Store_Item_Bar_Bg} alt="store item bar bg" />
-      </div>
+    <div className="relative flex justify-center items-center">
+      <img src={Assets.Lobby.Store_Item_Bar_Bg} alt="store item bar bg" />
 
-      <div className="absolute w-full flex space-x-2 px-2">
-        <div className="w-14">
-          <img src={item.itemImg} alt="store item img" />
+      <div className="absolute w-full flex space-x-2 px-4">
+        <div className="relative flex justify-center items-center w-1/8 lg:w-1/6">
+          <img
+            className="p-0.5 lg:p-1"
+            src={item.item_img || Assets.Lobby.Store_Mob_01}
+            alt="store item img"
+          />
+
+          <img
+            className="absolute"
+            src={Assets.Lobby.Store_Item_Frame}
+            alt="store item frame"
+          />
         </div>
 
         <div className="flex-1 flex items-center">
           <div className="w-1/4">
-            <p className="font-kai text-fansy text-xs">{item.title}</p>
+            <p className="font-kai text-fansy text-xs lg:text-2xl">
+              {item.name}
+            </p>
           </div>
 
-          <div className="w-3/4 flex justify-between items-center">
-            <ItemCollectionBox
-              currentNumber={item.gemCurrentNumber}
-              totalNumber={item.gemTotalNumber}
-            />
+          <div className="w-3/4 flex justify-between items-center space-x-4">
+            {item.requirements.map(({ type, count, accumulate }) => (
+              <ItemCollectionBox
+                icon={
+                  type === "item"
+                    ? Assets.Lobby.Store_Item_Card
+                    : Assets.Lobby.Store_Gem_Sm
+                }
+                currentNumber={accumulate}
+                totalNumber={count}
+              />
+            ))}
 
-            <ItemCollectionBox
-              className="ml-4"
-              icon={item.cardImg}
-              currentNumber={item.cardCurrentNumber}
-              totalNumber={item.cardTotalNumber}
-            />
-
-            <ItemButton alive={isAlive} />
+            <ItemButton alive={alive} onClick={onExchange} />
           </div>
         </div>
       </div>
