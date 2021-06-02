@@ -62,6 +62,10 @@ export default function GameResult() {
     return;
   }, [status, dispatch, setSkip]);
 
+  if (!result) {
+    return <></>;
+  }
+
   if (skip) {
     return <></>;
   }
@@ -74,7 +78,7 @@ export default function GameResult() {
       <img
         className="absolute w-4/5"
         src={
-          result!.result === "lose"
+          result.result === "lose"
             ? Assets.Room.Result_Failed
             : Assets.Room.Result_Success
         }

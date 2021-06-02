@@ -144,11 +144,10 @@ const Lobby = {
   Store_Button_Disable: assets("/lobby/store/button_disable.png"),
   Store_Button_Regular: assets("/lobby/store/button_regular.png"),
   Store_Frame_Bg: assets("/lobby/store/frame_bg.png"),
-  Store_Frame_Top_Mask: assets("/lobby/store/frame_top_mask.png"),
   Store_Gem_Sm: assets("/lobby/store/gem_sm.png"),
   Store_Item_Bar_Bg: assets("/lobby/store/item_bar_bg.png"),
-  Store_Item_Bar_Frame: assets("/lobby/store/item_bar_frame.png"),
   Store_Item_Card: assets("/lobby/store/item_card.png"),
+  Store_Item_Frame: assets("/lobby/store/item_frame.png"),
   Store_Number_Frame_Bg: assets("/lobby/store/number_frame_bg.png"),
   Store_Mob_01: assets("/lobby/store/mob_goblin.png"),
 

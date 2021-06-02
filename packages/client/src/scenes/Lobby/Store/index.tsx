@@ -68,16 +68,14 @@ type SystemModalProps = {
 };
 function SystemModal({ children, className }: SystemModalProps) {
   return (
-    <div
-      className={clsx("flex h-full justify-center pt-10 pb-16 pr-3", className)}
-    >
-      <div className="w-126 relative flex justify-center">
+    <div className={clsx("flex h-full justify-center", className)}>
+      <div className="relative flex justify-center">
         <img src={Assets.Lobby.Store_Frame_Bg} alt="store frame bg" />
 
-        <div className="absolute top-0 w-full px-18 mt-12 text-2xl">
+        <div className="absolute w-full h-full text-2xl">
           <div className="relative">
             <div className="h-48 overflow-scroll pointer-events-auto flex flex-col items-center space-y-1">
-              {children}
+              {/* {children} */}
             </div>
 
             <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />

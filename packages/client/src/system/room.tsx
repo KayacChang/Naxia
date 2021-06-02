@@ -214,10 +214,15 @@ export const room = {
     ws = new WebSocket(url.toString());
 
     ws.addEventListener("message", (event: MessageEvent) => {
+      if (event.data === "pong") return;
+
       const data = JSON.parse(event.data) as RoomResponse;
 
       if (data.event === "room_status") {
-        dispatch(room.order.clear());
+        if (data.data.status === RoomStatus.Result) {
+          dispatch(room.order.clear());
+        }
+
         dispatch(game.status(data.data.status));
       }
 
@@ -232,6 +237,22 @@ export const room = {
       if (data.event === "next_round_monster") {
         dispatch(game.boss(data.data));
       }
+    });
+
+    let id: NodeJS.Timeout | undefined = undefined;
+
+    ws.addEventListener(
+      "open",
+      () => {
+        id = setInterval(() => {
+          ws?.send("ping");
+        }, 5 * 1000);
+      },
+      { once: true }
+    );
+
+    ws.addEventListener("close", () => {
+      id && clearInterval(id);
     });
 
     return new Promise((resolve) => {

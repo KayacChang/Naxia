@@ -106,12 +106,12 @@ export default function Item({ item }: ItemProps) {
         </div>
       </div>
 
-      <div className="absolute w-full">
+      {/* <div className="absolute w-full">
         <img
           src={Assets.Lobby.Store_Item_Bar_Frame}
           alt="store item bar frame"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

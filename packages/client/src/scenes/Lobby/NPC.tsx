@@ -22,16 +22,16 @@ export default function NPC() {
   if (isStore?.isExact) return <></>;
 
   return (
-    <div className="flex-1 relative px-2 flex items-end">
-      <div className="fixed bottom-0 w-1/5">
+    <div className="flex-1 relative px-2 flex items-end -my-14 xl:-my-24">
+      <div className="absolute bottom-0 w-10/12">
         <img src={img} alt="npc" />
       </div>
 
-      <div className="relative mb-6 flex justify-center items-center">
+      <div className="relative mb-20 lg:mb-1/4 xl:mb-1/6 flex justify-center items-center">
         <img src={Assets.Lobby.Dialog} alt="dialog" />
 
         <div className="absolute w-full h-full flex flex-col">
-          <div className="absolute pl-8 lg:pl-20 flex items-center h-1/4">
+          <div className="absolute pl-8 md:pl-12 lg:pl-20 flex items-center h-1/4">
             <span className="text-fansy text-sm lg:text-2xl">{name}</span>
           </div>
 
