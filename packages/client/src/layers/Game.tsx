@@ -5,6 +5,7 @@ import { Canvas } from "components";
 import { IApplicationOptions } from "@pixi/app";
 import { Provider } from "react-redux";
 import { store, useViewport } from "system";
+import clsx from "clsx";
 
 type GameProps = {
   children?: ReactNode;
@@ -18,7 +19,7 @@ export function Game({ children, className, options }: GameProps) {
     <Canvas
       width={width}
       height={height}
-      className={className}
+      className={clsx("fixed", className)}
       options={options}
     >
       <Provider store={store}>{children}</Provider>

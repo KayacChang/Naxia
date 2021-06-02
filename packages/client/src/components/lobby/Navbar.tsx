@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "components";
 import { useLocation } from "react-router";
 import Assets from "assets";
+import clsx from "clsx";
 
 const links = [
   {
@@ -56,13 +57,26 @@ export function Navbar() {
 
   return (
     <nav className="relative z-20">
-      <img src={Assets.Lobby.Narbar_Frame} alt="nav frame" />
+      <div className="transform lg:translate-y-1/3">
+        <img src={Assets.Lobby.Narbar_Frame} alt="nav frame" />
+      </div>
 
-      <Link to="#" className="absolute bottom-0 left-0 w-32">
+      <Link
+        to="#"
+        className={clsx(
+          "absolute bottom-0 left-0 w-32",
+          "transform origin-bottom-left lg:scale-150"
+        )}
+      >
         <img src={Assets.Lobby.Narbar_Back} alt="back to home" />
       </Link>
 
-      <div className="absolute bottom-0 w-full pr-5 pb-1 flex justify-end space-x-2">
+      <div
+        className={clsx(
+          "absolute bottom-0 w-full pr-5 pb-1 flex justify-end space-x-2",
+          "transform origin-bottom-right lg:scale-150"
+        )}
+      >
         {links.map(({ key, icons, href, name }) => (
           <Link
             key={key}

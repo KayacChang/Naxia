@@ -11,6 +11,8 @@ import {
   BGM,
   Effect,
 } from "system";
+import SideButton from "./SideButton";
+import clsx from "clsx";
 
 type InputRangeProps = {
   label: string;
@@ -30,7 +32,7 @@ function InputRange({
 }: InputRangeProps) {
   return (
     <div className="flex-1 flex items-center space-x-8">
-      <p className="whitespace-nowrap">{label}</p>
+      <p className="whitespace-nowrap lg:text-2xl">{label}</p>
 
       <div className="relative flex items-center">
         <img src={Assets.Common.Setting_Volume_Bottom} alt="background" />
@@ -51,8 +53,8 @@ function InputRange({
                 }}
               >
                 <img
+                  className="transform translate-y-px lg:translate-y-2px"
                   style={{
-                    transform: `translate(0, 1px)`,
                     clipPath: `inset(0 ${100 - value}% 0 0)`,
                   }}
                   src={Assets.Common.Setting_Volume_Bar}
@@ -66,7 +68,10 @@ function InputRange({
           renderThumb={({ props }) => (
             <img
               {...props}
-              className="absolute top-0 w-5 pointer-events-auto"
+              className={clsx(
+                "absolute top-0  pointer-events-auto",
+                "w-5 lg:w-10"
+              )}
               src={Assets.Common.Setting_Volume_Controller}
               alt="controller"
             />
@@ -97,15 +102,11 @@ export function Setting() {
 
   return (
     <>
-      <div className="relative">
-        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
-          設定
-        </div>
-
-        <button onClick={() => setSettingOpen(true)}>
-          <img src={icon.icons.normal} alt={icon.key} />
-        </button>
-      </div>
+      <SideButton
+        label="設定"
+        img={icon.icons.normal}
+        onClick={() => setSettingOpen(true)}
+      />
 
       {isSettingOpen && (
         <Modal onClose={() => setSettingOpen(false)}>

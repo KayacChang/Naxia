@@ -98,14 +98,21 @@ function Form() {
       if (user.auth.fulfilled.match(action)) {
         return history.push("/lobby");
       }
-
-      console.log("failed");
     },
     [dispatch, history, username, password]
   );
 
   return (
-    <form className="mt-32 w-2/5 space-y-4 font-kai" onSubmit={onSubmit}>
+    <form
+      className={clsx(
+        "mt-32 font-kai",
+        "flex flex-col items-center justify-center",
+        "gap-4 lg:gap-8",
+        "w-2/5 lg:w-1/5",
+        "text-base lg:text-2xl"
+      )}
+      onSubmit={onSubmit}
+    >
       <InputField placeholder="輸入帳號" onChange={setUsername} />
 
       <InputField
@@ -116,7 +123,7 @@ function Form() {
 
       <Submit className="mx-14">{"登入"}</Submit>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between w-full">
         <a className="text-shadow-md" href="/">
           {"還沒有帳號?"}
         </a>
@@ -147,15 +154,15 @@ function Form() {
 }
 
 function View() {
-  const { width, height } = useViewport();
+  const { width, height, scale } = useViewport();
 
   return (
-    <Game className="fixed top-0">
+    <Game className="fixed">
       <Spine
         data={getAssets("Login_Spine")}
         x={width / 2}
         y={height / 2}
-        scale={1 / window.devicePixelRatio}
+        scale={scale}
         mount={(spine) => spine.state.setAnimation(0, "animation", true)}
       />
     </Game>

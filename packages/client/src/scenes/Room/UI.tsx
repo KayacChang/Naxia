@@ -169,7 +169,7 @@ export default function GameUI() {
               </ControlButton>
             </div>
 
-            <Sidebar className="w-12" />
+            <Sidebar />
           </div>
 
           <BetSection skills={info.skills} bets={info.bets} />

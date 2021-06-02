@@ -7,7 +7,6 @@ export * from "./common/Location";
 export * from "./common/Status";
 export * from "./common/Setting";
 export * from "./common/Announcement";
-export * from "./common/Mailbox";
 export * from "./common/SystemModal";
 
 export * from "./lobby/InputField";

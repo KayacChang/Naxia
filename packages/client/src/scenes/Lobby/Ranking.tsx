@@ -2,29 +2,29 @@ import React from "react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
-import { Tab } from "components";
+import { Tab, Avatar } from "components";
 import { currency } from "utils";
 import { getRank } from "api";
 import { selectToken, useAppSelector } from "system";
 import invariant from "tiny-invariant";
-import { Ranking } from "types";
+import { Ranking, RankingRecord } from "types";
 
-type RankingItemProps = {
-  rank: number;
-  userName: string;
-  point: number;
-};
-function RankingItem({ rank, userName, point }: RankingItemProps) {
+function RankingItem({ rank, name, value, avatar }: RankingRecord) {
   return (
-    <div className="relative text-white text-xs">
+    <div className="relative text-white text-xs lg:text-2xl">
       <img
         src={Assets.Lobby.Ranking_Item_Background}
         alt="ranking item background"
       />
 
       <div className="absolute top-0 w-full h-full">
-        <div className="relative w-full h-full flex items-center pr-3">
-          <div className="absolute w-10 transform -translate-x-1/2">
+        <div className="relative w-full h-full flex items-center pr-1/16">
+          <div
+            className={clsx(
+              "absolute transform -translate-x-1/2",
+              "w-10 lg:w-auto"
+            )}
+          >
             <img
               src={
                 rank > 3
@@ -35,23 +35,20 @@ function RankingItem({ rank, userName, point }: RankingItemProps) {
             />
           </div>
 
-          <div className="relative w-7 ml-5 flex justify-center items-center">
-            <img
-              src={Assets.Lobby.Ranking_Avatar_Background}
-              alt="background"
-            />
-
-            <img
-              className="absolute w-full p-0.5"
-              src={Assets.Lobby.Ranking_Avatar}
-              alt="avatar"
-            />
+          <div
+            className={clsx(
+              "relative flex justify-center items-center",
+              "ml-1/16",
+              "w-7 lg:w-1/12"
+            )}
+          >
+            <Avatar id={String(avatar)} />
           </div>
 
-          <p className="font-kai flex-1 mx-2">{userName}</p>
+          <p className="font-kai flex-1 mx-2">{name}</p>
 
           <p className="flex-1 flex justify-end text-fansy">
-            {currency(point)}
+            {currency(value)}
           </p>
         </div>
       </div>
@@ -99,11 +96,18 @@ export default function Rank({ className }: RankingProps) {
       <article className={clsx("relative", className)}>
         <img src={Assets.Lobby.Ranking_Background} alt="ranking background" />
 
-        <div className="absolute top-0 w-full h-full pt-10 pb-18 px-8 flex flex-col">
+        <div
+          className="absolute top-0 w-full h-full flex flex-col pt-1/10 pb-18 lg:pb-1/4"
+          style={{
+            paddingLeft: `${7.25}%`,
+            paddingRight: `${7.25}%`,
+          }}
+        >
           <nav className="relative flex justify-between">
             <div className="flex">
               {filters.map((tab) => (
                 <Tab
+                  className="w-1/4 lg:w-auto"
                   key={tab.key}
                   label={tab.label}
                   normalImage={Assets.Lobby.Ranking_Tab_Normal}
@@ -114,7 +118,13 @@ export default function Rank({ className }: RankingProps) {
               ))}
             </div>
 
-            <div className="relative flex justify-center items-center w-24 text-xxs font-kai text-yellow-700">
+            <div
+              className={clsx(
+                "relative flex justify-center items-center font-kai text-yellow-700",
+                "text-xxs lg:text-xl",
+                "w-48 lg:w-1/4"
+              )}
+            >
               <img
                 src={Assets.Lobby.Ranking_UpdateTime_background}
                 alt="ranking updateTime background"
@@ -126,16 +136,13 @@ export default function Rank({ className }: RankingProps) {
 
           <div className="relative flex-1">
             <div
-              className="w-full space-y-2 py-2 pl-6 pr-2 overflow-scroll pointer-events-auto"
-              style={{ height: `9.5rem` }}
+              className={clsx(
+                "w-full space-y-2 py-2 pl-1/16 pr-2 overflow-scroll pointer-events-auto",
+                "h-40 lg:h-96"
+              )}
             >
-              {data?.map((user, index) => (
-                <RankingItem
-                  key={user.name}
-                  rank={user.rank}
-                  userName={user.name}
-                  point={user.value}
-                />
+              {data?.map((user) => (
+                <RankingItem key={user.name} {...user} />
               ))}
             </div>
 
@@ -143,11 +150,7 @@ export default function Rank({ className }: RankingProps) {
 
             {current && (
               <div className="absolute bottom-0 transform translate-y-full py-2 pl-6 pr-2">
-                <RankingItem
-                  rank={current.rank}
-                  userName={current.name}
-                  point={current.value}
-                />
+                <RankingItem {...current} />
               </div>
             )}
           </div>

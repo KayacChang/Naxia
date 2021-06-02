@@ -7,6 +7,7 @@ type TabProps = {
   activeImage: string;
   active?: boolean;
   onClick?: () => void;
+  className?: string;
 };
 export function Tab({
   label,
@@ -14,10 +15,15 @@ export function Tab({
   activeImage,
   active,
   onClick,
+  className,
 }: TabProps) {
   return (
     <button
-      className="w-16 text-gray-500 text-xxs font-kai relative z-20"
+      className={clsx(
+        "text-gray-500 font-kai relative z-20",
+        " text-xxs lg:text-lg",
+        className
+      )}
       onClick={onClick}
     >
       <img className="w-full" src={normalImage} alt="tab normal" />

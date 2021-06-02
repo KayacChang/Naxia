@@ -3,6 +3,23 @@ import { ReactNode } from "react";
 import Assets from "assets";
 import clsx from "clsx";
 
+type TitleProps = {
+  children: ReactNode;
+};
+function Title({ children }: TitleProps) {
+  return (
+    <div className={clsx("absolute -top-4 w-40", "transform lg:scale-150")}>
+      <div className="relative flex justify-center items-center">
+        <img src={Assets.Common.Modal_Title} alt="modal frame title" />
+
+        <h2 className="absolute font-noto text-yellow-300 mt-1 tracking-widest">
+          {children}
+        </h2>
+      </div>
+    </div>
+  );
+}
+
 type SystemModalProps = {
   type?: "default" | "history";
   title?: string;
@@ -59,58 +76,77 @@ function Default({
           <div className="flex-1 flex justify-between items-center">
             {subButton && (
               <div className="flex-1 flex justify-center items-center">
-                <button
-                  className="w-32 relative flex justify-center items-center"
+                <Button
+                  img={Assets.Common.Setting_Reset_Button}
+                  disabled={disalbeButton}
                   onClick={customFunc}
                 >
-                  <img src={Assets.Common.Setting_Reset_Button} alt="button" />
-
-                  <span className="absolute text-white font-noto tracking-widest">
-                    {subButton}
-                  </span>
-                </button>
+                  {subButton}
+                </Button>
               </div>
             )}
 
             {button && (
               <div className="flex-1 flex justify-center items-center">
-                <button
-                  className={clsx(
-                    "w-32 relative flex justify-center items-center",
-                    disalbeButton && "pointer-events-none filter grayscale"
-                  )}
+                <Button
+                  img={Assets.Common.Modal_Button}
+                  disabled={disalbeButton}
                   onClick={onConfirm}
                 >
-                  <img src={Assets.Common.Modal_Button} alt="button" />
-
-                  <span className="absolute text-white font-noto tracking-widest">
-                    {button}
-                  </span>
-                </button>
+                  {button}
+                </Button>
               </div>
             )}
           </div>
         </div>
 
-        {title && (
-          <div className="absolute -top-4 w-40">
-            <div className="relative flex justify-center items-center">
-              <img src={Assets.Common.Modal_Title} alt="modal frame title" />
+        {title && <Title>{title}</Title>}
 
-              <h2 className="absolute font-noto text-yellow-300 mt-1 tracking-widest">
-                {title}
-              </h2>
-            </div>
-          </div>
-        )}
-
-        {onClose && (
-          <button className="absolute -top-5 -right-5 w-12" onClick={onClose}>
-            <img src={Assets.Common.Modal_Close} alt="close button" />
-          </button>
-        )}
+        {onClose && <Close onClick={onClose} />}
       </div>
     </div>
+  );
+}
+
+type CloseProps = {
+  onClick: () => void;
+};
+function Close({ onClick }: CloseProps) {
+  return (
+    <button
+      className={clsx(
+        "absolute -top-5 -right-5 w-12",
+        "transform lg:scale-150"
+      )}
+      onClick={onClick}
+    >
+      <img src={Assets.Common.Modal_Close} alt="close button" />
+    </button>
+  );
+}
+
+type ButtonProps = {
+  img: string;
+  children: ReactNode;
+  disabled?: boolean;
+  onClick?: () => void;
+};
+function Button({ img, children, disabled, onClick }: ButtonProps) {
+  return (
+    <button
+      className={clsx(
+        "w-32 relative flex justify-center items-center",
+        "transform lg:scale-150",
+        disabled && "pointer-events-none filter grayscale"
+      )}
+      onClick={onClick}
+    >
+      <img src={img} alt="button" />
+
+      <span className="absolute text-white font-kai tracking-widest">
+        {children}
+      </span>
+    </button>
   );
 }
 
@@ -131,36 +167,15 @@ function History({
 
       {button && (
         <div className="absolute bottom-0 flex-1 flex justify-center items-center transform translate-y-1/2">
-          <button
-            className="w-32 relative flex justify-center items-center"
-            onClick={onConfirm}
-          >
-            <img src={Assets.Common.Modal_Button} alt="button" />
-
-            <span className="absolute text-white font-kai tracking-widest">
-              {button}
-            </span>
-          </button>
+          <Button img={Assets.Common.Modal_Button} onClick={onConfirm}>
+            {button}
+          </Button>
         </div>
       )}
 
-      {title && (
-        <div className="absolute -top-4 w-40">
-          <div className="relative flex justify-center items-center">
-            <img src={Assets.Common.Modal_Title} alt="modal frame title" />
+      {title && <Title>{title}</Title>}
 
-            <h2 className="absolute font-kai text-yellow-300 mt-1 tracking-widest">
-              {title}
-            </h2>
-          </div>
-        </div>
-      )}
-
-      {onClose && (
-        <button className="absolute -top-5 -right-5 w-12" onClick={onClose}>
-          <img src={Assets.Common.Modal_Close} alt="close button" />
-        </button>
-      )}
+      {onClose && <Close onClick={onClose} />}
     </div>
   );
 }

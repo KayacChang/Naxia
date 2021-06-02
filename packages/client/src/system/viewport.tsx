@@ -6,14 +6,18 @@ import { Map } from "immutable";
 import { throttle } from "utils";
 import Assets from "assets";
 import { createPortal } from "react-dom";
+import MobileDetect from "mobile-detect";
 
-export function isChrome() {
-  const userAgent = window.navigator.userAgent;
-  return /Chrome/i.test(userAgent) || /CriOS/i.test(userAgent);
+function detect() {
+  return new MobileDetect(window.navigator.userAgent);
 }
 
-export function isIOS() {
-  return window.navigator.platform.match(/iPad|iPhone|iPod/i);
+export function isChrome() {
+  return detect().userAgent() === "Chrome";
+}
+
+export function isMobile() {
+  return Boolean(detect().mobile());
 }
 
 export function getOrientation(): "portrait" | "landscape" {
@@ -23,6 +27,30 @@ export function getOrientation(): "portrait" | "landscape" {
 }
 
 export function getViewPort(ratio = 16 / 9) {
+  if (!isMobile()) {
+    if (window.innerWidth / window.innerHeight < ratio) {
+      const width = window.innerWidth;
+
+      const height = width / ratio;
+
+      return {
+        width,
+        height,
+        scale: height / window.innerHeight,
+      };
+    }
+
+    const height = window.innerHeight;
+
+    const width = height * ratio;
+
+    return {
+      width,
+      height,
+      scale: 1 / window.devicePixelRatio || 1,
+    };
+  }
+
   const height = Math.min(window.screen.width, window.screen.height);
 
   const width = height * ratio;
@@ -30,6 +58,7 @@ export function getViewPort(ratio = 16 / 9) {
   return {
     width,
     height,
+    scale: 1 / window.devicePixelRatio || 1,
   };
 }
 
@@ -41,26 +70,20 @@ export function isBarOpen() {
   return diff > trigger;
 }
 
-type Viewport = { width: number; height: number };
-
+type Viewport = { width: number; height: number; scale: number };
 const initialState: Viewport = getViewPort();
-
 const viewportSlice = createSlice({
   name: "viewport",
   initialState,
   reducers: {
     update(state, action: PayloadAction<Viewport>) {
-      const { width, height } = action.payload;
-
+      const { width, height, scale } = action.payload;
       state.width = width;
       state.height = height;
+      state.scale = scale;
     },
   },
 });
-
-const selectViewport = (state: RootState) => state.viewport;
-
-export default viewportSlice.reducer;
 
 type ViewportProviderProps = {
   children: ReactNode;
@@ -70,6 +93,8 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const viewport = useAppSelector(selectViewport);
   const [orientation, setOrientation] = useState(getOrientation());
   const [isToolbarVisible, setToolbarVisible] = useState(() => isBarOpen());
+
+  const isDesktop = !isMobile();
 
   useLayoutEffect(() => {
     const refresh = () => {
@@ -87,6 +112,8 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   }, [viewport, dispatch]);
 
   useLayoutEffect(() => {
+    if (isDesktop) return;
+
     const refresh = throttle(300, () => {
       setOrientation(getOrientation());
       setToolbarVisible(isBarOpen());
@@ -103,7 +130,11 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       id = requestAnimationFrame(update);
     });
     return () => cancelAnimationFrame(id);
-  }, [setOrientation, setToolbarVisible, isToolbarVisible]);
+  }, [setOrientation, setToolbarVisible, isToolbarVisible, isDesktop]);
+
+  if (isDesktop) {
+    return <>{children}</>;
+  }
 
   if (orientation === "portrait") {
     return createPortal(
@@ -137,6 +168,10 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     </>
   );
 }
+
+const selectViewport = (state: RootState) => state.viewport;
+
+export default viewportSlice.reducer;
 
 export function useViewport() {
   return useAppSelector(selectViewport);

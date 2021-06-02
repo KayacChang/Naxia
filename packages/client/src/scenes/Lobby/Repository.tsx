@@ -104,10 +104,11 @@ export default function Repository({ className }: RepositoryProps) {
       <article className={clsx("relative", className)}>
         <img src={Assets.Lobby.Repo_Frame_Outer} alt="repository frame outer" />
 
-        <div className="absolute top-0 w-full h-full pt-10 pb-6 px-6">
-          <nav>
+        <div className="absolute top-0 w-full h-full pt-1/12 px-1/24">
+          <nav className="">
             {filters.map((tab) => (
               <Tab
+                className="w-2/12"
                 key={tab.key}
                 label={tab.label}
                 normalImage={Assets.Lobby.Repo_Tab_Normal}

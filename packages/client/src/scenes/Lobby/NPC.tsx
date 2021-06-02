@@ -23,7 +23,7 @@ export default function NPC() {
 
   return (
     <div className="flex-1 relative px-2 flex items-end">
-      <div className="absolute top-0">
+      <div className="fixed bottom-0 w-1/5">
         <img src={img} alt="npc" />
       </div>
 
@@ -31,12 +31,12 @@ export default function NPC() {
         <img src={Assets.Lobby.Dialog} alt="dialog" />
 
         <div className="absolute w-full h-full flex flex-col">
-          <div className="absolute h-5 pl-8 flex">
-            <span className="text-fansy text-sm">{name}</span>
+          <div className="absolute pl-8 lg:pl-20 flex items-center h-1/4">
+            <span className="text-fansy text-sm lg:text-2xl">{name}</span>
           </div>
 
-          <div className="flex-1 mt-2 px-4 flex items-center">
-            <p className="text-xs text-white">{dialog[current]}</p>
+          <div className="flex-1 mt-2 px-4 lg:px-8 flex items-center">
+            <p className="text-xs lg:text-xl text-white">{dialog[current]}</p>
           </div>
         </div>
       </div>

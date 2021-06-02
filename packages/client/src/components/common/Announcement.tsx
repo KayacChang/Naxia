@@ -3,6 +3,7 @@ import { useState, ReactNode } from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { Modal } from "components/lobby/Modal";
+import SideButton from "./SideButton";
 
 type SystemModalProps = {
   title?: string;
@@ -11,45 +12,56 @@ type SystemModalProps = {
 };
 function SystemModal({ title, button, onConfirm }: SystemModalProps) {
   return (
-    <div className="flex h-full justify-center">
-      <div className="w-full relative flex justify-center items-center">
+    <div className="flex justify-center">
+      <div className="relative flex justify-center items-center">
         <img
           className="w-3/4"
           src={Assets.Common.Announcement_Background}
           alt="modal announcement background"
         />
 
-        <div className="absolute top-0 flex flex-col italic h-full w-60 my-16 space-y-8 pointer-events-auto">
-          <TextFancyShadow className="w-full text-3xl font-bold tracking-wide">
-            {title}
+        <TextFancyShadow
+          className={clsx(
+            "absolute top-10 lg:top-20",
+            "font-bold tracking-wide",
+            "text-3xl lg:text-5xl"
+          )}
+        >
+          {title}
+        </TextFancyShadow>
+
+        <div
+          className={clsx(
+            "absolute top-1/4",
+            "w-1/3 h-2/3 py-4 lg:py-8",
+            "text-xl lg:text-3xl",
+            "grid place-content-evenly gap-6 lg:gap-9"
+          )}
+        >
+          <TextFancyShadow className="w-full">今日福利活動</TextFancyShadow>
+          <TextFancyShadow className="w-full">超額回饋玩家</TextFancyShadow>
+          <TextFancyShadow className="w-full">
+            200%爆率 500%經驗
           </TextFancyShadow>
 
-          <div className="w-full h-full flex-1 flex flex-col space-y-6">
-            <TextFancyShadow className="w-full text-2xl">
-              今日福利活動
-            </TextFancyShadow>
-            <TextFancyShadow className="w-full text-2xl">
-              超額回饋玩家
-            </TextFancyShadow>
-            <TextFancyShadow className="w-full text-xl">
-              200%爆率 500%經驗
-            </TextFancyShadow>
+          {button && (
+            <div className="w-full flex justify-center items-start">
+              <button
+                className={clsx(
+                  "relative flex justify-center items-center",
+                  "w-32 lg:w-48",
+                  "text-base lg:text-2xl"
+                )}
+                onClick={onConfirm}
+              >
+                <img src={Assets.Common.Modal_Button} alt="button" />
 
-            {button && (
-              <div className="w-full flex justify-center items-start">
-                <button
-                  className="w-32 relative flex justify-center items-center"
-                  onClick={onConfirm}
-                >
-                  <img src={Assets.Common.Modal_Button} alt="button" />
-
-                  <span className="absolute text-white font-noto tracking-widest">
-                    {button}
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
+                <span className="absolute text-white font-noto tracking-widest">
+                  {button}
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -62,15 +74,17 @@ type TextFancyShadowProps = {
 };
 function TextFancyShadow({ className, children }: TextFancyShadowProps) {
   return (
-    <div className={clsx("flex justify-center relative", className)}>
-      <div className="text-2d">{children}</div>
-      <div className="text-fansy absolute top-0">{children}</div>
-      <style>{`
+    <div className={className}>
+      <div className={clsx("flex justify-center relative")}>
+        <div className="text-2d">{children}</div>
+        <div className="text-fansy absolute top-0">{children}</div>
+        <style>{`
       .text-2d{
         color: #fdde63;
         text-shadow: 0px -0.5px 0px #FFFFFF, 2px 2px 0px #673409;
       }
       `}</style>
+      </div>
     </div>
   );
 }
@@ -87,14 +101,11 @@ export function Announcement() {
 
   return (
     <>
-      <div className="relative">
-        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
-          公告
-        </div>
-        <button onClick={() => setAnnouncementOpen(true)}>
-          <img src={icon.icons.normal} alt={icon.key} />
-        </button>
-      </div>
+      <SideButton
+        label="公告"
+        img={icon.icons.normal}
+        onClick={() => setAnnouncementOpen(true)}
+      />
 
       {isAnnouncementOpen && (
         <Modal onClose={() => setAnnouncementOpen(false)}>

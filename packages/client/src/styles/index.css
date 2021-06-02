@@ -35,6 +35,8 @@
 
 * {
   pointer-events: none;
+  touch-action: none;
+  outline: none;
 }
 
 html,
@@ -60,11 +62,12 @@ a,
 button,
 canvas {
   pointer-events: auto;
-  outline: none;
+  touch-action: auto;
 }
 
 #root {
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100vh;
 }

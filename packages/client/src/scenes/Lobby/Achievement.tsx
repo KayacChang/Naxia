@@ -32,12 +32,22 @@ function Detail({ item, onClose }: DetailProps) {
               <img src={Assets.Lobby.Achievement_Detail} alt="detail" />
 
               <div className="absolute top-0 w-full h-full flex flex-col">
-                <h3 className="px-3 py-1 flex items-center text-lg text-yellow-300">
+                <h3
+                  className={clsx(
+                    "px-3 flex items-center text-yellow-300",
+                    "lg:h-1/8",
+                    "text-lg lg:text-3xl",
+                    "py-1 lg:py-8"
+                  )}
+                >
                   {item.name}
                 </h3>
 
                 <p
-                  className="px-3 py-1 flex-1 text-sm text-yellow-50 overflow-scroll pointer-events-auto"
+                  className={clsx(
+                    "p-3 flex-1 text-yellow-50 overflow-scroll pointer-events-auto",
+                    "text-sm lg:text-lg"
+                  )}
                   style={{ textIndent: `2em` }}
                 >
                   {item.description}
@@ -139,11 +149,19 @@ export default function _Achievement({ className }: AchievementProps) {
       <article className={clsx("relative", className)}>
         <img src={Assets.Lobby.Achievement_Frame} alt="frame" />
 
-        <div className="absolute top-0 w-full h-full pt-3 px-8 pb-8 ">
+        <div
+          className="absolute top-0 w-full h-full pb-1/10 lg:pb-1/6"
+          style={{
+            paddingTop: `${3}%`,
+            paddingLeft: `${7}%`,
+            paddingRight: `${7}%`,
+          }}
+        >
           <div className="flex flex-col h-full relative">
             <nav className="flex">
               {filters.map((tab) => (
                 <Tab
+                  className="w-2/12"
                   key={tab.key}
                   label={tab.label}
                   normalImage={Assets.Lobby.Ranking_Tab_Normal}
@@ -155,7 +173,7 @@ export default function _Achievement({ className }: AchievementProps) {
             </nav>
 
             {active.key === "cart" && (
-              <div className="flex-1 overflow-scroll pointer-events-auto m-2 grid grid-cols-3 gap-2">
+              <div className="overflow-scroll pointer-events-auto m-2 grid grid-cols-3 gap-2">
                 {achievement?.[active.key].map((item) => (
                   <button
                     key={item.name}

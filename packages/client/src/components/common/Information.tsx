@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Assets from "assets";
 import { Modal, SystemModal } from "components";
+import SideButton from "./SideButton";
 
 const icon = {
   key: "information",
@@ -23,14 +24,11 @@ export function Information() {
 
   return (
     <>
-      <div className="relative">
-        <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
-          資訊
-        </div>
-        <button onClick={() => setOpen(true)}>
-          <img src={icon.icons.normal} alt={icon.key} />
-        </button>
-      </div>
+      <SideButton
+        label="資訊"
+        img={icon.icons.normal}
+        onClick={() => setOpen(true)}
+      />
 
       {isOpen && (
         <Modal onClose={() => setOpen(false)}>

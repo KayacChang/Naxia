@@ -8,6 +8,7 @@ import {
   getAssets,
   Dungeon as DungeonSystem,
   useMap,
+  isMobile,
 } from "system";
 import { Game, UI } from "layers";
 import {
@@ -72,7 +73,7 @@ const LobbyUI = memo(() => {
           </Route>
         </Switch>
 
-        <Sidebar className="w-12 mr-2" />
+        <Sidebar />
       </main>
 
       <Navbar />
@@ -89,7 +90,7 @@ const LobbyView = memo(() => {
 
   return (
     <>
-      <Game className="fixed top-0">
+      <Game>
         <Camera
           screenWidth={width}
           screenHeight={height}
@@ -107,7 +108,10 @@ const LobbyView = memo(() => {
             history.listen(updatePause);
           }}
         >
-          <Sprite texture={getAssets(`Map.${map.id}`)} />
+          <Sprite
+            scale={isMobile() ? 1 : 2}
+            texture={getAssets(`Map.${map.id}`)}
+          />
 
           {dungeons.map((dungeon) => (
             <Dungeon

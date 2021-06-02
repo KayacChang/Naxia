@@ -13,6 +13,7 @@
     "date-fns": "^2.21.3",
     "howler": "^2.2.1",
     "immutable": "^4.0.0-rc.12",
+    "mobile-detect": "^1.4.5",
     "numeral": "^2.0.6",
     "pixi-viewport": "^4.30.4",
     "pixi.js": "^6.0.2",

@@ -18,7 +18,7 @@ export function UI({ style, className, children, onClick }: UIProps) {
     <div
       ref={ref}
       style={{ width: `${width}px`, height: `${height}px`, ...style }}
-      className={clsx("fixed top-0 overflow-hidden", className)}
+      className={clsx("fixed overflow-hidden", className)}
       onClick={onClick}
     >
       {children}

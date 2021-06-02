@@ -1,13 +1,21 @@
 import React from "react";
 import Assets from "assets";
 import { useMap } from "system";
+import clsx from "clsx";
 
 export function Location() {
   const map = useMap();
 
   return (
     <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
-      <div className="relative w-52 text-white flex justify-center items-center">
+      <div
+        className={clsx(
+          "relative text-white",
+          "flex justify-center items-center",
+          "w-52",
+          "transform origin-top lg:scale-150"
+        )}
+      >
         <div>
           <img src={Assets.Common.Location} alt="world frame" />
         </div>
