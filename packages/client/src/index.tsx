@@ -1,6 +1,6 @@
 import React from "react";
 import { lazy, StrictMode, Suspense } from "react";
-import { unstable_createRoot } from "react-dom";
+import { createRoot } from "react-dom";
 import { Provider } from "react-redux";
 
 import "styles/base.css";
@@ -106,7 +106,7 @@ function App() {
   );
 }
 
-unstable_createRoot(document.getElementById("app") as HTMLDivElement).render(
+createRoot(document.getElementById("app") as HTMLDivElement).render(
   <StrictMode>
     <Provider store={store}>
       <ViewportProvider>
