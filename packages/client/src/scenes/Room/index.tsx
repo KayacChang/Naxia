@@ -1,5 +1,11 @@
 import { useEffect } from "react";
-import { useAppDispatch, BGM, room, ViewportProvider } from "system";
+import {
+  useAppDispatch,
+  BGM,
+  ViewportProvider,
+  room,
+  useDungeonInfo,
+} from "system";
 import { Game, UI } from "layers";
 
 import GameUI from "./UI";
@@ -11,10 +17,15 @@ import Sound from "assets/sound";
 
 export default function Room() {
   const dispatch = useAppDispatch();
+  const info = useDungeonInfo();
 
   useEffect(() => {
+    if (!info) return;
+
+    dispatch(room.join(info.room));
+
     return () => void dispatch(room.leave());
-  }, [dispatch]);
+  }, [dispatch, info]);
 
   useEffect(() => void dispatch(BGM.play(Sound.Room.BGM)), [dispatch]);
 

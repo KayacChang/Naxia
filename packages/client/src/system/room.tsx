@@ -24,7 +24,9 @@ type RoomResponse =
   | { event: "room_status"; data: { status: RoomStatus } }
   | { event: "next_status_countdown"; timer: number }
   | { event: "round_result"; data: RoundResult }
-  | { event: "next_round_monster"; data: Boss };
+  | { event: "next_round_monster"; data: Boss }
+  | { event: "room_online_user"; number: number }
+  | { event: "sum"; data: number };
 
 export const selectRoom = (state: RootState) => state.room;
 export const selectRoomID = (state: RootState) => state.room.room_id;
@@ -202,7 +204,9 @@ export const room = {
     string,
     string,
     { state: RootState; dispatch: AppDispatch }
-  >("room/join", (roomID, { getState, dispatch }) => {
+  >("room/join", async (roomID, { getState, dispatch }) => {
+    console.log("join");
+
     const token = selectToken(getState());
 
     invariant(token, "Unauthorized");
@@ -213,12 +217,24 @@ export const room = {
 
     ws = new WebSocket(url.toString());
 
+    let hasMessage = false;
+
     ws.addEventListener("message", (event: MessageEvent) => {
       if (event.data === "pong") return;
 
       const data = JSON.parse(event.data) as RoomResponse;
 
+      if (data.event === "room_online_user") {
+        // TODO
+      }
+
+      if (data.event === "sum") {
+        // TODO
+      }
+
       if (data.event === "room_status") {
+        hasMessage = true;
+
         if (data.data.status === RoomStatus.Result) {
           dispatch(room.order.clear());
         }
@@ -239,27 +255,38 @@ export const room = {
       }
     });
 
-    let id: NodeJS.Timeout | undefined = undefined;
+    let ping: NodeJS.Timeout | undefined = undefined;
 
     ws.addEventListener(
       "open",
       () => {
-        id = setInterval(() => {
-          ws?.send("ping");
-        }, 5 * 1000);
+        ping = setInterval(() => ws?.send("ping"), 5 * 1000);
       },
       { once: true }
     );
 
+    const reconnect = setTimeout(() => {
+      if (hasMessage) {
+        return;
+      }
+
+      console.log("reconnect");
+      clearTimeout(reconnect);
+
+      dispatch(room.leave());
+      dispatch(room.join(roomID));
+    }, 10 * 1000);
+
     ws.addEventListener("close", () => {
-      id && clearInterval(id);
+      ping && clearInterval(ping);
     });
 
     return new Promise((resolve) => {
-      ws?.addEventListener("open", () => resolve(roomID));
+      ws?.addEventListener("open", () => resolve(roomID), { once: true });
     });
   }),
   leave: createAsyncThunk("room/leave", async () => {
+    console.log("close ws");
     ws?.close();
     ws = undefined;
   }),
