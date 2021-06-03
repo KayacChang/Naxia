@@ -1,10 +1,7 @@
 .cube-red {
-  font-size: 1.3rem;
   color: white;
   line-height: 2rem;
   text-align: center;
-  width: 35px;
-  height: 35px;
   border-radius: 3px;
   border: 1px solid #7e3708;
   background-image: linear-gradient(
@@ -21,12 +18,9 @@
 }
 
 .cube-light-red {
-  font-size: 1.3rem;
   color: white;
   line-height: 2rem;
   text-align: center;
-  width: 55px;
-  height: 35px;
   border-radius: 3px;
   border: 1px solid #7e3708;
   background-image: linear-gradient(
@@ -43,13 +37,9 @@
 }
 
 .cube-blue {
-  padding-right: 0.1rem;
-  font-size: 1.3rem;
   color: white;
   line-height: 2rem;
   text-align: center;
-  width: 35px;
-  height: 35px;
   border-radius: 3px;
   border: 1px solid #7e3708;
   background-image: linear-gradient(
@@ -68,13 +58,9 @@
 }
 
 .cube-light-blue {
-  padding-right: 0.1rem;
-  font-size: 1.3rem;
   color: white;
   line-height: 2rem;
   text-align: center;
-  width: 55px;
-  height: 35px;
   border-radius: 3px;
   border: 1px solid #7e3708;
   background-image: linear-gradient(
@@ -91,13 +77,9 @@
 }
 
 .cube-green {
-  padding-right: 0.1rem;
-  font-size: 1.3rem;
   color: white;
   line-height: 2rem;
   text-align: center;
-  width: 35px;
-  height: 35px;
   border-radius: 3px;
   border: 1px solid #7e3708;
   background-image: linear-gradient(

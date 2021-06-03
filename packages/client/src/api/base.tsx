@@ -16,7 +16,8 @@ export function get<T>(url: string, authorization: string): Promise<T> {
       }
 
       return data as T;
-    });
+    })
+    .catch((error) => Promise.reject(error));
 }
 
 export function post<T>(
@@ -39,7 +40,8 @@ export function post<T>(
       }
 
       return data as T;
-    });
+    })
+    .catch((error) => Promise.reject(error));
 }
 
 export function put<T>(
@@ -62,5 +64,6 @@ export function put<T>(
       }
 
       return data as T;
-    });
+    })
+    .catch((error) => Promise.reject(error));
 }

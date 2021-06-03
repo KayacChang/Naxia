@@ -75,7 +75,8 @@ function Record({ results }: RecordProps) {
   return (
     <Circle
       className={clsx(
-        "rounded-full relative w-5/6 h-5/6 flex justify-center items-center",
+        "rounded-full relative  flex justify-center items-center",
+        "h-4 w-4 lg:w-5/6 lg:h-5/6",
         cond<SkillOption[], string>([
           [includes("banker"), () => "from-red-500"],
           [includes("player"), () => "from-blue-500"],
@@ -128,6 +129,7 @@ function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
     <div
       className={clsx(
         "grid grid-flow-col grid-cols-9 grid-rows-6 place-items-center",
+        "text-white",
         className
       )}
       style={style}
@@ -147,9 +149,9 @@ type CountCubePorps = {
 };
 function CountCube({ cubeClassName, color, role, count }: CountCubePorps) {
   return (
-    <div className="flex">
+    <div className="flex items-center">
       <div className={clsx("font-kai", cubeClassName)}>{role}</div>
-      <p className={clsx("text-2xl px-4", color)}>{count}</p>
+      <p className={clsx("px-4", color)}>{count}</p>
     </div>
   );
 }
@@ -159,78 +161,85 @@ type RoadLargeProps = {
 };
 function RoadLarge({ rounds }: RoadLargeProps) {
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div
+      className={clsx(
+        "relative flex items-center justify-center",
+        "w-full lg:w-3/4"
+      )}
+    >
       <img
         className="p-2 pr-1"
         src={Assets.Room.Road_Frame_Big}
         alt="room frame big"
       />
-      <div className="absolute w-full h-48 px-7">
-        <div className="w-full h-12 flex items-center justify-between px-2">
+
+      <div className="absolute w-full h-full p-1/24 lg:p-12 flex flex-col">
+        <div
+          className={clsx(
+            "w-full flex items-center justify-between px-1/24",
+            "h-1/4",
+            "lg:text-5xl"
+          )}
+        >
           <CountCube
-            cubeClassName="cube-red"
+            cubeClassName="cube-red px-2 lg:p-4"
             color="text-red-600"
             role="莊"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-blue"
+            cubeClassName="cube-blue px-2 lg:p-4"
             color="text-blue-600"
             role="閒"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-green"
+            cubeClassName="cube-green px-2 lg:p-4"
             color="text-green-500"
             role="和"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-light-red"
+            cubeClassName="cube-light-red px-2 lg:p-4"
             color="text-red-400"
             role="莊對"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-light-blue"
+            cubeClassName="cube-light-blue px-2 lg:p-4"
             color="text-blue-300"
             role="閒對"
             count={2}
           />
         </div>
-        <div className="w-full h-36 flex ">
-          <MarkerRoad rounds={rounds} className="w-54 mt-0.5 px-0.5" />
+
+        <div className="w-full flex-1 flex">
+          <MarkerRoad
+            rounds={rounds}
+            className={clsx("mt-0.5 ml-0.5", "lg:-mb-1.5 lg:mt-1", "w-35%")}
+          />
 
           <div className="flex-1 mt-px ml-px -mr-px">
-            <div className="w-full h-1/2 flex flex-wrap content-start pl-px">
-              <Ring color="red" size="lg" />
-              <Ring color="blue" size="lg" />
-            </div>
+            <div className="w-full h-1/2 flex flex-wrap content-start pl-px"></div>
+
+            <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px"></div>
 
             <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
-              <Ring color="blue" size="sm" />
-              <Ring color="red" size="sm" />
-            </div>
+              <div className="w-1/2 h-full flex flex-wrap"></div>
 
-            <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
-              <div className="w-1/2 h-full flex flex-wrap">
-                <Circle className="from-blue-500 w-1 h-1 m-px" />
-                <Circle className="from-red-500 w-1 h-1 m-px" />
-              </div>
-
-              <div className="w-1/2 h-full pl-px flex flex-wrap">
-                <Slash className="from-blue-500" />
-                <Slash className="from-red-500" />
-              </div>
+              <div className="w-1/2 h-full pl-px flex flex-wrap"></div>
             </div>
           </div>
         </div>
       </div>
-      <Continue text="點擊繼續" />
+
+      <div className="absolute bottom-0 transform translate-y-full">
+        <Continue text="點擊繼續" />
+      </div>
     </div>
   );
 }
@@ -240,12 +249,10 @@ type ContinueProps = {
 };
 function Continue({ text }: ContinueProps) {
   return (
-    <div className="absolute bottom-6">
-      <div className="w-60 relative flex justify-center items-center">
-        <img src={Assets.Room.Result_Continue} alt="continue background" />
+    <div className="w-60 relative flex justify-center items-center">
+      <img src={Assets.Room.Result_Continue} alt="continue background" />
 
-        <span className="absolute text-white font-noto text-xl">{text}</span>
-      </div>
+      <span className="absolute text-white font-noto text-xl">{text}</span>
     </div>
   );
 }
@@ -295,20 +302,39 @@ export function RoomRoad({ className }: RoomRoadProps) {
       >
         <img src={Assets.Room.Road_Frame_Small} alt="background" />
 
-        <div className="absolute w-full h-full top-0 flex py-1 px-1.5 font-kai">
-          <div className="w-8 flex flex-col">
+        <div
+          className={clsx(
+            "absolute top-0 w-full h-full flex font-kai",
+            "py-1 px-1.5",
+            "lg:py-4 lg:px-5"
+          )}
+        >
+          <div className={clsx("flex flex-col", "w-8", "lg:text-2xl lg:w-1/8")}>
             <div className="flex-1 flex justify-center items-center">莊</div>
             <div className="flex-1 flex justify-center items-center">閒</div>
           </div>
 
-          <MarkerRoad rounds={rounds} className="flex-1 mt-0.5 ml-0.5" />
+          <MarkerRoad
+            rounds={rounds}
+            className={clsx(
+              "flex-1 mt-0.5 ml-0.5",
+              "lg:-mb-1.5 lg:ml-1 lg:mt-1"
+            )}
+          />
 
-          <div className="w-12 flex flex-col text-xs p-0.5">
+          <div
+            className={clsx(
+              "flex flex-col text-xs p-0.5",
+              "w-12 lg:w-1/5",
+              "text-xs lg:text-2xl",
+              "p-0.5 lg:px-4 lg:-ml-1.5 lg:-mb-2"
+            )}
+          >
             {skillOptions.map((type) => (
               <div
                 key={type}
                 className={clsx(
-                  "flex-1 flex justify-between items-center ",
+                  "flex-1 flex justify-between items-center",
                   cond<SkillOption, string>([
                     [(type) => type === "banker", () => "text-red-500"],
                     [(type) => type === "player", () => "text-blue-500"],

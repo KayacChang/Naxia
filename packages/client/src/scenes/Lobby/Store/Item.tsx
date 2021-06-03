@@ -113,6 +113,7 @@ export default function Item({ item, onExchange }: ItemProps) {
           <div className="w-3/4 flex justify-between items-center space-x-4">
             {item.requirements.map(({ type, count, accumulate }) => (
               <ItemCollectionBox
+                key={type}
                 icon={
                   type === "item"
                     ? Assets.Lobby.Store_Item_Card

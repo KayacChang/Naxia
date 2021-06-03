@@ -71,8 +71,8 @@ export default function Store({ className }: StoreProps) {
                 <nav className="flex">
                   {filters.map((tab) => (
                     <Tab
-                      className="w-1/4"
                       key={tab.key}
+                      className="w-1/4"
                       label={tab.label}
                       normalImage={Assets.Lobby.Store_Tab_Disable}
                       activeImage={Assets.Lobby.Store_Tab_Enable}
