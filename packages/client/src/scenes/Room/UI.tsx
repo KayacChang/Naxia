@@ -1,4 +1,3 @@
-import React from "react";
 import { useHistory } from "react-router";
 import { UI } from "layers";
 import {
@@ -24,7 +23,6 @@ import {
   useUser,
   selectRoomBossCurrent,
   selectRoomStatus,
-  useDungeon,
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
@@ -42,14 +40,14 @@ function ControlButton({ img, children, onClick }: ControlButtonProps) {
       type="img"
       img={img}
       className={clsx(
-        "relative flex justify-end items-center",
+        "relative flex justify-center items-center",
         active && "filter brightness-75"
       )}
       onClick={onClick}
       onPointerDown={() => setActive(true)}
       onPointerUp={() => setActive(false)}
     >
-      <span className="absolute px-4">{children}</span>
+      <span className="absolute ml-1/4">{children}</span>
     </Button>
   );
 }
@@ -61,11 +59,13 @@ function CountDown() {
 
   return (
     <div className="relative flex justify-center items-center">
-      <div className="w-16 animate-pulse">
+      <div className="w-1/3 lg:w-2/3 animate-pulse">
         <img src={Assets.Room.CountDown_Frame} alt="frame" />
       </div>
 
-      <span className="absolute text-3xl text-fansy">{countdown}</span>
+      <span className="absolute text-2xl lg:text-5xl text-fansy">
+        {countdown}
+      </span>
     </div>
   );
 }
@@ -75,11 +75,15 @@ function RoundStatus() {
 
   return (
     <div className="relative flex justify-center items-center">
-      <div className="w-28">
+      <div className="w-1/2 lg:w-auto">
         <img src={Assets.Room.Round_Status_Frame} alt="frame" />
       </div>
 
-      <span className="absolute text-lg font-kai text-yellow-100">
+      <span
+        className={clsx(
+          "absolute text-lg lg:text-3xl font-kai text-yellow-100"
+        )}
+      >
         {status === TRoomStatus.Change
           ? "洗牌中"
           : status === TRoomStatus.Start
@@ -95,7 +99,6 @@ function RoundStatus() {
 }
 
 export default function GameUI() {
-  const { info, rounds } = useDungeon();
   const history = useHistory();
   const dispatch = useAppDispatch();
   const user = useUser();
@@ -104,7 +107,7 @@ export default function GameUI() {
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
   const boss = useAppSelector(selectRoomBossCurrent);
 
-  if (!user || !boss || !info || !rounds) return <></>;
+  if (!user || !boss) return <></>;
 
   return (
     <UI className="flex flex-col text-white">
@@ -119,17 +122,17 @@ export default function GameUI() {
           <CountDown />
         </div>
 
-        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="-translate-x-1/2 absolute left-1/2 transform translate-y-1/4">
           <RoundStatus />
         </div>
 
-        <div className="w-2/3 flex flex-col justify-between px-2 mt-8">
-          <RoomStatus className="w-52" skills={info.skills} />
+        <div className="w-2/3 flex flex-col justify-between px-2 mt-1/24">
+          <RoomStatus className="w-1/2" />
 
           <Button
             type="img"
             img={Assets.Room.Room_Back}
-            className="w-8"
+            className="w-1/16"
             onClick={() => history.replace("/lobby")}
           />
 
@@ -137,11 +140,14 @@ export default function GameUI() {
         </div>
 
         <div className="w-1/3 flex flex-col">
-          <div className="flex flex-row justify-end space-x-4 mt-2 mr-2">
+          <div className="flex-1 flex flex-row justify-end space-x-4 mt-1/24 pr-1/24">
             <div
               className={clsx(
-                "space-y-2 flex flex-col font-noto w-24",
+                "space-y-2 flex flex-col font-noto",
                 "transition-opacity duration-500",
+                "lg:mt-1/16",
+                "text-xs lg:text-2xl",
+                "w-1/2 lg:w-1/3",
                 status === TRoomStatus.Start && !hasSubmitted
                   ? "opacity-100"
                   : "opacity-0"
@@ -172,7 +178,9 @@ export default function GameUI() {
             <Sidebar />
           </div>
 
-          <BetSection skills={info.skills} bets={info.bets} />
+          <div className="flex-1">
+            <BetSection />
+          </div>
         </div>
       </div>
     </UI>

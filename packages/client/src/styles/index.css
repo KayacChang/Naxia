@@ -37,6 +37,7 @@
   pointer-events: none;
   touch-action: none;
   outline: none;
+  user-select: none;
 }
 
 html,

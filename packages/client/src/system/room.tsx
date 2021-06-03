@@ -46,6 +46,9 @@ export const selectRoomBossCurrent = (state: RootState) =>
   state.room.boss.current;
 export const selectRoomBossStage = (state: RootState) => state.room.boss.stage;
 
+export const selectRoomUsers = (state: RootState) => state.room.concurrentUsers;
+export const selectRoomTotalBet = (state: RootState) => state.room.totalBet;
+
 let ws: WebSocket | undefined;
 
 const game = {
@@ -200,12 +203,18 @@ const order = {
 export const room = {
   game,
   order,
+
+  status: {
+    user: createAction<number>("room/status/user"),
+    totalBet: createAction<number>("room/status/totalBet"),
+  },
+
   join: createAsyncThunk<
     string,
     string,
     { state: RootState; dispatch: AppDispatch }
   >("room/join", async (roomID, { getState, dispatch }) => {
-    console.log("join");
+    console.log("room/join");
 
     const token = selectToken(getState());
 
@@ -225,11 +234,11 @@ export const room = {
       const data = JSON.parse(event.data) as RoomResponse;
 
       if (data.event === "room_online_user") {
-        // TODO
+        dispatch(room.status.user(data.number));
       }
 
       if (data.event === "sum") {
-        // TODO
+        dispatch(room.status.totalBet(data.data));
       }
 
       if (data.event === "room_status") {
@@ -270,9 +279,8 @@ export const room = {
         return;
       }
 
-      console.log("reconnect");
+      console.log("room/reconnect");
       clearTimeout(reconnect);
-
       dispatch(room.leave());
       dispatch(room.join(roomID));
     }, 10 * 1000);
@@ -286,7 +294,7 @@ export const room = {
     });
   }),
   leave: createAsyncThunk("room/leave", async () => {
-    console.log("close ws");
+    console.log("room/leave");
     ws?.close();
     ws = undefined;
   }),
@@ -310,6 +318,9 @@ export interface RoomState {
   hasSubmitted: boolean;
   history: Order[];
   order: Order;
+
+  concurrentUsers: number;
+  totalBet: number;
 }
 
 const initialState: RoomState = {
@@ -324,6 +335,9 @@ const initialState: RoomState = {
   hasSubmitted: false,
   history: [],
   order: {},
+
+  concurrentUsers: 0,
+  totalBet: 0,
 };
 
 const roomSlice = createSlice({
@@ -332,12 +346,18 @@ const roomSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(room.status.user, (state, action) => {
+        state.concurrentUsers = action.payload;
+      })
+      .addCase(room.status.totalBet, (state, action) => {
+        state.totalBet = action.payload;
+      })
       .addCase(room.join.fulfilled, (state, action) => {
         state.room_id = action.payload;
         state.isJoin = true;
       })
       .addCase(room.leave.fulfilled, (state) => {
-        state.isJoin = false;
+        state = initialState;
       })
       .addCase(room.game.status, (state, action) => {
         state.status.current = action.payload;

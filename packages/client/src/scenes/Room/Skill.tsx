@@ -1,4 +1,3 @@
-import React from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { ReactNode, useCallback, useState } from "react";
@@ -9,15 +8,6 @@ import {
   useAppSelector,
 } from "system";
 import { RoomStatus } from "types";
-
-const size_mapping = {
-  md: {
-    width: "w-14",
-  },
-  sm: {
-    width: "w-12",
-  },
-};
 
 function usePressEffect(img: string) {
   const [effects, setEffects] = useState<ReactNode[]>([]);
@@ -58,16 +48,16 @@ type SkillProps = {
   active?: string;
   name: string;
   value?: number;
-  size?: keyof typeof size_mapping;
   onClick?: () => void;
+  className?: string;
 };
 export default function Skill({
   normal,
   active,
   name,
   value = 0,
-  size = "md",
   onClick,
+  className,
 }: SkillProps) {
   const { onPointerDown, onPointerUp, effects } = usePressEffect(
     active || normal
@@ -103,11 +93,11 @@ export default function Skill({
     <button
       className={clsx(
         "relative transition-opacity duration-500",
-        size_mapping[size].width,
         state === "hidden" && "opacity-0",
         onClick && state !== "hidden"
           ? "pointer-events-auto"
-          : "pointer-events-none"
+          : "pointer-events-none",
+        className
       )}
       onClick={onClick}
       onPointerDown={onPointerDown}
@@ -138,7 +128,7 @@ export default function Skill({
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
           <span
             className={clsx(
-              "text-xs text-stroke",
+              "text-stroke",
               state === "failed" ? "text-red-500" : "text-white"
             )}
           >
@@ -153,11 +143,11 @@ export default function Skill({
           state === "failed" && "filter grayscale"
         )}
       >
-        <div>
+        <div className="relative flex justify-center items-center">
           <img src={Assets.Room.Skill_Frame} alt="frame" />
-        </div>
 
-        <span className="text-xxs absolute top-0 text-fansy">{value}</span>
+          <span className="absolute text-fansy">{value}</span>
+        </div>
       </div>
     </button>
   );

@@ -1,61 +1,81 @@
-import React from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import Skill from "./Skill";
-import { SkillSet } from "types";
+import {
+  selectRoomTotalBet,
+  selectRoomUsers,
+  useAppSelector,
+  useDungeonInfo,
+} from "system";
 
 type RoomStatusProps = {
-  skills: SkillSet;
-  className: string;
+  className?: string;
 };
-export default function RoomStatus({ skills, className }: RoomStatusProps) {
+export default function RoomStatus({ className }: RoomStatusProps) {
+  const info = useDungeonInfo();
+  const users = useAppSelector(selectRoomUsers);
+  const totalBet = useAppSelector(selectRoomTotalBet);
+
+  if (!info) return <></>;
+
+  const skills = info.skills;
+
   return (
     <div className={clsx("relative", className)}>
       <img src={Assets.Room.Room_Status} alt="bet information" />
 
-      <div className="absolute top-0 h-full w-full px-4">
-        <div className="w-full h-full text-white">
-          <h3 className="text-xxs py-1 px-2 text-fansy space-x-1">
+      <div className="absolute top-0 h-full w-full px-4 pb-2">
+        <div className="w-full h-full text-white flex flex-col">
+          <h3
+            className={clsx(
+              "text-fansy space-x-1",
+              "text-xxs lg:text-3xl",
+              "h-1/6 pl-1/10",
+              "flex items-center"
+            )}
+          >
             <span className="font-noto">線上人數:</span>
-            <span>2000</span>
+            <span>{users}</span>
           </h3>
 
-          <div>
-            <div className="flex justify-center space-x-4">
+          <div className="lg:-mt-1 text-xxs lg:text-2xl">
+            <div className="flex justify-center space-x-4 lg:px-1/10">
               <Skill
-                size="sm"
                 name={skills.bank_pair.name}
                 normal={Assets.Room.Skill_FlameThrower_Normal}
               />
               <Skill
-                size="sm"
                 name={skills.tie.name}
                 normal={Assets.Room.Skill_Hurricane_Normal}
               />
               <Skill
-                size="sm"
                 name={skills.player_pair.name}
                 normal={Assets.Room.Skill_IceBeam_Normal}
               />
             </div>
 
-            <div className="flex justify-center space-x-4">
+            <div className="flex justify-center space-x-4 px-10 lg:px-1/4">
               <Skill
-                size="sm"
                 name={skills.player.name}
                 normal={Assets.Room.Skill_FlareBlitz_Normal}
               />
               <Skill
-                size="sm"
                 name={skills.banker.name}
                 normal={Assets.Room.Skill_Blizzard_Normal}
               />
             </div>
           </div>
 
-          <h5 className="text-xs pt-1 mt-0.5 flex justify-center text-fansy space-x-1">
+          <h5
+            className={clsx(
+              "text-fansy space-x-1",
+              "flex-1 flex justify-center items-center",
+              "pt-1/24 lg:pt-0",
+              "text-xs lg:text-3xl"
+            )}
+          >
             <span className="font-noto">累計金額:</span>
-            <span>39600</span>
+            <span>{totalBet}</span>
           </h5>
         </div>
       </div>

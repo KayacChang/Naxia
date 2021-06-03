@@ -1,10 +1,9 @@
-import React from "react";
 import { CircleLayout, Radian } from "components";
 import Assets from "assets";
 
 import Bet from "./Bet";
 import Skill from "./Skill";
-import { RoomStatus, SkillSet } from "types";
+import { RoomStatus } from "types";
 import { useCallback, useEffect, useState } from "react";
 import {
   useAppDispatch,
@@ -12,6 +11,8 @@ import {
   useAppSelector,
   selectRoomOrder,
   selectRoomStatusCurrent,
+  useDungeonInfo,
+  useViewport,
 } from "system";
 import { clamp } from "ramda";
 import clsx from "clsx";
@@ -52,6 +53,7 @@ type BetsProps = {
   onChange?: (bet: number) => void;
 };
 function Bets({ options, value, onChange, enable }: BetsProps) {
+  const { height } = useViewport();
   const status = useAppSelector(selectRoomStatusCurrent);
   const show = status === RoomStatus.Start;
 
@@ -76,7 +78,7 @@ function Bets({ options, value, onChange, enable }: BetsProps) {
         show
           ? "ease-out-expo"
           : "transform translate-x-1/2 translate-y-1/2 ease-in-expo",
-        "transition-transform duration-700 "
+        "transition-transform duration-700"
       )}
       style={{ willChange: "transform" }}
       onMouseDown={onPressStart}
@@ -84,21 +86,32 @@ function Bets({ options, value, onChange, enable }: BetsProps) {
       onTouchStart={onPressStart}
       onTouchEnd={onPressEnd}
     >
-      <div className="relative">
-        <div className="w-24">
+      <div className="flex items-end justify-end relative">
+        <div className="w-24 lg:w-10/12">
           <img src={Assets.Room.Bet_Frame} alt="bet background" />
         </div>
 
-        <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
-          <CircleLayout radius={5.2}>
+        <div
+          className={clsx(
+            "absolute lg:pl-10",
+            "transform translate-x-1/2 translate-y-1/2",
+            "text-xs lg:text-2xl"
+          )}
+        >
+          <CircleLayout radius={5.5 * (height / 420)}>
             {options.map((option, index) => (
               <Radian
                 key={option}
-                radian={Math.PI * (1.06 + 0.2 * (index - active + 1))}
+                radian={Math.PI * (1 + 0.26 * (index - active + 1))}
                 className="transition-transform"
                 style={{ willChange: "transform" }}
               >
-                <Bet value={option} enable={enable} active={index === active} />
+                <Bet
+                  className="w-12 lg:w-10/12"
+                  value={option}
+                  enable={enable}
+                  active={index === active}
+                />
               </Radian>
             ))}
           </CircleLayout>
@@ -108,23 +121,33 @@ function Bets({ options, value, onChange, enable }: BetsProps) {
   );
 }
 
-type BetSectionProps = {
-  skills: SkillSet;
-  bets: number[];
-};
-export default function BetSection({ skills, bets }: BetSectionProps) {
+export default function BetSection() {
+  const { height } = useViewport();
+  const info = useDungeonInfo();
+
+  const skills = info?.skills;
+  const bets = info?.bets;
+
   const dispatch = useAppDispatch();
   const order = useAppSelector(selectRoomOrder);
-  const [bet, setBet] = useState(bets[0]);
+  const [bet, setBet] = useState(bets?.[0] || 0);
+
+  if (!skills || !bets) return <></>;
 
   return (
-    <div className="relative w-full h-full">
+    <div className={clsx("relative w-full h-full", "text-xs lg:text-2xl")}>
       <Bets options={bets} value={bet} onChange={setBet} />
 
-      <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
-        <CircleLayout radius={8.4}>
-          <Radian radian={Math.PI * 1.15}>
+      <div
+        className={clsx(
+          "absolute bottom-0 right-0",
+          "transform translate-x-1/2 translate-y-1/2"
+        )}
+      >
+        <CircleLayout radius={9.2 * (height / 420)}>
+          <Radian radian={Math.PI * 1.17}>
             <Skill
+              className="w-14 lg:w-10/12"
               name={skills.player.name}
               normal={Assets.Room.Skill_FlareBlitz_Normal}
               active={Assets.Room.Skill_FlareBlitz_Active}
@@ -133,8 +156,9 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
             />
           </Radian>
 
-          <Radian radian={Math.PI * 1.33}>
+          <Radian radian={Math.PI * 1.32}>
             <Skill
+              className="w-14 lg:w-10/12"
               name={skills.banker.name}
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
@@ -145,10 +169,16 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
         </CircleLayout>
       </div>
 
-      <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2">
-        <CircleLayout radius={12}>
+      <div
+        className={clsx(
+          "absolute bottom-0 right-0",
+          "transform translate-x-1/2 translate-y-1/2"
+        )}
+      >
+        <CircleLayout radius={12.8 * (height / 420)}>
           <Radian radian={Math.PI * 1.35}>
             <Skill
+              className="w-14 lg:w-10/12"
               name={skills.player_pair.name}
               normal={Assets.Room.Skill_IceBeam_Normal}
               active={Assets.Room.Skill_IceBeam_Active}
@@ -159,6 +189,7 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
 
           <Radian radian={Math.PI * 1.24}>
             <Skill
+              className="w-14 lg:w-10/12"
               name={skills.tie.name}
               normal={Assets.Room.Skill_Hurricane_Normal}
               active={Assets.Room.Skill_Hurricane_Active}
@@ -169,6 +200,7 @@ export default function BetSection({ skills, bets }: BetSectionProps) {
 
           <Radian radian={Math.PI * 1.12}>
             <Skill
+              className="w-14 lg:w-10/12"
               name={skills.bank_pair.name}
               normal={Assets.Room.Skill_FlameThrower_Normal}
               active={Assets.Room.Skill_FlameThrower_Active}

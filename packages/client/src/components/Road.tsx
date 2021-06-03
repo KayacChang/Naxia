@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";
@@ -34,39 +34,38 @@ function Circle({ className, style, children }: CircleProps) {
   );
 }
 
-type RingProps = {
-  color: "red" | "blue";
-  size: "lg" | "sm";
-};
-function Ring({ color, size }: RingProps) {
-  const sizePx = size === "lg" ? 11.6 : 5.75;
-  const ringColor =
-    color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
-  return (
-    <div>
-      <img
-        style={{ width: `${sizePx}px`, height: `${sizePx}px` }}
-        src={ringColor}
-        alt={`road ${color} ${size} ring`}
-      />
-    </div>
-  );
-}
+// type RingProps = {
+//   color: "red" | "blue";
+//   size: "lg" | "sm";
+// };
+// function Ring({ color, size }: RingProps) {
+//   const sizePx = size === "lg" ? 11.6 : 5.75;
+//   const ringColor =
+//     color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
+//   return (
+//     <div>
+//       <img
+//         style={{ width: `${sizePx}px`, height: `${sizePx}px` }}
+//         src={ringColor}
+//         alt={`road ${color} ${size} ring`}
+//       />
+//     </div>
+//   );
+// }
 
-type SlashProps = { className?: string };
-
-function Slash({ className }: SlashProps) {
-  return (
-    <div className="pl-px" style={{ width: `${5.7}px`, height: `${5.7}px` }}>
-      <div
-        className={clsx("rounded w-1/3 h-full transform rotate-45", className)}
-        style={{
-          background: `radial-gradient(circle at 0% 40%, rgba(255, 255, 255, 0.6) 15%, var(--tw-gradient-from) 30% 60%, #000 100%)`,
-        }}
-      ></div>
-    </div>
-  );
-}
+// type SlashProps = { className?: string };
+// function Slash({ className }: SlashProps) {
+//   return (
+//     <div className="pl-px" style={{ width: `${5.7}px`, height: `${5.7}px` }}>
+//       <div
+//         className={clsx("rounded w-1/3 h-full transform rotate-45", className)}
+//         style={{
+//           background: `radial-gradient(circle at 0% 40%, rgba(255, 255, 255, 0.6) 15%, var(--tw-gradient-from) 30% 60%, #000 100%)`,
+//         }}
+//       ></div>
+//     </div>
+//   );
+// }
 
 type RecordProps = {
   results: SkillOption[];
@@ -327,7 +326,7 @@ export function RoomRoad({ className }: RoomRoadProps) {
               "flex flex-col text-xs p-0.5",
               "w-12 lg:w-1/5",
               "text-xs lg:text-2xl",
-              "p-0.5 lg:px-4 lg:-ml-1.5 lg:-mb-2"
+              "p-0.5 lg:px-4 lg:-ml-1.5 -mb-1 lg:-mb-2"
             )}
           >
             {skillOptions.map((type) => (

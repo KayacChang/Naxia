@@ -1,4 +1,3 @@
-import React from "react";
 import { Announcement, Setting } from "components";
 import { PrivateRoute, Switch } from "components/Router";
 import { Information } from "./Information";

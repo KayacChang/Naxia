@@ -1,4 +1,3 @@
-import React from "react";
 import clsx from "clsx";
 import Assets from "assets";
 
@@ -6,14 +5,21 @@ type BetProps = {
   enable?: boolean;
   active?: boolean;
   value: number;
+  className?: string;
 };
-export default function Bet({ enable = true, value, active }: BetProps) {
+export default function Bet({
+  enable = true,
+  value,
+  active,
+  className,
+}: BetProps) {
   return (
     <button
       className={clsx(
-        "w-10 relative flex items-center justify-center",
-        active && "transform scale-120",
-        enable || "pointer-events-none opacity-50"
+        "relative flex items-center justify-center",
+        active && "transform scale-120 lg:scale-100",
+        enable || "pointer-events-none opacity-50",
+        className
       )}
     >
       {active && (
@@ -35,7 +41,7 @@ export default function Bet({ enable = true, value, active }: BetProps) {
         alt="bet background"
       />
 
-      <span className="absolute text-xs font-noto font-bold tracking-wider text-sonora glow mt-0.5">
+      <span className="absolute font-noto font-bold tracking-wider text-sonora glow mt-0.5">
         {value}
       </span>
     </button>
