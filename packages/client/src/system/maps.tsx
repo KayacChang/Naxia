@@ -13,16 +13,16 @@ import {
   getRoundsByDungeonID,
   unlock,
 } from "api";
-import { AppDispatch, RootState, useAppSelector } from "system";
-import invariant from "tiny-invariant";
 import {
-  Condition,
-  Round,
-  Map as TMap,
-  Dungeon as IDungeon,
-  NPC,
-  DungeonInfo,
-} from "types";
+  addAssets,
+  AppDispatch,
+  hasAssets,
+  RootState,
+  useAppSelector,
+} from "system";
+import invariant from "tiny-invariant";
+import { Condition, Round, Map as TMap, Dungeon as IDungeon, NPC } from "types";
+import { toTask } from "utils";
 import { selectToken } from "./user";
 
 export const Map = {
@@ -49,12 +49,20 @@ export const Map = {
   dungeons: createAsyncThunk<
     { [id: string]: IDungeon },
     number,
-    { state: RootState }
-  >("map/dungeons", async (mapID, { getState }) => {
+    { state: RootState; dispatch: AppDispatch }
+  >("map/dungeons", async (mapID, { getState, dispatch }) => {
     const token = selectToken(getState());
     invariant(token, "Unauthorized");
 
     const dungeons = await getAllDungeonsInMap(token, mapID);
+
+    await Promise.all(
+      dungeons
+        .filter(({ id }) => !hasAssets(`Dungeon.Img.${id}`))
+        .map(({ id, img }) =>
+          dispatch(addAssets(toTask({ [`Dungeon.Img.${id}`]: img })))
+        )
+    );
 
     return dungeons.reduce(
       (obj, dungeon) => ({ ...obj, [`${mapID}.${dungeon.id}`]: dungeon }),
@@ -99,17 +107,26 @@ export const Dungeon = {
     }),
 
     info: createAsyncThunk<
-      { [id: string]: DungeonInfo },
+      { [id: string]: IDungeon },
       { mapID: number; dungeonID: number },
-      { state: RootState }
-    >("map/dungeon/get/info", async ({ mapID, dungeonID }, { getState }) => {
-      const token = selectToken(getState());
-      invariant(token, "Unauthorized");
+      { state: RootState; dispatch: AppDispatch }
+    >(
+      "map/dungeon/get/info",
+      async ({ mapID, dungeonID }, { getState, dispatch }) => {
+        const token = selectToken(getState());
+        invariant(token, "Unauthorized");
 
-      const info = await getInfoByDungeonID(token, mapID, dungeonID);
+        const info = await getInfoByDungeonID(token, mapID, dungeonID);
 
-      return { [`${mapID}.${dungeonID}`]: info };
-    }),
+        if (info.dungeonImg && !hasAssets(`Dungeon.BG.${info.dungeonImg}`)) {
+          await dispatch(
+            addAssets(toTask({ [`Dungeon.BG.${info.id}`]: info.dungeonImg }))
+          );
+        }
+
+        return { [`${mapID}.${dungeonID}`]: info };
+      }
+    ),
   },
 
   unlock: createAsyncThunk<
@@ -177,7 +194,7 @@ export const Dungeon = {
 export type TDungeon = {
   conditions: Condition[];
   rounds: Round[];
-  info: DungeonInfo;
+  info: IDungeon;
 };
 
 type MapState = {
@@ -190,7 +207,6 @@ type MapState = {
 
   unlockAnim?: number;
 
-  infos: { [id: string]: DungeonInfo };
   conditions: { [id: string]: Condition[] };
   rounds: { [id: string]: Round[] };
 };
@@ -205,7 +221,6 @@ const initialState: MapState = {
 
   unlockAnim: undefined,
 
-  infos: {},
   conditions: {},
   rounds: {},
 };
@@ -235,7 +250,7 @@ const mapSlice = createSlice({
         state.conditions = { ...state.conditions, ...payload };
       })
       .addCase(Dungeon.get.info.fulfilled, (state, { payload }) => {
-        state.infos = { ...state.infos, ...payload };
+        state.dungeons = { ...state.dungeons, ...payload };
       })
       .addCase(Dungeon.get.rounds.fulfilled, (state, { payload }) => {
         state.rounds = { ...state.rounds, ...payload };
@@ -256,7 +271,7 @@ export const selectDungeonInfo = (
   state: RootState,
   mapID: number,
   dungeonID?: number
-) => (dungeonID ? state.map.infos[`${mapID}.${dungeonID}`] : undefined);
+) => (dungeonID ? state.map.dungeons[`${mapID}.${dungeonID}`] : undefined);
 
 export const selectDungeonRounds = (
   state: RootState,

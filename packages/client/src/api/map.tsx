@@ -3,7 +3,6 @@ import {
   Dungeon,
   Condition,
   Round,
-  DungeonInfo,
   SkillSet,
   SkillOption,
   NPC,
@@ -27,16 +26,37 @@ export function getAllMaps(token: string): Promise<Map[]> {
   );
 }
 
+type SkillOptionResponse = {
+  img: string;
+  name: string;
+};
 export interface GetAllDungeonsInMapResponse {
+  activated_at: string;
+  bet_options: number[];
+  bgm: string | null;
+  bgp: string | null;
+  created_at: string;
+  deleted_at: string | null;
   id: number;
+  img: string;
+  inactivated_at: string;
+  isLock: boolean;
+  location_x: string;
+  location_y: string;
   map_id: number;
   name: string;
-  img: string;
   room_id: string;
+  skill_options: {
+    tie: SkillOptionResponse;
+    banker: SkillOptionResponse;
+    player: SkillOptionResponse;
+    bank_pair: SkillOptionResponse;
+    player_pair: SkillOptionResponse;
+  };
+  sort_index: number;
+  status: boolean;
   stream_link: string;
-  location_x: number;
-  location_y: number;
-  isLock: boolean;
+  updated_at: string;
 }
 export function getAllDungeonsInMap(
   token: string,
@@ -56,14 +76,39 @@ export function getAllDungeonsInMap(
         location_x,
         location_y,
         isLock,
+        bet_options,
+        skill_options,
       }) => ({
         id,
         name,
         img,
         room: room_id,
         stream: stream_link,
-        location: { x: location_x, y: location_y },
+        location: { x: Number(location_x), y: Number(location_y) },
         lock: isLock,
+        bets: bet_options,
+        skills: {
+          banker: {
+            img: skill_options.banker.img,
+            name: skill_options.banker.name,
+          },
+          player: {
+            img: skill_options.player.img,
+            name: skill_options.player.name,
+          },
+          tie: {
+            img: skill_options.tie.img,
+            name: skill_options.tie.name,
+          },
+          bank_pair: {
+            img: skill_options.bank_pair.img,
+            name: skill_options.bank_pair.name,
+          },
+          player_pair: {
+            img: skill_options.player_pair.img,
+            name: skill_options.player_pair.name,
+          },
+        },
       })
     )
   );
@@ -132,12 +177,16 @@ export interface GetInfoByDungeonIDResponse {
   location_x: number;
   location_y: number;
   isLock: boolean;
+  current_round_bet: number;
+  history_round_bet: number;
+  dungeon_image: string;
 }
+
 export function getInfoByDungeonID(
   token: string,
   mapID: number,
   dungeonID: number
-): Promise<DungeonInfo> {
+): Promise<Dungeon> {
   return get<GetInfoByDungeonIDResponse>(
     API(`maps/${mapID}/dungeons/${dungeonID}/info`),
     token
@@ -153,6 +202,9 @@ export function getInfoByDungeonID(
       location_x,
       location_y,
       isLock,
+      current_round_bet,
+      history_round_bet,
+      dungeon_image,
     }) => ({
       id,
       name,
@@ -169,6 +221,9 @@ export function getInfoByDungeonID(
         player_pair: skill_options.player_pair,
       },
       lock: isLock,
+      currentBet: current_round_bet,
+      historyBet: history_round_bet,
+      dungeonImg: dungeon_image,
     })
   );
 }

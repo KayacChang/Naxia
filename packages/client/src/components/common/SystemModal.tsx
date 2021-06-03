@@ -27,6 +27,7 @@ type SystemModalProps = {
   className?: string;
   button?: string;
   disalbeButton?: boolean;
+  disalbeSubButton?: boolean;
   onConfirm?: () => void;
   subButton?: string;
   customFunc?: () => void;
@@ -38,6 +39,7 @@ function Default({
   className,
   button,
   disalbeButton,
+  disalbeSubButton,
   onConfirm,
   subButton,
   customFunc,
@@ -78,7 +80,7 @@ function Default({
               <div className="flex-1 flex justify-center items-center">
                 <Button
                   img={Assets.Common.Setting_Reset_Button}
-                  disabled={disalbeButton}
+                  disabled={disalbeSubButton}
                   onClick={customFunc}
                 >
                   {subButton}

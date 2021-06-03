@@ -85,14 +85,17 @@ function Record({ results }: RecordProps) {
     >
       {results.includes("bank_pair") && (
         <Circle
-          className="absolute top-0 left-0 from-red-500 w-1.5 h-1.5"
+          className={clsx(
+            "absolute top-0 left-0 from-red-500",
+            "w-1.5 h-1.5 lg:w-3 lg:h-3"
+          )}
           style={{
             transform: `translate(-0.05rem, -0.05rem)`,
           }}
         />
       )}
 
-      <span className="text-xxs">
+      <span className={clsx("transform scale-40 lg:scale-100 text-lg")}>
         {cond<SkillOption[], string>([
           [includes("banker"), () => "莊"],
           [includes("player"), () => "閒"],
@@ -102,7 +105,10 @@ function Record({ results }: RecordProps) {
 
       {results.includes("player_pair") && (
         <Circle
-          className="absolute bottom-0 right-0 from-blue-500 w-1.5 h-1.5"
+          className={clsx(
+            "absolute bottom-0 right-0 from-blue-500",
+            "w-1.5 h-1.5 lg:w-3 lg:h-3"
+          )}
           style={{
             transform: `translate(0.05rem, 0.05rem)`,
           }}
@@ -126,7 +132,7 @@ function MarkerRoad({ className, rounds, style }: MarkerRoadProps) {
       )}
       style={style}
     >
-      {rounds.slice(-1 * 9 * 6).map(({ id, results }) => (
+      {rounds.slice(0, 9 * 6).map(({ id, results }) => (
         <Record key={id} results={results} />
       ))}
     </div>
@@ -346,12 +352,12 @@ export function LobbyRoad({ rounds }: LobbyRoadProps) {
       <img src={Assets.Common.Road_Frame} alt="road background" />
 
       <div
-        className="absolute top-0 w-full h-full flex"
-        style={{
-          paddingLeft: `${12}px`,
-          paddingTop: `${10}px`,
-          paddingBottom: `${6}px`,
-        }}
+        className={clsx(
+          "absolute top-0 w-full h-full flex",
+          "pl-3 lg:pl-8",
+          "pt-3 lg:pt-6",
+          "pb-2 lg:pb-4"
+        )}
       >
         <MarkerRoad rounds={rounds} style={{ width: `${34}%` }} />
       </div>

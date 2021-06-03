@@ -1,4 +1,3 @@
-import React from "react";
 import { useMemo, useState } from "react";
 import { identity } from "ramda";
 import { Sprite, Container, Text } from "@inlet/react-pixi";
@@ -60,7 +59,7 @@ export default function Dungeon({
             setWidth(ref?.width || 0);
             setHeight(ref?.height || 0);
           }}
-          texture={assets(`Dungeon_${id}`)}
+          texture={assets(`Dungeon.Img.${id}`)}
         />
 
         <Sprite x={-68} y={-16} texture={assets("Dungeon_Frame")} />

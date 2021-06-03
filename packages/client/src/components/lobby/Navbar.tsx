@@ -90,7 +90,7 @@ export function Navbar() {
               />
             </div>
 
-            <span className="absolute bottom-0 font-kai text-md text-fansy text-shadow-xl filter contrast-125">
+            <span className="absolute bottom-0 font-kai text-fansy text-shadow-xl filter contrast-125">
               {name}
             </span>
           </Link>

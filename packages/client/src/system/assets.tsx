@@ -97,10 +97,12 @@ const slice = createSlice({
 export const selectAssets = (state: RootState) => state.assets;
 export const selectAssetIsLoading = (state: RootState) => state.assets.loading;
 
-export function getAssets(name: string) {
-  const existed = name in loader.resources;
+export function hasAssets(name: string) {
+  return name in loader.resources;
+}
 
-  if (!existed) throw new Error(`resource name: ${name} not existed`);
+export function getAssets(name: string) {
+  if (!hasAssets(name)) throw new Error(`resource name: ${name} not existed`);
 
   return mapping(loader.resources[name]);
 }

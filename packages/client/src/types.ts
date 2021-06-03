@@ -37,7 +37,12 @@ export interface NPC {
   dialog: string[];
 }
 
-export interface Dungeon {
+export interface DungeonBetStatus {
+  currentBet?: number;
+  historyBet?: number;
+}
+
+export interface Dungeon extends DungeonBetStatus {
   id: number;
   name: string;
   img: string;
@@ -45,6 +50,9 @@ export interface Dungeon {
   stream: string;
   location: Vector;
   lock: boolean;
+  bets: number[];
+  skills: SkillSet;
+  dungeonImg?: string;
 }
 
 export interface Condition {
@@ -73,11 +81,6 @@ export interface Skill {
 }
 
 export type SkillSet = Record<SkillOption, Skill>;
-
-export interface DungeonInfo extends Dungeon {
-  bets: number[];
-  skills: SkillSet;
-}
 
 export interface Vector {
   x: number;

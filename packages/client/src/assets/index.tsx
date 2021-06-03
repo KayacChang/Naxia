@@ -106,9 +106,6 @@ const Lobby = {
 
   // Dungeon
   Dungeon_Frame: assets("/lobby/dungeon/dungeon_frame.png"),
-  Dungeon_1: assets("/lobby/dungeon/dungeon_1.png"),
-  Dungeon_2: assets("/lobby/dungeon/dungeon_2.png"),
-  Dungeon_3: assets("/lobby/dungeon/dungeon_3.png"),
 
   // Dungeon Info
   Dungeon_Info_Background: assets("/lobby/dungeon/background.png"),
@@ -116,6 +113,9 @@ const Lobby = {
   Dungeon_Info_Btn_Back: assets("/lobby/dungeon/btn_back.png"),
   Dungeon_Info_Preview_Frame: assets("/lobby/dungeon/preview_frame.png"),
   Dungeon_Info_Name_Frame: assets("/lobby/dungeon/name_frame.png"),
+  Dungeon_Info_Bet_Frame: assets("/lobby/dungeon/bet_frame.png"),
+  Dungeon_Info_ID_Frame: assets("/lobby/dungeon/id_frame.png"),
+  Dungeon_Info_Info_Frame: assets("/lobby/dungeon/info_frame.png"),
   Dungeon_Info_Preview_1: assets("/lobby/dungeon/preview_1.png"),
 
   // Repository
