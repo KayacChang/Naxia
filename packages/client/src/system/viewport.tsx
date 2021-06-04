@@ -154,8 +154,8 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       {isToolbarVisible &&
         createPortal(
           <div
-            className="absolute top-0 w-full pointer-events-auto"
-            style={{ height: `400vh`, zIndex: 999 }}
+            className="absolute top-0 w-full pointer-events-auto overflow-auto"
+            style={{ height: `400vh`, zIndex: 999, touchAction: "auto" }}
           >
             <div className="fixed top-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50">
               <div className="w-1/5">
