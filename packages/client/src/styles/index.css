@@ -40,6 +40,14 @@
   user-select: none;
 }
 
+@media not all and (min-resolution: 0.001dpcm) {
+  @media {
+    * {
+      user-select: auto;
+    }
+  }
+}
+
 html,
 body {
   width: 100vw;
@@ -71,4 +79,41 @@ canvas {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+/* for custom scrollbar */
+:root {
+  --scrollbar-track-color: transparent;
+  --scrollbar-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-width: thin;
+
+  --scrollbar-size: 0.375rem;
+  --scrollbar-minlength: 1.5rem;
+}
+
+.overflow-auto {
+  /* IE Edge */
+  -webkit-overflow-autoing: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  /* firefox */
+  scrollbar-width: var(--scrollbar-width);
+  scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
+}
+
+.overflow-auto::-webkit-scrollbar {
+  height: var(--scrollbar-size);
+  width: var(--scrollbar-size);
+}
+.overflow-auto::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-color);
+}
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+}
+.overflow-auto::-webkit-scrollbar-thumb:vertical {
+  min-height: var(--scrollbar-minlength);
+}
+.overflow-auto::-webkit-scrollbar-thumb:horizontal {
+  min-width: var(--scrollbar-minlength);
 }

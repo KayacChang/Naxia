@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { Tab, Modal, Button } from "components";
@@ -45,7 +45,7 @@ function Detail({ item, onClose }: DetailProps) {
 
                 <p
                   className={clsx(
-                    "p-3 flex-1 text-yellow-50 overflow-scroll pointer-events-auto",
+                    "p-3 flex-1 text-yellow-50 overflow-auto pointer-events-auto",
                     "text-sm lg:text-lg"
                   )}
                   style={{ textIndent: `2em` }}
@@ -77,7 +77,7 @@ type SpecialProps = {
 };
 function Special({ items = [] }: SpecialProps) {
   return (
-    <div className="flex-1 overflow-scroll pointer-events-auto mx-2">
+    <div className="flex-1 overflow-auto pointer-events-auto mx-2">
       {items.map(({ name, img, count }, index) => (
         <div key={index} className="relative">
           <img src={Assets.Lobby.Achievement_Special} alt="card" />
@@ -173,7 +173,7 @@ export default function _Achievement({ className }: AchievementProps) {
             </nav>
 
             {active.key === "cart" && (
-              <div className="overflow-scroll pointer-events-auto m-2 grid grid-cols-3 gap-2">
+              <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
                 {achievement?.[active.key].map((item) => (
                   <button
                     key={item.name}

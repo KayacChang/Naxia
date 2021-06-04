@@ -84,7 +84,7 @@ export default function Store({ className }: StoreProps) {
 
                 <div
                   className={clsx(
-                    "overflow-scroll pointer-events-auto",
+                    "overflow-auto pointer-events-auto",
                     "h-5/6 flex flex-col items-center py-2",
                     "text-sm"
                   )}

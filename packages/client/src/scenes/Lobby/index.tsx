@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import { Sprite } from "@inlet/react-pixi";
+import { Container, Sprite } from "@inlet/react-pixi";
 import {
   useDungeons,
   useAppDispatch,
@@ -82,11 +82,35 @@ const LobbyUI = memo(() => {
   );
 });
 
+const Dungeons = memo(() => {
+  const dungeons = useDungeons();
+  const dispatch = useAppDispatch();
+
+  return (
+    <Container>
+      {dungeons.map((dungeon) => (
+        <Dungeon
+          key={dungeon.id}
+          id={dungeon.id}
+          title={dungeon.name}
+          x={1920 * (dungeon.location.x / 100)}
+          y={1080 * (dungeon.location.y / 100)}
+          lock={dungeon.lock}
+          onClick={() => {
+            !dungeon.lock
+              ? dispatch(DungeonSystem.modal.detail(dungeon.id))
+              : dispatch(DungeonSystem.modal.condition(dungeon.id));
+          }}
+        />
+      ))}
+    </Container>
+  );
+});
+
 const LobbyView = memo(() => {
   const { width, height } = useViewport();
   const map = useMap();
-  const dungeons = useDungeons();
-  const dispatch = useAppDispatch();
+
   const history = useHistory();
 
   return (
@@ -114,21 +138,7 @@ const LobbyView = memo(() => {
             texture={getAssets(`Map.${map.id}`)}
           />
 
-          {dungeons.map((dungeon) => (
-            <Dungeon
-              key={dungeon.id}
-              id={dungeon.id}
-              title={dungeon.name}
-              x={1920 * (dungeon.location.x / 100)}
-              y={1080 * (dungeon.location.y / 100)}
-              lock={dungeon.lock}
-              onClick={() => {
-                !dungeon.lock
-                  ? dispatch(DungeonSystem.modal.detail(dungeon.id))
-                  : dispatch(DungeonSystem.modal.condition(dungeon.id));
-              }}
-            />
-          ))}
+          <Dungeons />
         </Camera>
       </Game>
     </>

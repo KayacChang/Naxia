@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal, SystemModal } from "components";
 import { useState, ReactNode } from "react";
 import Assets from "assets";
@@ -37,7 +36,9 @@ export function Avatar({
 }: AvatarProps) {
   return (
     <div className={clsx("relative flex", className)}>
-      <img src={Assets.Common.Avatar_Frame} alt="avatar frame" />
+      <div>
+        <img src={Assets.Common.Avatar_Frame} alt="avatar frame" />
+      </div>
 
       <button
         className="absolute p-1 rounded-full overflow-hidden"
@@ -117,7 +118,7 @@ function History({ onClose }: HistoryProps) {
           </div>
 
           <div
-            className="text-yellow-50 overflow-scroll pointer-events-auto"
+            className="text-yellow-50 overflow-auto pointer-events-auto"
             style={{ height: `${88}%` }}
           >
             {range(0, 20).map((key) => (

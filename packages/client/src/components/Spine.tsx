@@ -1,4 +1,3 @@
-import React from "react";
 import { Container } from "@inlet/react-pixi";
 import { SkeletonData, Spine as _Spine } from "@pixi-spine/runtime-3.8";
 import { ComponentProps, memo, useEffect, useRef } from "react";
@@ -29,8 +28,13 @@ export const Spine = memo(({ data, mount, unmount, ...props }: SpineProps) => {
 
     return () => {
       unmount?.(spine);
-      spine.state.clearTracks();
-      spine.state.clearListeners();
+
+      requestAnimationFrame(() => {
+        spine.state.clearTracks();
+        spine.state.clearListeners();
+        spine.destroy();
+      });
+
       current.removeChildren();
     };
   }, [data, mount, unmount]);

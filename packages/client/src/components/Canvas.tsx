@@ -1,7 +1,11 @@
-import React from "react";
 import { ReactNode, useEffect, useRef } from "react";
 import { Application, UPDATE_PRIORITY, IApplicationOptions } from "pixi.js";
+import * as PIXI from "pixi.js";
 import { render } from "@inlet/react-pixi";
+
+if (window["safari"]) {
+  PIXI.settings.PREFER_ENV = PIXI.ENV.WEBGL;
+}
 
 type CanvasProps = {
   width?: number;
@@ -33,14 +37,29 @@ export function Canvas({
     // disable accessibility
     app.renderer.plugins.accessibility.destroy();
 
+    // ticker render
+    const update = () => {
+      app.renderer.render(app.stage);
+    };
+
     // react pixi fiber render
     render(<>{children}</>, app.stage);
 
-    // ticker render
-    const update = () => app.renderer.render(app.stage);
-
     // mount
     app.ticker.add(update, null, UPDATE_PRIORITY.LOW);
+
+    // render bug
+    requestAnimationFrame(() => {
+      if (!ref.current) return;
+
+      ref.current.style.zIndex = "1";
+
+      requestAnimationFrame(() => {
+        if (!ref.current) return;
+
+        ref.current.style.zIndex = "0";
+      });
+    });
 
     // unmount
     return () => {

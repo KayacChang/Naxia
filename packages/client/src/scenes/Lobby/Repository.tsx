@@ -1,4 +1,3 @@
-import React from "react";
 import { Item } from "types";
 import { useState } from "react";
 import { Modal, Tab } from "components";
@@ -7,8 +6,6 @@ import Assets from "assets";
 import { useUserItem } from "system";
 
 function qualityCheck(quality: number) {
-  // 這裡要重新設定 quality 對應 顏色
-
   switch (quality) {
     case 0:
       return { img: Assets.Lobby.Repo_Item_Epic, color: "BlueViolet" };
@@ -22,7 +19,7 @@ function qualityCheck(quality: number) {
     case 3:
       return { img: Assets.Lobby.Repo_Item_Uncommon, color: "GreenYellow" };
     default:
-      return { img: Assets.Lobby.Repo_Item_Normal, color: "black" };
+      return { img: Assets.Lobby.Repo_Item_Normal, color: "silver" };
   }
 }
 
@@ -47,36 +44,45 @@ type DetailProps = Item & {
 };
 function Detail({ name, img, point, quality, description }: DetailProps) {
   return (
-    <div className="fixed left-0 top-0 w-full h-full text-white flex justify-center">
-      <div className="flex flex-col h-full space-y-1 absolute justify-center items-center w-2/3">
-        <div className="relative flex w-20 h-20 mx-auto">
+    <div className="fixed left-0 top-0 w-full h-full text-white flex justify-center items-center">
+      <div className="flex flex-col space-y-1 absolute justify-center items-center w-2/3">
+        <div
+          className={clsx(
+            "relative flex mx-auto",
+            "w-20 h-20 lg:w-auto lg:h-auto"
+          )}
+        >
           <img src={qualityCheck(quality).img} alt="items frame" />
+
           <div className="absolute p-2">
             <img src={img} alt="items" />
           </div>
         </div>
 
-        <div className="relative w-1/2">
+        <div className="relative w-1/2 flex justify-center">
           <img src={Assets.Lobby.Repo_Item_Detail_Bg} alt="items detail bg" />
-          <div
-            className="absolute top-0 w-full text-center pt-1 px-3
-          "
-          >
-            <h3
-              className="text-lg mb-1"
-              style={{ color: qualityCheck(quality).color }}
+
+          <div className="absolute w-full h-full text-center flex flex-col">
+            <div
+              className={clsx(
+                "flex flex-col justify-center items-center space-y-2",
+                "h-1/2 px-1/24",
+                "text-xs lg:text-xl"
+              )}
             >
-              {name}
-            </h3>
+              <h3 style={{ color: qualityCheck(quality).color }}>{name}</h3>
 
-            <p className="text-sm mb-3">
-              <span>擁有: </span>
-              <span className="ml-2 text-yellow-500">{point}</span>
-            </p>
+              <p>
+                <span>擁有: </span>
+                <span className="ml-2 text-yellow-500">{point}</span>
+              </p>
+            </div>
 
-            <p className="w-full text-left text-xs text-gray-500">
-              {description || "未知的物品。"}
-            </p>
+            <div className={clsx("h-1/2 p-1/24")}>
+              <p className="w-full text-left text-xs text-gray-500">
+                {description || "未知的物品。"}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -125,7 +131,7 @@ export default function Repository({ className }: RepositoryProps) {
               alt="repository frame inner"
             />
 
-            <div className="absolute top-0 w-full max-h-full overflow-y-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
+            <div className="absolute top-0 w-full max-h-full overflow-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
               {items?.filter(active.cond).map((item) => (
                 <ItemGrid
                   key={item.id}
@@ -137,7 +143,7 @@ export default function Repository({ className }: RepositoryProps) {
             </div>
 
             <img
-              className="absolute bottom-0"
+              className="absolute bottom-0 transform translate-y-2 z-10"
               src={Assets.Lobby.Repo_HR}
               alt="repository frame horizontal row"
             />

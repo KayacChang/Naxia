@@ -33,7 +33,12 @@ function ItemCollectionBox({
         <img src={icon} alt="store gem sm" />
       </div>
 
-      <div className="absolute text-green-500 font-bold right-1 lg:right-2 lg:space-x-1">
+      <div
+        className={clsx(
+          "absolute text-green-500 font-bold",
+          "right-2 lg:right-4 lg:space-x-1"
+        )}
+      >
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>
           {currentNumber}
         </span>
@@ -111,18 +116,20 @@ export default function Item({ item, onExchange }: ItemProps) {
           </div>
 
           <div className="w-3/4 flex justify-between items-center space-x-4">
-            {item.requirements.map(({ type, count, accumulate }) => (
-              <ItemCollectionBox
-                key={type}
-                icon={
-                  type === "item"
-                    ? Assets.Lobby.Store_Item_Card
-                    : Assets.Lobby.Store_Gem_Sm
-                }
-                currentNumber={accumulate}
-                totalNumber={count}
-              />
-            ))}
+            <div className="flex-1 grid grid-cols-2 gap-4">
+              {item.requirements.map(({ type, count, accumulate }) => (
+                <ItemCollectionBox
+                  key={type}
+                  icon={
+                    type === "item"
+                      ? Assets.Lobby.Store_Item_Card
+                      : Assets.Lobby.Store_Gem_Sm
+                  }
+                  currentNumber={accumulate}
+                  totalNumber={count}
+                />
+              ))}
+            </div>
 
             <ItemButton alive={alive} onClick={onExchange} />
           </div>

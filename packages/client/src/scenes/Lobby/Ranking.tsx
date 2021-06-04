@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
@@ -22,7 +21,7 @@ function RankingItem({ rank, name, value, avatar }: RankingRecord) {
           <div
             className={clsx(
               "absolute transform -translate-x-1/2",
-              "w-10 lg:w-auto"
+              "w-10 md:w-1/8 xl:w-auto"
             )}
           >
             <img
@@ -93,66 +92,72 @@ export default function Rank({ className }: RankingProps) {
 
   return (
     <>
-      <article className={clsx("relative", className)}>
-        <img src={Assets.Lobby.Ranking_Background} alt="ranking background" />
+      <article className={className}>
+        <div className="relative flex justify-center">
+          <img src={Assets.Lobby.Ranking_Background} alt="ranking background" />
 
-        <div
-          className="absolute top-0 w-full h-full flex flex-col pt-1/10 pb-18 lg:pb-1/4"
-          style={{
-            paddingLeft: `${7.25}%`,
-            paddingRight: `${7.25}%`,
-          }}
-        >
-          <nav className="relative flex justify-between">
-            <div className="flex">
-              {filters.map((tab) => (
-                <Tab
-                  className="w-1/4 lg:w-auto"
-                  key={tab.key}
-                  label={tab.label}
-                  normalImage={Assets.Lobby.Ranking_Tab_Normal}
-                  activeImage={Assets.Lobby.Ranking_Tab_Active}
-                  active={tab.key === active.key}
-                  onClick={() => setActive(tab)}
-                />
-              ))}
-            </div>
-
-            <div
-              className={clsx(
-                "relative flex justify-center items-center font-kai text-yellow-700",
-                "text-xxs lg:text-xl",
-                "w-48 lg:w-1/4"
-              )}
-            >
-              <img
-                src={Assets.Lobby.Ranking_UpdateTime_background}
-                alt="ranking updateTime background"
-              />
-
-              <div className="absolute">更新時間: {updated?.split(" ")[0]}</div>
-            </div>
-          </nav>
-
-          <div className="relative flex-1">
-            <div
-              className={clsx(
-                "w-full space-y-2 py-2 pl-1/16 pr-2 overflow-scroll pointer-events-auto",
-                "h-40 lg:h-96"
-              )}
-            >
-              {data?.map((user) => (
-                <RankingItem key={user.name} {...user} />
-              ))}
-            </div>
-
-            <div className="absolute bottom-0 w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75"></div>
-
-            {current && (
-              <div className="absolute bottom-0 transform translate-y-full py-2 pl-6 pr-2">
-                <RankingItem {...current} />
-              </div>
+          <div
+            className={clsx(
+              "absolute w-full h-full",
+              "flex flex-col",
+              "pb-1/8 px-1/12 py-1/10"
             )}
+          >
+            <nav className="relative flex justify-between h-1/8">
+              <div className="flex">
+                {filters.map((tab) => (
+                  <Tab
+                    className="w-1/4 xl:w-auto"
+                    key={tab.key}
+                    label={tab.label}
+                    normalImage={Assets.Lobby.Ranking_Tab_Normal}
+                    activeImage={Assets.Lobby.Ranking_Tab_Active}
+                    active={tab.key === active.key}
+                    onClick={() => setActive(tab)}
+                  />
+                ))}
+              </div>
+
+              <div
+                className={clsx(
+                  "relative flex justify-center items-center font-kai text-yellow-700",
+                  "text-xxs lg:text-base xl:text-xl",
+                  "w-48 lg:w-1/4"
+                )}
+              >
+                <img
+                  src={Assets.Lobby.Ranking_UpdateTime_background}
+                  alt="ranking updateTime background"
+                />
+
+                <div className="absolute">
+                  更新時間: {updated?.split(" ")[0]}
+                </div>
+              </div>
+            </nav>
+
+            <div
+              className={clsx("relative flex flex-col")}
+              style={{ height: `${88}%` }}
+            >
+              <div
+                className={clsx(
+                  "w-full space-y-2 py-2 pl-1/16 pr-2 overflow-auto pointer-events-auto"
+                )}
+              >
+                {data?.map((user) => (
+                  <RankingItem key={user.name} {...user} />
+                ))}
+              </div>
+
+              <div className="absolute bottom-0 w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75"></div>
+
+              {current && (
+                <div className="absolute bottom-0 transform translate-y-full py-2 pl-1/16 pr-2">
+                  <RankingItem {...current} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </article>
