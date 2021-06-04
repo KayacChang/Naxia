@@ -91,6 +91,10 @@ canvas {
   --scrollbar-minlength: 1.5rem;
 }
 
+.overflow-auto.pointer-events-auto {
+  touch-action: auto;
+}
+
 .overflow-auto {
   /* IE Edge */
   -webkit-overflow-autoing: touch;

@@ -77,7 +77,7 @@ function ChangeAvatar({ user, onConfirm }: ChangeAvatarProps) {
         onConfirm();
       }}
     >
-      <div className="grid grid-cols-4 gap-2 place-items-center m-2 lg:px-8">
+      <div className="grid grid-cols-4 gap-2 place-items-center m-2 px-6 xl:px-8">
         {Object.keys(AvatarList).map((key) => (
           <Avatar
             key={key}
