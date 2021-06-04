@@ -367,6 +367,7 @@ const roomSlice = createSlice({
         }
 
         if (state.status.current === RoomStatus.Result) {
+          state.order = {};
           state.hasSubmitted = false;
         }
       })
@@ -406,7 +407,6 @@ const roomSlice = createSlice({
         state.order = action.payload;
       })
       .addCase(room.order.submit.fulfilled, (state, action) => {
-        state.order = {};
         state.hasSubmitted = true;
 
         state.history.push(action.payload);

@@ -28,11 +28,17 @@ import clsx from "clsx";
 import { ReactNode, useState } from "react";
 
 type ControlButtonProps = {
+  disabled?: boolean;
   children?: ReactNode;
   onClick?: () => void;
   img: string;
 };
-function ControlButton({ img, children, onClick }: ControlButtonProps) {
+function ControlButton({
+  disabled,
+  img,
+  children,
+  onClick,
+}: ControlButtonProps) {
   const [active, setActive] = useState(false);
 
   return (
@@ -41,7 +47,8 @@ function ControlButton({ img, children, onClick }: ControlButtonProps) {
       img={img}
       className={clsx(
         "relative flex justify-center items-center",
-        active ? "filter brightness-75" : "pointer-events-none"
+        active && "filter brightness-75",
+        disabled ? "pointer-events-none" : "pointer-events-auto"
       )}
       onClick={onClick}
       onPointerDown={() => setActive(true)}
@@ -109,6 +116,8 @@ export default function GameUI() {
 
   if (!user || !boss) return <></>;
 
+  const enable = status === TRoomStatus.Start && !hasSubmitted;
+
   return (
     <UI className="flex flex-col text-white">
       <header className="h-10 relative">
@@ -148,12 +157,11 @@ export default function GameUI() {
                 "lg:mt-1/16",
                 "text-xs lg:text-2xl",
                 "w-1/2 lg:w-1/3",
-                status === TRoomStatus.Start && !hasSubmitted
-                  ? "opacity-100"
-                  : "opacity-0"
+                enable ? "opacity-100" : "opacity-0"
               )}
             >
               <ControlButton
+                disabled={!enable}
                 img={Assets.Room.Control_Confirm_Normal}
                 onClick={() => dispatch(room.order.submit(order))}
               >
@@ -161,6 +169,7 @@ export default function GameUI() {
               </ControlButton>
 
               <ControlButton
+                disabled={!enable}
                 img={Assets.Room.Control_Cancel_Normal}
                 onClick={() => dispatch(room.order.clear())}
               >
@@ -168,6 +177,7 @@ export default function GameUI() {
               </ControlButton>
 
               <ControlButton
+                disabled={!enable}
                 img={Assets.Room.Control_Redo_Normal}
                 onClick={() => dispatch(room.order.redo())}
               >
