@@ -1,4 +1,3 @@
-import React from "react";
 import { UI } from "layers";
 import {
   selectRoomResult,
@@ -9,9 +8,10 @@ import {
 import Assets from "assets";
 import { Item, RoomStatus } from "types";
 import { useEffect, useState } from "react";
-import { Continue } from "./Continue";
 import { useDispatch } from "react-redux";
 import Sound from "assets/sound";
+import clsx from "clsx";
+import { Continue } from "components";
 
 type RewardItemsProps = {
   items: Item[];
@@ -21,13 +21,18 @@ function RewardItems({ items }: RewardItemsProps) {
     <div className="flex space-x-8">
       {items.map(({ id, count, img }) => (
         <div key={id} className="flex flex-col items-center">
-          <div className="w-16 relative flex justify-center items-center overflow-hidden">
+          <div
+            className={clsx(
+              "relative flex justify-center items-center overflow-hidden",
+              "w-16 lg:w-auto"
+            )}
+          >
             <img src={Assets.Lobby.Repo_Item_Epic} alt="frame" />
 
             <img className="absolute" src={img} alt="item" />
           </div>
 
-          <div className="flex text-xl">
+          <div className="flex text-xl lg:text-3xl xl:text-5xl">
             <span>x</span>
 
             <span>{count}</span>
@@ -72,7 +77,7 @@ export default function GameResult() {
 
   return (
     <UI
-      className="absolute top-0 flex flex-col justify-center items-center pointer-events-auto z-50"
+      className="flex flex-col justify-center items-center pointer-events-auto z-50"
       onClick={() => setSkip(true)}
     >
       <img

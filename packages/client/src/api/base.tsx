@@ -12,7 +12,7 @@ export function get<T>(url: string, authorization: string): Promise<T> {
     .then((res) => res.json())
     .then(({ data, success, error }) => {
       if (!success) {
-        throw new Error(error);
+        return Promise.reject(error);
       }
 
       return data as T;
@@ -60,7 +60,7 @@ export function put<T>(
     .then((res) => res.json())
     .then(({ data, success, error }) => {
       if (!success) {
-        throw new Error(error);
+        return Promise.reject(error);
       }
 
       return data as T;

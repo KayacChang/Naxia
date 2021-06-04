@@ -35,7 +35,7 @@ export default function Room() {
         <img src={Assets.Room.Room_Background} alt="background" />
       </UI>
 
-      <Game className="fixed top-0">
+      <Game>
         <GameView />
       </Game>
 

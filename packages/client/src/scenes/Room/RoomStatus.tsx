@@ -29,7 +29,7 @@ export default function RoomStatus({ className }: RoomStatusProps) {
           <h3
             className={clsx(
               "text-fansy space-x-1",
-              "text-xxs lg:text-3xl",
+              "text-xxs lg:text-xl xl:text-3xl",
               "h-1/6 pl-1/10",
               "flex items-center"
             )}
@@ -38,7 +38,7 @@ export default function RoomStatus({ className }: RoomStatusProps) {
             <span>{users}</span>
           </h3>
 
-          <div className="lg:-mt-1 text-xxs lg:text-2xl">
+          <div className="lg:-mt-1 text-xxs lg:text-xl xl:text-2xl">
             <div className="flex justify-center space-x-4 lg:px-1/10">
               <Skill
                 name={skills.bank_pair.name}
@@ -70,8 +70,8 @@ export default function RoomStatus({ className }: RoomStatusProps) {
             className={clsx(
               "text-fansy space-x-1",
               "flex-1 flex justify-center items-center",
-              "pt-1/24 lg:pt-0",
-              "text-xs lg:text-3xl"
+              "pt-1/24 xl:pt-0",
+              "text-xs lg:text-xl xl:text-3xl"
             )}
           >
             <span className="font-noto">累計金額:</span>

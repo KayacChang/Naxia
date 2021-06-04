@@ -33,7 +33,14 @@ function ItemGrid({ onClick, count, name, img, quality }: ItemGridProps) {
 
       <img className="absolute top-0" src={img} alt={name} />
 
-      <span className="absolute bottom-0 right-0 text-xs mx-1">{count}</span>
+      <span
+        className={clsx(
+          "absolute bottom-0 right-0 mx-1",
+          "text-xs lg:text-2xl xl:text-4xl"
+        )}
+      >
+        {count}
+      </span>
     </button>
   );
 }

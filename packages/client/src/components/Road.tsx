@@ -1,11 +1,17 @@
-import { useEffect } from "react";
 import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes } from "ramda";
-import { ReactNode, CSSProperties, useCallback, useState } from "react";
+import {
+  ReactNode,
+  CSSProperties,
+  useCallback,
+  useState,
+  useEffect,
+} from "react";
 import { SkillOption, Round, RoomStatus } from "types";
 import { Modal } from "./lobby/Modal";
 import "./Road.css";
+import { Continue } from "components";
 import {
   Dungeon,
   selectRoomStatusCurrent,
@@ -172,51 +178,51 @@ function RoadLarge({ rounds }: RoadLargeProps) {
         alt="room frame big"
       />
 
-      <div className="absolute w-full h-full p-1/24 lg:p-12 flex flex-col">
+      <div className="absolute w-full h-full p-1/24 xl:p-12 flex flex-col">
         <div
           className={clsx(
             "w-full flex items-center justify-between px-1/24",
             "h-1/4",
-            "lg:text-5xl"
+            "text-base lg:text-2xl xl:text-5xl"
           )}
         >
           <CountCube
-            cubeClassName="cube-red px-2 lg:p-4"
+            cubeClassName="cube-red px-2 xl:p-4"
             color="text-red-600"
             role="莊"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-blue px-2 lg:p-4"
+            cubeClassName="cube-blue px-2 xl:p-4"
             color="text-blue-600"
             role="閒"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-green px-2 lg:p-4"
+            cubeClassName="cube-green px-2 xl:p-4"
             color="text-green-500"
             role="和"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-light-red px-2 lg:p-4"
+            cubeClassName="cube-light-red px-2 xl:p-4"
             color="text-red-400"
             role="莊對"
             count={2}
           />
 
           <CountCube
-            cubeClassName="cube-light-blue px-2 lg:p-4"
+            cubeClassName="cube-light-blue px-2 xl:p-4"
             color="text-blue-300"
             role="閒對"
             count={2}
           />
         </div>
 
-        <div className="w-full flex-1 flex">
+        <div className="w-full flex-1 flex font-kai">
           <MarkerRoad
             rounds={rounds}
             className={clsx("mt-0.5 ml-0.5", "lg:-mb-1.5 lg:mt-1", "w-35%")}
@@ -239,19 +245,6 @@ function RoadLarge({ rounds }: RoadLargeProps) {
       <div className="absolute bottom-0 transform translate-y-full">
         <Continue text="點擊繼續" />
       </div>
-    </div>
-  );
-}
-
-type ContinueProps = {
-  text: string;
-};
-function Continue({ text }: ContinueProps) {
-  return (
-    <div className="w-60 relative flex justify-center items-center">
-      <img src={Assets.Room.Result_Continue} alt="continue background" />
-
-      <span className="absolute text-white font-noto text-xl">{text}</span>
     </div>
   );
 }
@@ -305,7 +298,8 @@ export function RoomRoad({ className }: RoomRoadProps) {
           className={clsx(
             "absolute top-0 w-full h-full flex font-kai",
             "py-1 px-1.5",
-            "lg:py-4 lg:px-5"
+            "lg:py-2 lg:px-3",
+            "xl:py-4 xl:px-5"
           )}
         >
           <div className={clsx("flex flex-col", "w-8", "lg:text-2xl lg:w-1/8")}>
@@ -323,9 +317,9 @@ export function RoomRoad({ className }: RoomRoadProps) {
 
           <div
             className={clsx(
-              "flex flex-col text-xs p-0.5",
+              "flex flex-col text-xs",
               "w-12 lg:w-1/5",
-              "text-xs lg:text-2xl",
+              "text-xs lg:text-lg xl:text-2xl",
               "p-0.5 lg:px-4 lg:-ml-1.5 -mb-1 lg:-mb-2"
             )}
           >
@@ -373,14 +367,14 @@ type LobbyRoadProps = {
 };
 export function LobbyRoad({ rounds }: LobbyRoadProps) {
   return (
-    <div className="relative">
+    <div className="relative font-kai">
       <img src={Assets.Common.Road_Frame} alt="road background" />
 
       <div
         className={clsx(
           "absolute top-0 w-full h-full flex",
-          "pl-3 lg:pl-8",
-          "pt-3 lg:pt-6",
+          "pl-3 lg:pl-6 xl:pl-8",
+          "pt-3 lg:pt-5 xl:pt-6",
           "pb-2 lg:pb-4"
         )}
       >

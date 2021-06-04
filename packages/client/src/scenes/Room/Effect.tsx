@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Effect,
   getViewPort,
@@ -58,9 +57,7 @@ export default memo(() => {
   }, [status, roundResult, assets, dispatch]);
 
   return (
-    <Game
-      className={clsx("absolute top-0 pointer-events-none", !data && "hidden")}
-    >
+    <Game className={clsx("pointer-events-none", !data && "hidden")}>
       {data && (
         <Spine
           x={width / 2}

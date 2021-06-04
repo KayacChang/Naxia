@@ -3,6 +3,8 @@ import { useState } from "react";
 import Assets from "assets";
 import { Modal, SystemModal } from "components";
 import SideButton from "./SideButton";
+import clsx from "clsx";
+import { useDungeonInfo } from "system";
 
 const icon = {
   key: "information",
@@ -12,15 +14,9 @@ const icon = {
   href: "#",
 };
 export function Information() {
-  const [isOpen, setOpen] = useState(false);
+  const info = useDungeonInfo();
 
-  const information = [
-    { label: "桌台編號", value: "百家樂-4" },
-    { label: "荷官名稱", value: "Amy" },
-    { label: "遊戲局號", value: "4-46" },
-    { label: "遊戲編號", value: "129516124" },
-    { label: "下注限紅", value: "1-15" },
-  ];
+  const [isOpen, setOpen] = useState(false);
 
   return (
     <>
@@ -37,16 +33,45 @@ export function Information() {
             button="確認"
             onConfirm={() => setOpen(false)}
           >
-            <div className="relative flex justify-center items-center w-full h-full">
+            <div className="relative flex justify-center items-center my-auto">
               <img src={Assets.Common.Modal_Frame_Information} alt="frame" />
 
-              <div className="absolute flex flex-col p-4 text-sm font-kai w-full">
-                {information.map(({ label, value }) => (
-                  <div key={label} className="flex space-x-4 py-1">
-                    <h3>{label}:</h3>
-                    <p className="text-yellow-300">{value}</p>
-                  </div>
-                ))}
+              <div
+                className={clsx(
+                  "absolute font-kai",
+                  "w-full h-full gap-2",
+                  "flex flex-col",
+                  "pt-2 pb-5",
+                  "lg:pt-4 lg:pb-8",
+                  "lg:text-2xl"
+                )}
+              >
+                <div className="flex-1 flex justify-center items-center gap-2">
+                  <span className="text-fansy text-shadow-xl filter contrast-150">
+                    桌台編號:{" "}
+                  </span>
+                  <span className="text-white">百家樂-{info?.id}</span>
+                </div>
+
+                <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
+                  <span className="text-yellow-200">荷官名稱: </span>
+                  <span className="text-yellow-500">Amy</span>
+                </div>
+
+                <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
+                  <span className="text-yellow-200">遊戲局號: </span>
+                  <span className="text-yellow-500">4-46</span>
+                </div>
+
+                <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
+                  <span className="text-yellow-200">遊戲編號: </span>
+                  <span className="text-yellow-500">129516124</span>
+                </div>
+
+                <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
+                  <span className="text-yellow-200">下注限紅: </span>
+                  <span className="text-yellow-500">1-15</span>
+                </div>
               </div>
             </div>
           </SystemModal>

@@ -83,7 +83,12 @@ function Special({ items = [] }: SpecialProps) {
           <img src={Assets.Lobby.Achievement_Special} alt="card" />
 
           <div className="absolute top-0 w-full h-full flex px-1">
-            <div className="relative flex justify-center items-center w-14">
+            <div
+              className={clsx(
+                "relative flex justify-center items-center",
+                "w-14 lg:w-1/5"
+              )}
+            >
               <img
                 src={Assets.Lobby.Achievement_Thumbnail_Frame}
                 alt="thumbnail frame"
@@ -92,15 +97,33 @@ function Special({ items = [] }: SpecialProps) {
             </div>
 
             <div className="flex-1 flex items-center px-2">
-              <h3 className="text-fansy font-kai">{name}</h3>
+              <h3 className="text-fansy font-kai text-base lg:text-3xl xl:text-5xl">
+                {name}
+              </h3>
             </div>
 
-            <div className="w-20 flex flex-col items-end px-1">
-              <h4 className="text-xs text-yellow-100 font-kai flex items-center pt-2">
+            <div
+              className={clsx(
+                "flex flex-col items-end w-1/4",
+                "px-2 py-2 lg:px-3 lg:py-3 xl:py-4"
+              )}
+            >
+              <h4
+                className={clsx(
+                  "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
+                  "text-xs lg:text-2xl xl:text-3xl"
+                )}
+              >
                 卡片獲得次數
               </h4>
 
-              <div className="text-white text-lg w-full flex justify-center pt-1">
+              <div
+                className={clsx(
+                  "flex-1",
+                  "text-white w-full flex justify-center items-center pt-1",
+                  "text-lg lg:text-2xl xl:text-3xl"
+                )}
+              >
                 <span>X</span>
                 <span>{count}</span>
               </div>

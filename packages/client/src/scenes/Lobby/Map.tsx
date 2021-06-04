@@ -92,7 +92,7 @@ export function DungeonDetail() {
 
                     <div
                       className={clsx(
-                        "absolute  flex flex-wrap justify-center",
+                        "absolute flex flex-wrap justify-center",
                         "text-xs lg:text-2xl"
                       )}
                     >
@@ -190,7 +190,7 @@ export function DungeonDetail() {
             className={clsx(
               "absolute bottom-0 flex text-white w-full",
               "transform translate-y-1/2",
-              "text-xs lg:text-base"
+              "text-xs lg:text-xl xl:text-3xl"
             )}
           >
             <div className="flex ml-auto mr-8 w-1/3">

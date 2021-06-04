@@ -41,7 +41,7 @@ function ControlButton({ img, children, onClick }: ControlButtonProps) {
       img={img}
       className={clsx(
         "relative flex justify-center items-center",
-        active && "filter brightness-75"
+        active ? "filter brightness-75" : "pointer-events-none"
       )}
       onClick={onClick}
       onPointerDown={() => setActive(true)}
@@ -59,11 +59,11 @@ function CountDown() {
 
   return (
     <div className="relative flex justify-center items-center">
-      <div className="w-1/3 lg:w-2/3 animate-pulse">
+      <div className="w-1/3 lg:w-1/2 xl:w-2/3 animate-pulse">
         <img src={Assets.Room.CountDown_Frame} alt="frame" />
       </div>
 
-      <span className="absolute text-2xl lg:text-5xl text-fansy">
+      <span className="absolute text-2xl lg:text-3xl xl:text-5xl text-fansy">
         {countdown}
       </span>
     </div>
@@ -75,13 +75,13 @@ function RoundStatus() {
 
   return (
     <div className="relative flex justify-center items-center">
-      <div className="w-1/2 lg:w-auto">
+      <div className="w-1/2 lg:w-2/3 xl:w-auto">
         <img src={Assets.Room.Round_Status_Frame} alt="frame" />
       </div>
 
       <span
         className={clsx(
-          "absolute text-lg lg:text-3xl font-kai text-yellow-100"
+          "absolute text-lg lg:text-xl xl:text-3xl font-kai text-yellow-100"
         )}
       >
         {status === TRoomStatus.Change

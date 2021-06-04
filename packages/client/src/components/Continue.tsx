@@ -1,4 +1,3 @@
-import React from "react";
 import Assets from "assets";
 import clsx from "clsx";
 
@@ -10,13 +9,21 @@ export function Continue({ className, text }: ContinueProps) {
   return (
     <div
       className={clsx(
-        "w-60 relative flex justify-center items-center",
+        "relative flex justify-center items-center",
+        "w-60 lg:w-80",
         className
       )}
     >
       <img src={Assets.Room.Result_Continue} alt="continue background" />
 
-      <span className="absolute text-white text-xl">{text}</span>
+      <span
+        className={clsx(
+          "absolute text-white",
+          "text-xl lg:text-3xl xl:text-5xl"
+        )}
+      >
+        {text}
+      </span>
     </div>
   );
 }
