@@ -1,118 +1,342 @@
 
 skeleton.png
-size: 1885,565
+size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-45/sm_gs_superskill1_225_conjure_0001
+baozha/00000
   rotate: true
-  xy: 1730, 234
-  size: 329, 125
-  orig: 700, 700
-  offset: 160, 284
+  xy: 1716, 586
+  size: 191, 139
+  orig: 191, 139
+  offset: 0, 0
   index: -1
-45/sm_gs_superskill1_225_conjure_0002
+baozha/00001
   rotate: false
-  xy: 1661, 87
-  size: 222, 145
-  orig: 700, 700
-  offset: 162, 283
+  xy: 1486, 409
+  size: 214, 183
+  orig: 214, 183
+  offset: 0, 0
   index: -1
-45/sm_gs_superskill1_225_conjure_0003
+baozha/00002
   rotate: false
-  xy: 1529, 2
-  size: 252, 83
-  orig: 700, 700
-  offset: 243, 337
+  xy: 1486, 594
+  size: 228, 183
+  orig: 228, 183
+  offset: 0, 0
   index: -1
-45/sm_gs_superskill1_45_conjure_0001
+baozha/00003
   rotate: true
-  xy: 1347, 35
-  size: 277, 180
-  orig: 700, 700
-  offset: 244, 272
+  xy: 1857, 512
+  size: 210, 189
+  orig: 210, 189
+  offset: 0, 0
   index: -1
-45/sm_gs_superskill1_45_conjure_0002
+baozha/00004
   rotate: false
-  xy: 1438, 393
-  size: 290, 170
-  orig: 700, 700
-  offset: 230, 248
+  xy: 1468, 217
+  size: 200, 190
+  orig: 200, 190
+  offset: 0, 0
   index: -1
-45/sm_gs_superskill1_45_conjure_0003
-  rotate: true
-  xy: 1529, 130
-  size: 261, 130
-  orig: 700, 700
-  offset: 246, 255
-  index: -1
-fire2/10000
+baozha/00005
   rotate: false
-  xy: 1147, 314
-  size: 289, 249
-  orig: 600, 600
-  offset: 148, 196
+  xy: 940, 19
+  size: 197, 165
+  orig: 197, 165
+  offset: 0, 0
   index: -1
-fire2/10001
+baozha/00006
   rotate: true
-  xy: 1085, 17
-  size: 285, 260
-  orig: 600, 600
-  offset: 152, 188
+  xy: 1670, 207
+  size: 195, 164
+  orig: 195, 164
+  offset: 0, 0
   index: -1
-fire2/10002
+baozha/00007
+  rotate: true
+  xy: 1888, 724
+  size: 196, 153
+  orig: 196, 153
+  offset: 0, 0
+  index: -1
+baozha/00008
+  rotate: true
+  xy: 1331, 469
+  size: 193, 153
+  orig: 193, 153
+  offset: 0, 0
+  index: -1
+baozha/00009
+  rotate: true
+  xy: 1702, 404
+  size: 180, 153
+  orig: 180, 153
+  offset: 0, 0
+  index: -1
+baozha/00010
+  rotate: true
+  xy: 1139, 8
+  size: 176, 150
+  orig: 176, 150
+  offset: 0, 0
+  index: -1
+baozha/00011
   rotate: false
-  xy: 275, 303
-  size: 291, 260
-  orig: 600, 600
-  offset: 149, 188
+  xy: 1857, 369
+  size: 177, 141
+  orig: 177, 141
+  offset: 0, 0
   index: -1
-fire2/10003
+baozha/00012
   rotate: true
-  xy: 299, 15
-  size: 286, 263
-  orig: 600, 600
-  offset: 148, 187
+  xy: 1326, 292
+  size: 175, 140
+  orig: 175, 140
+  offset: 0, 0
   index: -1
-fire2/10004
+baozha/00013
+  rotate: true
+  xy: 1206, 320
+  size: 177, 118
+  orig: 177, 118
+  offset: 0, 0
+  index: -1
+baozha/00014
   rotate: false
-  xy: 2, 5
-  size: 295, 266
-  orig: 600, 600
-  offset: 145, 182
+  xy: 650, 7
+  size: 179, 107
+  orig: 179, 107
+  offset: 0, 0
   index: -1
-fire2/10005
-  rotate: true
-  xy: 2, 273
-  size: 290, 271
-  orig: 600, 600
-  offset: 149, 174
-  index: -1
-fire2/10006
-  rotate: true
-  xy: 822, 15
-  size: 286, 261
-  orig: 600, 600
-  offset: 152, 187
-  index: -1
-fire2/10007
-  rotate: true
-  xy: 564, 9
-  size: 292, 256
-  orig: 600, 600
-  offset: 149, 190
-  index: -1
-fire2/10008
+baozha/00015
   rotate: false
-  xy: 857, 304
-  size: 288, 259
-  orig: 600, 600
-  offset: 148, 191
+  xy: 1888, 922
+  size: 158, 100
+  orig: 158, 100
+  offset: 0, 0
   index: -1
-fire2/10009
+huoqiu/Single Meteor Falling_00013
+  rotate: true
+  xy: 890, 818
+  size: 5, 14
+  orig: 960, 540
+  offset: 0, 297
+  index: -1
+huoqiu/Single Meteor Falling_00015
   rotate: false
-  xy: 568, 303
-  size: 287, 260
-  orig: 600, 600
-  offset: 152, 189
+  xy: 1824, 981
+  size: 38, 41
+  orig: 960, 540
+  offset: 0, 284
+  index: -1
+huoqiu/Single Meteor Falling_00017
+  rotate: true
+  xy: 843, 753
+  size: 70, 45
+  orig: 960, 540
+  offset: 0, 281
+  index: -1
+huoqiu/Single Meteor Falling_00019
+  rotate: true
+  xy: 1155, 329
+  size: 87, 49
+  orig: 960, 540
+  offset: 0, 278
+  index: -1
+huoqiu/Single Meteor Falling_00021
+  rotate: true
+  xy: 1142, 203
+  size: 124, 51
+  orig: 960, 540
+  offset: 0, 274
+  index: -1
+huoqiu/Single Meteor Falling_00023
+  rotate: true
+  xy: 1088, 186
+  size: 151, 52
+  orig: 960, 540
+  offset: 0, 272
+  index: -1
+huoqiu/Single Meteor Falling_00025
+  rotate: false
+  xy: 459, 8
+  size: 189, 58
+  orig: 960, 540
+  offset: 0, 269
+  index: -1
+huoqiu/Single Meteor Falling_00027
+  rotate: false
+  xy: 242, 5
+  size: 215, 61
+  orig: 960, 540
+  offset: 0, 267
+  index: -1
+huoqiu/Single Meteor Falling_00029
+  rotate: false
+  xy: 2, 2
+  size: 238, 64
+  orig: 960, 540
+  offset: 0, 266
+  index: -1
+huoqiu/Single Meteor Falling_00031
+  rotate: false
+  xy: 665, 116
+  size: 273, 68
+  orig: 960, 540
+  offset: 0, 264
+  index: -1
+huoqiu/Single Meteor Falling_00033
+  rotate: false
+  xy: 1548, 779
+  size: 302, 69
+  orig: 960, 540
+  offset: 0, 264
+  index: -1
+huoqiu/Single Meteor Falling_00035
+  rotate: false
+  xy: 1548, 850
+  size: 338, 73
+  orig: 960, 540
+  offset: 0, 262
+  index: -1
+huoqiu/Single Meteor Falling_00037
+  rotate: false
+  xy: 692, 186
+  size: 365, 74
+  orig: 960, 540
+  offset: 0, 262
+  index: -1
+huoqiu/Single Meteor Falling_00039
+  rotate: false
+  xy: 692, 262
+  size: 394, 75
+  orig: 960, 540
+  offset: 0, 261
+  index: -1
+huoqiu/Single Meteor Falling_00041
+  rotate: false
+  xy: 728, 339
+  size: 425, 77
+  orig: 960, 540
+  offset: 0, 261
+  index: -1
+huoqiu/Single Meteor Falling_00043
+  rotate: false
+  xy: 755, 418
+  size: 449, 79
+  orig: 960, 540
+  offset: 0, 260
+  index: -1
+huoqiu/Single Meteor Falling_00045
+  rotate: false
+  xy: 793, 499
+  size: 492, 80
+  orig: 960, 540
+  offset: 0, 260
+  index: -1
+huoqiu/Single Meteor Falling_00047
+  rotate: false
+  xy: 816, 581
+  size: 513, 81
+  orig: 960, 540
+  offset: 0, 259
+  index: -1
+huoqiu/Single Meteor Falling_00049
+  rotate: false
+  xy: 843, 664
+  size: 540, 83
+  orig: 960, 540
+  offset: 0, 258
+  index: -1
+huoqiu/Single Meteor Falling_00051
+  rotate: false
+  xy: 906, 749
+  size: 578, 85
+  orig: 960, 540
+  offset: 0, 257
+  index: -1
+huoqiu/Single Meteor Falling_00053
+  rotate: false
+  xy: 943, 836
+  size: 603, 87
+  orig: 960, 540
+  offset: 0, 255
+  index: -1
+huoqiu/Single Meteor Falling_00055
+  rotate: false
+  xy: 2, 68
+  size: 637, 89
+  orig: 960, 540
+  offset: 0, 254
+  index: -1
+huoqiu/Single Meteor Falling_00057
+  rotate: false
+  xy: 2, 159
+  size: 661, 89
+  orig: 960, 540
+  offset: 0, 254
+  index: -1
+huoqiu/Single Meteor Falling_00059
+  rotate: false
+  xy: 2, 250
+  size: 688, 91
+  orig: 960, 540
+  offset: 0, 253
+  index: -1
+huoqiu/Single Meteor Falling_00061
+  rotate: false
+  xy: 2, 343
+  size: 724, 92
+  orig: 960, 540
+  offset: 0, 253
+  index: -1
+huoqiu/Single Meteor Falling_00063
+  rotate: false
+  xy: 2, 437
+  size: 751, 92
+  orig: 960, 540
+  offset: 0, 253
+  index: -1
+huoqiu/Single Meteor Falling_00065
+  rotate: false
+  xy: 2, 531
+  size: 789, 95
+  orig: 960, 540
+  offset: 0, 251
+  index: -1
+huoqiu/Single Meteor Falling_00067
+  rotate: false
+  xy: 2, 628
+  size: 812, 96
+  orig: 960, 540
+  offset: 0, 251
+  index: -1
+huoqiu/Single Meteor Falling_00069
+  rotate: false
+  xy: 2, 726
+  size: 839, 97
+  orig: 960, 540
+  offset: 0, 250
+  index: -1
+huoqiu/Single Meteor Falling_00071
+  rotate: false
+  xy: 943, 925
+  size: 879, 97
+  orig: 960, 540
+  offset: 0, 250
+  index: -1
+huoqiu/Single Meteor Falling_00073
+  rotate: false
+  xy: 2, 825
+  size: 902, 97
+  orig: 960, 540
+  offset: 0, 250
+  index: -1
+huoqiu/Single Meteor Falling_00075
+  rotate: false
+  xy: 2, 924
+  size: 939, 98
+  orig: 960, 540
+  offset: 0, 250
   index: -1
