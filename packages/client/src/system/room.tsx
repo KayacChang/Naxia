@@ -303,6 +303,7 @@ export const room = {
     }, 10 * 1000);
 
     ws.addEventListener("close", () => {
+      reconnect && clearTimeout(reconnect);
       ping && clearInterval(ping);
     });
 

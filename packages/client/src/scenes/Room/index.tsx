@@ -15,6 +15,19 @@ import GameEffect from "./Effect";
 import Assets from "assets";
 import Sound from "assets/sound";
 
+function Background() {
+  const info = useDungeonInfo();
+
+  return (
+    <UI className="flex flex-col">
+      <img
+        src={info?.dungeonImg || Assets.Room.Room_Background}
+        alt="background"
+      />
+    </UI>
+  );
+}
+
 export default function Room() {
   const dispatch = useAppDispatch();
   const info = useDungeonInfo();
@@ -31,9 +44,7 @@ export default function Room() {
 
   return (
     <ViewportProvider>
-      <UI className="flex flex-col">
-        <img src={Assets.Room.Room_Background} alt="background" />
-      </UI>
+      <Background />
 
       <Game>
         <GameView />
