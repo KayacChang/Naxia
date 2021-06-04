@@ -34,6 +34,19 @@ get:
   path: docker
   name: KUBERNETES_TOKEN_TGC_DEV
 ---
+kind: secret
+name: AWS_ACCESS_KEY_ID_TGC_PROD
+get:
+  path: docker
+  name: AWS_ACCESS_KEY_ID_TGC_PROD
+---
+kind: secret
+name: AWS_SECRET_ACCESS_KEY_TGC_PROD
+get:
+  path: docker
+  name: AWS_SECRET_ACCESS_KEY_TGC_PROD
+---
+
 
 kind: pipeline
 type: kubernetes
@@ -128,6 +141,27 @@ steps:
     when:
       branch:
         - dev
+      local: true
+      event:
+        - push
+
+  - name: deploy stg
+    image: odaniait/aws-kubectl
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_KEY_ID_TGC_PROD
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_ACCESS_KEY_TGC_PROD
+      AWS_DEFAULT_REGION: ap-northeast-1
+      EKS_CLUSTER_NAME: eks-prod
+      KUBERNETES_NAMESPACE: naxia-stg
+      KUBERNETES_DEPLOYMENT: deployment.apps/naxia-front
+    commands:
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_DEFAULT_REGION
+      - kubectl rollout restart $KUBERNETES_DEPLOYMENT -n $KUBERNETES_NAMESPACE
+    when:
+      branch:
+        - stg
       local: true
       event:
         - push
