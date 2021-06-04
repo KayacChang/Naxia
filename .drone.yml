@@ -34,19 +34,6 @@ get:
   path: docker
   name: KUBERNETES_TOKEN_TGC_DEV
 ---
-kind: secret
-name: AWS_ACCESS_KEY_ID_TGC_DEV
-get:
-  path: docker
-  name: AWS_ACCESS_KEY_ID_TGC_DEV
----
-kind: secret
-name: AWS_SECRET_ACCESS_KEY_TGC_DEV
-get:
-  path: docker
-  name: AWS_SECRET_ACCESS_KEY_TGC_DEV
----
-
 
 kind: pipeline
 type: kubernetes
