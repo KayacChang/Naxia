@@ -35,16 +35,16 @@ get:
   name: KUBERNETES_TOKEN_TGC_DEV
 ---
 kind: secret
-name: AWS_ACCESS_KEY_ID_TGC_PROD
+name: AWS_ACCESS_KEY_ID_TGC_DEV
 get:
   path: docker
-  name: AWS_ACCESS_KEY_ID_TGC_PROD
+  name: AWS_ACCESS_KEY_ID_TGC_DEV
 ---
 kind: secret
-name: AWS_SECRET_ACCESS_KEY_TGC_PROD
+name: AWS_SECRET_ACCESS_KEY_TGC_DEV
 get:
   path: docker
-  name: AWS_SECRET_ACCESS_KEY_TGC_PROD
+  name: AWS_SECRET_ACCESS_KEY_TGC_DEV
 ---
 
 
@@ -149,9 +149,9 @@ steps:
     image: odaniait/aws-kubectl
     environment:
       AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_KEY_ID_TGC_PROD
+        from_secret: AWS_ACCESS_KEY_ID_TGC_DEV
       AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_ACCESS_KEY_TGC_PROD
+        from_secret: AWS_SECRET_ACCESS_KEY_TGC_DEV
       AWS_DEFAULT_REGION: ap-northeast-1
       EKS_CLUSTER_NAME: eks-prod
       KUBERNETES_NAMESPACE: naxia-stg
