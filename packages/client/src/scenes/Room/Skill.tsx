@@ -94,7 +94,7 @@ export default function Skill({
       className={clsx(
         "relative transition-opacity duration-500",
         state === "hidden" && "opacity-0",
-        onClick && state !== "hidden"
+        onClick && state !== "hidden" && status === RoomStatus.Start
           ? "pointer-events-auto"
           : "pointer-events-none",
         className

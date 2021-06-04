@@ -2,6 +2,7 @@ import clsx from "clsx";
 import Assets from "assets";
 import Skill from "./Skill";
 import {
+  selectRoomRoundStatus,
   selectRoomTotalBet,
   selectRoomUsers,
   useAppSelector,
@@ -15,6 +16,7 @@ export default function RoomStatus({ className }: RoomStatusProps) {
   const info = useDungeonInfo();
   const users = useAppSelector(selectRoomUsers);
   const totalBet = useAppSelector(selectRoomTotalBet);
+  const roundStatus = useAppSelector(selectRoomRoundStatus);
 
   if (!info) return <></>;
 
@@ -43,14 +45,17 @@ export default function RoomStatus({ className }: RoomStatusProps) {
               <Skill
                 name={skills.bank_pair.name}
                 normal={Assets.Room.Skill_FlameThrower_Normal}
+                value={roundStatus.bank_pair}
               />
               <Skill
                 name={skills.tie.name}
                 normal={Assets.Room.Skill_Hurricane_Normal}
+                value={roundStatus.tie}
               />
               <Skill
                 name={skills.player_pair.name}
                 normal={Assets.Room.Skill_IceBeam_Normal}
+                value={roundStatus.player_pair}
               />
             </div>
 
@@ -58,10 +63,12 @@ export default function RoomStatus({ className }: RoomStatusProps) {
               <Skill
                 name={skills.player.name}
                 normal={Assets.Room.Skill_FlareBlitz_Normal}
+                value={roundStatus.player}
               />
               <Skill
                 name={skills.banker.name}
                 normal={Assets.Room.Skill_Blizzard_Normal}
+                value={roundStatus.banker}
               />
             </div>
           </div>

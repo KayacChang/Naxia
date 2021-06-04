@@ -67,7 +67,7 @@ export default function GameResult() {
     return;
   }, [status, dispatch, setSkip]);
 
-  if (!result) {
+  if (!result?.result) {
     return <></>;
   }
 

@@ -17,11 +17,20 @@ type RoundResult = {
     player_pair: boolean;
     tie: boolean;
   };
-  result: "win" | "lose";
+  result: "win" | "lose" | "";
 };
+
+interface RoundStatus {
+  bank_pair: number;
+  banker: number;
+  player: number;
+  player_pair: number;
+  tie: number;
+}
 
 type RoomResponse =
   | { event: "room_status"; data: { status: RoomStatus } }
+  | { event: "round_status"; data: RoundStatus }
   | { event: "next_status_countdown"; timer: number }
   | { event: "round_result"; data: RoundResult }
   | { event: "next_round_monster"; data: Boss }
@@ -48,6 +57,7 @@ export const selectRoomBossStage = (state: RootState) => state.room.boss.stage;
 
 export const selectRoomUsers = (state: RootState) => state.room.concurrentUsers;
 export const selectRoomTotalBet = (state: RootState) => state.room.totalBet;
+export const selectRoomRoundStatus = (state: RootState) => state.room.round;
 
 let ws: WebSocket | undefined;
 
@@ -207,6 +217,7 @@ export const room = {
   status: {
     user: createAction<number>("room/status/user"),
     totalBet: createAction<number>("room/status/totalBet"),
+    round: createAction<RoundStatus>("room/status/round"),
   },
 
   join: createAsyncThunk<
@@ -241,11 +252,17 @@ export const room = {
         dispatch(room.status.totalBet(data.data));
       }
 
+      if (data.event === "round_status") {
+        dispatch(room.status.round(data.data));
+      }
+
       if (data.event === "room_status") {
         hasMessage = true;
 
-        if (data.data.status === RoomStatus.Result) {
-          dispatch(room.order.clear());
+        const hasSubmitted = selectRoomHasSubmitted(getState());
+
+        if (data.data.status === RoomStatus.Stop && !hasSubmitted) {
+          dispatch(order.clear());
         }
 
         dispatch(game.status(data.data.status));
@@ -321,6 +338,7 @@ export interface RoomState {
 
   concurrentUsers: number;
   totalBet: number;
+  round: RoundStatus;
 }
 
 const initialState: RoomState = {
@@ -338,6 +356,13 @@ const initialState: RoomState = {
 
   concurrentUsers: 0,
   totalBet: 0,
+  round: {
+    player: 0,
+    player_pair: 0,
+    banker: 0,
+    bank_pair: 0,
+    tie: 0,
+  },
 };
 
 const roomSlice = createSlice({
@@ -348,6 +373,9 @@ const roomSlice = createSlice({
     builder
       .addCase(room.status.user, (state, action) => {
         state.concurrentUsers = action.payload;
+      })
+      .addCase(room.status.round, (state, action) => {
+        state.round = action.payload;
       })
       .addCase(room.status.totalBet, (state, action) => {
         state.totalBet = action.payload;
