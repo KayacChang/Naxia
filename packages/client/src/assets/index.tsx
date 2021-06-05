@@ -16,11 +16,6 @@ const Room = {
   Road_Frame: assets("/road/frame.png"),
   Road_Ring_Red: assets("/road/big_ring_red.png"),
   Road_Ring_Blue: assets("/road/big_ring_blue.png"),
-  Road_Frame_Banker: assets("/road/frame_banker.png"),
-  Road_Frame_Player: assets("/road/frame_player.png"),
-  Road_Frame_Tie: assets("/road/frame_tie.png"),
-  Road_Frame_Banker_Pair: assets("/road/frame_banker_pair.png"),
-  Road_Frame_Player_Pair: assets("/road/frame_player_pair.png"),
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
@@ -37,7 +32,6 @@ const Room = {
   Control_Redo_Normal: assets("/room/control/redo-normal.png"),
 
   // CountDown
-  CountDown_Font: assets("/fonts/countdown.fnt"),
   CountDown_Frame: assets("/room/countdown_frame.png"),
 
   // RoundStatus
@@ -86,6 +80,7 @@ const Lobby = {
   // Lock
   Lock: assets("/lobby/lock.png"),
   Lock_Anim: assets("/animation/unlock/skeleton.json"),
+  Lock_Effect: assets("/animation/unlock2/skeleton.json"),
 
   // Dialog
   Dialog: assets("/lobby/dialog.png"),
@@ -161,19 +156,10 @@ const Lobby = {
     "/lobby/ranking/updateTime_background.png"
   ),
   Ranking_Item_Background: assets("/lobby/ranking/rankItem_background.png"),
-  Ranking_Avatar_Background: assets("/lobby/ranking/avatar_background.png"),
-  Ranking_Avatar: assets("/lobby/ranking/avatar.png"),
   Ranking_No1: assets("/lobby/ranking/no1.png"),
   Ranking_No2: assets("/lobby/ranking/no2.png"),
   Ranking_No3: assets("/lobby/ranking/no3.png"),
   Ranking_OtherNo: assets("/lobby/ranking/otherNo.png"),
-  Ranking_Number0: assets("/lobby/ranking/0.png"),
-  Ranking_Number4: assets("/lobby/ranking/4.png"),
-  Ranking_Number5: assets("/lobby/ranking/5.png"),
-  Ranking_Number6: assets("/lobby/ranking/6.png"),
-  Ranking_Number7: assets("/lobby/ranking/7.png"),
-  Ranking_Number8: assets("/lobby/ranking/8.png"),
-  Ranking_Number9: assets("/lobby/ranking/9.png"),
 };
 
 const Login = {

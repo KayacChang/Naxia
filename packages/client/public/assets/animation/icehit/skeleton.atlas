@@ -1,167 +1,167 @@
 
 skeleton.png
-size: 2014,713
+size: 2048,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 hit/sm_ms_superskill1_45_hit_0004
   rotate: true
-  xy: 1067, 5
-  size: 173, 193
-  orig: 700, 700
-  offset: 264, 445
+  xy: 1498, 4
+  size: 138, 154
+  orig: 560, 560
+  offset: 211, 356
   index: -1
 hit/sm_ms_superskill1_45_hit_0005
-  rotate: true
-  xy: 1593, 246
-  size: 249, 199
-  orig: 700, 700
-  offset: 225, 439
+  rotate: false
+  xy: 1276, 351
+  size: 200, 159
+  orig: 560, 560
+  offset: 180, 351
   index: -1
 hit/sm_ms_superskill1_45_hit_0006
-  rotate: false
-  xy: 1521, 7
-  size: 301, 196
-  orig: 700, 700
-  offset: 199, 431
+  rotate: true
+  xy: 1109, 89
+  size: 241, 151
+  orig: 560, 560
+  offset: 159, 345
   index: -1
 hit/sm_ms_superskill1_45_hit_0007
   rotate: false
-  xy: 2, 370
-  size: 301, 341
-  orig: 700, 700
-  offset: 198, 223
+  xy: 2, 237
+  size: 240, 273
+  orig: 560, 560
+  offset: 159, 178
   index: -1
 hit/sm_ms_superskill1_45_hit_0008
-  rotate: false
-  xy: 2, 27
-  size: 287, 341
-  orig: 700, 700
-  offset: 197, 226
+  rotate: true
+  xy: 2, 6
+  size: 229, 272
+  orig: 560, 560
+  offset: 158, 181
   index: -1
 hit/sm_ms_superskill1_45_hit_0009
   rotate: false
-  xy: 305, 396
-  size: 258, 315
-  orig: 700, 700
-  offset: 222, 222
+  xy: 704, 25
+  size: 199, 236
+  orig: 560, 560
+  offset: 185, 178
   index: -1
 hit/sm_ms_superskill1_45_hit_0010
-  rotate: false
-  xy: 1750, 509
-  size: 226, 202
-  orig: 700, 700
-  offset: 230, 231
+  rotate: true
+  xy: 1587, 179
+  size: 172, 161
+  orig: 560, 560
+  offset: 192, 185
   index: -1
 hit/sm_ms_superskill1_45_hit_0011
   rotate: true
-  xy: 1824, 124
-  size: 196, 183
-  orig: 700, 700
-  offset: 253, 249
+  xy: 1628, 353
+  size: 157, 147
+  orig: 560, 560
+  offset: 202, 199
   index: -1
 hit/sm_ms_superskill1_45_hit_0012
-  rotate: false
-  xy: 1794, 322
-  size: 197, 185
-  orig: 700, 700
-  offset: 246, 246
+  rotate: true
+  xy: 1478, 353
+  size: 157, 148
+  orig: 560, 560
+  offset: 197, 197
   index: -1
 hit/sm_ms_superskill1_45_hit_0013
-  rotate: false
-  xy: 1824, 6
-  size: 188, 116
-  orig: 700, 700
-  offset: 253, 245
+  rotate: true
+  xy: 1654, 26
+  size: 151, 93
+  orig: 560, 560
+  offset: 202, 196
   index: -1
 ice/00007
-  rotate: false
-  xy: 1262, 2
-  size: 257, 188
-  orig: 800, 600
-  offset: 244, 190
+  rotate: true
+  xy: 1435, 144
+  size: 205, 150
+  orig: 640, 480
+  offset: 195, 152
   index: -1
 ice/00008
-  rotate: false
-  xy: 1488, 497
-  size: 260, 214
-  orig: 800, 600
-  offset: 244, 190
+  rotate: true
+  xy: 1262, 121
+  size: 209, 171
+  orig: 640, 480
+  offset: 195, 152
   index: -1
 ice/00009
   rotate: false
-  xy: 1201, 489
-  size: 285, 222
-  orig: 800, 600
-  offset: 237, 190
+  xy: 1045, 332
+  size: 229, 178
+  orig: 640, 480
+  offset: 189, 152
   index: -1
 ice/00010
-  rotate: false
-  xy: 891, 472
-  size: 308, 239
-  orig: 800, 600
-  offset: 229, 190
+  rotate: true
+  xy: 639, 263
+  size: 247, 192
+  orig: 640, 480
+  offset: 183, 152
   index: -1
 ice/00011
-  rotate: false
-  xy: 565, 471
-  size: 324, 240
-  orig: 800, 600
-  offset: 224, 189
+  rotate: true
+  xy: 444, 250
+  size: 260, 193
+  orig: 640, 480
+  offset: 179, 151
   index: -1
 ice/00012
   rotate: true
-  xy: 291, 34
-  size: 334, 248
-  orig: 800, 600
-  offset: 220, 186
+  xy: 244, 242
+  size: 268, 198
+  orig: 640, 480
+  offset: 176, 149
   index: -1
 ice/00013
   rotate: true
-  xy: 1338, 205
-  size: 282, 253
-  orig: 800, 600
-  offset: 244, 184
+  xy: 905, 59
+  size: 226, 202
+  orig: 640, 480
+  offset: 195, 147
   index: -1
 ice/00014
   rotate: true
-  xy: 1074, 192
-  size: 278, 262
-  orig: 800, 600
-  offset: 244, 183
+  xy: 833, 287
+  size: 223, 210
+  orig: 640, 480
+  offset: 195, 146
   index: -1
 ice/00015
   rotate: true
-  xy: 812, 180
-  size: 289, 260
-  orig: 800, 600
-  offset: 241, 190
+  xy: 494, 17
+  size: 231, 208
+  orig: 640, 480
+  offset: 193, 152
   index: -1
 ice/00016
   rotate: true
-  xy: 541, 97
-  size: 297, 269
-  orig: 800, 600
-  offset: 245, 192
+  xy: 276, 2
+  size: 238, 216
+  orig: 640, 480
+  offset: 196, 153
   index: -1
 ice/00017
   rotate: false
-  xy: 812, 37
-  size: 253, 141
-  orig: 800, 600
-  offset: 245, 192
+  xy: 1295, 6
+  size: 201, 113
+  orig: 640, 480
+  offset: 196, 153
   index: -1
 ice/00018
   rotate: false
-  xy: 541, 20
-  size: 115, 75
-  orig: 800, 600
-  offset: 334, 242
+  xy: 1109, 26
+  size: 92, 61
+  orig: 640, 480
+  offset: 267, 193
   index: -1
 ice/00019
   rotate: false
-  xy: 658, 23
-  size: 112, 72
-  orig: 800, 600
-  offset: 335, 244
+  xy: 1203, 29
+  size: 90, 58
+  orig: 640, 480
+  offset: 268, 195
   index: -1
