@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactNode, useLayoutEffect, useState } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, useAppDispatch, useAppSelector } from "system";
@@ -14,6 +13,10 @@ function detect() {
 
 export function isChrome() {
   return detect().userAgent() === "Chrome";
+}
+
+export function isIOS() {
+  return detect().os() === "iOS";
 }
 
 export function isMobile() {
@@ -65,7 +68,7 @@ export function getViewPort(ratio = 16 / 9) {
 export function isBarOpen() {
   const diff = window.outerHeight - window.innerHeight;
 
-  const trigger = isChrome() ? window.outerHeight / 10 : 0;
+  const trigger = window.outerHeight / 10;
 
   return diff > trigger;
 }
@@ -93,6 +96,9 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const viewport = useAppSelector(selectViewport);
   const [orientation, setOrientation] = useState(getOrientation());
   const [isToolbarVisible, setToolbarVisible] = useState(() => isBarOpen());
+  const [isFullScreen, setFullScreen] = useState(() =>
+    Boolean(document.fullscreenElement)
+  );
 
   const isDesktop = !isMobile();
 
@@ -132,6 +138,14 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     return () => cancelAnimationFrame(id);
   }, [setOrientation, setToolbarVisible, isToolbarVisible, isDesktop]);
 
+  useLayoutEffect(() => {
+    const fn = () => setFullScreen(Boolean(document.fullscreenElement));
+
+    document.addEventListener("fullscreenchange", fn);
+
+    return () => document.removeEventListener("fullscreenchange", fn);
+  }, [setFullScreen]);
+
   if (isDesktop) {
     return <>{children}</>;
   }
@@ -144,6 +158,32 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
         </div>
       </div>,
       document.getElementById("root") as HTMLElement
+    );
+  }
+
+  if (isChrome() && !isIOS()) {
+    return (
+      <>
+        {children}
+
+        {!isFullScreen &&
+          createPortal(
+            <div
+              className="absolute top-0 w-full pointer-events-auto overflow-auto"
+              style={{ height: `400vh`, zIndex: 999, touchAction: "auto" }}
+              ref={(ref) => {
+                const root = document.getElementById("root");
+
+                if (!ref || !root) return;
+
+                const fn = () => root.requestFullscreen();
+
+                ref.addEventListener("click", fn);
+              }}
+            ></div>,
+            document.body as HTMLElement
+          )}
+      </>
     );
   }
 
