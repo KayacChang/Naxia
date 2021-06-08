@@ -135,7 +135,7 @@ export default function GameUI() {
           <RoundStatus />
         </div>
 
-        <div className="w-2/3 flex flex-col justify-between px-2 mt-1/24">
+        <div className="w-2/3 flex flex-col justify-between px-2 mt-1/24 lg:mt-1/16">
           <RoomStatus className="w-1/2" />
 
           <Button
@@ -155,7 +155,7 @@ export default function GameUI() {
                 "space-y-2 flex flex-col font-noto",
                 "transition-opacity duration-500",
                 "lg:mt-1/16",
-                "text-xs lg:text-2xl",
+                "text-xs lg:text-lg xl:text-2xl",
                 "w-1/2 lg:w-1/3",
                 enable ? "opacity-100" : "opacity-0"
               )}

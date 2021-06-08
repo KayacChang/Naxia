@@ -40,39 +40,6 @@ function Circle({ className, style, children }: CircleProps) {
   );
 }
 
-// type RingProps = {
-//   color: "red" | "blue";
-//   size: "lg" | "sm";
-// };
-// function Ring({ color, size }: RingProps) {
-//   const sizePx = size === "lg" ? 11.6 : 5.75;
-//   const ringColor =
-//     color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
-//   return (
-//     <div>
-//       <img
-//         style={{ width: `${sizePx}px`, height: `${sizePx}px` }}
-//         src={ringColor}
-//         alt={`road ${color} ${size} ring`}
-//       />
-//     </div>
-//   );
-// }
-
-// type SlashProps = { className?: string };
-// function Slash({ className }: SlashProps) {
-//   return (
-//     <div className="pl-px" style={{ width: `${5.7}px`, height: `${5.7}px` }}>
-//       <div
-//         className={clsx("rounded w-1/3 h-full transform rotate-45", className)}
-//         style={{
-//           background: `radial-gradient(circle at 0% 40%, rgba(255, 255, 255, 0.6) 15%, var(--tw-gradient-from) 30% 60%, #000 100%)`,
-//         }}
-//       ></div>
-//     </div>
-//   );
-// }
-
 type RecordProps = {
   results: SkillOption[];
 };
@@ -81,7 +48,7 @@ function Record({ results }: RecordProps) {
     <Circle
       className={clsx(
         "rounded-full relative  flex justify-center items-center",
-        "h-4 w-4 lg:w-5/6 lg:h-5/6",
+        "h-4 w-4 lg:w-3/4 lg:h-3/4 xl:w-5/6 xl:h-5/6",
         cond<SkillOption[], string>([
           [includes("banker"), () => "from-red-500"],
           [includes("player"), () => "from-blue-500"],
@@ -93,7 +60,7 @@ function Record({ results }: RecordProps) {
         <Circle
           className={clsx(
             "absolute top-0 left-0 from-red-500",
-            "w-1.5 h-1.5 lg:w-3 lg:h-3"
+            "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
           )}
           style={{
             transform: `translate(-0.05rem, -0.05rem)`,
@@ -101,7 +68,7 @@ function Record({ results }: RecordProps) {
         />
       )}
 
-      <span className={clsx("transform scale-40 lg:scale-100 text-lg")}>
+      <span className={clsx("text-xs lg:text-base xl:text-lg")}>
         {cond<SkillOption[], string>([
           [includes("banker"), () => "莊"],
           [includes("player"), () => "閒"],
@@ -113,7 +80,7 @@ function Record({ results }: RecordProps) {
         <Circle
           className={clsx(
             "absolute bottom-0 right-0 from-blue-500",
-            "w-1.5 h-1.5 lg:w-3 lg:h-3"
+            "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
           )}
           style={{
             transform: `translate(0.05rem, 0.05rem)`,
@@ -320,7 +287,7 @@ export function RoomRoad({ className }: RoomRoadProps) {
               "flex flex-col text-xs",
               "w-12 lg:w-1/5",
               "text-xs lg:text-lg xl:text-2xl",
-              "p-0.5 lg:px-4 lg:-ml-1.5 -mb-1 lg:-mb-2"
+              "p-0.5 lg:px-2 xl:px-4 lg:-ml-1.5 -mb-1 lg:-mb-2"
             )}
           >
             {skillOptions.map((type) => (
@@ -373,9 +340,9 @@ export function LobbyRoad({ rounds }: LobbyRoadProps) {
       <div
         className={clsx(
           "absolute top-0 w-full h-full flex",
-          "pl-3 lg:pl-6 xl:pl-8",
+          "pl-3 lg:pl-5 xl:pl-8",
           "pt-3 lg:pt-5 xl:pt-6",
-          "pb-2 lg:pb-4"
+          "pb-2 lg:pb-3"
         )}
       >
         <MarkerRoad rounds={rounds} style={{ width: `${34}%` }} />

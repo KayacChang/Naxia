@@ -111,7 +111,7 @@ function Special({ items = [] }: SpecialProps) {
               <h4
                 className={clsx(
                   "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
-                  "text-xs lg:text-2xl xl:text-3xl"
+                  "text-xs lg:text-lg xl:text-3xl"
                 )}
               >
                 卡片獲得次數

@@ -12,7 +12,7 @@ import { memo } from "react";
 import anime from "animejs";
 
 const Boss = memo(() => {
-  const { width, height } = useViewport();
+  const { width, height, scale } = useViewport();
   const boss = useAppSelector(selectRoomBossCurrent);
   const status = useAppSelector(selectRoomStatusCurrent);
   const result = useAppSelector(selectRoomResult);
@@ -21,7 +21,7 @@ const Boss = memo(() => {
     <Spine
       x={width / 2}
       y={height / 2}
-      scale={1 / window.devicePixelRatio}
+      scale={scale}
       data={boss?.id && getAssets(`Boss.${boss.id}`)}
       mount={(spine) => {
         if (
@@ -70,7 +70,7 @@ const Boss = memo(() => {
 });
 
 const Dealing = memo(() => {
-  const { width, height } = useViewport();
+  const { width, height, scale } = useViewport();
   const status = useAppSelector(selectRoomStatusCurrent);
 
   return (
@@ -78,7 +78,7 @@ const Dealing = memo(() => {
       x={width / 2}
       y={height / 2}
       visible={status === RoomStatus.Stop}
-      scale={1 / window.devicePixelRatio}
+      scale={scale}
       data={getAssets("Anim_Dealing")}
       mount={(spine) => spine.state.setAnimation(0, "animation", true)}
     />

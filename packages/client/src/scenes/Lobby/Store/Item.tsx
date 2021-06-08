@@ -19,24 +19,24 @@ function ItemCollectionBox({
   return (
     <div
       className={clsx(
-        "relative flex items-center text-xxs lg:text-xl",
+        "relative flex items-center text-xxs lg:text-base xl:text-xl",
         className
       )}
     >
       <img
-        className="ml-3 lg:w-auto"
+        className="ml-4"
         src={Assets.Lobby.Store_Number_Frame_Bg}
         alt="store number frame"
       />
 
-      <div className="absolute w-6 lg:w-auto">
+      <div className="absolute w-6 lg:w-1/2 xl:w-auto">
         <img src={icon} alt="store gem sm" />
       </div>
 
       <div
         className={clsx(
           "absolute text-green-500 font-bold",
-          "-right-2 lg:right-4 lg:space-x-1"
+          "-right-2 xl:right-4 xl:space-x-1"
         )}
       >
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>

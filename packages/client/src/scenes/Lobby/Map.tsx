@@ -76,7 +76,7 @@ export function DungeonDetail() {
                     <h2
                       className={clsx(
                         "font-kai text-fansy text-shadow-xl filter contrast-125 text-center",
-                        "lg:text-3xl tracking-widest"
+                        "lg:text-2xl xl:text-3xl tracking-widest"
                       )}
                     >
                       {info.name}
@@ -96,7 +96,7 @@ export function DungeonDetail() {
                     <div
                       className={clsx(
                         "absolute flex flex-wrap justify-center",
-                        "text-xs lg:text-2xl"
+                        "text-xs lg:text-lg xl:text-2xl"
                       )}
                     >
                       <DataField
@@ -140,7 +140,7 @@ export function DungeonDetail() {
                 <div
                   className={clsx(
                     "absolute w-full flex px-1/16",
-                    "lg:text-3xl"
+                    "lg:text-lg xl:text-3xl"
                   )}
                 >
                   <DataField
@@ -179,7 +179,7 @@ export function DungeonDetail() {
                   alt="id background"
                 />
 
-                <div className="absolute -mb-1 font-kai space-x-2 lg:text-3xl">
+                <div className="absolute -mb-1 font-kai space-x-2 lg:text-xl xl:text-3xl">
                   <span className="text-fansy text-shadow-xl filter contrast-125">
                     桌台編號:
                   </span>
@@ -193,7 +193,7 @@ export function DungeonDetail() {
             className={clsx(
               "absolute bottom-0 flex text-white w-full",
               "transform translate-y-1/2",
-              "text-xs lg:text-xl xl:text-3xl"
+              "text-xs lg:text-lg xl:text-3xl"
             )}
           >
             <div className="flex ml-auto mr-8 w-1/3">

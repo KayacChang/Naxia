@@ -122,7 +122,7 @@ export default function Rank({ className }: RankingProps) {
                 className={clsx(
                   "relative flex justify-center items-center font-kai text-yellow-700",
                   "text-xxs lg:text-base xl:text-xl",
-                  "w-48 lg:w-1/4"
+                  "w-48 xl:w-1/4"
                 )}
               >
                 <img

@@ -1,4 +1,3 @@
-import React from "react";
 import clsx from "clsx";
 import { UI } from "layers";
 import { ReactNode } from "react";

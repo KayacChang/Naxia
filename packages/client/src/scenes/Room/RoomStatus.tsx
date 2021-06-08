@@ -40,7 +40,7 @@ export default function RoomStatus({ className }: RoomStatusProps) {
             </div>
           </div>
 
-          <div className="lg:-mt-1 text-xxs lg:text-xl xl:text-2xl">
+          <div className="lg:-mt-1 text-xxs lg:text-base xl:text-2xl">
             <div className="flex justify-center space-x-4 lg:px-1/10">
               <Skill
                 name={skills.bank_pair.name}
