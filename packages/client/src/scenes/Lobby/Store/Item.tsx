@@ -40,7 +40,7 @@ function ItemCollectionBox({
         )}
       >
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>
-          {numeral(currentNumber).format("0 a")}
+          {numeral(Math.min(currentNumber, totalNumber)).format("0 a")}
         </span>
 
         <span>/</span>
