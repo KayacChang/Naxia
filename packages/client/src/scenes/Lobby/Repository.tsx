@@ -28,10 +28,13 @@ type ItemGridProps = Item & {
 };
 function ItemGrid({ onClick, count, name, img, quality }: ItemGridProps) {
   return (
-    <button className="relative text-white" onClick={onClick}>
+    <button
+      className="relative text-white flex justify-center items-center"
+      onClick={onClick}
+    >
       <img src={qualityCheck(quality).img} alt="Item frame" />
 
-      <img className="absolute top-0" src={img} alt={name} />
+      <img className="absolute" src={img} alt={name} />
 
       <span
         className={clsx(

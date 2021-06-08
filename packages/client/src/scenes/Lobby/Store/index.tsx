@@ -95,9 +95,7 @@ export default function Store({ className }: StoreProps) {
                       item={item}
                       onExchange={() =>
                         onExchange({
-                          uid: user.uid,
-                          point: String(user.balance),
-                          attr_id: String(item.id),
+                          store_id: Number(item.id),
                         }).then(() => setOpen(true))
                       }
                     />

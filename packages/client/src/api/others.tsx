@@ -13,12 +13,10 @@ export interface ExchangeResponse {
   data: "result";
 }
 export interface ExchangeRequest {
-  uid: string;
-  point: string;
-  attr_id: string;
+  store_id: number;
 }
 export function exchange(token: string, req: ExchangeRequest) {
-  return post(API("/exchange"), req, token);
+  return post(API("exchange"), req, token);
 }
 
 export function getRank(token: string) {

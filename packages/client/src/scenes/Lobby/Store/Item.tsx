@@ -60,7 +60,7 @@ function ItemButton({ alive, onClick }: ItemButtonProps) {
       <button
         className={clsx(
           "h-full relative flex items-center",
-          alive && "pointer-events-none"
+          alive ? "pointer-events-auto" : "pointer-events-none"
         )}
         onClick={onClick}
       >

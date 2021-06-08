@@ -1,4 +1,3 @@
-import React from "react";
 import {
   useAppSelector,
   selectRoomStatusCurrent,
@@ -88,7 +87,7 @@ const Dealing = memo(() => {
 
 export default memo(() => (
   <>
-    <Boss />
+    {/* <Boss /> */}
 
     <Dealing />
   </>

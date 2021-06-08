@@ -52,7 +52,7 @@ export default function Room() {
 
       <GameUI />
 
-      <GameEffect />
+      {/* <GameEffect /> */}
 
       <GameResult />
     </ViewportProvider>
