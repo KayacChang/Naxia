@@ -28,17 +28,17 @@ export default function RoomStatus({ className }: RoomStatusProps) {
 
       <div className="absolute top-0 h-full w-full px-4 pb-2">
         <div className="w-full h-full text-white flex flex-col">
-          <h3
-            className={clsx(
-              "text-fansy space-x-1",
-              "text-xxs lg:text-xl xl:text-3xl",
-              "h-1/6 pl-1/10",
-              "flex items-center"
-            )}
-          >
-            <span className="font-noto">線上人數:</span>
-            <span>{users}</span>
-          </h3>
+          <div className="h-1/6 pt-0.5 pl-1/10 flex items-center">
+            <div
+              className={clsx(
+                "font-kai text-fansy space-x-1",
+                "text-xxs lg:text-xl xl:text-3xl"
+              )}
+            >
+              <span>線上人數:</span>
+              <span>{users}</span>
+            </div>
+          </div>
 
           <div className="lg:-mt-1 text-xxs lg:text-xl xl:text-2xl">
             <div className="flex justify-center space-x-4 lg:px-1/10">
@@ -73,17 +73,17 @@ export default function RoomStatus({ className }: RoomStatusProps) {
             </div>
           </div>
 
-          <h5
-            className={clsx(
-              "text-fansy space-x-1",
-              "flex-1 flex justify-center items-center",
-              "pt-1/24 xl:pt-0",
-              "text-xs lg:text-xl xl:text-3xl"
-            )}
-          >
-            <span className="font-noto">累計金額:</span>
-            <span>{totalBet}</span>
-          </h5>
+          <div className="flex-1 flex justify-center items-center pt-1/24 xl:pt-0">
+            <h5
+              className={clsx(
+                "font-kai text-fansy space-x-1 pt-0.5",
+                "text-xs lg:text-xl xl:text-3xl"
+              )}
+            >
+              <span>累計金額:</span>
+              <span>{totalBet}</span>
+            </h5>
+          </div>
         </div>
       </div>
     </div>

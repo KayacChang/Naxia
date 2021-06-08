@@ -70,15 +70,18 @@ export function DungeonDetail() {
                     alt="name frame"
                   />
 
-                  <h2
-                    className={clsx(
-                      "absolute mt-1/16",
-                      "font-kai text-fansy text-shadow-xl filter contrast-125",
-                      "lg:text-3xl tracking-widest"
-                    )}
+                  <div
+                    className={clsx("absolute w-full h-full px-1/10 pt-1/16")}
                   >
-                    {info.name}
-                  </h2>
+                    <h2
+                      className={clsx(
+                        "font-kai text-fansy text-shadow-xl filter contrast-125 text-center",
+                        "lg:text-3xl tracking-widest"
+                      )}
+                    >
+                      {info.name}
+                    </h2>
+                  </div>
                 </div>
               </div>
 

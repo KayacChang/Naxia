@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Assets from "assets";
-
 import { StoreItem } from "types";
+import numeral from "numeral";
 
 type ItemCollectionBoxProps = {
   className?: string;
@@ -40,12 +40,12 @@ function ItemCollectionBox({
         )}
       >
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>
-          {currentNumber}
+          {numeral(currentNumber).format("0 a")}
         </span>
 
         <span>/</span>
 
-        <span>{totalNumber}</span>
+        <span>{numeral(totalNumber).format("0 a")}</span>
       </div>
     </div>
   );
