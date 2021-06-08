@@ -108,7 +108,7 @@ function Form() {
         "mt-32 font-kai",
         "flex flex-col items-center justify-center",
         "gap-4 lg:gap-8",
-        "w-1/4",
+        "w-1/3 lg:w-1/4 xl:w-1/5",
         "text-base lg:text-2xl"
       )}
       onSubmit={onSubmit}
