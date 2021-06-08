@@ -45,7 +45,6 @@ export function getViewPort(ratio = 16 / 9) {
     }
 
     const height = window.innerHeight;
-
     const width = height * ratio;
 
     return {
@@ -125,7 +124,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   useLayoutEffect(() => {
     if (isDesktop) return;
 
-    const refresh = throttle(300, () => {
+    const refresh = throttle(10, () => {
       setOrientation(getOrientation());
       setToolbarVisible(isBarOpen());
     });
@@ -188,6 +187,24 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
             ></div>,
             document.body as HTMLElement
           )}
+      </>
+    );
+  }
+
+  if (match?.isExact && isChrome() && !isIOS()) {
+    return (
+      <>
+        {children}
+
+        {createPortal(
+          <div
+            className="w-full pointer-events-none overflow-auto"
+            style={{
+              height: `${window.screen.availHeight - window.innerHeight}px`,
+            }}
+          ></div>,
+          document.body as HTMLElement
+        )}
       </>
     );
   }
