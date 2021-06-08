@@ -24,7 +24,7 @@ function ItemCollectionBox({
       )}
     >
       <img
-        className="ml-3 w-12 lg:w-auto"
+        className="ml-3 lg:w-auto"
         src={Assets.Lobby.Store_Number_Frame_Bg}
         alt="store number frame"
       />
@@ -36,7 +36,7 @@ function ItemCollectionBox({
       <div
         className={clsx(
           "absolute text-green-500 font-bold",
-          "right-2 lg:right-4 lg:space-x-1"
+          "-right-2 lg:right-4 lg:space-x-1"
         )}
       >
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>
