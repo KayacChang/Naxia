@@ -5,8 +5,9 @@ import {
   createAsyncThunk,
   createSelector,
   createSlice,
+  PayloadAction,
 } from "@reduxjs/toolkit";
-import { AppDispatch, RootState, system } from "system";
+import { AppDispatch, RootState, store, system } from "system";
 import { Tasks } from "types";
 import { wait } from "utils";
 
@@ -77,17 +78,23 @@ export const addAssets = createAsyncThunk<
 export interface AssetsState {
   loading: boolean;
   loaded: Tasks;
+  progress: number;
 }
 
 const initialState: AssetsState = {
   loading: false,
   loaded: [],
+  progress: 0,
 };
 
 const slice = createSlice({
   name: "assets",
   initialState,
-  reducers: {},
+  reducers: {
+    progress(state, action: PayloadAction<number>) {
+      state.progress = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addAssets.pending, (state) => {
@@ -100,8 +107,13 @@ const slice = createSlice({
   },
 });
 
+loader.onProgress.add(() => {
+  store.dispatch(slice.actions.progress(loader.progress));
+});
+
 export const selectAssets = (state: RootState) => state.assets;
 export const selectAssetIsLoading = (state: RootState) => state.assets.loading;
+export const selectAssetProgress = (state: RootState) => state.assets.progress;
 
 export function hasAssets(name: string) {
   return name in loader.resources;

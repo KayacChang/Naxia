@@ -21,17 +21,30 @@ function RankingItem({ rank, name, value, avatar }: RankingRecord) {
           <div
             className={clsx(
               "absolute transform -translate-x-1/2",
-              "w-10 md:w-1/8 xl:w-auto"
+              "w-10 md:w-1/8 2xl:w-auto"
             )}
           >
-            <img
-              src={
-                rank > 3
-                  ? Assets.Lobby.Ranking_OtherNo
-                  : Assets.Lobby[`Ranking_No${rank}`]
-              }
-              alt="Ranking"
-            />
+            <div className="relative flex justify-center items-center">
+              <img
+                src={
+                  rank > 3
+                    ? Assets.Lobby.Ranking_OtherNo
+                    : Assets.Lobby[`Ranking_No${rank}`]
+                }
+                alt="Ranking"
+              />
+
+              <span
+                className={clsx(
+                  "text-gray-200",
+                  "absolute transform -translate-y-1 lg:-translate-y-1.5",
+                  "text-xxs lg:text-base xl:text-lg",
+                  rank <= 3 && "hidden"
+                )}
+              >
+                {rank}
+              </span>
+            </div>
           </div>
 
           <div
@@ -122,7 +135,7 @@ export default function Rank({ className }: RankingProps) {
                 className={clsx(
                   "relative flex justify-center items-center font-kai text-yellow-700",
                   "text-xxs lg:text-base xl:text-xl",
-                  "w-48 xl:w-1/4"
+                  "w-48 lg:w-1/4 xl:w-1/3"
                 )}
               >
                 <img

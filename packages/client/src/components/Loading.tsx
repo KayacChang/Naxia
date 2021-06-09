@@ -1,22 +1,25 @@
 import Assets from "assets";
 import { UI } from "layers";
+import { selectAssetProgress, useAppSelector } from "system";
 
 function Progress() {
+  const progress = useAppSelector(selectAssetProgress);
+
   return (
     <div className="relative flex items-center justify-center">
       <img src={Assets.System.Progress_Frame} alt="progress frame" />
 
-      <div className="absolute px-5">
+      <div className="absolute" style={{ padding: `${3}%` }}>
         <div className="relative flex items-center">
           <img
             src={Assets.System.Progress_Bar}
             alt="progress bar"
-            style={{ clipPath: `inset(0 ${50}% 0 0)` }}
+            style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}
           />
 
           <img
             className="absolute w-3 transform -translate-x-1/2 animate-pulse"
-            style={{ left: `${50}%` }}
+            style={{ left: `${progress}%` }}
             src={Assets.System.Progress_Effect}
             alt="glow effect"
           />

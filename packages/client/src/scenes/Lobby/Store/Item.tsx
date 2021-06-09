@@ -19,7 +19,7 @@ function ItemCollectionBox({
   return (
     <div
       className={clsx(
-        "relative flex items-center text-xxs lg:text-base xl:text-xl",
+        "relative flex items-center text-xxs lg:text-base 2xl:text-xl",
         className
       )}
     >
@@ -36,7 +36,7 @@ function ItemCollectionBox({
       <div
         className={clsx(
           "absolute text-green-500 font-bold",
-          "-right-2 xl:right-4 xl:space-x-1"
+          "-right-2 xl:right-0 2xl:right-4 xl:space-x-1"
         )}
       >
         <span className={clsx(currentNumber < totalNumber && "text-red-600")}>

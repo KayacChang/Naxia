@@ -21,6 +21,7 @@ import {
   Route,
   Camera,
   Location,
+  Loading,
 } from "components";
 
 import Repository from "./Repository";
