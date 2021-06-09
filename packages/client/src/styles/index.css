@@ -80,6 +80,10 @@ canvas {
   height: 100vh;
 }
 
+img {
+  width: 100%;
+}
+
 /* for custom scrollbar */
 :root {
   --scrollbar-track-color: transparent;

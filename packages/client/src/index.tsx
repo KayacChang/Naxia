@@ -6,7 +6,15 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, addSounds, store, user, Map, ErrorBoundary } from "system";
+import {
+  addAssets,
+  addSounds,
+  store,
+  user,
+  Map,
+  ErrorBoundary,
+  ViewportProvider,
+} from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
@@ -51,7 +59,13 @@ const Room = lazy(() =>
 
 function App() {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense
+      fallback={
+        <ViewportProvider>
+          <Loading />
+        </ViewportProvider>
+      }
+    >
       <Switch>
         <Route exact path="/">
           <Login />

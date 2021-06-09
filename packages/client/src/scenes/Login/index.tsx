@@ -1,9 +1,11 @@
 import clsx from "clsx";
-import { UI, Game } from "layers";
+import { UI } from "layers";
 import { ReactNode, useEffect, useState, FormEvent, useCallback } from "react";
 import {
   BGM,
-  getAssets,
+  isSafari,
+  isIOS,
+  isMobile,
   useAppDispatch,
   user,
   useUserError,
@@ -12,7 +14,7 @@ import {
 } from "system";
 import { useHistory } from "react-router";
 import Assets from "assets";
-import { Modal, Spine, SystemModal } from "components";
+import { Modal, SystemModal } from "components";
 import Sound from "assets/sound";
 
 type InputFieldProps = {
@@ -27,6 +29,7 @@ function InputField({
   className,
   onChange,
 }: InputFieldProps) {
+  const { height, availHeight } = useViewport();
   const [isFocus, setFocus] = useState(false);
   const [value, setValue] = useState("");
   const hasValue = value.length > 0;
@@ -34,30 +37,45 @@ function InputField({
   useEffect(() => onChange?.(value), [value, onChange]);
 
   return (
-    <div
-      className={clsx("relative", className)}
-      onFocusCapture={() => setFocus(true)}
-      onBlurCapture={() => setFocus(false)}
-    >
-      <img src={Assets.Login.Login_Form} alt="input's background" />
+    <div className={className}>
+      <div
+        className={"relative flex items-center justify-center"}
+        onFocusCapture={() => setFocus(true)}
+        onBlurCapture={() => setFocus(false)}
+        style={{
+          width:
+            isMobile() && isIOS() && isSafari()
+              ? `${height * 0.8}px`
+              : isMobile()
+              ? `${availHeight * 0.8}px`
+              : `${480}px`,
+        }}
+      >
+        <img src={Assets.Login.Login_Form} alt="input's background" />
 
-      <div className="absolute top-0 w-full h-full px-12 flex justify-center items-center">
-        <span
+        <div
           className={clsx(
-            "absolute transition-opacity duration-200",
-            isFocus || hasValue ? "opacity-0" : "opacity-100"
+            "absolute flex justify-center items-center",
+            "w-full h-full px-1/12"
           )}
-          style={{ color: `rgb(${140}, ${120}, ${70})` }}
         >
-          {placeholder}
-        </span>
+          <span
+            className={clsx(
+              "absolute transition-opacity duration-200",
+              isFocus || hasValue ? "opacity-0" : "opacity-100"
+            )}
+            style={{ color: `rgb(${140}, ${120}, ${70})` }}
+          >
+            {placeholder}
+          </span>
 
-        <input
-          className="bg-transparent w-full"
-          type={type}
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
-        />
+          <input
+            className="bg-transparent w-full"
+            type={type}
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+          />
+        </div>
       </div>
     </div>
   );
@@ -69,7 +87,7 @@ type SubmitProps = {
 };
 function Submit({ className, children }: SubmitProps) {
   return (
-    <button className={clsx("relative ", className)}>
+    <button className={clsx("relative w-1/2 text-white", className)}>
       <img src={Assets.Login.Login_Submit} alt="submit button" />
 
       <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -80,11 +98,12 @@ function Submit({ className, children }: SubmitProps) {
 }
 
 function Form() {
+  const { scale } = useViewport();
+
   const history = useHistory();
   const dispatch = useAppDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const error = useUserError();
 
   const onSubmit = useCallback(
@@ -103,69 +122,61 @@ function Form() {
   );
 
   return (
-    <form
-      className={clsx(
-        "mt-32 font-kai",
-        "flex flex-col items-center justify-center",
-        "gap-4 lg:gap-8",
-        "w-1/3 lg:w-1/4 xl:w-1/5",
-        "text-base lg:text-2xl"
-      )}
-      onSubmit={onSubmit}
-    >
-      <InputField placeholder="輸入帳號" onChange={setUsername} />
-
-      <InputField
-        placeholder="輸入密碼"
-        onChange={setPassword}
-        type="password"
-      />
-
-      <Submit className="mx-14">{"登入"}</Submit>
-
-      <div className="flex justify-between w-full">
-        <a className="text-shadow-md" href="/">
-          {"還沒有帳號?"}
-        </a>
-
-        <a
-          className="text-fansy text-shadow-xl underline filter brightness-150"
-          href="/"
-        >
-          {"申請帳號"}
-        </a>
-      </div>
-
-      {error && (
-        <Modal className="z-20">
-          <SystemModal
-            subButton="返回"
-            customFunc={() => dispatch(user.error.clear())}
-            onClose={() => dispatch(user.error.clear())}
+    <UI>
+      <form
+        className="flex flex-col justify-center items-center w-full h-full"
+        onSubmit={onSubmit}
+      >
+        <div style={{ transform: `scale(${scale})` }}>
+          <div
+            className={clsx(
+              "flex flex-col items-center",
+              "absolute transform -translate-x-1/2 -translate-y-1/2 space-y-1/16",
+              "text-white",
+              isMobile() ? "pt-24" : "pt-48",
+              isMobile() ? "text-base" : "text-lg"
+            )}
           >
-            <p className="w-full h-full flex justify-center items-center text-white text-lg">
-              {error}
-            </p>
-          </SystemModal>
-        </Modal>
-      )}
-    </form>
-  );
-}
+            <InputField placeholder="輸入帳號" onChange={setUsername} />
 
-function View() {
-  const { width, height, scale } = useViewport();
+            <InputField
+              placeholder="輸入密碼"
+              onChange={setPassword}
+              type="password"
+            />
 
-  return (
-    <Game className="fixed">
-      <Spine
-        data={getAssets("Login_Spine")}
-        x={width / 2}
-        y={height / 2}
-        scale={scale}
-        mount={(spine) => spine.state.setAnimation(0, "animation", true)}
-      />
-    </Game>
+            <Submit>{"登入"}</Submit>
+
+            <div className="flex justify-between w-full">
+              <a className="text-shadow-md" href="/">
+                {"還沒有帳號?"}
+              </a>
+
+              <a
+                className="text-fansy text-shadow-xl underline filter brightness-150"
+                href="/"
+              >
+                {"申請帳號"}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {error && (
+          <Modal className="z-20">
+            <SystemModal
+              subButton="返回"
+              customFunc={() => dispatch(user.error.clear())}
+              onClose={() => dispatch(user.error.clear())}
+            >
+              <p className="w-full h-full flex justify-center items-center text-white text-lg">
+                {error}
+              </p>
+            </SystemModal>
+          </Modal>
+        )}
+      </form>
+    </UI>
   );
 }
 
@@ -177,14 +188,18 @@ export default function Login() {
   return (
     <ViewportProvider>
       <UI>
-        <img src={Assets.Login.Login_Background} alt="background" />
+        <div className="relative flex justify-center">
+          <div className="w-full">
+            <img src={Assets.Login.Login_Background} alt="background" />
+          </div>
+
+          <div className="absolute top-1/16 w-1/2">
+            <img src={Assets.Login.Login_Logo} alt="logo" />
+          </div>
+        </div>
       </UI>
 
-      <View />
-
-      <UI className="flex flex-col items-center justify-center text-white font-noto space-y-4">
-        <Form />
-      </UI>
+      <Form />
     </ViewportProvider>
   );
 }

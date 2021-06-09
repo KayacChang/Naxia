@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import { memo, useEffect } from "react";
 import { Container, Sprite } from "@inlet/react-pixi";
 import {
   useDungeons,

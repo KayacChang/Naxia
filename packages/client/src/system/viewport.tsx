@@ -6,7 +6,6 @@ import { throttle } from "utils";
 import Assets from "assets";
 import { createPortal } from "react-dom";
 import MobileDetect from "mobile-detect";
-import { useRouteMatch } from "react-router";
 
 function detect() {
   return new MobileDetect(window.navigator.userAgent);
@@ -16,8 +15,16 @@ export function isChrome() {
   return detect().userAgent() === "Chrome";
 }
 
+export function isSafari() {
+  return detect().userAgent() === "Safari";
+}
+
 export function isIOS() {
   return detect().os() === "iOS";
+}
+
+export function isMobileMock() {
+  return window.navigator.userAgent.indexOf("Mobile") !== -1;
 }
 
 export function isMobile() {
@@ -41,6 +48,8 @@ export function getViewPort(ratio = 16 / 9) {
         width,
         height,
         scale: height / window.innerHeight,
+        availWidth: window.screen.availWidth,
+        availHeight: window.screen.availHeight,
       };
     }
 
@@ -51,6 +60,8 @@ export function getViewPort(ratio = 16 / 9) {
       width,
       height,
       scale: 1 / window.devicePixelRatio || 1,
+      availWidth: window.screen.availWidth,
+      availHeight: window.screen.availHeight,
     };
   }
 
@@ -61,7 +72,10 @@ export function getViewPort(ratio = 16 / 9) {
   return {
     width,
     height,
-    scale: 1 / window.devicePixelRatio || 1,
+    scale: 1,
+
+    availWidth: window.screen.availWidth,
+    availHeight: window.screen.availHeight,
   };
 }
 
@@ -73,7 +87,13 @@ export function isBarOpen() {
   return diff > trigger;
 }
 
-type Viewport = { width: number; height: number; scale: number };
+type Viewport = {
+  width: number;
+  height: number;
+  scale: number;
+  availWidth: number;
+  availHeight: number;
+};
 const initialState: Viewport = getViewPort();
 const viewportSlice = createSlice({
   name: "viewport",
@@ -99,14 +119,17 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const [isFullScreen, setFullScreen] = useState(() =>
     Boolean(document.fullscreenElement)
   );
-  const match = useRouteMatch({
-    path: "/",
-    strict: true,
-  });
 
   const isDesktop = !isMobile();
 
   useLayoutEffect(() => {
+    if (isFullScreen) {
+      const cur = getViewPort();
+      dispatch(viewportSlice.actions.update(cur));
+
+      return;
+    }
+
     const refresh = () => {
       const cur = getViewPort();
       if (!Map(cur).equals(Map(viewport))) {
@@ -119,7 +142,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       id = requestAnimationFrame(update);
     });
     return () => cancelAnimationFrame(id);
-  }, [viewport, dispatch]);
+  }, [viewport, dispatch, isFullScreen]);
 
   useLayoutEffect(() => {
     if (isDesktop) return;
@@ -165,7 +188,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     );
   }
 
-  if (!match?.isExact && isChrome() && !isIOS()) {
+  if (isChrome() && !isIOS()) {
     return (
       <>
         {children}
@@ -187,24 +210,6 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
             ></div>,
             document.body as HTMLElement
           )}
-      </>
-    );
-  }
-
-  if (match?.isExact && isChrome() && !isIOS()) {
-    return (
-      <>
-        {children}
-
-        {createPortal(
-          <div
-            className="w-full pointer-events-none overflow-auto"
-            style={{
-              height: `${window.screen.availHeight - window.innerHeight}px`,
-            }}
-          ></div>,
-          document.body as HTMLElement
-        )}
       </>
     );
   }

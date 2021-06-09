@@ -1,6 +1,12 @@
 import Assets from "assets";
+import clsx from "clsx";
 import { UI } from "layers";
-import { selectAssetProgress, useAppSelector } from "system";
+import {
+  isMobile,
+  selectAssetProgress,
+  useAppSelector,
+  useViewport,
+} from "system";
 
 function Progress() {
   const progress = useAppSelector(selectAssetProgress);
@@ -9,7 +15,11 @@ function Progress() {
     <div className="relative flex items-center justify-center">
       <img src={Assets.System.Progress_Frame} alt="progress frame" />
 
-      <div className="absolute" style={{ padding: `${3}%` }}>
+      <div className="absolute">
+        <TopText />
+      </div>
+
+      <div className="absolute w-full" style={{ padding: `${3}%` }}>
         <div className="relative flex items-center">
           <img
             src={Assets.System.Progress_Bar}
@@ -18,45 +28,66 @@ function Progress() {
           />
 
           <img
-            className="absolute w-3 transform -translate-x-1/2 animate-pulse"
-            style={{ left: `${progress}%` }}
+            className="absolute transform -translate-x-1/2 animate-pulse"
+            style={{ left: `${progress}%`, width: `${2}%` }}
             src={Assets.System.Progress_Effect}
             alt="glow effect"
           />
         </div>
       </div>
+
+      <div className="absolute">
+        <HelpText />
+      </div>
+    </div>
+  );
+}
+
+function HelpText() {
+  const { scale } = useViewport();
+
+  return (
+    <div style={{ transform: `scale(${scale}) translateY(${100}%)` }}>
+      <p className={clsx("text-yellow-400 text-base", isMobile() || "mt-2")}>
+        {"小提示:提示提示提示"}
+      </p>
+    </div>
+  );
+}
+
+function TopText() {
+  const { scale } = useViewport();
+
+  return (
+    <div
+      className="flex items-center"
+      style={{ transform: `scale(${scale}) translateY(${-100}%)` }}
+    >
+      <img
+        className="transform -scale-x-100"
+        src={Assets.System.Progress_Item}
+        alt="decorator"
+      />
+
+      <p className={clsx("text-yellow-200 animate-pulse whitespace-nowrap")}>
+        {"加載中"}
+      </p>
+
+      <img src={Assets.System.Progress_Item} alt="decorator" />
     </div>
   );
 }
 
 export function Loading() {
+  const { scale } = useViewport();
+
   return (
     <UI className="z-50">
-      <div className="relative font-noto">
+      <div className="text-xl font-nota w-full h-full flex flex-col justify-center items-center">
         <img src={Assets.System.Progress_Background} alt="background" />
 
-        <div className="absolute bottom-0 py-6 space-y-1">
-          <div className="flex items-center justify-center space-x-3">
-            <img
-              className="transform -scale-x-100 w-14"
-              src={Assets.System.Progress_Item}
-              alt="decorator"
-            />
-
-            <p className="text-yellow-200 animate-pulse">{"加載中"}</p>
-
-            <img
-              className="w-14"
-              src={Assets.System.Progress_Item}
-              alt="decorator"
-            />
-          </div>
-
+        <div className="absolute bottom-1/10 w-full">
           <Progress />
-
-          <p className="px-6 text-xs text-yellow-400">
-            {"小提示:提示提示提示"}
-          </p>
         </div>
       </div>
     </UI>
