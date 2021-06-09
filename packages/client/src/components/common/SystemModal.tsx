@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactNode } from "react";
 import Assets from "assets";
 import clsx from "clsx";
@@ -161,7 +160,9 @@ function History({
 }: SystemModalProps) {
   return (
     <div className="w-11/12 relative flex justify-center pointer-events-auto m-2">
-      <img src={Assets.Common.Avatar_History_Frame} alt="modal frame outer" />
+      <div>
+        <img src={Assets.Common.Avatar_History_Frame} alt="modal frame outer" />
+      </div>
 
       <div className="absolute top-0 w-full h-full flex flex-col">
         {children}

@@ -72,7 +72,7 @@ export function getViewPort(ratio = 16 / 9) {
   return {
     width,
     height,
-    scale: 1,
+    scale: 1 / window.devicePixelRatio || 1,
 
     availWidth: window.screen.availWidth,
     availHeight: window.screen.availHeight,
@@ -108,6 +108,18 @@ const viewportSlice = createSlice({
   },
 });
 
+function toggleFullscreen(el: HTMLElement) {
+  if (!document.fullscreenElement) {
+    el.requestFullscreen().catch((err) => {
+      console.error(
+        `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+      );
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
+
 type ViewportProviderProps = {
   children: ReactNode;
 };
@@ -125,6 +137,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   useLayoutEffect(() => {
     if (isFullScreen) {
       const cur = getViewPort();
+
       dispatch(viewportSlice.actions.update(cur));
 
       return;
@@ -203,7 +216,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
 
                 if (!ref || !root) return;
 
-                const fn = () => root.requestFullscreen();
+                const fn = () => toggleFullscreen(root);
 
                 ref.addEventListener("click", fn);
               }}

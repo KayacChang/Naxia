@@ -70,7 +70,9 @@ function Detail({ name, img, point, quality, description }: DetailProps) {
         </div>
 
         <div className="relative w-1/2 flex justify-center">
-          <img src={Assets.Lobby.Repo_Item_Detail_Bg} alt="items detail bg" />
+          <div>
+            <img src={Assets.Lobby.Repo_Item_Detail_Bg} alt="items detail bg" />
+          </div>
 
           <div className="absolute w-full h-full text-center flex flex-col">
             <div

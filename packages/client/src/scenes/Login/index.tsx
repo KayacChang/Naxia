@@ -29,7 +29,7 @@ function InputField({
   className,
   onChange,
 }: InputFieldProps) {
-  const { height, availHeight } = useViewport();
+  const { height, availWidth, availHeight } = useViewport();
   const [isFocus, setFocus] = useState(false);
   const [value, setValue] = useState("");
   const hasValue = value.length > 0;
@@ -47,7 +47,7 @@ function InputField({
             isMobile() && isIOS() && isSafari()
               ? `${height * 0.8}px`
               : isMobile()
-              ? `${availHeight * 0.8}px`
+              ? `${Math.min(availHeight, availWidth) * 0.8}px`
               : `${480}px`,
         }}
       >
@@ -127,7 +127,7 @@ function Form() {
         className="flex flex-col justify-center items-center w-full h-full"
         onSubmit={onSubmit}
       >
-        <div style={{ transform: `scale(${scale})` }}>
+        <div style={{ transform: `scale(${isMobile() ? 1 : scale})` }}>
           <div
             className={clsx(
               "flex flex-col items-center",

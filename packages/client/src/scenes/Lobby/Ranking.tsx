@@ -107,7 +107,12 @@ export default function Rank({ className }: RankingProps) {
     <>
       <article className={className}>
         <div className="relative flex justify-center">
-          <img src={Assets.Lobby.Ranking_Background} alt="ranking background" />
+          <div>
+            <img
+              src={Assets.Lobby.Ranking_Background}
+              alt="ranking background"
+            />
+          </div>
 
           <div
             className={clsx(

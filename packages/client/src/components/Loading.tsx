@@ -47,7 +47,11 @@ function HelpText() {
   const { scale } = useViewport();
 
   return (
-    <div style={{ transform: `scale(${scale}) translateY(${100}%)` }}>
+    <div
+      style={{
+        transform: `scale(${isMobile() ? 1 : scale}) translateY(${100}%)`,
+      }}
+    >
       <p className={clsx("text-yellow-400 text-base", isMobile() || "mt-2")}>
         {"小提示:提示提示提示"}
       </p>
@@ -61,7 +65,9 @@ function TopText() {
   return (
     <div
       className="flex items-center"
-      style={{ transform: `scale(${scale}) translateY(${-100}%)` }}
+      style={{
+        transform: `scale(${isMobile() ? 1 : scale}) translateY(${-100}%)`,
+      }}
     >
       <img
         className="transform -scale-x-100"
@@ -79,8 +85,6 @@ function TopText() {
 }
 
 export function Loading() {
-  const { scale } = useViewport();
-
   return (
     <UI className="z-50">
       <div className="text-xl font-nota w-full h-full flex flex-col justify-center items-center">
