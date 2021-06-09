@@ -6,6 +6,7 @@ import user from "./user";
 import sounds from "./sounds";
 import viewport from "./viewport";
 import map from "./maps";
+import system from "./system";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     sounds,
     viewport,
     map,
+    system,
   },
 });
 
@@ -29,3 +31,4 @@ export * from "./assets";
 export * from "./sounds";
 export * from "./room";
 export * from "./viewport";
+export * from "./system";

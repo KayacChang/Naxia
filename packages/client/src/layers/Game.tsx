@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Canvas, ErrorBoundary } from "components";
+import { Canvas } from "components";
 import { IApplicationOptions } from "@pixi/app";
 import { Provider } from "react-redux";
 import { store, useViewport } from "system";
@@ -15,16 +15,14 @@ export function Game({ children, className, options }: GameProps) {
   const { width, height } = useViewport();
 
   return createPortal(
-    <ErrorBoundary>
-      <Canvas
-        width={width}
-        height={height}
-        className={clsx("fixed", className)}
-        options={options}
-      >
-        <Provider store={store}>{children}</Provider>
-      </Canvas>
-    </ErrorBoundary>,
+    <Canvas
+      width={width}
+      height={height}
+      className={clsx("fixed", className)}
+      options={options}
+    >
+      <Provider store={store}>{children}</Provider>
+    </Canvas>,
     document.getElementById("root") as HTMLElement
   );
 }

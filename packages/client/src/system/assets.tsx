@@ -6,7 +6,7 @@ import {
   createSelector,
   createSlice,
 } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "system";
+import { AppDispatch, RootState, system } from "system";
 import { Tasks } from "types";
 import { wait } from "utils";
 
@@ -56,16 +56,22 @@ export const addAssets = createAsyncThunk<
   Tasks,
   Tasks,
   { dispatch: AppDispatch; state: RootState }
->("assets/add", async (tasks, { getState }) => {
+>("assets/add", async (tasks, { getState, dispatch }) => {
   const newTasks = selectNotLoadedTasks(getState(), tasks);
 
   while (loader.loading) {
     await wait(300);
   }
 
-  await new Promise<void>((resolve) => loader.add(newTasks).load(resolve));
+  try {
+    await new Promise<void>((resolve) => loader.add(newTasks).load(resolve));
 
-  return newTasks;
+    return newTasks;
+  } catch (error) {
+    dispatch(system.error(error));
+
+    return error;
+  }
 });
 
 export interface AssetsState {

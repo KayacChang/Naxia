@@ -3,6 +3,7 @@ import { getUser, getUserItem, login, updateUser } from "api";
 import { RootState, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { User, Item } from "types";
+import { system } from "./system";
 
 type AuthRequest = {
   username: string;
@@ -50,22 +51,36 @@ export const user = {
   ),
   sync: createAsyncThunk<User, void, { state: RootState }>(
     "user/sync",
-    (_, { getState }) => {
+    async (_, { getState, dispatch }) => {
       const token = selectToken(getState());
 
-      invariant(token, "Unauthorized");
+      try {
+        invariant(token, "Unauthorized");
 
-      return getUser(token);
+        const user = await getUser(token);
+
+        return user;
+      } catch (error) {
+        dispatch(system.error(error));
+
+        return error;
+      }
     }
   ),
   update: createAsyncThunk<User, User, { state: RootState }>(
     "user/update",
-    (user, { getState }) => {
+    async (user, { getState, dispatch }) => {
       const token = selectToken(getState());
 
-      invariant(token, "Unauthorized");
+      try {
+        invariant(token, "Unauthorized");
 
-      return updateUser(token, user);
+        return updateUser(token, user);
+      } catch (error) {
+        dispatch(system.error(error));
+
+        return error;
+      }
     }
   ),
 

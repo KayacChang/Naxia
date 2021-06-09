@@ -5,6 +5,7 @@ import { Item, RoomStatus, Boss, Order } from "types";
 import { toTask, wait } from "utils";
 import { AppDispatch, RootState, user } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
+import { system } from "./system";
 import { selectToken, selectUser } from "./user";
 
 type RoundResult = {
@@ -80,16 +81,24 @@ const game = {
       await wait(100);
     }
 
-    await dispatch(addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json })));
+    try {
+      await dispatch(
+        addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json }))
+      );
 
-    return boss;
+      return boss;
+    } catch (error) {
+      dispatch(system.error);
+
+      return error;
+    }
   }),
 };
 
 const order = {
   submit: createAsyncThunk<Order, Order, { state: RootState }>(
     "room/order/submit",
-    async (order, { getState }) => {
+    async (order, { getState, dispatch }) => {
       const token = selectToken(getState());
       const user = selectUser(getState());
       const room_id = selectRoomID(getState());
@@ -103,13 +112,19 @@ const order = {
           val: value || 0,
         }));
 
-      await bet(token, {
-        room_id,
-        uid: user.uid,
-        options,
-      });
+      try {
+        await bet(token, {
+          room_id,
+          uid: user.uid,
+          options,
+        });
 
-      return order;
+        return order;
+      } catch (error) {
+        dispatch(system.error(error));
+
+        return error;
+      }
     },
     {
       condition: (order) => Object.entries(order).length > 0,
@@ -225,8 +240,6 @@ export const room = {
     string,
     { state: RootState; dispatch: AppDispatch }
   >("room/join", async (roomID, { getState, dispatch }) => {
-    console.log("room/join");
-
     const token = selectToken(getState());
 
     invariant(token, "Unauthorized");
@@ -296,7 +309,6 @@ export const room = {
         return;
       }
 
-      console.log("room/reconnect");
       clearTimeout(reconnect);
       dispatch(room.leave());
       dispatch(room.join(roomID));
@@ -307,12 +319,16 @@ export const room = {
       ping && clearInterval(ping);
     });
 
+    ws.addEventListener("error", (error) => {
+      dispatch(room.leave());
+      dispatch(system.error(String(error)));
+    });
+
     return new Promise((resolve) => {
       ws?.addEventListener("open", () => resolve(roomID), { once: true });
     });
   }),
   leave: createAsyncThunk("room/leave", async () => {
-    console.log("room/leave");
     ws?.close();
     ws = undefined;
   }),

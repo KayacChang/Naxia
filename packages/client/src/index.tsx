@@ -6,7 +6,7 @@ import "styles/base.css";
 import "styles/index.css";
 
 import { Switch, Router, Route, PrivateRoute, Loading } from "components";
-import { addAssets, addSounds, store, user, Map } from "system";
+import { addAssets, addSounds, store, user, Map, ErrorBoundary } from "system";
 import { toTask } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
@@ -73,7 +73,9 @@ unstable_createRoot(document.getElementById("app") as HTMLDivElement).render(
   <StrictMode>
     <Provider store={store}>
       <Router>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </Router>
     </Provider>
   </StrictMode>
