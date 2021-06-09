@@ -225,6 +225,15 @@ const order = {
   ),
 };
 
+function isJson(str: string) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 export const room = {
   game,
   order,
@@ -254,6 +263,8 @@ export const room = {
 
     ws.addEventListener("message", (event: MessageEvent) => {
       if (event.data === "pong") return;
+
+      if (!isJson(event.data)) return;
 
       const data = JSON.parse(event.data) as RoomResponse;
 
