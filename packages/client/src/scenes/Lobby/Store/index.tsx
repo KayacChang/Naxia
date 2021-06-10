@@ -40,7 +40,7 @@ function useStoreItem() {
         .then(() => getStoreItems(token))
         .then(setItems);
     },
-    [token]
+    [token, dispatch]
   );
 
   return { store, onExchange };

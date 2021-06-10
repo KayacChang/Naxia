@@ -310,11 +310,15 @@ export const room = {
     ws.addEventListener(
       "open",
       () => {
-        ping = setInterval(() => ws?.send("ping"), 5 * 1000);
+        const wait = Number(process.env.REACT_APP_PING_PER_SECONDS) * 1000;
+
+        ping = setInterval(() => ws?.send("ping"), wait);
       },
       { once: true }
     );
 
+    const reconnectTime =
+      Number(process.env.REACT_APP_RE_CONNECT_PER_SECONDS) * 1000;
     const reconnect = setTimeout(() => {
       if (hasMessage) {
         return;
@@ -323,7 +327,7 @@ export const room = {
       clearTimeout(reconnect);
       dispatch(room.leave());
       dispatch(room.join(roomID));
-    }, 10 * 1000);
+    }, reconnectTime);
 
     ws.addEventListener("close", () => {
       reconnect && clearTimeout(reconnect);

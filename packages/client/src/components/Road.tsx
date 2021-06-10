@@ -24,17 +24,44 @@ import { useDispatch } from "react-redux";
 type RingProps = {
   color: "red" | "blue";
   tie?: number;
+  bankerPair?: boolean;
+  playerPair?: boolean;
 };
-function Ring({ color, tie }: RingProps) {
+function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
   const ringColor =
     color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
+
   return (
     <div className="relative flex justify-center items-center">
+      {bankerPair && (
+        <Circle
+          className={clsx(
+            "absolute top-0 left-0 from-red-500",
+            "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
+          )}
+          style={{
+            transform: `translate(-0.05rem, -0.05rem) scale(50%)`,
+          }}
+        />
+      )}
+
       <img
         style={{ padding: `1px` }}
         src={ringColor}
         alt={`road ${color} ring`}
       />
+
+      {playerPair && (
+        <Circle
+          className={clsx(
+            "absolute bottom-0 right-0 from-blue-500",
+            "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
+          )}
+          style={{
+            transform: `translate(0.05rem, 0.05rem) scale(50%)`,
+          }}
+        />
+      )}
 
       {tie && (
         <span className="absolute text-xxs transform scale-50">{tie}</span>
@@ -114,17 +141,15 @@ function Record({ results }: RecordProps) {
 }
 
 function algorithmA(rounds: Round[]) {
-  const table: ("banker" | "player" | "tie")[][] = [[]];
-  let currentWin = undefined;
+  const table: SkillOption[][][] = [[]];
+  let currentWin: "banker" | "player" | undefined = undefined;
 
-  for (const round of rounds) {
+  rounds.forEach((round) => {
     const isBankerWin = round.results.includes("banker");
     const isPlayerWin = round.results.includes("player");
     const isTie = round.results.includes("tie");
-
-    if (!currentWin && isTie) {
-      continue;
-    }
+    const isBankPair = round.results.includes("bank_pair");
+    const isPlayerPair = round.results.includes("player_pair");
 
     if (!currentWin && isBankerWin) {
       currentWin = "banker";
@@ -139,48 +164,71 @@ function algorithmA(rounds: Round[]) {
       (isBankerWin && currentWin === "player") ||
       (isPlayerWin && currentWin === "banker")
     ) {
-      table.push([]);
-
       if (isBankerWin) currentWin = "banker";
       if (isPlayerWin) currentWin = "player";
+
+      table.push([]);
     }
 
-    if (isBankerWin && currentWin === "banker") {
-      table[table.length - 1].push("banker");
+    let results: SkillOption[] = [];
+
+    if (isBankerWin) {
+      results.push("banker");
     }
 
-    if (isPlayerWin && currentWin === "player") {
-      table[table.length - 1].push("player");
+    if (isPlayerWin) {
+      results.push("player");
     }
 
     if (isTie) {
-      table[table.length - 1].push("tie");
+      results.push("tie");
     }
-  }
+
+    if (isBankPair) {
+      results.push("bank_pair");
+    }
+
+    if (isPlayerPair) {
+      results.push("player_pair");
+    }
+
+    table[table.length - 1].push(results);
+  });
 
   return table;
 }
 
 interface Result {
   type: "banker" | "player";
+  pair: ("bank_pair" | "player_pair")[];
   tie: number;
 }
-function algorithmB(table: ("banker" | "player" | "tie")[][]) {
+function algorithmB(table: SkillOption[][][]) {
   const results: Result[][] = [];
 
   table.forEach((row) => {
     const resultRow: Result[] = [];
 
-    row.forEach((col) => {
-      if (col === "tie") {
-        if (resultRow[resultRow.length - 1]?.tie === undefined) return;
+    let tie = 0;
 
-        resultRow[resultRow.length - 1].tie += 1;
+    row.forEach((col) => {
+      if (col.includes("tie")) {
+        tie += 1;
 
         return;
       }
 
-      resultRow.push({ type: col, tie: 0 });
+      if (col.includes("player")) {
+      }
+
+      resultRow.push({
+        type: col.includes("player") ? "player" : "banker",
+        pair: col.filter((res) =>
+          ["bank_pair", "player_pair"].includes(res)
+        ) as ("bank_pair" | "player_pair")[],
+        tie,
+      });
+      tie = 0;
     });
 
     results.push(resultRow);
@@ -246,6 +294,8 @@ function BigRoad({ rounds }: BigRoadProps) {
               key={index}
               color={col.type === "player" ? "blue" : "red"}
               tie={col.tie > 0 ? col.tie : undefined}
+              bankerPair={col.pair.includes("bank_pair")}
+              playerPair={col.pair.includes("player_pair")}
             />
           ) : (
             <div key={index} />

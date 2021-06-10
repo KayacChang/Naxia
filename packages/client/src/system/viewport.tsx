@@ -187,7 +187,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   }, [setFullScreen]);
 
   if (isDesktop) {
-    if (viewport.scale !== 1) {
+    if (window.devicePixelRatio !== 1) {
       return createPortal(
         <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
           <h1 className="text-white text-2xl">
