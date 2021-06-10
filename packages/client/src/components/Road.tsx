@@ -609,11 +609,15 @@ function bigEyeAlgorithm(table: (Result | undefined)[][]) {
 
     const table = Table(row, col);
 
-    results.slice(0, row).forEach((row, _rowIndex) => {
+    results.slice(0, row).forEach((_row, _rowIndex) => {
       let rowIndex = _rowIndex;
       let colIndex = 0;
 
-      row.forEach((result) => {
+      _row.forEach((result) => {
+        if (rowIndex >= row) {
+          return;
+        }
+
         table[rowIndex][colIndex] = result;
 
         if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
