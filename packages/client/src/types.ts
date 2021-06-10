@@ -53,6 +53,7 @@ export interface Dungeon extends DungeonBetStatus {
   bets: number[];
   skills: SkillSet;
   dungeonImg?: string;
+  preview?: string;
 }
 
 export interface Condition {

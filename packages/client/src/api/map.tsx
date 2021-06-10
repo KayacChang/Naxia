@@ -180,6 +180,7 @@ export interface GetInfoByDungeonIDResponse {
   current_round_bet: number;
   history_round_bet: number;
   dungeon_image: string;
+  dungeon_preview: string;
 }
 
 export function getInfoByDungeonID(
@@ -205,6 +206,7 @@ export function getInfoByDungeonID(
       current_round_bet,
       history_round_bet,
       dungeon_image,
+      dungeon_preview,
     }) => ({
       id,
       name,
@@ -224,6 +226,7 @@ export function getInfoByDungeonID(
       currentBet: current_round_bet,
       historyBet: history_round_bet,
       dungeonImg: dungeon_image,
+      preview: dungeon_preview,
     })
   );
 }

@@ -162,7 +162,7 @@ export function DungeonDetail() {
               <div className="mt-1 relative flex justify-center items-center">
                 <img
                   className="p-1/12"
-                  src={Assets.Lobby.Dungeon_Info_Preview_1}
+                  src={info.preview || Assets.Lobby.Dungeon_Info_Preview_1}
                   alt="preview"
                 />
 

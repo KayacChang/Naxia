@@ -1,6 +1,6 @@
 import Assets from "assets";
 import clsx from "clsx";
-import { cond, includes } from "ramda";
+import { cond, includes, pipe } from "ramda";
 import {
   ReactNode,
   CSSProperties,
@@ -20,6 +20,28 @@ import {
   useMap,
 } from "system";
 import { useDispatch } from "react-redux";
+
+type RingProps = {
+  color: "red" | "blue";
+  tie?: number;
+};
+function Ring({ color, tie }: RingProps) {
+  const ringColor =
+    color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
+  return (
+    <div className="relative flex justify-center items-center">
+      <img
+        style={{ padding: `1px` }}
+        src={ringColor}
+        alt={`road ${color} ring`}
+      />
+
+      {tie && (
+        <span className="absolute text-xxs transform scale-50">{tie}</span>
+      )}
+    </div>
+  );
+}
 
 type CircleProps = {
   className?: string;
@@ -88,6 +110,148 @@ function Record({ results }: RecordProps) {
         />
       )}
     </Circle>
+  );
+}
+
+function algorithmA(rounds: Round[]) {
+  const table: ("banker" | "player" | "tie")[][] = [[]];
+  let currentWin = undefined;
+
+  for (const round of rounds) {
+    const isBankerWin = round.results.includes("banker");
+    const isPlayerWin = round.results.includes("player");
+    const isTie = round.results.includes("tie");
+
+    if (!currentWin && isTie) {
+      continue;
+    }
+
+    if (!currentWin && isBankerWin) {
+      currentWin = "banker";
+    }
+
+    if (!currentWin && isPlayerWin) {
+      currentWin = "player";
+    }
+
+    // switch
+    if (
+      (isBankerWin && currentWin === "player") ||
+      (isPlayerWin && currentWin === "banker")
+    ) {
+      table.push([]);
+
+      if (isBankerWin) currentWin = "banker";
+      if (isPlayerWin) currentWin = "player";
+    }
+
+    if (isBankerWin && currentWin === "banker") {
+      table[table.length - 1].push("banker");
+    }
+
+    if (isPlayerWin && currentWin === "player") {
+      table[table.length - 1].push("player");
+    }
+
+    if (isTie) {
+      table[table.length - 1].push("tie");
+    }
+  }
+
+  return table;
+}
+
+interface Result {
+  type: "banker" | "player";
+  tie: number;
+}
+function algorithmB(table: ("banker" | "player" | "tie")[][]) {
+  const results: Result[][] = [];
+
+  table.forEach((row) => {
+    const resultRow: Result[] = [];
+
+    row.forEach((col) => {
+      if (col === "tie") {
+        if (resultRow[resultRow.length - 1]?.tie === undefined) return;
+
+        resultRow[resultRow.length - 1].tie += 1;
+
+        return;
+      }
+
+      resultRow.push({ type: col, tie: 0 });
+    });
+
+    results.push(resultRow);
+  });
+
+  return results;
+}
+
+function Table<T>(row: number, col: number, fill?: T) {
+  return Array.from(Array(row), (_) => Array(col).fill(fill));
+}
+
+function algorithmC(results: Result[][]): (Result | undefined)[][] {
+  const col = 6;
+  const row = 34;
+
+  const table = Table(row, col);
+
+  results.slice(0, row).forEach((row, _rowIndex) => {
+    let rowIndex = _rowIndex;
+    let colIndex = 0;
+
+    row.forEach((result) => {
+      table[rowIndex][colIndex] = result;
+
+      if (colIndex > col || Boolean(table[rowIndex][colIndex + 1])) {
+        rowIndex += 1;
+      } else {
+        colIndex += 1;
+      }
+    });
+  });
+
+  return table;
+}
+
+type BigRoadProps = {
+  rounds: Round[];
+  className?: string;
+  style?: CSSProperties;
+};
+function BigRoad({ rounds }: BigRoadProps) {
+  const col = 34;
+
+  const table = pipe(algorithmA, algorithmB, algorithmC)(rounds);
+
+  return (
+    <div
+      className={clsx(
+        "grid grid-flow-col grid-rows-6 place-items-center",
+        "text-white",
+        "w-full h-full"
+      )}
+      style={{
+        gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
+      }}
+    >
+      {table
+        .flat()
+        .map((col, index) =>
+          col ? (
+            <Ring
+              key={index}
+              color={col.type === "player" ? "blue" : "red"}
+              tie={col.tie > 0 ? col.tie : undefined}
+            />
+          ) : (
+            <div key={index} />
+          )
+        )}
+    </div>
   );
 }
 
@@ -196,7 +360,9 @@ function RoadLarge({ rounds }: RoadLargeProps) {
           />
 
           <div className="flex-1 mt-px ml-px -mr-px">
-            <div className="w-full h-1/2 flex flex-wrap content-start pl-px"></div>
+            <div className="w-full h-1/2 flex flex-wrap content-start pl-px">
+              <BigRoad rounds={rounds} />
+            </div>
 
             <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px"></div>
 
@@ -340,12 +506,30 @@ export function LobbyRoad({ rounds }: LobbyRoadProps) {
       <div
         className={clsx(
           "absolute top-0 w-full h-full flex",
-          "pl-3 lg:pl-5 xl:pl-8",
-          "pt-3 lg:pt-5 xl:pt-6",
+          "px-3 lg:px-5 xl:px-8",
+          "pt-2 lg:pt-5 xl:pt-6",
           "pb-2 lg:pb-3"
         )}
       >
-        <MarkerRoad rounds={rounds} style={{ width: `${34}%` }} />
+        <MarkerRoad
+          className="mt-0.5"
+          rounds={rounds}
+          style={{ width: `${35}%` }}
+        />
+
+        <div className="flex-1 mt-px ml-px -mr-px">
+          <div className="w-full h-1/2 flex flex-wrap content-start pl-px">
+            <BigRoad rounds={rounds} />
+          </div>
+
+          <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px"></div>
+
+          <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
+            <div className="w-1/2 h-full flex flex-wrap"></div>
+
+            <div className="w-1/2 h-full pl-px flex flex-wrap"></div>
+          </div>
+        </div>
       </div>
     </div>
   );

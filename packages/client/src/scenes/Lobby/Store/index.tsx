@@ -5,7 +5,13 @@ import { StoreItem } from "types";
 import Item from "./Item";
 import { Modal, Tab, SystemModal } from "components";
 import { exchange, ExchangeRequest, getStoreItems } from "api";
-import { selectToken, useAppSelector, useUser } from "system";
+import {
+  selectToken,
+  useAppDispatch,
+  useAppSelector,
+  user,
+  useUser,
+} from "system";
 import invariant from "tiny-invariant";
 
 function useStoreItem() {
@@ -14,6 +20,7 @@ function useStoreItem() {
     other: StoreItem[];
   }>();
 
+  const dispatch = useAppDispatch();
   const token = useAppSelector(selectToken);
 
   useEffect(() => {
@@ -27,6 +34,9 @@ function useStoreItem() {
       invariant(token, "Unauthorization");
 
       return exchange(token, req)
+        .then(() =>
+          Promise.all([dispatch(user.sync()), dispatch(user.item.sync())])
+        )
         .then(() => getStoreItems(token))
         .then(setItems);
     },

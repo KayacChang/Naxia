@@ -43,7 +43,7 @@ export function ErrorBoundary({ children }: ErrorBoundaryProps) {
           onConfirm={() => window.location.replace("/")}
           className="justify-center items-center text-white text-lg"
         >
-          <p>{error}</p>
+          <p>{String(error)}</p>
         </SystemModal>
       </Modal>
     );
