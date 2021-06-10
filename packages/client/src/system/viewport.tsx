@@ -6,6 +6,7 @@ import { throttle } from "utils";
 import Assets from "assets";
 import { createPortal } from "react-dom";
 import MobileDetect from "mobile-detect";
+import { useRouteMatch } from "react-router";
 
 function detect() {
   return new MobileDetect(window.navigator.userAgent);
@@ -131,6 +132,10 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   const [isFullScreen, setFullScreen] = useState(() =>
     Boolean(document.fullscreenElement)
   );
+  const match = useRouteMatch({
+    path: "/",
+    strict: true,
+  });
 
   const isDesktop = !isMobile();
 
@@ -212,7 +217,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     );
   }
 
-  if (isChrome() && !isIOS()) {
+  if (!match?.isExact && isChrome() && !isIOS()) {
     return (
       <>
         {children}
@@ -227,13 +232,31 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
 
                 if (!ref || !root) return;
 
-                const fn = () => toggleFullscreen(root);
+                const fn = () => root.requestFullscreen();
 
                 ref.addEventListener("click", fn);
               }}
             ></div>,
             document.body as HTMLElement
           )}
+      </>
+    );
+  }
+
+  if (match?.isExact && isChrome() && !isIOS()) {
+    return (
+      <>
+        {children}
+
+        {createPortal(
+          <div
+            className="w-full pointer-events-none overflow-auto"
+            style={{
+              height: `${window.screen.availHeight - window.innerHeight}px`,
+            }}
+          ></div>,
+          document.body as HTMLElement
+        )}
       </>
     );
   }
