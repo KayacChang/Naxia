@@ -52,7 +52,7 @@ type DetailProps = Item & {
   onConfirm?: () => void;
   onClose?: () => void;
 };
-function Detail({ name, img, point, quality, description }: DetailProps) {
+function Detail({ name, img, count, quality, description }: DetailProps) {
   return (
     <div className="fixed left-0 top-0 w-full h-full text-white flex justify-center items-center">
       <div className="flex flex-col space-y-1 absolute justify-center items-center w-2/3">
@@ -86,7 +86,7 @@ function Detail({ name, img, point, quality, description }: DetailProps) {
 
               <p>
                 <span>擁有: </span>
-                <span className="ml-2 text-yellow-500">{point}</span>
+                <span className="ml-2 text-yellow-500">{count}</span>
               </p>
             </div>
 

@@ -5,7 +5,7 @@ import { Item, RoomStatus, Boss, Order } from "types";
 import { toTask, wait } from "utils";
 import { AppDispatch, RootState, user } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
-import { system  } from "./system";
+import { system } from "./system";
 import { selectToken, selectUser } from "./user";
 
 type RoundResult = {
@@ -119,7 +119,7 @@ const order = {
           options,
         });
 
-        await dispatch(user.sync())
+        await dispatch(user.sync());
 
         return order;
       } catch (error) {
@@ -216,7 +216,11 @@ const order = {
 
         invariant(user, "Unauthorized");
 
-        const order = history[history.length - 1] || {};
+        if (!history[history.length - 1]) {
+          return false;
+        }
+
+        const order = history[history.length - 1];
 
         const totalbet =
           Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;

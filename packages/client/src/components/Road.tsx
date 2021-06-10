@@ -1,13 +1,7 @@
 import Assets from "assets";
 import clsx from "clsx";
 import { cond, includes, pipe } from "ramda";
-import {
-  ReactNode,
-  CSSProperties,
-  useCallback,
-  useState,
-  useEffect,
-} from "react";
+import { ReactNode, CSSProperties, useState, useEffect } from "react";
 import { SkillOption, Round, RoomStatus } from "types";
 import { Modal } from "./lobby/Modal";
 import "./Road.css";
@@ -462,13 +456,9 @@ export function RoomRoad({ className }: RoomRoadProps) {
   const map = useMap();
   const { rounds, info } = useDungeon();
 
-  const countByResult = useCallback(
-    (result: SkillOption) =>
-      rounds
-        ?.slice(-1 * 9 * 6)
-        .filter(({ results }) => results.includes(result)).length,
-    [rounds]
-  );
+  const countByResult = (result: SkillOption) =>
+    rounds?.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+      .length;
 
   const dispatch = useDispatch();
   const status = useAppSelector(selectRoomStatusCurrent);

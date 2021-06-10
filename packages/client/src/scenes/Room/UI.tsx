@@ -131,7 +131,7 @@ export default function GameUI() {
           <CountDown />
         </div>
 
-        <div className="-translate-x-1/2 absolute left-1/2 transform translate-y-1/4">
+        <div className="-translate-x-1/2 absolute bottom-1/4 left-1/2 transform translate-y-1/2">
           <RoundStatus />
         </div>
 
