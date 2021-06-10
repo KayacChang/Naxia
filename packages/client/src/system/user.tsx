@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUser, getUserItem, login, updateUser } from "api";
+import { getUser, getUserIP, getUserItem, login, updateUser } from "api";
 import { RootState, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { User, Item } from "types";
@@ -58,6 +58,9 @@ export const user = {
         invariant(token, "Unauthorized");
 
         const user = await getUser(token);
+        const ip = await getUserIP(token);
+
+        user.ip = ip;
 
         return user;
       } catch (error) {

@@ -20,6 +20,10 @@ export function getUser(token: string) {
   return get<User>(API("users"), token);
 }
 
+export function getUserIP(token: string) {
+  return get<string>(API("users/ip"), token);
+}
+
 export function updateUser(token: string, user: User) {
   return put<User>(API("users"), token, user);
 }
