@@ -179,7 +179,7 @@ export function DungeonDetail() {
                   alt="id background"
                 />
 
-                <div className="absolute -mb-1 font-kai space-x-2 lg:text-xl xl:text-3xl">
+                <div className="absolute -mb-1 font-kai text-sm lg:text-xl xl:text-3xl">
                   <span className="text-fansy text-shadow-xl filter contrast-125">
                     桌台編號:
                   </span>

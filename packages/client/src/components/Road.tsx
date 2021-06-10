@@ -70,6 +70,18 @@ function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
   );
 }
 
+type SlashProps = { className?: string };
+function Slash({ className }: SlashProps) {
+  return (
+    <div
+      className={clsx("rounded w-1/3 h-full transform rotate-45", className)}
+      style={{
+        background: `radial-gradient(circle at 0% 40%, rgba(255, 255, 255, 0.6) 15%, var(--tw-gradient-from) 30% 60%, #000 100%)`,
+      }}
+    />
+  );
+}
+
 type CircleProps = {
   className?: string;
   style?: CSSProperties;
@@ -417,12 +429,18 @@ function RoadLarge({ rounds }: RoadLargeProps) {
               <BigRoad rounds={rounds} />
             </div>
 
-            <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px"></div>
+            <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
+              <BigEyeRoad rounds={rounds} />
+            </div>
 
             <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
-              <div className="w-1/2 h-full flex flex-wrap"></div>
+              <div className="w-1/2 h-full flex flex-wrap">
+                <SmallRoad rounds={rounds} />
+              </div>
 
-              <div className="w-1/2 h-full pl-px flex flex-wrap"></div>
+              <div className="w-1/2 h-full pl-px flex flex-wrap">
+                <CockroachRoad rounds={rounds} />
+              </div>
             </div>
           </div>
         </div>
@@ -640,16 +658,17 @@ function BigEyeRoad({ rounds }: BigEyeRoadProps) {
     >
       {table.flat().map((col, index) =>
         col ? (
-          <Circle
-            key={index}
-            className={clsx(
-              col === "red" ? "from-red-500" : "from-blue-500",
-              "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
-            )}
-            style={{
-              transform: `translate(-0.05rem, -0.05rem)`,
-            }}
-          />
+          <div key={index} className="w-full h-full" style={{ padding: `15%` }}>
+            <Circle
+              className={clsx(
+                col === "red" ? "from-red-500" : "from-blue-500",
+                "w-full h-full"
+              )}
+              style={{
+                transform: `translate(-0.05rem, -0.05rem)`,
+              }}
+            />
+          </div>
         ) : (
           <div key={index} />
         )
@@ -754,16 +773,17 @@ function SmallRoad({ rounds }: SmallRoadProps) {
     >
       {table.flat().map((col, index) =>
         col ? (
-          <Circle
-            key={index}
-            className={clsx(
-              col === "red" ? "from-red-500" : "from-blue-500",
-              "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
-            )}
-            style={{
-              transform: `translate(-0.05rem, -0.05rem)`,
-            }}
-          />
+          <div key={index} className="w-full h-full" style={{ padding: `15%` }}>
+            <Circle
+              className={clsx(
+                col === "red" ? "from-red-500" : "from-blue-500",
+                "w-full h-full"
+              )}
+              style={{
+                transform: `translate(-0.05rem, -0.05rem)`,
+              }}
+            />
+          </div>
         ) : (
           <div key={index} />
         )
@@ -772,8 +792,114 @@ function SmallRoad({ rounds }: SmallRoadProps) {
   );
 }
 
-function CockroachRoad() {
-  return <></>;
+function cockroachRoadAlgorithm(table: (Result | undefined)[][]) {
+  const results: ("red" | "blue" | undefined)[][] = [];
+  let current: "red" | "blue" | undefined = undefined;
+
+  for (let rowIndex = 3; rowIndex < table.length; rowIndex++) {
+    const row = table[rowIndex];
+
+    for (let colIndex = 1; colIndex < row.length; colIndex++) {
+      if (!table[rowIndex][colIndex]) {
+        if (current !== "blue") {
+          current = "blue";
+
+          results.push(["blue"]);
+
+          break;
+        }
+
+        results[results.length - 1].push("blue");
+
+        break;
+      }
+
+      const existed = Boolean(table[rowIndex - 3][colIndex]);
+      if (existed) {
+        if (current !== "red") {
+          current = "red";
+
+          results.push(["red"]);
+
+          continue;
+        }
+
+        results[results.length - 1].push("red");
+      }
+    }
+  }
+
+  function toTable(results: ("red" | "blue" | undefined)[][]) {
+    const col = 3;
+    const row = 17;
+
+    const table = Table(row, col);
+
+    results.slice(0, row).forEach((_row, _rowIndex) => {
+      let rowIndex = _rowIndex;
+      let colIndex = 0;
+
+      _row.forEach((result) => {
+        if (rowIndex >= row) {
+          return;
+        }
+
+        table[rowIndex][colIndex] = result;
+
+        if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
+          colIndex += 1;
+        } else {
+          rowIndex += 1;
+        }
+      });
+    });
+
+    return table;
+  }
+
+  return toTable(results);
+}
+
+type CockroachRoadProps = {
+  rounds: Round[];
+  className?: string;
+  style?: CSSProperties;
+};
+function CockroachRoad({ rounds }: CockroachRoadProps) {
+  const table = pipe(
+    algorithmA,
+    algorithmB,
+    algorithmC,
+    cockroachRoadAlgorithm
+  )(rounds);
+
+  const col = 17;
+
+  return (
+    <div
+      className={clsx(
+        "grid grid-flow-col grid-rows-3 place-items-center",
+        "text-white",
+        "w-full h-full"
+      )}
+      style={{
+        gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
+      }}
+    >
+      {table
+        .flat()
+        .map((col, index) =>
+          col ? (
+            <Slash
+              key={index}
+              className={clsx(col === "red" ? "from-red-500" : "from-blue-500")}
+            />
+          ) : (
+            <div key={index} />
+          )
+        )}
+    </div>
+  );
 }
 
 type LobbyRoadProps = {
@@ -807,13 +933,13 @@ export function LobbyRoad({ rounds }: LobbyRoadProps) {
             <BigEyeRoad rounds={rounds} />
           </div>
 
-          <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
+          <div className="w-full h-1/4 flex flex-wrap content-start pt-px px-px">
             <div className="w-1/2 h-full flex flex-wrap">
               <SmallRoad rounds={rounds} />
             </div>
 
             <div className="w-1/2 h-full pl-px flex flex-wrap">
-              <CockroachRoad />
+              <CockroachRoad rounds={rounds} />
             </div>
           </div>
         </div>
