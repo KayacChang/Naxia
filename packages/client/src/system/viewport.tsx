@@ -187,6 +187,17 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   }, [setFullScreen]);
 
   if (isDesktop) {
+    if (viewport.scale !== 1) {
+      return createPortal(
+        <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
+          <h1 className="text-white text-2xl">
+            請將螢幕縮放調整為100%，以獲得順暢的遊玩體驗。
+          </h1>
+        </div>,
+        document.getElementById("root") as HTMLElement
+      );
+    }
+
     return <>{children}</>;
   }
 
