@@ -1,11 +1,18 @@
 import { Modal, SystemModal } from "components";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import Assets from "assets";
-import { range } from "ramda";
-import { User } from "types";
-import { useAppDispatch, user as UserSystem, useUser } from "system";
+import { HistoryRecord, User } from "types";
+import {
+  selectToken,
+  useAppDispatch,
+  useAppSelector,
+  user as UserSystem,
+  useUser,
+} from "system";
 import { format } from "date-fns";
 import clsx from "clsx";
+import { getUserHistory } from "api";
+import invariant from "tiny-invariant";
 
 const AvatarList = {
   1: Assets.Common.Avatar_01,
@@ -91,10 +98,24 @@ function ChangeAvatar({ user, onConfirm }: ChangeAvatarProps) {
   );
 }
 
+function useHistory() {
+  const token = useAppSelector(selectToken);
+  const [history, setHistory] = useState<HistoryRecord[]>([]);
+
+  useEffect(() => {
+    invariant(token, "Unauthorized");
+
+    getUserHistory(token).then(setHistory);
+  }, [token]);
+
+  return history;
+}
+
 type HistoryProps = {
+  history: HistoryRecord[];
   onClose: () => void;
 };
-function History({ onClose }: HistoryProps) {
+function History({ history, onClose }: HistoryProps) {
   return (
     <SystemModal
       type="history"
@@ -105,15 +126,15 @@ function History({ onClose }: HistoryProps) {
       <div className="flex h-full items-center justify-center w-full">
         <div
           className={clsx(
-            "flex flex-col h-5/6 lg:text-xl text-center text-xs w-11/12",
+            "flex flex-col h-5/6 lg:text-xl text-center text-xs w-full px-2",
             "text-xs lg:text-xl"
           )}
         >
           <div className="text-yellow-300 flex items-center h-1/10">
             <div className="w-3/12">派彩時間</div>
-            <div className="w-3/12">投注局號</div>
+            <div className="w-2/12">投注局號</div>
             <div className="flex-1">投注內容</div>
-            <div className="w-3/12">結果</div>
+            <div className="w-4/12">結果</div>
             <div className="flex-1">有效投注</div>
           </div>
 
@@ -121,20 +142,22 @@ function History({ onClose }: HistoryProps) {
             className="text-yellow-50 overflow-auto pointer-events-auto"
             style={{ height: `${88}%` }}
           >
-            {range(0, 20).map((key) => (
-              <div className="flex p-1 h-1/10 items-center" key={key}>
-                <div className="w-3/12">
-                  {format(new Date(), "yyyy-MM-dd HH:mm:ss")}
+            {history.map(
+              ({ created, round, betDetail, detail, result, bet }) => (
+                <div className="flex p-1 h-1/10 items-center" key={round}>
+                  <div className="w-3/12">
+                    {format(created, "yyyy-MM-dd HH:mm:ss")}
+                  </div>
+                  <div className="w-2/12">{round}</div>
+                  <div className="flex-1">{betDetail}</div>
+                  <div className="w-4/12 truncate">
+                    <span>{detail}</span>
+                    <span>{String(result)}</span>
+                  </div>
+                  <div className="flex-1">{bet}</div>
                 </div>
-                <div className="w-3/12">{"20210114021820030"}</div>
-                <div className="flex-1">{"莊 99"}</div>
-                <div className="w-3/12">
-                  <span>{"莊 99:莊贏"}</span>
-                  <span>{"+94.05"}</span>
-                </div>
-                <div className="flex-1">{"99.00"}</div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </div>
@@ -149,6 +172,7 @@ type DetailProps = {
 function Detail({ user, onClose }: DetailProps) {
   const [isChangeAvatarOpen, setChangeAvatarOpen] = useState(false);
   const [isHistoryOpen, setHistoryOpen] = useState(false);
+  const history = useHistory();
 
   return (
     <>
@@ -201,9 +225,16 @@ function Detail({ user, onClose }: DetailProps) {
                 <h3 className="lg:text-xl text-fansy">最近勝負:</h3>
 
                 <div className="grid grid-cols-7 gap-2">
-                  {range(0, 7).map((key) => (
-                    <button key={key} onClick={() => setHistoryOpen(true)}>
-                      <img src={Assets.Common.Avatar_Win} alt="win" />
+                  {history.slice(0, 7).map(({ resultType, round }) => (
+                    <button key={round} onClick={() => setHistoryOpen(true)}>
+                      <img
+                        src={
+                          resultType === "win"
+                            ? Assets.Common.Avatar_Win
+                            : Assets.Common.Avatar_Lose
+                        }
+                        alt="result"
+                      />
                     </button>
                   ))}
                 </div>
@@ -243,7 +274,7 @@ function Detail({ user, onClose }: DetailProps) {
 
       {isHistoryOpen && (
         <Modal>
-          <History onClose={() => setHistoryOpen(false)} />
+          <History history={history} onClose={() => setHistoryOpen(false)} />
         </Modal>
       )}
     </>

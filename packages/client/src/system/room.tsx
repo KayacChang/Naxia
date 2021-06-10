@@ -5,7 +5,7 @@ import { Item, RoomStatus, Boss, Order } from "types";
 import { toTask, wait } from "utils";
 import { AppDispatch, RootState, user } from ".";
 import { addAssets, selectAssetIsLoading } from "./assets";
-import { system } from "./system";
+import { system  } from "./system";
 import { selectToken, selectUser } from "./user";
 
 type RoundResult = {
@@ -100,10 +100,10 @@ const order = {
     "room/order/submit",
     async (order, { getState, dispatch }) => {
       const token = selectToken(getState());
-      const user = selectUser(getState());
+      const _user = selectUser(getState());
       const room_id = selectRoomID(getState());
 
-      invariant(token && user && room_id, "Unauthorized");
+      invariant(token && _user && room_id, "Unauthorized");
 
       const options = Object.entries(order)
         .filter(([, value]) => Boolean(value))
@@ -115,9 +115,11 @@ const order = {
       try {
         await bet(token, {
           room_id,
-          uid: user.uid,
+          uid: _user.uid,
           options,
         });
+
+        await dispatch(user.sync())
 
         return order;
       } catch (error) {

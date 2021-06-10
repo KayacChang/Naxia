@@ -1,4 +1,5 @@
-import { Achievement, Item, User } from "types";
+import { map } from "ramda";
+import { Achievement, HistoryRecord, Item, User } from "types";
 import { API, get, post, put } from "./base";
 
 export interface LoginResponse {
@@ -22,6 +23,34 @@ export function getUser(token: string) {
 
 export function getUserIP(token: string) {
   return get<string>(API("users/ip"), token);
+}
+
+export interface HistorytResponse {
+  created_at: string;
+  result_type: string;
+  result: string;
+  game_round: string;
+  bet_content: string;
+  memo: string;
+  valid_bet: number;
+}
+
+function toHistoryRecord(res: HistorytResponse): HistoryRecord {
+  return {
+    created: new Date(res.created_at),
+    resultType: res.result_type === "win" ? "win" : "lose",
+    result: Number(res.result),
+    round: res.game_round,
+    betDetail: res.bet_content,
+    detail: res.memo,
+    bet: Number(res.valid_bet),
+  };
+}
+
+export function getUserHistory(token: string) {
+  return get<HistorytResponse[]>(API("users/history"), token).then(
+    map(toHistoryRecord)
+  );
 }
 
 export function updateUser(token: string, user: User) {

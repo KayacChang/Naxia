@@ -23,6 +23,16 @@ export interface User {
   uid: string;
 }
 
+export interface HistoryRecord {
+  created: Date;
+  resultType: "win" | "lose";
+  result: number;
+  round: string;
+  betDetail: string;
+  detail: string;
+  bet: number;
+}
+
 export interface Map {
   id: number;
   name: string;
