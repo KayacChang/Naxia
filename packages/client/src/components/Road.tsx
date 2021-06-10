@@ -346,6 +346,9 @@ type RoadLargeProps = {
   rounds: Round[];
 };
 function RoadLarge({ rounds }: RoadLargeProps) {
+  const count = (result: SkillOption) =>
+    rounds.filter(({ results }) => results.includes(result)).length;
+
   return (
     <div
       className={clsx(
@@ -371,35 +374,35 @@ function RoadLarge({ rounds }: RoadLargeProps) {
             cubeClassName="cube-red px-2 xl:p-4"
             color="text-red-600"
             role="莊"
-            count={2}
+            count={count("banker")}
           />
 
           <CountCube
             cubeClassName="cube-blue px-2 xl:p-4"
             color="text-blue-600"
             role="閒"
-            count={2}
+            count={count("player")}
           />
 
           <CountCube
             cubeClassName="cube-green px-2 xl:p-4"
             color="text-green-500"
             role="和"
-            count={2}
+            count={count("tie")}
           />
 
           <CountCube
             cubeClassName="cube-light-red px-2 xl:p-4"
             color="text-red-400"
             role="莊對"
-            count={2}
+            count={count("bank_pair")}
           />
 
           <CountCube
             cubeClassName="cube-light-blue px-2 xl:p-4"
             color="text-blue-300"
             role="閒對"
-            count={2}
+            count={count("player_pair")}
           />
         </div>
 
@@ -545,6 +548,234 @@ export function RoomRoad({ className }: RoomRoadProps) {
   );
 }
 
+function bigEyeAlgorithm(table: (Result | undefined)[][]) {
+  const results: ("red" | "blue" | undefined)[][] = [];
+  let current: "red" | "blue" | undefined = undefined;
+
+  for (let rowIndex = 1; rowIndex < table.length; rowIndex++) {
+    const row = table[rowIndex];
+
+    for (let colIndex = 1; colIndex < row.length; colIndex++) {
+      if (!table[rowIndex][colIndex]) {
+        if (current !== "blue") {
+          current = "blue";
+
+          results.push(["blue"]);
+
+          break;
+        }
+
+        results[results.length - 1].push("blue");
+
+        break;
+      }
+
+      const existed = Boolean(table[rowIndex - 1][colIndex]);
+      if (existed) {
+        if (current !== "red") {
+          current = "red";
+
+          results.push(["red"]);
+
+          continue;
+        }
+
+        results[results.length - 1].push("red");
+      }
+    }
+  }
+
+  function toTable(results: ("red" | "blue" | undefined)[][]) {
+    const col = 3;
+    const row = 34;
+
+    const table = Table(row, col);
+
+    results.slice(0, row).forEach((row, _rowIndex) => {
+      let rowIndex = _rowIndex;
+      let colIndex = 0;
+
+      row.forEach((result) => {
+        table[rowIndex][colIndex] = result;
+
+        if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
+          colIndex += 1;
+        } else {
+          rowIndex += 1;
+        }
+      });
+    });
+
+    return table;
+  }
+
+  return toTable(results);
+}
+
+type BigEyeRoadProps = {
+  rounds: Round[];
+  className?: string;
+  style?: CSSProperties;
+};
+function BigEyeRoad({ rounds }: BigEyeRoadProps) {
+  const table = pipe(
+    algorithmA,
+    algorithmB,
+    algorithmC,
+    bigEyeAlgorithm
+  )(rounds);
+
+  const col = 34;
+
+  return (
+    <div
+      className={clsx(
+        "grid grid-flow-col grid-rows-3 place-items-center",
+        "text-white",
+        "w-full h-full"
+      )}
+      style={{
+        gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
+      }}
+    >
+      {table.flat().map((col, index) =>
+        col ? (
+          <Circle
+            key={index}
+            className={clsx(
+              col === "red" ? "from-red-500" : "from-blue-500",
+              "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
+            )}
+            style={{
+              transform: `translate(-0.05rem, -0.05rem)`,
+            }}
+          />
+        ) : (
+          <div key={index} />
+        )
+      )}
+    </div>
+  );
+}
+
+function smallRoadAlgorithm(table: (Result | undefined)[][]) {
+  const results: ("red" | "blue" | undefined)[][] = [];
+  let current: "red" | "blue" | undefined = undefined;
+
+  for (let rowIndex = 2; rowIndex < table.length; rowIndex++) {
+    const row = table[rowIndex];
+
+    for (let colIndex = 1; colIndex < row.length; colIndex++) {
+      if (!table[rowIndex][colIndex]) {
+        if (current !== "blue") {
+          current = "blue";
+
+          results.push(["blue"]);
+
+          break;
+        }
+
+        results[results.length - 1].push("blue");
+
+        break;
+      }
+
+      const existed = Boolean(table[rowIndex - 2][colIndex]);
+      if (existed) {
+        if (current !== "red") {
+          current = "red";
+
+          results.push(["red"]);
+
+          continue;
+        }
+
+        results[results.length - 1].push("red");
+      }
+    }
+  }
+
+  function toTable(results: ("red" | "blue" | undefined)[][]) {
+    const col = 3;
+    const row = 17;
+
+    const table = Table(row, col);
+
+    results.slice(0, row).forEach((_row, _rowIndex) => {
+      let rowIndex = _rowIndex;
+      let colIndex = 0;
+
+      _row.forEach((result) => {
+        if (rowIndex >= row) {
+          return;
+        }
+
+        table[rowIndex][colIndex] = result;
+
+        if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
+          colIndex += 1;
+        } else {
+          rowIndex += 1;
+        }
+      });
+    });
+
+    return table;
+  }
+
+  return toTable(results);
+}
+
+type SmallRoadProps = {
+  rounds: Round[];
+  className?: string;
+  style?: CSSProperties;
+};
+function SmallRoad({ rounds }: SmallRoadProps) {
+  const table = pipe(
+    algorithmA,
+    algorithmB,
+    algorithmC,
+    smallRoadAlgorithm
+  )(rounds);
+
+  const col = 17;
+
+  return (
+    <div
+      className={clsx(
+        "grid grid-flow-col grid-rows-3 place-items-center",
+        "text-white",
+        "w-full h-full"
+      )}
+      style={{
+        gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
+      }}
+    >
+      {table.flat().map((col, index) =>
+        col ? (
+          <Circle
+            key={index}
+            className={clsx(
+              col === "red" ? "from-red-500" : "from-blue-500",
+              "w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3"
+            )}
+            style={{
+              transform: `translate(-0.05rem, -0.05rem)`,
+            }}
+          />
+        ) : (
+          <div key={index} />
+        )
+      )}
+    </div>
+  );
+}
+
+function CockroachRoad() {
+  return <></>;
+}
+
 type LobbyRoadProps = {
   rounds: Round[];
 };
@@ -572,12 +803,18 @@ export function LobbyRoad({ rounds }: LobbyRoadProps) {
             <BigRoad rounds={rounds} />
           </div>
 
-          <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px"></div>
+          <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
+            <BigEyeRoad rounds={rounds} />
+          </div>
 
           <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
-            <div className="w-1/2 h-full flex flex-wrap"></div>
+            <div className="w-1/2 h-full flex flex-wrap">
+              <SmallRoad rounds={rounds} />
+            </div>
 
-            <div className="w-1/2 h-full pl-px flex flex-wrap"></div>
+            <div className="w-1/2 h-full pl-px flex flex-wrap">
+              <CockroachRoad />
+            </div>
           </div>
         </div>
       </div>
