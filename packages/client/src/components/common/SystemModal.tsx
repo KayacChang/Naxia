@@ -103,22 +103,22 @@ function Default({
 
         {title && <Title>{title}</Title>}
 
-        {onClose && <Close onClick={onClose} />}
+        {onClose && (
+          <Close className="absolute -top-5 -right-5" onClick={onClose} />
+        )}
       </div>
     </div>
   );
 }
 
 type CloseProps = {
+  className?: string;
   onClick: () => void;
 };
-function Close({ onClick }: CloseProps) {
+export function Close({ className, onClick }: CloseProps) {
   return (
     <button
-      className={clsx(
-        "absolute -top-5 -right-5 w-12",
-        "transform lg:scale-150"
-      )}
+      className={clsx("w-12", "transform lg:scale-150", className)}
       onClick={onClick}
     >
       <img src={Assets.Common.Modal_Close} alt="close button" />
@@ -178,7 +178,9 @@ function History({
 
       {title && <Title>{title}</Title>}
 
-      {onClose && <Close onClick={onClose} />}
+      {onClose && (
+        <Close className="absolute -top-5 -right-5" onClick={onClose} />
+      )}
     </div>
   );
 }

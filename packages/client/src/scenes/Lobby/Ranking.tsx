@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
-import { Tab, Avatar } from "components";
+import { Tab, Avatar, Close } from "components";
 import { currency } from "utils";
 import { getRank } from "api";
 import { selectToken, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { Ranking, RankingRecord } from "types";
+import { useHistory } from "react-router";
 
 function RankingItem({ rank, name, value, avatar }: RankingRecord) {
   return (
@@ -91,6 +92,7 @@ type RankingProps = {
 };
 
 export default function Rank({ className }: RankingProps) {
+  const history = useHistory();
   const filters: Filter[] = [
     { key: "achievement", label: "成就排名" },
     { key: "sp", label: "SP排名" },
@@ -177,6 +179,11 @@ export default function Rank({ className }: RankingProps) {
               )}
             </div>
           </div>
+
+          <Close
+            className="absolute top-0 right-0"
+            onClick={() => history.push("/lobby")}
+          />
         </div>
       </article>
     </>

@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import clsx from "clsx";
 import Assets from "assets";
-import { Tab, Modal, Button } from "components";
+import { Tab, Modal, Button, Close } from "components";
 import { useState } from "react";
 import { Achievement } from "types";
 import { selectToken, useAppSelector } from "system";
 import invariant from "tiny-invariant";
 import { getUserAchievement } from "api";
+import { useHistory } from "react-router";
 
 type DetailProps = {
   item: Achievement;
@@ -137,7 +138,7 @@ function Special({ items = [] }: SpecialProps) {
 
 function useAchievement() {
   const [achievement, setAchievement] = useState<{
-    cart: Achievement[];
+    card: Achievement[];
     other: Achievement[];
   }>();
 
@@ -156,8 +157,10 @@ type AchievementProps = {
   className?: string;
 };
 export default function _Achievement({ className }: AchievementProps) {
+  const history = useHistory();
+
   const filters = [
-    { key: "cart", label: "卡片圖鑑" },
+    { key: "card", label: "卡片圖鑑" },
     { key: "other", label: "特殊成就" },
   ];
 
@@ -195,7 +198,7 @@ export default function _Achievement({ className }: AchievementProps) {
               ))}
             </nav>
 
-            {active.key === "cart" && (
+            {active.key === "card" && (
               <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
                 {achievement?.[active.key].map((item) => (
                   <button
@@ -216,6 +219,11 @@ export default function _Achievement({ className }: AchievementProps) {
             <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
           </div>
         </div>
+
+        <Close
+          className="absolute -top-3 right-0"
+          onClick={() => history.push("/lobby")}
+        />
       </article>
 
       {item && (

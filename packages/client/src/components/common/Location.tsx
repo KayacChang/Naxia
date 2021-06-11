@@ -1,11 +1,11 @@
-import React from "react";
 import Assets from "assets";
-import { useMap } from "system";
 import clsx from "clsx";
+import { ReactNode } from "react";
 
-export function Location() {
-  const map = useMap();
-
+type Props = {
+  children?: ReactNode;
+};
+export function Location({ children }: Props) {
   return (
     <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
       <div
@@ -21,7 +21,7 @@ export function Location() {
         </div>
 
         <h1 className="absolute font-kai text-xl text-fansy tracking-widest">
-          {map.name}
+          {children}
         </h1>
       </div>
     </div>

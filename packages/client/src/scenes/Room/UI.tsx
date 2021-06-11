@@ -26,14 +26,17 @@ import {
 } from "system";
 import clsx from "clsx";
 import { ReactNode, useState } from "react";
+import { useEffect } from "react";
 
 type ControlButtonProps = {
+  className?: string;
   disabled?: boolean;
   children?: ReactNode;
   onClick?: () => void;
   img: string;
 };
 function ControlButton({
+  className,
   disabled,
   img,
   children,
@@ -48,7 +51,8 @@ function ControlButton({
       className={clsx(
         "relative flex justify-center items-center",
         active && "filter brightness-75",
-        disabled ? "pointer-events-none" : "pointer-events-auto"
+        disabled ? "pointer-events-none" : "pointer-events-auto",
+        className
       )}
       onClick={onClick}
       onPointerDown={() => setActive(true)}
@@ -114,15 +118,20 @@ export default function GameUI() {
   const hasSubmitted = useAppSelector(selectRoomHasSubmitted);
   const boss = useAppSelector(selectRoomBossCurrent);
 
-  if (!user || !boss) return <></>;
-
   const enable = status === TRoomStatus.Start && !hasSubmitted;
+  const [submitEnable, setSubmitEnable] = useState(true);
+
+  useEffect(() => {
+    if (status === TRoomStatus.Change) setSubmitEnable(true);
+  }, [status, setSubmitEnable]);
+
+  if (!user || !boss) return <></>;
 
   return (
     <UI className="flex flex-col text-white">
       <header className="h-10 relative">
         <Profile />
-        <Location />
+        <Location>{boss.name}</Location>
         <Status />
       </header>
 
@@ -161,9 +170,17 @@ export default function GameUI() {
               )}
             >
               <ControlButton
-                disabled={!enable}
+                className={clsx(
+                  submitEnable || "opacity-50 pointer-events-none"
+                )}
+                disabled={!(enable && submitEnable)}
                 img={Assets.Room.Control_Confirm_Normal}
-                onClick={() => dispatch(room.order.submit(order))}
+                onClick={() => {
+                  if (!submitEnable) return;
+
+                  setSubmitEnable(false);
+                  dispatch(room.order.submit(order));
+                }}
               >
                 確認
               </ControlButton>

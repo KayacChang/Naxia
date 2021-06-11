@@ -190,22 +190,27 @@ const order = {
     { state: RootState; dispatch: AppDispatch }
   >(
     "room/order/redo",
-    (_, { getState, dispatch }) => {
+    async (_, { getState, dispatch }) => {
       const {
         room: { history },
+      } = getState();
+
+      await dispatch(order.clear());
+
+      const _order = history[history.length - 1] || {};
+
+      const totalbet =
+        Object.values(_order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
+
+      const {
         user: { user: currentUser },
       } = getState();
 
       invariant(currentUser, "Unauthorized");
 
-      const order = history[history.length - 1] || {};
-
-      const totalbet =
-        Object.values(order).reduce((sum = 0, bet = 0) => sum + bet, 0) || 0;
-
       dispatch(user.balance.update(currentUser.balance - totalbet));
 
-      return order;
+      return _order;
     },
     {
       condition: (_, { getState }) => {
@@ -286,10 +291,15 @@ export const room = {
         dispatch(room.status.round(data.data));
       }
 
-      if (data.event === "room_status") {
+      const status = selectRoomStatusCurrent(getState());
+      if (data.event === "room_status" && status !== data.data.status) {
         hasMessage = true;
 
         const hasSubmitted = selectRoomHasSubmitted(getState());
+
+        if (data.data.status === RoomStatus.Stop) {
+          dispatch(user.sync());
+        }
 
         if (data.data.status === RoomStatus.Stop && !hasSubmitted) {
           dispatch(order.clear());

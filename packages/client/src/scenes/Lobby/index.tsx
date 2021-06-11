@@ -33,14 +33,17 @@ import Store from "./Store";
 import Sound from "assets/sound";
 import { matchPath, useHistory } from "react-router";
 import { DungeonDetail, DungeonCondition } from "./Map";
+import { throttle } from "utils";
 
 const LobbyUI = memo(() => {
+  const map = useMap();
+
   return (
     <UI className="flex flex-col">
       <header className="h-12 relative">
         <Profile />
 
-        <Location />
+        <Location>{map.name}</Location>
 
         <Status />
       </header>
@@ -96,11 +99,11 @@ const Dungeons = memo(() => {
           x={1920 * (dungeon.location.x / 100)}
           y={1080 * (dungeon.location.y / 100)}
           lock={dungeon.lock}
-          onClick={() => {
+          onClick={throttle(300, () => {
             !dungeon.lock
               ? dispatch(DungeonSystem.modal.detail(dungeon.id))
               : dispatch(DungeonSystem.modal.condition(dungeon.id));
-          }}
+          })}
         />
       ))}
     </Container>

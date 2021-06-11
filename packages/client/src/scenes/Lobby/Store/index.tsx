@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Assets from "assets";
 import { StoreItem } from "types";
 import Item from "./Item";
-import { Modal, Tab, SystemModal } from "components";
+import { Modal, Tab, SystemModal, Close } from "components";
 import { exchange, ExchangeRequest, getStoreItems } from "api";
 import {
   selectToken,
@@ -13,6 +13,7 @@ import {
   useUser,
 } from "system";
 import invariant from "tiny-invariant";
+import { useHistory } from "react-router";
 
 function useStoreItem() {
   const [store, setItems] = useState<{
@@ -50,6 +51,7 @@ type StoreProps = {
   className: string;
 };
 export default function Store({ className }: StoreProps) {
+  const history = useHistory();
   const { store, onExchange } = useStoreItem();
   const user = useUser();
 
@@ -114,6 +116,11 @@ export default function Store({ className }: StoreProps) {
 
                 <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
               </div>
+
+              <Close
+                className="absolute top-0 right-0"
+                onClick={() => history.push("/lobby")}
+              />
             </div>
           </div>
         </div>

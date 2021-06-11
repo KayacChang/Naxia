@@ -62,13 +62,13 @@ export function getUserItem(token: string) {
 }
 
 export interface GetUserAchievementResponse {
-  cart: Achievement[];
+  card: Achievement[];
   other: Achievement[];
 }
 export function getUserAchievement(token: string) {
   return get<GetUserAchievementResponse>(API("achievement"), token).then(
-    ({ cart, other }) => ({
-      cart: cart.map((props) => ({
+    ({ card, other }) => ({
+      card: card.map((props) => ({
         ...props,
         done: props["is_done"],
         cardImg: props["card_img"],

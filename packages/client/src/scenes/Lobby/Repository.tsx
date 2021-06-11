@@ -1,9 +1,10 @@
 import { Item } from "types";
 import { useState } from "react";
-import { Modal, Tab } from "components";
+import { Close, Modal, Tab } from "components";
 import clsx from "clsx";
 import Assets from "assets";
 import { useUserItem } from "system";
+import { useHistory } from "react-router";
 
 function qualityCheck(quality: number) {
   switch (quality) {
@@ -107,6 +108,7 @@ type RepositoryProps = {
 };
 export default function Repository({ className }: RepositoryProps) {
   const items = useUserItem();
+  const history = useHistory();
 
   const filters = [
     { key: "all", label: "全部", cond: () => true },
@@ -123,44 +125,51 @@ export default function Repository({ className }: RepositoryProps) {
         <img src={Assets.Lobby.Repo_Frame_Outer} alt="repository frame outer" />
 
         <div className="absolute top-0 w-full h-full pt-1/12 px-1/24">
-          <nav className="">
-            {filters.map((tab) => (
-              <Tab
-                className="w-2/12"
-                key={tab.key}
-                label={tab.label}
-                normalImage={Assets.Lobby.Repo_Tab_Normal}
-                activeImage={Assets.Lobby.Repo_Tab_Active}
-                active={tab.key === active.key}
-                onClick={() => setActive(tab)}
-              />
-            ))}
-          </nav>
-
           <div className="relative">
-            <img
-              src={Assets.Lobby.Repo_Frame_Inner}
-              alt="repository frame inner"
-            />
-
-            <div className="absolute top-0 w-full max-h-full overflow-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
-              {items?.filter(active.cond).map((item) => (
-                <ItemGrid
-                  key={item.id}
-                  {...item}
-                  onClick={() => setItem(item)}
-                  quality={item.quality}
+            <nav>
+              {filters.map((tab) => (
+                <Tab
+                  className="w-2/12"
+                  key={tab.key}
+                  label={tab.label}
+                  normalImage={Assets.Lobby.Repo_Tab_Normal}
+                  activeImage={Assets.Lobby.Repo_Tab_Active}
+                  active={tab.key === active.key}
+                  onClick={() => setActive(tab)}
                 />
               ))}
+            </nav>
+
+            <div className="relative">
+              <img
+                src={Assets.Lobby.Repo_Frame_Inner}
+                alt="repository frame inner"
+              />
+
+              <div className="absolute top-0 w-full max-h-full overflow-auto pointer-events-auto grid grid-cols-7 gap-1 p-1">
+                {items?.filter(active.cond).map((item) => (
+                  <ItemGrid
+                    key={item.id}
+                    {...item}
+                    onClick={() => setItem(item)}
+                    quality={item.quality}
+                  />
+                ))}
+              </div>
+
+              <img
+                className="absolute bottom-0 transform translate-y-2 z-10"
+                src={Assets.Lobby.Repo_HR}
+                alt="repository frame horizontal row"
+              />
+
+              <div className="absolute bottom-0 w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75"></div>
             </div>
 
-            <img
-              className="absolute bottom-0 transform translate-y-2 z-10"
-              src={Assets.Lobby.Repo_HR}
-              alt="repository frame horizontal row"
+            <Close
+              className="absolute -top-10 -right-5"
+              onClick={() => history.push("/lobby")}
             />
-
-            <div className="absolute bottom-0 w-full h-6 bg-gradient-to-t from-black to-transparent opacity-75"></div>
           </div>
         </div>
       </article>
