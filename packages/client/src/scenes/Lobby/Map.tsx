@@ -31,8 +31,16 @@ export function DungeonDetail() {
   useEffect(() => {
     if (!info?.id) return;
 
+    dispatch(Dungeon.get.rounds({ mapID: map.id, dungeonID: info.id }));
+    dispatch(Dungeon.get.info({ mapID: map.id, dungeonID: info.id }));
+  }, [map, info?.id, dispatch]);
+
+  useEffect(() => {
+    if (!info?.id) return;
+
     const id = setInterval(() => {
       dispatch(Dungeon.get.rounds({ mapID: map.id, dungeonID: info.id }));
+      dispatch(Dungeon.get.info({ mapID: map.id, dungeonID: info.id }));
     }, 30 * 1000);
 
     return () => clearInterval(id);
