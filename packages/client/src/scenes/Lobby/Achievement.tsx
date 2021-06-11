@@ -106,7 +106,7 @@ function Special({ items = [] }: SpecialProps) {
             <div
               className={clsx(
                 "flex flex-col items-end w-1/4",
-                "px-2 py-2 lg:px-3 lg:py-3 xl:py-4"
+                "py-2 lg:px-3 lg:py-3 xl:py-4"
               )}
             >
               <h4
