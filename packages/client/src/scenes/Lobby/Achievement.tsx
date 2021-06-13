@@ -172,58 +172,53 @@ export default function _Achievement({ className }: AchievementProps) {
 
   return (
     <>
-      <article className={clsx("relative", className)}>
-        <img src={Assets.Lobby.Achievement_Frame} alt="frame" />
+      <article className={clsx("flex justify-center items-center", className)}>
+        <div className="relative">
+          <div>
+            <img src={Assets.Lobby.Achievement_Frame} alt="frame" />
+          </div>
 
-        <div
-          className="absolute top-0 w-full h-full pb-1/10 lg:pb-1/6"
-          style={{
-            paddingTop: `${3}%`,
-            paddingLeft: `${7}%`,
-            paddingRight: `${7}%`,
-          }}
-        >
-          <div className="flex flex-col h-full relative">
-            <nav className="flex">
-              {filters.map((tab) => (
-                <Tab
-                  className="w-2/12"
-                  key={tab.key}
-                  label={tab.label}
-                  normalImage={Assets.Lobby.Ranking_Tab_Normal}
-                  activeImage={Assets.Lobby.Ranking_Tab_Active}
-                  active={tab.key === active.key}
-                  onClick={() => setActive(tab)}
-                />
-              ))}
-            </nav>
-
-            {active.key === "card" && (
-              <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
-                {achievement?.[active.key].map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => setItem(item)}
-                    className="flex"
-                  >
-                    <img src={item.cardImg} alt="card" />
-                  </button>
+          <div className="absolute top-0 w-full h-full">
+            <div className="flex flex-col h-full relative px-1/14 pt-1/24 pb-1/16">
+              <nav className="flex">
+                {filters.map((tab) => (
+                  <Tab
+                    className="w-2/12"
+                    key={tab.key}
+                    label={tab.label}
+                    normalImage={Assets.Lobby.Ranking_Tab_Normal}
+                    activeImage={Assets.Lobby.Ranking_Tab_Active}
+                    active={tab.key === active.key}
+                    onClick={() => setActive(tab)}
+                  />
                 ))}
-              </div>
-            )}
+              </nav>
 
-            {active.key === "other" && (
-              <Special items={achievement?.[active.key]} />
-            )}
+              {active.key === "card" && (
+                <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
+                  {achievement?.[active.key].map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => setItem(item)}
+                      className="flex"
+                    >
+                      <img src={item.cardImg} alt="card" />
+                    </button>
+                  ))}
+                </div>
+              )}
 
-            <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
+              {active.key === "other" && (
+                <Special items={achievement?.[active.key]} />
+              )}
+
+              <Close
+                className="absolute top-0 right-0 mr-1/24"
+                onClick={() => history.push("/lobby")}
+              />
+            </div>
           </div>
         </div>
-
-        <Close
-          className="absolute -top-3 right-0"
-          onClick={() => history.push("/lobby")}
-        />
       </article>
 
       {item && (

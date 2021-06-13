@@ -39,7 +39,7 @@ const LobbyUI = memo(() => {
   const map = useMap();
 
   return (
-    <UI className="flex flex-col">
+    <UI className="flex flex-col z-10">
       <header className="h-12 relative">
         <Profile />
 
@@ -110,7 +110,7 @@ const Dungeons = memo(() => {
   );
 });
 
-const LobbyView = memo(() => {
+const LobbyView = () => {
   const { width, height } = useViewport();
   const map = useMap();
 
@@ -146,7 +146,7 @@ const LobbyView = memo(() => {
       </Game>
     </>
   );
-});
+};
 
 export default function Lobby() {
   const dispatch = useAppDispatch();

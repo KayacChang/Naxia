@@ -115,12 +115,12 @@ export default function Store({ className }: StoreProps) {
                 </div>
 
                 <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />
-              </div>
 
-              <Close
-                className="absolute top-0 right-0"
-                onClick={() => history.push("/lobby")}
-              />
+                <Close
+                  className="absolute -top-10 -right-10"
+                  onClick={() => history.push("/lobby")}
+                />
+              </div>
             </div>
           </div>
         </div>

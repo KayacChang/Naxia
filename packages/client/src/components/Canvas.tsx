@@ -48,19 +48,6 @@ export function Canvas({
     // mount
     app.ticker.add(update, null, UPDATE_PRIORITY.LOW);
 
-    // render bug
-    requestAnimationFrame(() => {
-      if (!ref.current) return;
-
-      ref.current.style.zIndex = "1";
-
-      requestAnimationFrame(() => {
-        if (!ref.current) return;
-
-        ref.current.style.zIndex = "0";
-      });
-    });
-
     // unmount
     return () => {
       app.ticker.remove(update, null);

@@ -14,10 +14,9 @@ type ViewportProps = {
   pause?: boolean;
 };
 const Viewport = PixiComponent<ViewportProps, _Viewport>("Viewport", {
-  create: ({ screenWidth, screenHeight, pause = false }) => {
+  create: ({ screenWidth, screenHeight }) => {
     viewport.screenWidth = screenWidth;
     viewport.screenHeight = screenHeight;
-    viewport.pause = pause;
 
     return viewport;
   },

@@ -14,11 +14,16 @@ import {
   Map,
   ErrorBoundary,
   ViewportProvider,
+  selectCurrentMap,
+  selectCurrentDungeon,
+  selectDungeonInfo,
+  room,
 } from "system";
-import { toTask } from "utils";
+import { toTask, wait } from "utils";
 import Assets from "assets";
 import Sound from "assets/sound";
 import { Map as TMap } from "types";
+import invariant from "tiny-invariant";
 
 const Login = lazy(() =>
   Promise.all([
@@ -54,6 +59,28 @@ const Room = lazy(() =>
   Promise.all([
     store.dispatch(addAssets(toTask({ ...Assets.Common, ...Assets.Room }))),
     store.dispatch(addSounds(toTask(Sound.Room))),
+
+    (async () => {
+      const state = store.getState();
+      const map = selectCurrentMap(state);
+      const dungeon = selectCurrentDungeon(state);
+      const dungeonInfo = selectDungeonInfo(state, map.id, dungeon);
+
+      invariant(dungeonInfo, `Dungeon ${map.id}.${dungeon} not found`);
+
+      await store.dispatch(room.join(dungeonInfo.room));
+
+      let boss = store.getState().room.boss.current;
+      while (!boss) {
+        await wait(300);
+
+        boss = store.getState().room.boss.current;
+      }
+
+      await store.dispatch(
+        addAssets(toTask({ [`Boss.${boss.id}`]: boss.spine_json }))
+      );
+    })(),
   ]).then(() => import("./scenes/Room"))
 );
 
