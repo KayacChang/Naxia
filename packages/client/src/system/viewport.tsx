@@ -12,11 +12,11 @@ function detect() {
 }
 
 export function isChrome() {
-  return detect().userAgent() === "Chrome";
+  return detect().match("Chrome");
 }
 
 export function isSafari() {
-  return detect().userAgent() === "Safari";
+  return !isChrome() && detect().match("Safari");
 }
 
 export function isIOS() {
@@ -29,6 +29,16 @@ export function isMobileMock() {
 
 export function isMobile() {
   return Boolean(detect().mobile());
+}
+
+function getScale() {
+  const viewportWidth = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+  const screenWidth = window.screen.width;
+
+  return screenWidth / viewportWidth;
 }
 
 export function getOrientation(): "portrait" | "landscape" {
@@ -186,6 +196,18 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
   }, [setFullScreen]);
 
   if (isDesktop) {
+    if (isSafari() && Math.abs(getScale() - 1) > 0.01) {
+      return createPortal(
+        <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
+          <h1 className="text-white text-2xl">
+            請將螢幕縮放 {window.devicePixelRatio > 1 ? "縮小" : "放大"}
+            ，以獲得順暢的遊玩體驗。
+          </h1>
+        </div>,
+        document.getElementById("root") as HTMLElement
+      );
+    }
+
     if (window.devicePixelRatio !== 1) {
       return createPortal(
         <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
