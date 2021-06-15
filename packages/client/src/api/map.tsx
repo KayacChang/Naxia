@@ -186,6 +186,7 @@ export interface GetInfoByDungeonIDResponse {
     dealer: string;
     "round-number": string;
     "round-series": string;
+    online_users: number;
     limit: string;
   };
 }
@@ -240,6 +241,7 @@ export function getInfoByDungeonID(
         dealer: room_info.dealer,
         roundID: room_info["round-series"],
         roundNumber: room_info["round-number"],
+        users: Number(room_info["online_users"]),
         limit: room_info.limit,
       },
     })

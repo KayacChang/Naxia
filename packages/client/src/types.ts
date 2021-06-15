@@ -58,6 +58,7 @@ export interface RoomInfo {
   roundNumber: string;
   roundID: string;
   limit: string;
+  users: number;
 }
 
 export interface Dungeon extends DungeonBetStatus {

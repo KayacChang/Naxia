@@ -17,6 +17,7 @@ function DataField({ className, title, value }: DataFieldProps) {
       <strong className="font-kai text-fansy text-shadow-xl filter contrast-125">
         {title}:
       </strong>
+
       <span className="text-yellow-600">{value}</span>
     </div>
   );
@@ -49,7 +50,7 @@ export function DungeonDetail() {
   if (!info || !rounds || info.lock) return <></>;
 
   return (
-    <Modal className="z-10">
+    <Modal className="z-20">
       <div className="flex flex-col h-full relative text-white">
         <div className="flex items-center mt-8 relative">
           <div>
@@ -79,7 +80,9 @@ export function DungeonDetail() {
                   />
 
                   <div
-                    className={clsx("absolute w-full h-full px-1/10 pt-1/16")}
+                    className={clsx(
+                      "absolute w-full h-full px-1/10 pt-1/16 flex items-center justify-center"
+                    )}
                   >
                     <h2
                       className={clsx(
@@ -125,7 +128,11 @@ export function DungeonDetail() {
                       <DataField
                         className="w-1/3"
                         title="房間人數"
-                        value={"-"}
+                        value={
+                          info.roomInfo?.users
+                            ? String(info.roomInfo.users)
+                            : "-"
+                        }
                       />
                       <DataField
                         className="w-1/3"
