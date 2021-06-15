@@ -20,7 +20,7 @@ function Progress() {
       </div>
 
       <div className="absolute w-full" style={{ padding: `${3}%` }}>
-        <div className="relative flex items-center">
+        <div className="relative flex items-center" style={{ width: `${98.7}%` }}>
           <img
             src={Assets.System.Progress_Bar}
             alt="progress bar"
