@@ -19,7 +19,7 @@ type RewardItemsProps = {
 function RewardItems({ items }: RewardItemsProps) {
   return (
     <div className="flex space-x-8">
-      {items.map(({ id, count, img }) => (
+      {items.map(({ id, name, count, img }) => (
         <div key={id} className="flex flex-col items-center">
           <div
             className={clsx(
@@ -30,6 +30,10 @@ function RewardItems({ items }: RewardItemsProps) {
             <img src={Assets.Lobby.Repo_Item_Epic} alt="frame" />
 
             <img className="absolute" src={img} alt="item" />
+          </div>
+
+          <div className="text-xl lg:text-3xl xl:text-5xl">
+            <span>{name}</span>
           </div>
 
           <div className="flex text-xl lg:text-3xl xl:text-5xl">

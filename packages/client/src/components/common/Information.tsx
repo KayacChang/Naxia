@@ -48,29 +48,39 @@ export function Information() {
               >
                 <div className="flex-1 flex justify-center items-center gap-2">
                   <span className="text-fansy text-shadow-xl filter contrast-150">
-                    桌台編號:{" "}
+                    桌台編號:
                   </span>
-                  <span className="text-white">百家樂-{info?.id}</span>
+                  <span className="text-white">
+                    百家樂-{info?.roomInfo?.table}
+                  </span>
                 </div>
 
                 <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
                   <span className="text-yellow-200">荷官名稱: </span>
-                  <span className="text-yellow-500">Amy</span>
+                  <span className="text-yellow-500">
+                    {info?.roomInfo?.dealer}
+                  </span>
                 </div>
 
                 <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
                   <span className="text-yellow-200">遊戲局號: </span>
-                  <span className="text-yellow-500">4-46</span>
+                  <span className="text-yellow-500">
+                    {info?.roomInfo?.roundNumber}
+                  </span>
                 </div>
 
                 <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
                   <span className="text-yellow-200">遊戲編號: </span>
-                  <span className="text-yellow-500">129516124</span>
+                  <span className="text-yellow-500">
+                    {info?.roomInfo?.roundID}
+                  </span>
                 </div>
 
                 <div className="flex-1 px-1/16 text-shadow-lg flex items-center gap-4">
                   <span className="text-yellow-200">下注限紅: </span>
-                  <span className="text-yellow-500">1-15</span>
+                  <span className="text-yellow-500">
+                    {info?.roomInfo?.limit}
+                  </span>
                 </div>
               </div>
             </div>

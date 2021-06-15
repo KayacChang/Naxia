@@ -353,7 +353,8 @@ type RoadLargeProps = {
 };
 function RoadLarge({ rounds }: RoadLargeProps) {
   const count = (result: SkillOption) =>
-    rounds.filter(({ results }) => results.includes(result)).length;
+    rounds?.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+      .length;
 
   return (
     <div

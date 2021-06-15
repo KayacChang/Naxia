@@ -110,17 +110,17 @@ export function DungeonDetail() {
                       <DataField
                         className="w-1/3"
                         title="遊戲局號"
-                        value={"-"}
+                        value={info.roomInfo?.roundNumber || "-"}
                       />
                       <DataField
                         className="w-1/3"
                         title="遊戲編號"
-                        value={"-"}
+                        value={info.roomInfo?.roundID || "-"}
                       />
                       <DataField
                         className="w-1/3"
                         title="荷官名稱"
-                        value={"-"}
+                        value={info.roomInfo?.dealer || "-"}
                       />
                       <DataField
                         className="w-1/3"
@@ -130,7 +130,7 @@ export function DungeonDetail() {
                       <DataField
                         className="w-1/3"
                         title="下注限紅"
-                        value={"-"}
+                        value={info.roomInfo?.limit || "-"}
                       />
                     </div>
                   </div>
@@ -191,7 +191,7 @@ export function DungeonDetail() {
                   <span className="text-fansy text-shadow-xl filter contrast-125">
                     桌台編號:
                   </span>
-                  <span>百家樂-{info.id}</span>
+                  <span>百家樂-{info.roomInfo?.table}</span>
                 </div>
               </div>
             </div>

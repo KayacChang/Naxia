@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import Assets from "assets";
 import clsx from "clsx";
 
@@ -113,12 +113,14 @@ function Default({
 
 type CloseProps = {
   className?: string;
+  style?: CSSProperties;
   onClick: () => void;
 };
-export function Close({ className, onClick }: CloseProps) {
+export function Close({ className, style, onClick }: CloseProps) {
   return (
     <button
       className={clsx("w-12", "transform lg:scale-150", className)}
+      style={style}
       onClick={onClick}
     >
       <img src={Assets.Common.Modal_Close} alt="close button" />

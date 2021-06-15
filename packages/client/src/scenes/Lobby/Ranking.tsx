@@ -181,7 +181,7 @@ export default function Rank({ className }: RankingProps) {
           </div>
 
           <Close
-            className="absolute top-0 right-0"
+            className="absolute top-0 right-0 lg:top-1/14 lg:right-1/24"
             onClick={() => history.push("/lobby")}
           />
         </div>

@@ -52,6 +52,14 @@ export interface DungeonBetStatus {
   historyBet?: number;
 }
 
+export interface RoomInfo {
+  table: string;
+  dealer: string;
+  roundNumber: string;
+  roundID: string;
+  limit: string;
+}
+
 export interface Dungeon extends DungeonBetStatus {
   id: number;
   name: string;
@@ -64,6 +72,7 @@ export interface Dungeon extends DungeonBetStatus {
   skills: SkillSet;
   dungeonImg?: string;
   preview?: string;
+  roomInfo?: RoomInfo;
 }
 
 export interface Condition {

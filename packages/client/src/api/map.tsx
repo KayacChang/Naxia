@@ -181,6 +181,13 @@ export interface GetInfoByDungeonIDResponse {
   history_round_bet: number;
   dungeon_image: string;
   dungeon_preview: string;
+  room_info: {
+    "table-series": string;
+    dealer: string;
+    "round-number": string;
+    "round-series": string;
+    limit: string;
+  };
 }
 
 export function getInfoByDungeonID(
@@ -207,6 +214,7 @@ export function getInfoByDungeonID(
       history_round_bet,
       dungeon_image,
       dungeon_preview,
+      room_info,
     }) => ({
       id,
       name,
@@ -227,6 +235,13 @@ export function getInfoByDungeonID(
       historyBet: history_round_bet,
       dungeonImg: dungeon_image,
       preview: dungeon_preview,
+      roomInfo: {
+        table: room_info["table-series"],
+        dealer: room_info.dealer,
+        roundID: room_info["round-series"],
+        roundNumber: room_info["round-number"],
+        limit: room_info.limit,
+      },
     })
   );
 }
