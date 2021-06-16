@@ -109,7 +109,7 @@ export function Setting() {
       />
 
       {isSettingOpen && (
-        <Modal onClose={() => setSettingOpen(false)}>
+        <Modal className="z-10" onClose={() => setSettingOpen(false)}>
           <SystemModal
             title="設定"
             button="確認"
