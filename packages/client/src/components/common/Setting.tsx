@@ -1,13 +1,14 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Assets from "assets";
 import { Modal, SystemModal } from "components";
 import { Range } from "react-range";
 import {
+  selectIsShowNPC,
   selectBGMVolume,
   selectEffectVolume,
   useAppDispatch,
   useAppSelector,
+  NPC,
   BGM,
   Effect,
 } from "system";
@@ -82,6 +83,30 @@ function InputRange({
   );
 }
 
+type CheckBoxProps = {
+  label: string;
+  isShow: boolean;
+  onChange: (isShow: boolean) => void;
+};
+function CheckBox({
+  label,
+  isShow,
+  onChange,
+}: CheckBoxProps) {
+  return (
+    <div className="flex-1 flex items-center space-x-8">
+      <p className="whitespace-nowrap lg:text-2xl">{label}</p>
+      
+      <button className="relative flex items-center outline-none focus:outline-none" style={{background: 'none', border: 0}} onClick={() => onChange(!isShow)}>
+        <img className="w-6 block" src={Assets.Common.Setting_Check_Box_BG} alt="Setting_Check_Box_BG" />
+        {isShow ?
+          <img className="w-7 absolute max-w-none" style={{bottom: '10%', right: '-5%'}} src={Assets.Common.Setting_Check_Box_Icon} alt="Setting_Check_Box_Icon" /> : 
+        null}
+      </button>
+    </div>
+  );
+}
+
 const icon = {
   key: "setting",
   icons: {
@@ -94,8 +119,10 @@ export function Setting() {
   const dispatch = useAppDispatch();
   const effectVolume = useAppSelector(selectEffectVolume);
   const bgmVolume = useAppSelector(selectBGMVolume);
+  const isShowNPC = useAppSelector(selectIsShowNPC);
 
   function resetVolume() {
+    dispatch(NPC.isShow(true));
     dispatch(BGM.volume(0.8));
     dispatch(Effect.volume(0.8));
   }
@@ -129,6 +156,12 @@ export function Setting() {
                 label="音效音量"
                 value={effectVolume * 100}
                 onChange={(value) => dispatch(Effect.volume(value / 100))}
+              />
+
+              <CheckBox
+                label="NPC顯示"
+                isShow={isShowNPC}
+                onChange={(value) => dispatch(NPC.isShow(value))}
               />
             </div>
           </SystemModal>

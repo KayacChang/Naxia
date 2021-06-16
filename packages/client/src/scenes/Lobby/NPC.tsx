@@ -3,12 +3,13 @@ import anime from "animejs";
 import Assets from "assets";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
-import { useNPC } from "system";
+import { useNPC, useAppSelector, selectIsShowNPC } from "system";
 
 export default function NPC() {
   const isStore = useRouteMatch("/lobby/store");
   const { img, name, dialog } = useNPC();
   const [current, setCurrent] = useState(0);
+  const isShowNPC = useAppSelector(selectIsShowNPC);
 
   useEffect(() => {
     const id = setInterval(
@@ -22,7 +23,7 @@ export default function NPC() {
   if (isStore?.isExact) return <></>;
 
   return (
-    <div className="flex-1 relative px-2 flex items-end -my-14 xl:-my-24">
+    <div className="flex-1 relative px-2 items-end -my-14 xl:-my-24" style={{display: isShowNPC ? 'flex' : 'none'}}>
       <div className="absolute bottom-0 w-10/12">
         <img src={img} alt="npc" />
       </div>

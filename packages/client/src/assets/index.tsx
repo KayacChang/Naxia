@@ -225,6 +225,9 @@ const Common = {
   Setting_Volume_Bottom: assets("/sidebar/setting/volume_bottom.png"),
   Setting_Volume_Controller: assets("/sidebar/setting/volume_controller.png"),
 
+  Setting_Check_Box_BG: assets("/sidebar/setting/check_box_BG.png"),
+  Setting_Check_Box_Icon: assets("/sidebar/setting/check_box_icon.png"),
+
   // Announcement
   Announcement_Background: assets("/sidebar/announcement/background.png"),
 };
