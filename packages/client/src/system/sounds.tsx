@@ -5,6 +5,7 @@ import { Tasks } from "types";
 
 const sounds: { [name: string]: Howl } = {};
 
+export const selectIsShowNPC = (state: RootState) => state.sounds.npc.isShow;
 export const selectBGM = (state: RootState) => state.sounds.bgm.name;
 export const selectBGMVolume = (state: RootState) => state.sounds.bgm.volume;
 export const selectEffectVolume = (state: RootState) =>
@@ -79,6 +80,10 @@ export const Effect = {
   volume: createAction<number>("sound/effect/volume"),
 };
 
+export const NPC = {
+  isShow: createAction<boolean>("sound/npc/isShow"),
+};
+
 export interface SoundState {
   bgm: {
     name?: string;
@@ -86,6 +91,9 @@ export interface SoundState {
   };
   effect: {
     volume: number;
+  };
+  npc: {
+    isShow: boolean;
   };
   loaded: string[];
 }
@@ -95,6 +103,9 @@ const initialState: SoundState = {
   },
   effect: {
     volume: 0.8,
+  },
+  npc: {
+    isShow: true,
   },
   loaded: [],
 };
@@ -115,6 +126,9 @@ const slice = createSlice({
       })
       .addCase(Effect.volume, (state, { payload }) => {
         state.effect.volume = payload;
+      })
+      .addCase(NPC.isShow, (state, { payload }) => {
+        state.npc.isShow = payload;
       });
   },
 });
