@@ -11,6 +11,7 @@ import {
   useAppSelector,
   user,
   useUser,
+  system,
 } from "system";
 import invariant from "tiny-invariant";
 import { useHistory } from "react-router";
@@ -26,8 +27,12 @@ function useStoreItem() {
 
   useEffect(() => {
     invariant(token, "Unauthorization");
+    dispatch(system.loading(true));
 
-    getStoreItems(token).then(setItems);
+    getStoreItems(token).then((res) => {
+      dispatch(system.loading(false));
+      setItems(res);
+    });
   }, [token]);
 
   const onExchange = useCallback(
