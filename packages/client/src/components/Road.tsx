@@ -217,16 +217,22 @@ function algorithmB(table: SkillOption[][][]) {
 
     let tie = 0;
 
-    row.forEach((col) => {
+    row.forEach((col, index) => {
       if (col.includes("tie")) {
         tie += 1;
+
+        if (row.length - 1 === index) {
+          resultRow[resultRow.length - 1].tie = tie;
+        }
 
         return;
       }
 
-      if (col.includes("player")) {
+      if (resultRow[resultRow.length - 1]) {
+        resultRow[resultRow.length - 1].tie = tie;
       }
 
+      tie = 0;
       resultRow.push({
         type: col.includes("player") ? "player" : "banker",
         pair: col.filter((res) =>
@@ -234,7 +240,6 @@ function algorithmB(table: SkillOption[][][]) {
         ) as ("bank_pair" | "player_pair")[],
         tie,
       });
-      tie = 0;
     });
 
     results.push(resultRow);
