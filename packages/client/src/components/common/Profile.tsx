@@ -322,7 +322,7 @@ export function Profile() {
       </div>
 
       {isPersonalInfoOpen && (
-        <Modal className="z-10" onClose={() => setPersonalInfoOpen(false)}>
+        <Modal onClose={() => setPersonalInfoOpen(false)}>
           <Detail user={user} onClose={() => setPersonalInfoOpen(false)} />
         </Modal>
       )}
