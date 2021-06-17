@@ -132,7 +132,7 @@ export default function Store({ className }: StoreProps) {
       </div>
 
       {show && (
-        <Modal onClose={() => setOpen(false)}>
+        <Modal className="z-10" onClose={() => setOpen(false)}>
           <SystemModal button="確認" onConfirm={() => setOpen(false)}>
             <p className="w-full h-full flex justify-center items-center text-white text-lg">
               交易完成
