@@ -35,7 +35,7 @@ function ItemGrid({ onClick, count, name, img, quality }: ItemGridProps) {
     >
       <img src={qualityCheck(quality).img} alt="Item frame" />
 
-      <img className="absolute" src={img} alt={name} />
+      <img className="absolute w-4/5" src={img} alt={name} />
 
       <span
         className={clsx(
