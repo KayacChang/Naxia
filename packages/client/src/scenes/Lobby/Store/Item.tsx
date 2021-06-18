@@ -6,12 +6,14 @@ import numeral from "numeral";
 type ItemCollectionBoxProps = {
   className?: string;
   icon?: string;
+  item?: any;
   totalNumber: number;
   currentNumber: number;
 };
 
 function ItemCollectionBox({
   className = "",
+  item,
   icon = Assets.Lobby.Store_Gem_Sm,
   totalNumber,
   currentNumber,
@@ -114,15 +116,16 @@ export default function Item({ item, onExchange }: ItemProps) {
               {item.name}
             </p>
           </div>
-
+          
           <div className="w-3/4 flex justify-between items-center space-x-4">
             <div className="flex-1 grid grid-cols-2 gap-4">
               {item.requirements.map(({ type, count, accumulate }) => (
                 <ItemCollectionBox
                   key={type}
+                  item={item}
                   icon={
                     type === "item"
-                      ? Assets.Lobby.Store_Item_Card
+                      ? item.item_img?.toString()
                       : Assets.Lobby.Store_Gem_Sm
                   }
                   currentNumber={accumulate}
