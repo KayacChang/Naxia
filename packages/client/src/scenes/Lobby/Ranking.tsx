@@ -65,7 +65,7 @@ function RankingItem({ rank, name, value, avatar }: RankingRecord) {
 
           <p className="font-kai flex-1 mx-2">{name}</p>
 
-          <p className="flex-1 flex justify-end text-fansy">
+          <p className="text-fansy text-right">
             {currency(value)}
           </p>
         </div>
