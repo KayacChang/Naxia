@@ -167,6 +167,7 @@ export interface RequireItem {
   count: number;
   item_id: number;
   item_name: string;
+  item_img: string | null;
   accumulate: number;
 }
 
@@ -175,6 +176,7 @@ export interface RequirePoint {
   count: number;
   item_id: null;
   item_name: null;
+  item_img: string | null;
   accumulate: number;
 }
 

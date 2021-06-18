@@ -119,13 +119,13 @@ export default function Item({ item, onExchange }: ItemProps) {
           
           <div className="w-3/4 flex justify-between items-center space-x-4">
             <div className="flex-1 grid grid-cols-2 gap-4">
-              {item.requirements.map(({ type, count, accumulate }) => (
+              {item.requirements.map(({ type, count, item_img, accumulate }) => (
                 <ItemCollectionBox
                   key={type}
                   item={item}
                   icon={
                     type === "item"
-                      ? item.item_img?.toString()
+                      ? item_img?.toString()
                       : Assets.Lobby.Store_Gem_Sm
                   }
                   currentNumber={accumulate}
