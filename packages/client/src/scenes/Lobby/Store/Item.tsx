@@ -31,8 +31,8 @@ function ItemCollectionBox({
         alt="store number frame"
       />
 
-      <div className="absolute w-6 lg:w-1/2 xl:w-auto">
-        <img src={icon} alt="store gem sm" />
+      <div className="absolute w-6 lg:w-1/2 xl:w-5/12">
+        <img src={icon} alt="store gem sm"/>
       </div>
 
       <div
