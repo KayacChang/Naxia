@@ -379,7 +379,7 @@ function RoadLarge({ rounds }: RoadLargeProps) {
           className={clsx(
             "w-full flex items-center justify-between px-1/24",
             "h-1/4",
-            "text-base lg:text-2xl xl:text-5xl"
+            "text-base lg:text-2xl xl:text-4xl"
           )}
         >
           <CountCube
@@ -404,17 +404,17 @@ function RoadLarge({ rounds }: RoadLargeProps) {
           />
 
           <CountCube
-            cubeClassName="cube-light-red px-2 xl:p-4"
-            color="text-red-400"
-            role="莊對"
-            count={count("bank_pair")}
-          />
-
-          <CountCube
             cubeClassName="cube-light-blue px-2 xl:p-4"
             color="text-blue-300"
             role="閒對"
             count={count("player_pair")}
+          />
+
+          <CountCube
+            cubeClassName="cube-light-red px-2 xl:p-4"
+            color="text-red-400"
+            role="莊對"
+            count={count("bank_pair")}
           />
         </div>
 
@@ -519,7 +519,7 @@ export function RoomRoad({ className }: RoomRoadProps) {
             className={clsx(
               "flex flex-col text-xs",
               "w-12 lg:w-1/5",
-              "text-xs lg:text-lg xl:text-2xl",
+              "text-xs lg:text-lg xl:text-xl",
               "p-0.5 lg:px-2 xl:px-4 lg:-ml-1.5 -mb-1 lg:-mb-2"
             )}
           >

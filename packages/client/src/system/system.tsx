@@ -1,17 +1,21 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-import { Modal, SystemModal } from "components";
+import { Modal, SystemModal, BusyLoading } from "components";
 import { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "system";
 
 export const system = {
   error: createAction<string>("system/error"),
+  loading: createAction<boolean>("system/loading"),
 };
 
 type UserState = {
   error?: string;
+  loading: boolean;
 };
-const initialState: UserState = {};
+const initialState: UserState = {
+  loading: false,
+};
 
 const systemSlice = createSlice({
   name: "system",
@@ -20,11 +24,15 @@ const systemSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(system.error, (state, action) => {
       state.error = action.payload;
+    })
+    builder.addCase(system.loading, (state, action) => {
+      state.loading = action.payload;
     });
   },
 });
 
 export const selectSystemError = (state: RootState) => state.system.error;
+export const selectSystemLoading = (state: RootState) => state.system.loading;
 
 export default systemSlice.reducer;
 
@@ -49,5 +57,8 @@ export function ErrorBoundary({ children }: ErrorBoundaryProps) {
     );
   }
 
-  return <>{children}</>;
+  return <>
+    <BusyLoading />
+    {children}
+  </>;
 }

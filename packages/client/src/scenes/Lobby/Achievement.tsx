@@ -4,7 +4,12 @@ import Assets from "assets";
 import { Tab, Modal, Button, Close } from "components";
 import { useState } from "react";
 import { Achievement } from "types";
-import { selectToken, useAppSelector } from "system";
+import { 
+  system,
+  selectToken,
+  useAppSelector,
+  useAppDispatch,
+} from "system";
 import invariant from "tiny-invariant";
 import { getUserAchievement } from "api";
 import { useHistory } from "react-router";
@@ -87,7 +92,7 @@ function Special({ items = [] }: SpecialProps) {
             <div
               className={clsx(
                 "relative flex justify-center items-center",
-                "w-14 lg:w-1/5"
+                "w-14 lg:w-1/6 lg:pb-1"
               )}
             >
               <img
@@ -98,7 +103,7 @@ function Special({ items = [] }: SpecialProps) {
             </div>
 
             <div className="flex-1 flex items-center px-2">
-              <h3 className="text-fansy font-kai text-base lg:text-3xl xl:text-5xl">
+              <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
                 {name}
               </h3>
             </div>
@@ -112,7 +117,7 @@ function Special({ items = [] }: SpecialProps) {
               <h4
                 className={clsx(
                   "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
-                  "text-xs lg:text-lg xl:text-3xl"
+                  "text-xs lg:text-lg xl:text-xl"
                 )}
               >
                 卡片獲得次數
@@ -142,12 +147,16 @@ function useAchievement() {
     other: Achievement[];
   }>();
 
+  const dispatch = useAppDispatch();
   const token = useAppSelector(selectToken);
 
   useEffect(() => {
     invariant(token, "Unauthorization");
-
-    getUserAchievement(token).then(setAchievement);
+    dispatch(system.loading(true));
+    getUserAchievement(token).then((res) => {
+      dispatch(system.loading(false));
+      setAchievement(res);
+    });
   }, [token, setAchievement]);
 
   return achievement;
