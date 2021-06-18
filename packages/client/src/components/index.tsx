@@ -24,3 +24,4 @@ export * from "./Canvas";
 export * from "./Router";
 export * from "./Spine";
 export * from "./Continue";
+export * from "./BusyLoading";

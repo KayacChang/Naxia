@@ -8,6 +8,7 @@ import {
   useAppSelector,
   user as UserSystem,
   useUser,
+  system,
 } from "system";
 import { format } from "date-fns";
 import clsx from "clsx";
@@ -99,13 +100,18 @@ function ChangeAvatar({ user, onConfirm }: ChangeAvatarProps) {
 }
 
 function useHistory() {
+  const dispatch = useAppDispatch();
   const token = useAppSelector(selectToken);
   const [history, setHistory] = useState<HistoryRecord[]>([]);
 
   useEffect(() => {
     invariant(token, "Unauthorized");
+    dispatch(system.loading(true));
 
-    getUserHistory(token).then(setHistory);
+    getUserHistory(token).then((res) => {
+      dispatch(system.loading(false));
+      setHistory(res);
+    });
   }, [token]);
 
   return history;
@@ -177,7 +183,7 @@ function Detail({ user, onClose }: DetailProps) {
   return (
     <>
       <SystemModal title="個人資訊" onClose={onClose}>
-        <div className="h-full flex flex-col font-noto text-xs text-white">
+        <div className="h-full flex flex-col font-noto text-xs text-white z-10">
           <div className="flex-1 flex items-center p-4 space-x-2">
             <Avatar
               className="w-1/5"

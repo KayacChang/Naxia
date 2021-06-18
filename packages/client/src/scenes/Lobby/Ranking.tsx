@@ -4,7 +4,12 @@ import Assets from "assets";
 import { Tab, Avatar, Close } from "components";
 import { currency } from "utils";
 import { getRank } from "api";
-import { selectToken, useAppSelector } from "system";
+import {
+  system,
+  selectToken, 
+  useAppSelector,
+  useAppDispatch,
+} from "system";
 import invariant from "tiny-invariant";
 import { Ranking, RankingRecord } from "types";
 import { useHistory } from "react-router";
@@ -72,12 +77,17 @@ function RankingItem({ rank, name, value, avatar }: RankingRecord) {
 function useRanking() {
   const [ranking, setRanking] = useState<Ranking>();
 
+  const dispatch = useAppDispatch();
   const token = useAppSelector(selectToken);
 
   useEffect(() => {
     invariant(token, "Unauthorization");
+    dispatch(system.loading(true));
 
-    getRank(token).then(setRanking);
+    getRank(token).then((res) => {
+      dispatch(system.loading(false));
+      setRanking(res);
+    });
   }, [token]);
 
   return ranking;

@@ -11,6 +11,7 @@ import {
   useAppSelector,
   user,
   useUser,
+  system,
 } from "system";
 import invariant from "tiny-invariant";
 import { useHistory } from "react-router";
@@ -26,8 +27,12 @@ function useStoreItem() {
 
   useEffect(() => {
     invariant(token, "Unauthorization");
+    dispatch(system.loading(true));
 
-    getStoreItems(token).then(setItems);
+    getStoreItems(token).then((res) => {
+      dispatch(system.loading(false));
+      setItems(res);
+    });
   }, [token]);
 
   const onExchange = useCallback(
@@ -127,7 +132,7 @@ export default function Store({ className }: StoreProps) {
       </div>
 
       {show && (
-        <Modal onClose={() => setOpen(false)}>
+        <Modal className="z-10" onClose={() => setOpen(false)}>
           <SystemModal button="確認" onConfirm={() => setOpen(false)}>
             <p className="w-full h-full flex justify-center items-center text-white text-lg">
               交易完成

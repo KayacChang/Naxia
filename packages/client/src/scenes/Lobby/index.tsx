@@ -39,7 +39,7 @@ const LobbyUI = memo(() => {
   const map = useMap();
 
   return (
-    <UI className="flex flex-col z-10">
+    <UI className="flex flex-col">
       <header className="h-12 relative">
         <Profile />
 
