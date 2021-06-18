@@ -157,6 +157,7 @@ export default function BetSection() {
               normal={Assets.Room.Skill_FlareBlitz_Normal}
               active={Assets.Room.Skill_FlareBlitz_Active}
               value={order.player}
+              hasBorder={true}
               onClick={() => dispatch(room.order.add({ player: bet }))}
             />
           </Radian>
@@ -168,6 +169,7 @@ export default function BetSection() {
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
               value={order.banker}
+              hasBorder={true}
               onClick={() => dispatch(room.order.add({ banker: bet }))}
             />
           </Radian>
@@ -188,6 +190,7 @@ export default function BetSection() {
               normal={Assets.Room.Skill_IceBeam_Normal}
               active={Assets.Room.Skill_IceBeam_Active}
               value={order.player_pair}
+              hasBorder={true}
               onClick={() => dispatch(room.order.add({ player_pair: bet }))}
             />
           </Radian>
@@ -199,6 +202,7 @@ export default function BetSection() {
               normal={Assets.Room.Skill_Hurricane_Normal}
               active={Assets.Room.Skill_Hurricane_Active}
               value={order.tie}
+              hasBorder={true}
               onClick={() => dispatch(room.order.add({ tie: bet }))}
             />
           </Radian>
@@ -210,6 +214,7 @@ export default function BetSection() {
               normal={Assets.Room.Skill_FlameThrower_Normal}
               active={Assets.Room.Skill_FlameThrower_Active}
               value={order.bank_pair}
+              hasBorder={true}
               onClick={() => dispatch(room.order.add({ bank_pair: bet }))}
             />
           </Radian>

@@ -45,6 +45,7 @@ const Room = {
 
   // Skill
   Skill_Frame: assets("/room/skill/frame.png"),
+  Skill_Frame_Border: assets("/room/skill/skillBorder.png"),
 
   // bank_pair
   Skill_FlameThrower_Normal: assets("/room/skill/flamethrower_normal.png"),

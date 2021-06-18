@@ -50,6 +50,7 @@ type SkillProps = {
   value?: number;
   onClick?: () => void;
   className?: string;
+  hasBorder?: boolean;
 };
 export default function Skill({
   normal,
@@ -58,6 +59,7 @@ export default function Skill({
   value = 0,
   onClick,
   className,
+  hasBorder,
 }: SkillProps) {
   const { onPointerDown, onPointerUp, effects } = usePressEffect(
     active || normal
@@ -138,6 +140,15 @@ export default function Skill({
             {state === "failed" ? "MISS" : name}
           </span>
         </div>
+
+        {hasBorder && (
+          <img
+            className="absolute"
+            src={Assets.Room.Skill_Frame_Border}
+            alt="skill border"
+          />
+        )}
+        
       </div>
 
       <div
