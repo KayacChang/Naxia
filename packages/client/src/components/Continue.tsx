@@ -19,7 +19,7 @@ export function Continue({ className, text }: ContinueProps) {
       <span
         className={clsx(
           "absolute text-white",
-          "text-xl lg:text-3xl xl:text-5xl"
+          "text-xl lg:text-3xl xl:text-4xl"
         )}
       >
         {text}

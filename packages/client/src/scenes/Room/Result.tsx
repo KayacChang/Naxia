@@ -32,11 +32,11 @@ function RewardItems({ items }: RewardItemsProps) {
             <img className="absolute" src={img} alt="item" />
           </div>
 
-          <div className="text-xl lg:text-3xl xl:text-5xl">
+          <div className="text-xl lg:text-3xl xl:text-4xl">
             <span>{name}</span>
           </div>
 
-          <div className="flex text-xl lg:text-3xl xl:text-5xl">
+          <div className="flex text-xl lg:text-3xl xl:text-4xl">
             <span>x</span>
 
             <span>{count}</span>

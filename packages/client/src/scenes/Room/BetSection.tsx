@@ -152,7 +152,7 @@ export default function BetSection() {
         <CircleLayout radius={9.2 * (height / 420)}>
           <Radian radian={Math.PI * 1.17}>
             <Skill
-              className="w-14 lg:w-6/12 xl:w-10/12"
+              className="w-14 lg:w-6/12 xl:w-8/12"
               name={skills.player.name}
               normal={Assets.Room.Skill_FlareBlitz_Normal}
               active={Assets.Room.Skill_FlareBlitz_Active}
@@ -163,7 +163,7 @@ export default function BetSection() {
 
           <Radian radian={Math.PI * 1.32}>
             <Skill
-              className="w-14 lg:w-6/12 xl:w-10/12"
+              className="w-14 lg:w-6/12 xl:w-8/12"
               name={skills.banker.name}
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
@@ -183,7 +183,7 @@ export default function BetSection() {
         <CircleLayout radius={12.8 * (height / 420)}>
           <Radian radian={Math.PI * 1.35}>
             <Skill
-              className="w-14 lg:w-6/12 xl:w-10/12"
+              className="w-14 lg:w-6/12 xl:w-8/12"
               name={skills.player_pair.name}
               normal={Assets.Room.Skill_IceBeam_Normal}
               active={Assets.Room.Skill_IceBeam_Active}
@@ -194,7 +194,7 @@ export default function BetSection() {
 
           <Radian radian={Math.PI * 1.24}>
             <Skill
-              className="w-14 lg:w-6/12 xl:w-10/12"
+              className="w-14 lg:w-6/12 xl:w-8/12"
               name={skills.tie.name}
               normal={Assets.Room.Skill_Hurricane_Normal}
               active={Assets.Room.Skill_Hurricane_Active}
@@ -205,7 +205,7 @@ export default function BetSection() {
 
           <Radian radian={Math.PI * 1.12}>
             <Skill
-              className="w-14 lg:w-6/12 xl:w-10/12"
+              className="w-14 lg:w-6/12 xl:w-8/12"
               name={skills.bank_pair.name}
               normal={Assets.Room.Skill_FlameThrower_Normal}
               active={Assets.Room.Skill_FlameThrower_Active}

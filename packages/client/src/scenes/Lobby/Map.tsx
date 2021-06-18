@@ -155,7 +155,7 @@ export function DungeonDetail() {
                 <div
                   className={clsx(
                     "absolute w-full flex px-1/16",
-                    "lg:text-lg xl:text-3xl"
+                    "lg:text-lg xl:text-2xl"
                   )}
                 >
                   <DataField
