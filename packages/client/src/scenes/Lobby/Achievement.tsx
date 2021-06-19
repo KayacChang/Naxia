@@ -4,12 +4,7 @@ import Assets from "assets";
 import { Tab, Modal, Button, Close } from "components";
 import { useState } from "react";
 import { Achievement } from "types";
-import { 
-  system,
-  selectToken,
-  useAppSelector,
-  useAppDispatch,
-} from "system";
+import { system, selectToken, useAppSelector, useAppDispatch } from "system";
 import invariant from "tiny-invariant";
 import { getUserAchievement } from "api";
 import { useHistory } from "react-router";
@@ -157,7 +152,7 @@ function useAchievement() {
       dispatch(system.loading(false));
       setAchievement(res);
     });
-  }, [token, setAchievement]);
+  }, [token, setAchievement, dispatch]);
 
   return achievement;
 }

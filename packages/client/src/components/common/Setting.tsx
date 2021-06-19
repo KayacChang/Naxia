@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import Assets from "assets";
 import { Modal, SystemModal } from "components";
 import { Range } from "react-range";
@@ -88,20 +88,29 @@ type CheckBoxProps = {
   isShow: boolean;
   onChange: (isShow: boolean) => void;
 };
-function CheckBox({
-  label,
-  isShow,
-  onChange,
-}: CheckBoxProps) {
+function CheckBox({ label, isShow, onChange }: CheckBoxProps) {
   return (
     <div className="flex-1 flex items-center space-x-8">
       <p className="whitespace-nowrap lg:text-2xl">{label}</p>
-      
-      <button className="relative flex items-center outline-none focus:outline-none" style={{background: 'none', border: 0}} onClick={() => onChange(!isShow)}>
-        <img className="w-6 block" src={Assets.Common.Setting_Check_Box_BG} alt="Setting_Check_Box_BG" />
-        {isShow ?
-          <img className="w-7 absolute max-w-none" style={{bottom: '10%', right: '-5%'}} src={Assets.Common.Setting_Check_Box_Icon} alt="Setting_Check_Box_Icon" /> : 
-        null}
+
+      <button
+        className="relative flex items-center outline-none focus:outline-none"
+        style={{ background: "none", border: 0 }}
+        onClick={() => onChange(!isShow)}
+      >
+        <img
+          className="w-6 block"
+          src={Assets.Common.Setting_Check_Box_BG}
+          alt="Setting_Check_Box_BG"
+        />
+        {isShow ? (
+          <img
+            className="w-7 absolute max-w-none"
+            style={{ bottom: "10%", right: "-5%" }}
+            src={Assets.Common.Setting_Check_Box_Icon}
+            alt="Setting_Check_Box_Icon"
+          />
+        ) : null}
       </button>
     </div>
   );

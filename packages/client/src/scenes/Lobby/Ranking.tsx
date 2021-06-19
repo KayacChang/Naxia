@@ -4,12 +4,7 @@ import Assets from "assets";
 import { Tab, Avatar, Close } from "components";
 import { currency } from "utils";
 import { getRank } from "api";
-import {
-  system,
-  selectToken, 
-  useAppSelector,
-  useAppDispatch,
-} from "system";
+import { system, selectToken, useAppSelector, useAppDispatch } from "system";
 import invariant from "tiny-invariant";
 import { Ranking, RankingRecord } from "types";
 import { useHistory } from "react-router";
@@ -65,9 +60,7 @@ function RankingItem({ rank, name, value, avatar }: RankingRecord) {
 
           <p className="font-kai flex-1 mx-2">{name}</p>
 
-          <p className="text-fansy text-right">
-            {currency(value)}
-          </p>
+          <p className="text-fansy text-right">{currency(value)}</p>
         </div>
       </div>
     </div>
@@ -88,7 +81,7 @@ function useRanking() {
       dispatch(system.loading(false));
       setRanking(res);
     });
-  }, [token]);
+  }, [token, dispatch]);
 
   return ranking;
 }

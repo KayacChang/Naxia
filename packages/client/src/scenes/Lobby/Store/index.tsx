@@ -33,7 +33,7 @@ function useStoreItem() {
       dispatch(system.loading(false));
       setItems(res);
     });
-  }, [token]);
+  }, [token, dispatch]);
 
   const onExchange = useCallback(
     (req: ExchangeRequest) => {

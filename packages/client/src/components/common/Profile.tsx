@@ -112,7 +112,7 @@ function useHistory() {
       dispatch(system.loading(false));
       setHistory(res);
     });
-  }, [token]);
+  }, [token, dispatch]);
 
   return history;
 }
