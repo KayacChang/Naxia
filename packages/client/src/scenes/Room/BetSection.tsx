@@ -13,6 +13,7 @@ import {
   selectRoomStatusCurrent,
   useDungeonInfo,
   useViewport,
+  selectRoomStream,
 } from "system";
 import { clamp } from "ramda";
 import clsx from "clsx";
@@ -130,6 +131,8 @@ export default function BetSection() {
 
   const dispatch = useAppDispatch();
   const order = useAppSelector(selectRoomOrder);
+  const isStream = useAppSelector(selectRoomStream);
+
   const [bet, setBet] = useState(bets?.[0] || 0);
 
   if (!skills || !bets) return <></>;
@@ -153,7 +156,7 @@ export default function BetSection() {
           <Radian radian={Math.PI * 1.17}>
             <Skill
               className="w-14 lg:w-6/12 xl:w-8/12"
-              name={skills.player.name}
+              name={isStream ? "閒" : skills.player.name}
               normal={Assets.Room.Skill_FlareBlitz_Normal}
               active={Assets.Room.Skill_FlareBlitz_Active}
               value={order.player}
@@ -165,7 +168,7 @@ export default function BetSection() {
           <Radian radian={Math.PI * 1.32}>
             <Skill
               className="w-14 lg:w-6/12 xl:w-8/12"
-              name={skills.banker.name}
+              name={isStream ? "莊" : skills.banker.name}
               normal={Assets.Room.Skill_Blizzard_Normal}
               active={Assets.Room.Skill_Blizzard_Active}
               value={order.banker}
@@ -186,7 +189,7 @@ export default function BetSection() {
           <Radian radian={Math.PI * 1.35}>
             <Skill
               className="w-14 lg:w-6/12 xl:w-8/12"
-              name={skills.player_pair.name}
+              name={isStream ? "閒對" : skills.player_pair.name}
               normal={Assets.Room.Skill_IceBeam_Normal}
               active={Assets.Room.Skill_IceBeam_Active}
               value={order.player_pair}
@@ -198,7 +201,7 @@ export default function BetSection() {
           <Radian radian={Math.PI * 1.24}>
             <Skill
               className="w-14 lg:w-6/12 xl:w-8/12"
-              name={skills.tie.name}
+              name={isStream ? "和" : skills.tie.name}
               normal={Assets.Room.Skill_Hurricane_Normal}
               active={Assets.Room.Skill_Hurricane_Active}
               value={order.tie}
@@ -210,7 +213,7 @@ export default function BetSection() {
           <Radian radian={Math.PI * 1.12}>
             <Skill
               className="w-14 lg:w-6/12 xl:w-8/12"
-              name={skills.bank_pair.name}
+              name={isStream ? "莊對" : skills.bank_pair.name}
               normal={Assets.Room.Skill_FlameThrower_Normal}
               active={Assets.Room.Skill_FlameThrower_Active}
               value={order.bank_pair}

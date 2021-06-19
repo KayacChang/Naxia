@@ -4,6 +4,7 @@ import {
   selectAssetsByName,
   selectRoomResult,
   selectRoomStatusCurrent,
+  selectRoomStream,
   useAppDispatch,
   useAppSelector,
 } from "system";
@@ -21,6 +22,7 @@ export default memo(() => {
   const roundResult = useAppSelector(selectRoomResult);
   const assets = useAppSelector(selectAssetsByName);
   const dispatch = useAppDispatch();
+  const isStream = useAppSelector(selectRoomStream);
 
   const data = useMemo(() => {
     if (status !== RoomStatus.Result || !roundResult) {
@@ -57,7 +59,13 @@ export default memo(() => {
   }, [status, roundResult, assets, dispatch]);
 
   return (
-    <Game className={clsx("pointer-events-none", !data && "hidden")}>
+    <Game
+      className={clsx(
+        "pointer-events-none",
+        !data && "hidden",
+        isStream && "hidden"
+      )}
+    >
       {data && (
         <Spine
           x={width / 2}

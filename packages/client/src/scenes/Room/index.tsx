@@ -5,6 +5,8 @@ import {
   ViewportProvider,
   room,
   useDungeonInfo,
+  useAppSelector,
+  selectRoomStream,
 } from "system";
 import { Game, UI } from "layers";
 
@@ -14,22 +16,33 @@ import GameResult from "./Result";
 import GameEffect from "./Effect";
 import Assets from "assets";
 import Sound from "assets/sound";
+import clsx from "clsx";
 
 function Background() {
   const info = useDungeonInfo();
+  const isStream = useAppSelector(selectRoomStream);
 
   return (
-    <UI className="flex flex-col">
-      <img
-        src={info?.dungeonImg || Assets.Room.Room_Background}
-        alt="background"
-      />
+    <UI className="flex flex-col z-0">
+      {isStream ? (
+        <video className="w-full h-full" autoPlay>
+          <source src={info?.stream} />
+
+          <span>Sorry, your browser doesn't support embedded videos.</span>
+        </video>
+      ) : (
+        <img
+          src={info?.dungeonImg || Assets.Room.Room_Background}
+          alt="background"
+        />
+      )}
     </UI>
   );
 }
 
 export default function Room() {
   const dispatch = useAppDispatch();
+  const isStream = useAppSelector(selectRoomStream);
   const info = useDungeonInfo();
 
   useEffect(() => {
@@ -46,7 +59,7 @@ export default function Room() {
     <ViewportProvider>
       <Background />
 
-      <Game>
+      <Game className={clsx(isStream && "hidden")}>
         <GameView />
       </Game>
 

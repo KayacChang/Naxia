@@ -60,6 +60,8 @@ export const selectRoomUsers = (state: RootState) => state.room.concurrentUsers;
 export const selectRoomTotalBet = (state: RootState) => state.room.totalBet;
 export const selectRoomRoundStatus = (state: RootState) => state.room.round;
 
+export const selectRoomStream = (state: RootState) => state.room.stream;
+
 let ws: WebSocket | undefined;
 
 const game = {
@@ -328,7 +330,11 @@ export const room = {
       () => {
         const wait = Number(process.env.REACT_APP_PING_PER_SECONDS) * 1000;
 
-        ping = setInterval(() => ws?.send("ping"), wait);
+        ping = setInterval(() => {
+          if (!ws || ws.readyState !== ws.OPEN) return;
+
+          ws.send("ping");
+        }, wait);
       },
       { once: true }
     );
@@ -363,6 +369,8 @@ export const room = {
     ws?.close();
     ws = undefined;
   }),
+
+  stream: createAction<void>("room/stream"),
 };
 
 export interface RoomState {
@@ -387,6 +395,8 @@ export interface RoomState {
   concurrentUsers: number;
   totalBet: number;
   round: RoundStatus;
+
+  stream: boolean;
 }
 
 const initialState: RoomState = {
@@ -411,6 +421,8 @@ const initialState: RoomState = {
     bank_pair: 0,
     tie: 0,
   },
+
+  stream: false,
 };
 
 const roomSlice = createSlice({
@@ -486,6 +498,9 @@ const roomSlice = createSlice({
         state.hasSubmitted = true;
 
         state.history.push(action.payload);
+      })
+      .addCase(room.stream, (state, action) => {
+        state.stream = !state.stream;
       });
   },
 });

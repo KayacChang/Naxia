@@ -1,6 +1,7 @@
 import { Announcement, Setting } from "components";
 import { PrivateRoute, Switch } from "components/Router";
 import { Information } from "./Information";
+import { Stream } from "./Stream";
 import clsx from "clsx";
 
 type SidebarProps = {
@@ -24,6 +25,7 @@ export function Sidebar({ className }: SidebarProps) {
         <PrivateRoute path="/room">
           <Setting />
           <Information />
+          <Stream />
         </PrivateRoute>
       </Switch>
     </aside>

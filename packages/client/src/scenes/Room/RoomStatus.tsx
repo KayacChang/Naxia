@@ -3,6 +3,7 @@ import Assets from "assets";
 import Skill from "./Skill";
 import {
   selectRoomRoundStatus,
+  selectRoomStream,
   selectRoomTotalBet,
   selectRoomUsers,
   useAppSelector,
@@ -17,6 +18,7 @@ export default function RoomStatus({ className }: RoomStatusProps) {
   const users = useAppSelector(selectRoomUsers);
   const totalBet = useAppSelector(selectRoomTotalBet);
   const roundStatus = useAppSelector(selectRoomRoundStatus);
+  const isStream = useAppSelector(selectRoomStream);
 
   if (!info) return <></>;
 
@@ -43,17 +45,17 @@ export default function RoomStatus({ className }: RoomStatusProps) {
           <div className="lg:-mt-1 text-xxs lg:text-base xl:text-2xl">
             <div className="flex justify-center space-x-4 lg:px-1/10">
               <Skill
-                name={skills.bank_pair.name}
+                name={isStream ? "莊對" : skills.bank_pair.name}
                 normal={Assets.Room.Skill_FlameThrower_Normal}
                 value={roundStatus.bank_pair}
               />
               <Skill
-                name={skills.tie.name}
+                name={isStream ? "和" : skills.tie.name}
                 normal={Assets.Room.Skill_Hurricane_Normal}
                 value={roundStatus.tie}
               />
               <Skill
-                name={skills.player_pair.name}
+                name={isStream ? "閒對" : skills.player_pair.name}
                 normal={Assets.Room.Skill_IceBeam_Normal}
                 value={roundStatus.player_pair}
               />
@@ -61,12 +63,12 @@ export default function RoomStatus({ className }: RoomStatusProps) {
 
             <div className="flex justify-center space-x-4 px-10 lg:px-1/4">
               <Skill
-                name={skills.player.name}
+                name={isStream ? "閒" : skills.player.name}
                 normal={Assets.Room.Skill_FlareBlitz_Normal}
                 value={roundStatus.player}
               />
               <Skill
-                name={skills.banker.name}
+                name={isStream ? "莊" : skills.banker.name}
                 normal={Assets.Room.Skill_Blizzard_Normal}
                 value={roundStatus.banker}
               />
