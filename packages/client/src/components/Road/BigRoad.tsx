@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { CSSProperties } from "react";
 import { Round } from "types";
-import { BigRoadAlgorithm } from "./Algorithm";
+import { BigRoad as Algorithm, Icon, RoundToResult } from "./Algorithm";
 import { Ring } from "./Ring";
 
 type BigRoadProps = {
@@ -11,7 +11,7 @@ type BigRoadProps = {
 };
 export function BigRoad({ rounds }: BigRoadProps) {
   const col = 34;
-  const table = BigRoadAlgorithm(rounds);
+  const table = Algorithm(col, rounds.map(RoundToResult));
 
   return (
     <div
@@ -30,10 +30,10 @@ export function BigRoad({ rounds }: BigRoadProps) {
           col ? (
             <Ring
               key={index}
-              color={col.type === "player" ? "blue" : "red"}
+              color={col.icons.includes(Icon.Blue) ? "blue" : "red"}
               tie={col.tie > 0 ? col.tie : undefined}
-              bankerPair={col.pair.includes("bank_pair")}
-              playerPair={col.pair.includes("player_pair")}
+              bankerPair={col.icons.includes(Icon.RedSmall)}
+              playerPair={col.icons.includes(Icon.BlueSmall)}
             />
           ) : (
             <div key={index} />

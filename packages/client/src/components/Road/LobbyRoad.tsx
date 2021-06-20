@@ -30,15 +30,21 @@ export function LobbyRoad({ rounds }: LobbyRoadProps) {
         />
 
         <div className="flex-1 mt-px ml-px -mr-px">
-          <div className="w-full h-1/2 flex flex-wrap content-start pl-px">
+          <div
+            className="w-full flex flex-wrap content-start pl-px"
+            style={{ height: `${48}%`, marginBottom: `${1.5}%` }}
+          >
             <BigRoad rounds={rounds} />
           </div>
 
-          <div className="w-full h-1/4 flex flex-wrap content-start mt-px ml-px">
+          <div
+            className="w-full flex flex-wrap content-start"
+            style={{ height: `${24}%`, margin: `${1.2}% ${0.5}%` }}
+          >
             <BigEyeRoad rounds={rounds} />
           </div>
 
-          <div className="w-full h-1/4 flex flex-wrap content-start pt-px px-px">
+          <div className="w-full h-1/4 flex flex-wrap content-start">
             <div className="w-1/2 h-full flex flex-wrap">
               <SmallRoad rounds={rounds} />
             </div>

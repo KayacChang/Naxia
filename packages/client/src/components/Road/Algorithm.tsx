@@ -1,342 +1,260 @@
-import { pipe } from "ramda";
-import { Round, SkillOption } from "types";
+import { Round as TRound } from "types";
 
-interface Result {
-  type: "banker" | "player";
-  pair: ("bank_pair" | "player_pair")[];
-  tie: number;
+type Table<T> = T[][];
+
+function create<T>(width = 0, height = 0, init?: T): Table<T> {
+  return Array(width)
+    .fill(null)
+    .map(() => Array(height).fill(init));
 }
 
-function algorithmA(rounds: Round[]) {
-  const table: SkillOption[][][] = [[]];
-  let currentWin: "banker" | "player" | undefined = undefined;
+type MapFn<T> = (value: T, index: number) => any;
 
-  rounds.forEach((round) => {
-    const isBankerWin = round.results.includes("banker");
-    const isPlayerWin = round.results.includes("player");
-    const isTie = round.results.includes("tie");
-    const isBankPair = round.results.includes("bank_pair");
-    const isPlayerPair = round.results.includes("player_pair");
+export function flatMap<T>(fn: MapFn<T>, table: Table<T>) {
+  return table.map((row, rowIndex) =>
+    row.map((col, colIndex) => fn(col, rowIndex * row.length + colIndex))
+  );
+}
 
-    if (!currentWin && isBankerWin) {
-      currentWin = "banker";
-    }
+const RowHeight = 6;
 
-    if (!currentWin && isPlayerWin) {
-      currentWin = "player";
-    }
+export enum Result {
+  Banker = "B",
+  Player = "P",
+  Tie = "T",
+  BankerPair = "BP",
+  PlayerPair = "PP",
+}
 
-    // switch
-    if (
-      (isBankerWin && currentWin === "player") ||
-      (isPlayerWin && currentWin === "banker")
-    ) {
-      if (isBankerWin) currentWin = "banker";
-      if (isPlayerWin) currentWin = "player";
-
-      table.push([]);
-    }
-
-    let results: SkillOption[] = [];
-
-    if (isBankerWin) {
-      results.push("banker");
-    }
-
-    if (isPlayerWin) {
-      results.push("player");
-    }
-
-    if (isTie) {
-      results.push("tie");
-    }
-
-    if (isBankPair) {
-      results.push("bank_pair");
-    }
-
-    if (isPlayerPair) {
-      results.push("player_pair");
-    }
-
-    table[table.length - 1].push(results);
+export function RoundToResult({ results }: TRound) {
+  return results.map((result) => {
+    return result === "banker"
+      ? Result.Banker
+      : result === "player"
+      ? Result.Player
+      : result === "tie"
+      ? Result.Tie
+      : result === "bank_pair"
+      ? Result.BankerPair
+      : Result.PlayerPair;
   });
-
-  return table;
 }
 
-function algorithmB(table: SkillOption[][][]) {
-  const results: Result[][] = [];
+export enum Icon {
+  Red = "R",
+  Blue = "B",
+  RedSmall = "RS",
+  BlueSmall = "BS",
+}
 
-  table.forEach((row) => {
-    const resultRow: Result[] = [];
+type Round = Result[];
+type History = Round[];
 
-    let tie = 0;
+type BigRoadResult = {
+  icons: Icon[];
+  tie: number;
+};
+type Position = { x: number; y: number };
 
-    row.forEach((col, index) => {
-      if (col.includes("tie")) {
-        tie += 1;
+function clamp(min: number, max: number, num: number) {
+  return Math.min(Math.max(num, min), max);
+}
 
-        if (row.length - 1 === index) {
-          resultRow[resultRow.length - 1].tie = tie;
-        }
+export function BigRoad(width: number, history: History) {
+  const table: Table<BigRoadResult | undefined> = create(width, RowHeight);
+
+  function limit({ x, y }: Position): Position {
+    return {
+      x: clamp(0, width - 1, x),
+      y: clamp(0, RowHeight - 1, y),
+    };
+  }
+
+  function next({ x, y }: Position): Position {
+    if (y + 1 < RowHeight && table[x][y + 1] === undefined) {
+      return { x, y: y + 1 };
+    }
+
+    if (x + 1 < width) {
+      return { x: x + 1, y };
+    }
+
+    return { x, y };
+  }
+
+  let last: Result | undefined = undefined;
+  let row = 0;
+  let cursor: Position = { x: 0, y: 0 };
+
+  let pretie = 0;
+  let tie = 0;
+
+  history.slice(0, width * RowHeight).forEach((round) => {
+    if (round.includes(Result.Tie)) {
+      if (!table[cursor.x][cursor.y]) {
+        pretie += 1;
 
         return;
       }
 
-      if (resultRow[resultRow.length - 1]) {
-        resultRow[resultRow.length - 1].tie = tie;
+      tie += 1;
+
+      return;
+    }
+
+    if (table[cursor.x][cursor.y]) {
+      if (pretie > 0) {
+        tie = pretie;
+
+        pretie = 0;
       }
 
-      tie = 0;
-      resultRow.push({
-        type: col.includes("player") ? "player" : "banker",
-        pair: col.filter((res) =>
-          ["bank_pair", "player_pair"].includes(res)
-        ) as ("bank_pair" | "player_pair")[],
+      table[cursor.x][cursor.y] = Object.assign(table[cursor.x][cursor.y], {
         tie,
       });
+
+      tie = 0;
+    }
+
+    const current = round.includes(Result.Banker)
+      ? Result.Banker
+      : Result.Player;
+
+    if (last === undefined) {
+      last = current;
+    } else if (last !== current) {
+      last = current;
+      cursor = limit({ x: row + 1, y: 0 });
+      row = clamp(0, width, row + 1);
+    } else {
+      cursor = limit(next(cursor));
+    }
+
+    const icons = round.map((result) => {
+      return result === Result.Banker
+        ? Icon.Red
+        : result === Result.BankerPair
+        ? Icon.RedSmall
+        : result === Result.Player
+        ? Icon.Blue
+        : Icon.BlueSmall;
     });
 
-    results.push(resultRow);
-  });
-
-  return results;
-}
-
-function Table<T>(row: number, col: number, fill?: T) {
-  return Array.from(Array(row), (_) => Array(col).fill(fill));
-}
-
-function algorithmC(results: Result[][]): (Result | undefined)[][] {
-  const col = 6;
-  const row = 34;
-
-  const table = Table(row, col);
-
-  results.slice(0, row).forEach((row, _rowIndex) => {
-    let rowIndex = _rowIndex;
-    let colIndex = 0;
-
-    row.forEach((result) => {
-      table[rowIndex][colIndex] = result;
-
-      if (colIndex > col || Boolean(table[rowIndex][colIndex + 1])) {
-        rowIndex += 1;
-      } else {
-        colIndex += 1;
-      }
-    });
+    table[cursor.x][cursor.y] = { icons, tie };
   });
 
   return table;
 }
 
-function algorithmD(table: (Result | undefined)[][]) {
-  const results: ("red" | "blue" | undefined)[][] = [];
-  let current: "red" | "blue" | undefined = undefined;
+function toTable(width: number, history: History) {
+  let table: Result[][] = [];
+  let last: Result | undefined = undefined;
 
-  for (let rowIndex = 1; rowIndex < table.length; rowIndex++) {
-    const row = table[rowIndex];
+  history.slice(0, width * RowHeight).forEach((round) => {
+    if (round.includes(Result.Tie)) return;
 
-    for (let colIndex = 1; colIndex < row.length; colIndex++) {
-      if (!table[rowIndex][colIndex]) {
-        if (current !== "blue") {
-          current = "blue";
+    const current = round.includes(Result.Banker)
+      ? Result.Banker
+      : Result.Player;
 
-          results.push(["blue"]);
+    if (last !== current) {
+      last = current;
 
-          break;
-        }
-
-        results[results.length - 1].push("blue");
-
-        break;
-      }
-
-      const existed = Boolean(table[rowIndex - 1][colIndex]);
-      if (existed) {
-        if (current !== "red") {
-          current = "red";
-
-          results.push(["red"]);
-
-          continue;
-        }
-
-        results[results.length - 1].push("red");
-      }
+      table.push([]);
     }
-  }
 
-  function toTable(results: ("red" | "blue" | undefined)[][]) {
-    const col = 3;
-    const row = 34;
+    table[table.length - 1].push(current);
+  });
 
-    const table = Table(row, col);
-
-    results.slice(0, row).forEach((_row, _rowIndex) => {
-      let rowIndex = _rowIndex;
-      let colIndex = 0;
-
-      _row.forEach((result) => {
-        if (rowIndex >= row) {
-          return;
-        }
-
-        table[rowIndex][colIndex] = result;
-
-        if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
-          colIndex += 1;
-        } else {
-          rowIndex += 1;
-        }
-      });
-    });
-
-    return table;
-  }
-
-  return toTable(results);
+  return table;
 }
 
-function algorithmE(table: (Result | undefined)[][]) {
-  const results: ("red" | "blue" | undefined)[][] = [];
-  let current: "red" | "blue" | undefined = undefined;
+function Base(width: number, history: History, offsetX: number) {
+  const table = toTable(width, history);
 
-  for (let rowIndex = 2; rowIndex < table.length; rowIndex++) {
-    const row = table[rowIndex];
+  const result: Table<Icon | undefined> = create(width, RowHeight);
 
-    for (let colIndex = 1; colIndex < row.length; colIndex++) {
-      if (!table[rowIndex][colIndex]) {
-        if (current !== "blue") {
-          current = "blue";
+  function limit({ x, y }: Position): Position {
+    return {
+      x: clamp(0, width - 1, x),
+      y: clamp(0, RowHeight - 1, y),
+    };
+  }
 
-          results.push(["blue"]);
-
-          break;
-        }
-
-        results[results.length - 1].push("blue");
-
-        break;
-      }
-
-      const existed = Boolean(table[rowIndex - 2][colIndex]);
-      if (existed) {
-        if (current !== "red") {
-          current = "red";
-
-          results.push(["red"]);
-
-          continue;
-        }
-
-        results[results.length - 1].push("red");
-      }
+  function next({ x, y }: Position): Position {
+    if (y + 1 < RowHeight && result[x][y + 1] === undefined) {
+      return { x, y: y + 1 };
     }
+
+    if (x + 1 < width) {
+      return { x: x + 1, y };
+    }
+
+    return { x, y };
   }
 
-  function toTable(results: ("red" | "blue" | undefined)[][]) {
-    const col = 3;
-    const row = 17;
+  let cursor: Position = { x: 0, y: 0 };
+  let row = 0;
+  let last: Icon | undefined = undefined;
 
-    const table = Table(row, col);
+  for (let x = offsetX; x < table.length; x++) {
+    //
+    for (let y = 1; y < table[x].length; y++) {
+      const hasPair = Boolean(table[x - offsetX][y]);
 
-    results.slice(0, row).forEach((_row, _rowIndex) => {
-      let rowIndex = _rowIndex;
-      let colIndex = 0;
+      const longTail = y >= 2;
 
-      _row.forEach((result) => {
-        if (rowIndex >= row) {
-          return;
+      if ((hasPair || longTail) && last !== Icon.Red) {
+        last = Icon.Red;
+
+        if (cursor.x !== 0 || cursor.y !== 0) {
+          cursor = limit({ x: row + 1, y: 0 });
+          row = clamp(0, width, row + 1);
         }
 
-        table[rowIndex][colIndex] = result;
+        result[cursor.x][cursor.y] = Icon.Red;
+      } else if (hasPair || longTail) {
+        last = Icon.Red;
 
-        if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
-          colIndex += 1;
-        } else {
-          rowIndex += 1;
-        }
-      });
-    });
+        result[cursor.x][cursor.y] = Icon.Red;
+      } else {
+        last = Icon.Blue;
+        result[cursor.x][cursor.y] = Icon.Blue;
+      }
 
-    return table;
+      cursor = limit(next(cursor));
+    }
+
+    if (x >= table.length - 1) break;
+
+    if (last !== Icon.Blue) {
+      last = Icon.Blue;
+
+      if (cursor.x !== 0 || cursor.y !== 0) {
+        cursor = limit({ x: row + 1, y: 0 });
+        row = clamp(0, width, row + 1);
+      }
+
+      result[cursor.x][cursor.y] = Icon.Blue;
+    } else {
+      last = Icon.Blue;
+      result[cursor.x][cursor.y] = Icon.Blue;
+    }
+
+    cursor = limit(next(cursor));
   }
 
-  return toTable(results);
+  return result;
 }
 
-function algorithmF(table: (Result | undefined)[][]) {
-  const results: ("red" | "blue" | undefined)[][] = [];
-  let current: "red" | "blue" | undefined = undefined;
-
-  for (let rowIndex = 3; rowIndex < table.length; rowIndex++) {
-    const row = table[rowIndex];
-
-    for (let colIndex = 1; colIndex < row.length; colIndex++) {
-      if (!table[rowIndex][colIndex]) {
-        if (current !== "blue") {
-          current = "blue";
-
-          results.push(["blue"]);
-
-          break;
-        }
-
-        results[results.length - 1].push("blue");
-
-        break;
-      }
-
-      const existed = Boolean(table[rowIndex - 3][colIndex]);
-      if (existed) {
-        if (current !== "red") {
-          current = "red";
-
-          results.push(["red"]);
-
-          continue;
-        }
-
-        results[results.length - 1].push("red");
-      }
-    }
-  }
-
-  function toTable(results: ("red" | "blue" | undefined)[][]) {
-    const col = 3;
-    const row = 17;
-
-    const table = Table(row, col);
-
-    results.slice(0, row).forEach((_row, _rowIndex) => {
-      let rowIndex = _rowIndex;
-      let colIndex = 0;
-
-      _row.forEach((result) => {
-        if (rowIndex >= row) {
-          return;
-        }
-
-        table[rowIndex][colIndex] = result;
-
-        if (colIndex < col - 1 && !table[rowIndex][colIndex + 1]) {
-          colIndex += 1;
-        } else {
-          rowIndex += 1;
-        }
-      });
-    });
-
-    return table;
-  }
-
-  return toTable(results);
+export function BigEyeRoad(width: number, history: History) {
+  return Base(width, history, 1);
 }
 
-export const BigRoadAlgorithm = pipe(algorithmA, algorithmB, algorithmC);
-export const BigEyeAlgorithm = pipe(BigRoadAlgorithm, algorithmD);
-export const SmallRoadAlgorithm = pipe(BigRoadAlgorithm, algorithmE);
-export const CockroachRoadAlgorithm = pipe(BigRoadAlgorithm, algorithmF);
+export function SmallRoad(width: number, history: History) {
+  return Base(width, history, 2);
+}
+
+export function CockroachRoad(width: number, history: History) {
+  return Base(width, history, 3);
+}

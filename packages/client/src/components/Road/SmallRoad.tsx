@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { CSSProperties } from "react";
-import { SmallRoadAlgorithm } from "./Algorithm";
+import { Icon, RoundToResult, SmallRoad as Algorithm } from "./Algorithm";
 import { Round } from "types";
 import { Circle } from "./Circle";
 
@@ -10,14 +10,13 @@ type SmallRoadProps = {
   style?: CSSProperties;
 };
 export function SmallRoad({ rounds }: SmallRoadProps) {
-  const table = SmallRoadAlgorithm(rounds);
-
-  const col = 17;
+  const col = 34;
+  const table = Algorithm(col, rounds.map(RoundToResult));
 
   return (
     <div
       className={clsx(
-        "grid grid-flow-col grid-rows-3 place-items-center",
+        "grid grid-flow-col grid-rows-6 place-items-center",
         "text-white",
         "w-full h-full"
       )}
@@ -30,7 +29,7 @@ export function SmallRoad({ rounds }: SmallRoadProps) {
           <div key={index} className="w-full h-full" style={{ padding: `15%` }}>
             <Circle
               className={clsx(
-                col === "red" ? "from-red-500" : "from-blue-500",
+                col === Icon.Red ? "from-red-500" : "from-blue-500",
                 "w-full h-full"
               )}
               style={{
