@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { CSSProperties } from "react";
 import { Round } from "types";
-import { CockroachRoadAlgorithm } from "./Algorithm";
+import { CockroachRoad as Algorithm, Icon, RoundToResult } from "./Algorithm";
 import { Slash } from "./Slash";
 
 type CockroachRoadProps = {
@@ -10,13 +10,13 @@ type CockroachRoadProps = {
   style?: CSSProperties;
 };
 export function CockroachRoad({ rounds }: CockroachRoadProps) {
-  const table = CockroachRoadAlgorithm(rounds);
-  const col = 17;
+  const col = 34;
+  const table = Algorithm(col, rounds.map(RoundToResult));
 
   return (
     <div
       className={clsx(
-        "grid grid-flow-col grid-rows-3 place-items-center",
+        "grid grid-flow-col grid-rows-6 place-items-center",
         "text-white",
         "w-full h-full"
       )}
@@ -30,7 +30,9 @@ export function CockroachRoad({ rounds }: CockroachRoadProps) {
           col ? (
             <Slash
               key={index}
-              className={clsx(col === "red" ? "from-red-500" : "from-blue-500")}
+              className={clsx(
+                col === Icon.Red ? "from-red-500" : "from-blue-500"
+              )}
             />
           ) : (
             <div key={index} />

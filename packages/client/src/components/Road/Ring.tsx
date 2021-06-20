@@ -45,7 +45,9 @@ export function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
       )}
 
       {tie && (
-        <span className="absolute text-xxs transform scale-50">{tie}</span>
+        <span className="absolute text-xxs xl:text-sm transform scale-50">
+          {tie}
+        </span>
       )}
     </div>
   );
