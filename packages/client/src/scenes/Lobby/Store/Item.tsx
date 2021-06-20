@@ -5,6 +5,7 @@ import numeral from "numeral";
 
 type ItemCollectionBoxProps = {
   className?: string;
+  type: string;
   icon?: string;
   item?: any;
   totalNumber: number;
@@ -14,6 +15,7 @@ type ItemCollectionBoxProps = {
 function ItemCollectionBox({
   className = "",
   item,
+  type,
   icon = Assets.Lobby.Store_Gem_Sm,
   totalNumber,
   currentNumber,
@@ -32,8 +34,10 @@ function ItemCollectionBox({
       />
 
       <div className="absolute w-6 lg:w-1/2 xl:w-5/12">
-        <img src={icon} alt="store gem sm"/>
+        <img src={icon} alt="store gem sm" className="relative z-10 p-1" />
+        {type==='item' && <img src={Assets.Lobby.Repo_Item_Normal} className="absolute inset-0 z-5" alt="store frame" />}
       </div>
+
 
       <div
         className={clsx(
@@ -123,6 +127,7 @@ export default function Item({ item, onExchange }: ItemProps) {
                 <ItemCollectionBox
                   key={type}
                   item={item}
+                  type={type}
                   icon={
                     type === "item"
                       ? item_img?.toString()
