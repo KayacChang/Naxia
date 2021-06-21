@@ -24,9 +24,12 @@ export function RoomRoad({ className }: RoomRoadProps) {
   const map = useMap();
   const { rounds, info } = useDungeon();
 
-  const countByResult = (result: SkillOption) =>
-    rounds?.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+  const countByResult = (result: SkillOption) => {
+    // return rounds?.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+    //   .length;
+    return rounds?.slice(0, 53).filter(({ results }) => results.includes(result))
       .length;
+  }
 
   const dispatch = useDispatch();
   const status = useAppSelector(selectRoomStatusCurrent);
@@ -42,8 +45,8 @@ export function RoomRoad({ className }: RoomRoadProps) {
     "banker",
     "player",
     "tie",
-    "player_pair",
     "bank_pair",
+    "player_pair",
   ];
 
   if (!rounds) return <></>;

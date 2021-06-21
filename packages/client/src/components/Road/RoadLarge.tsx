@@ -60,17 +60,17 @@ export function RoadLarge({ rounds }: RoadLargeProps) {
           />
 
           <CountCube
-            cubeClassName="cube-light-blue px-2 xl:p-4"
-            color="text-blue-300"
-            role="閒對"
-            count={count("player_pair")}
-          />
-
-          <CountCube
             cubeClassName="cube-light-red px-2 xl:p-4"
             color="text-red-400"
             role="莊對"
             count={count("bank_pair")}
+          />
+
+          <CountCube
+            cubeClassName="cube-light-blue px-2 xl:p-4"
+            color="text-blue-300"
+            role="閒對"
+            count={count("player_pair")}
           />
         </div>
 
