@@ -11,7 +11,7 @@ const Room = {
   Room_Back: assets("/room/back.png"),
 
   // Road
-  Road_Frame_Small: assets("/road/frame_small.png"),
+  Road_Frame_Small: assets("/road/frame_small2.png"),
   Road_Frame_Big: assets("/road/frame_big.png"),
   // Road_Frame: assets("/road/frame.png"),
   Road_Frame: assets("/road/frame02.png"),
