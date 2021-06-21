@@ -27,6 +27,8 @@ export function RoomRoad({ className }: RoomRoadProps) {
   const countByResult = (result: SkillOption) => 
       rounds?.slice(0, 53).filter(({ results }) => results.includes(result))
       .length;
+      // rounds?.slice(-1 * 9 * 6).filter(({ results }) => results.includes(result))
+      // .length;
 
   const dispatch = useDispatch();
   const status = useAppSelector(selectRoomStatusCurrent);
