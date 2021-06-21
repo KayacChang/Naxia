@@ -36,14 +36,14 @@ export function CountCube({
           alt="room frame big"
         />
       }
-      { role === '莊對' &&
+      { role === '閒對' &&
         <img
           className="p-2 pr-1"
           src={Assets.Room.Icon_Light}
           alt="room frame big"
         />
       }
-      { role === '閒對' &&
+      { role === '莊對' &&
         <img
           className="p-2 pr-1"
           src={Assets.Room.Icon_Dark}
