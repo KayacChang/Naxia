@@ -65,8 +65,8 @@ export function RoomRoad({ className }: RoomRoadProps) {
           )}
         >
           <div className={clsx("flex flex-col", "w-8", "lg:text-2xl lg:w-1/8")}>
-            <div className="flex-1 flex justify-center items-center">莊</div>
-            <div className="flex-1 flex justify-center items-center">閒</div>
+            {/* <div className="flex-1 flex justify-center items-center">莊</div>
+            <div className="flex-1 flex justify-center items-center">閒</div> */}
           </div>
 
           <MarkerRoad
