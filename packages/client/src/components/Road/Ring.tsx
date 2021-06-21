@@ -11,7 +11,10 @@ type RingProps = {
 export function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
   const ringColor =
     // color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
-    color === "red" ? Assets.Room.Icon_Fire : Assets.Room.Icon_Ice;
+    color === "red" && !tie ? Assets.Room.Icon_Fire :
+    color === "blue" && !tie ? Assets.Room.Icon_Ice :
+    color === "red" && tie ? Assets.Room.Road_Ring_Fire :
+    color === "blue" && tie ? Assets.Room.Road_Ring_Ice : Assets.Room.Icon_Ice;
 
   return (
     <div className="relative flex justify-center items-center">

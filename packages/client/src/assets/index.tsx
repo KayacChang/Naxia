@@ -11,7 +11,8 @@ const Room = {
   Room_Back: assets("/room/back.png"),
 
   // Road
-  Road_Frame_Small: assets("/road/frame_small.png"),
+  // Road_Frame_Small: assets("/road/frame_small.png"),
+  Road_Frame_Small: assets("/road/frame_small_02.png"),
   Road_Frame_Big: assets("/road/frame_big.png"),
   // Road_Frame: assets("/road/frame.png"),
   Road_Frame: assets("/road/frame02.png"),
@@ -19,6 +20,10 @@ const Room = {
   Road_Ring_Red: assets("/road/icon-fire.png"),
   // Road_Ring_Blue: assets("/road/big_ring_blue.png"),
   Road_Ring_Blue: assets("/road/icon-ice.png"),
+
+  Road_Ring_Ice: assets("/road/icon-ice-ring.png"),
+  Road_Ring_Fire: assets("/road/icon-fire-ring.png"),
+  
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),

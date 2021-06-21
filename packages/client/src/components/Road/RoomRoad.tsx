@@ -91,23 +91,23 @@ export function RoomRoad({ className }: RoomRoadProps) {
                 className={clsx(
                   "flex-1 flex justify-between items-center",
                   cond<SkillOption, string>([
-                    [(type) => type === "banker", () => "text-red-500"],
-                    [(type) => type === "player", () => "text-blue-500"],
-                    [(type) => type === "tie", () => "text-green-400"],
-                    [(type) => type === "player_pair", () => "text-blue-400"],
-                    [(type) => type === "bank_pair", () => "text-red-400"],
+                    [(type) => type === "banker", () => "text-fire"],
+                    [(type) => type === "player", () => "text-ice"],
+                    [(type) => type === "tie", () => "text-wind"],
+                    [(type) => type === "player_pair", () => "text-light"],
+                    [(type) => type === "bank_pair", () => "text-dark"],
                   ])(type)
                 )}
               >
-                <span>
-                  {cond<SkillOption, string>([
-                    [(type) => type === "banker", () => "莊"],
-                    [(type) => type === "player", () => "閒"],
-                    [(type) => type === "tie", () => "和"],
-                    [(type) => type === "player_pair", () => "閒對"],
-                    [(type) => type === "bank_pair", () => "莊對"],
-                  ])(type)}
-                </span>
+                <img src={
+                  cond<SkillOption, string>([
+                    [(type) => type === "banker", () => Assets.Room.Icon_Fire],
+                    [(type) => type === "player", () => Assets.Room.Icon_Ice],
+                    [(type) => type === "tie", () => Assets.Room.Icon_Wind],
+                    [(type) => type === "player_pair", () => Assets.Room.Icon_Light],
+                    [(type) => type === "bank_pair", () => Assets.Room.Icon_Dark],
+                  ])(type)
+                } alt="background" style={{width: '40%'}}/>
                 <span>{countByResult(type)}</span>
               </div>
             ))}
