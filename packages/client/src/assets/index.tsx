@@ -13,9 +13,12 @@ const Room = {
   // Road
   Road_Frame_Small: assets("/road/frame_small.png"),
   Road_Frame_Big: assets("/road/frame_big.png"),
-  Road_Frame: assets("/road/frame.png"),
-  Road_Ring_Red: assets("/road/big_ring_red.png"),
-  Road_Ring_Blue: assets("/road/big_ring_blue.png"),
+  // Road_Frame: assets("/road/frame.png"),
+  Road_Frame: assets("/road/frame02.png"),
+  // Road_Ring_Red: assets("/road/big_ring_red.png"),
+  Road_Ring_Red: assets("/road/icon-fire.png"),
+  // Road_Ring_Blue: assets("/road/big_ring_blue.png"),
+  Road_Ring_Blue: assets("/road/icon-ice.png"),
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
@@ -75,6 +78,19 @@ const Room = {
   // animation
   Anim_Dealing: assets("/animation/dealing/skeleton.json"),
   Anim_Be_Attack: assets("/animation/be_attack/skeleton.json"),
+
+  // icons
+  Icon_Fire: assets("/road/icon-fire.png"),
+  Icon_Fire_Circle: assets("/road/icon-fire-circle.png"),
+  Icon_Fire_Circle_02: assets("/road/icon-fire-circle02.png"),
+  Icon_Fire_Strip: assets("/road/icon-fire-strip.png"),
+  Icon_Ice: assets("/road/icon-ice.png"),
+  Icon_Ice_Circle: assets("/road/icon-ice-circle.png"),
+  Icon_Ice_Circle_02: assets("/road/icon-ice-circle02.png"),
+  Icon_Ice_Strip: assets("/road/icon-ice-strip.png"),
+  Icon_Wind: assets("/road/icon-wind.png"),
+  Icon_Light: assets("/road/icon-light.png"),
+  Icon_Dark: assets("/road/icon-dark.png"),
 };
 
 const Lobby = {
@@ -191,7 +207,8 @@ const Common = {
   Modal_Frame_Information: assets("/modal/information_frame.png"),
 
   // Road
-  Road_Frame: assets("/road/frame.png"),
+  // Road_Frame: assets("/road/frame.png"),
+  Road_Frame: assets("/road/frame02.png"),
 
   // Avatar
   Avatar_Frame: assets("/avatar/avatar_frame.png"),

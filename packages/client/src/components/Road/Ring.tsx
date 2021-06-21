@@ -10,7 +10,8 @@ type RingProps = {
 };
 export function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
   const ringColor =
-    color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
+    // color === "red" ? Assets.Room.Road_Ring_Red : Assets.Room.Road_Ring_Blue;
+    color === "red" ? Assets.Room.Icon_Fire : Assets.Room.Icon_Ice;
 
   return (
     <div className="relative flex justify-center items-center">
@@ -22,6 +23,7 @@ export function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
           )}
           style={{
             transform: `translate(-0.05rem, -0.05rem) scale(50%)`,
+            backgroundImage: `url('${Assets.Room.Icon_Fire_Circle}')`,
           }}
         />
       )}
@@ -40,6 +42,7 @@ export function Ring({ color, tie, bankerPair, playerPair }: RingProps) {
           )}
           style={{
             transform: `translate(0.05rem, 0.05rem) scale(50%)`,
+            backgroundImage: `url('${Assets.Room.Icon_Ice_Circle}')`,
           }}
         />
       )}

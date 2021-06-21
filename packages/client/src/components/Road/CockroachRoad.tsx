@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Assets from "assets";
 import { CSSProperties } from "react";
 import { Round } from "types";
 import { CockroachRoad as Algorithm, Icon, RoundToResult } from "./Algorithm";
@@ -30,9 +31,12 @@ export function CockroachRoad({ rounds }: CockroachRoadProps) {
           col ? (
             <Slash
               key={index}
-              className={clsx(
-                col === Icon.Red ? "from-red-500" : "from-blue-500"
-              )}
+              // className={clsx(
+              //   col === Icon.Red ? "from-red-500" : "from-blue-500"
+              // )}
+              style={{
+                backgroundImage: `url('${col === Icon.Red ? Assets.Room.Icon_Fire_Strip : Assets.Room.Icon_Ice_Strip}')`,
+              }}
             />
           ) : (
             <div key={index} />

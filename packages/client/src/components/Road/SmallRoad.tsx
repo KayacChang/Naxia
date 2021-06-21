@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Assets from "assets";
 import { CSSProperties } from "react";
 import { Icon, RoundToResult, SmallRoad as Algorithm } from "./Algorithm";
 import { Round } from "types";
@@ -29,11 +30,12 @@ export function SmallRoad({ rounds }: SmallRoadProps) {
           <div key={index} className="w-full h-full" style={{ padding: `15%` }}>
             <Circle
               className={clsx(
-                col === Icon.Red ? "from-red-500" : "from-blue-500",
-                "w-full h-full"
+                // col === Icon.Red ? "from-red-500" : "from-blue-500",
+                "w-full h-full playerIcon"
               )}
               style={{
                 transform: `translate(-0.05rem, -0.05rem)`,
+                backgroundImage: `url('${col === Icon.Red ? Assets.Room.Icon_Fire_Circle_02 : Assets.Room.Icon_Ice_Circle_02}')`,
               }}
             />
           </div>
