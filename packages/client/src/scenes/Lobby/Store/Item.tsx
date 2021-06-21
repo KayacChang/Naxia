@@ -34,7 +34,7 @@ function ItemCollectionBox({
       />
 
       <div className="absolute w-6 lg:w-1/2 xl:w-5/12">
-        <img src={icon} alt="store gem sm" className="relative z-10 p-1" />
+        <img src={icon} alt="store gem sm" className="relative z-10 lg:p-1" />
         {type==='item' && <img src={Assets.Lobby.Repo_Item_Normal} className="absolute inset-0 z-5" alt="store frame" />}
       </div>
 
