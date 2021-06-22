@@ -42,35 +42,35 @@ export function RoadLarge({ rounds }: RoadLargeProps) {
         >
           <CountCube
             cubeClassName="cube-red px-2 xl:p-4"
-            color="text-red-600"
+            color="text-fire"
             role="莊"
             count={count("banker")}
           />
 
           <CountCube
             cubeClassName="cube-blue px-2 xl:p-4"
-            color="text-blue-600"
+            color="text-ice"
             role="閒"
             count={count("player")}
           />
 
           <CountCube
             cubeClassName="cube-green px-2 xl:p-4"
-            color="text-green-500"
+            color="text-wind"
             role="和"
             count={count("tie")}
           />
 
           <CountCube
             cubeClassName="cube-light-red px-2 xl:p-4"
-            color="text-red-400"
+            color="text-dark"
             role="莊對"
             count={count("bank_pair")}
           />
 
           <CountCube
             cubeClassName="cube-light-blue px-2 xl:p-4"
-            color="text-blue-300"
+            color="text-light"
             role="閒對"
             count={count("player_pair")}
           />

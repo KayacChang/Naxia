@@ -148,46 +148,21 @@ img {
 }
 
 .text-fire {
-  font-weight: 900;
-  background: linear-gradient(to bottom, rgb(234,127,125), rgb(133,19,22));
-  background: -webkit-linear-gradient(to bottom, rgb(234,127,125), rgb(133,19,22));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: rgb(217,50,53);
 }
 
 .text-ice {
-  font-weight: 900;
-  background: linear-gradient(to bottom, rgb(128,230,252), rgb(16,39,86));
-  background: -webkit-linear-gradient(to bottom, rgb(128,230,252), rgb(16,39,86));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: rgb(34,88,182);
 }
 
 .text-wind {
-  font-weight: 900;
-  background: linear-gradient(to bottom, rgb(197,237,200), rgb(8,37,15));
-  background: -webkit-linear-gradient(to bottom, rgb(197,237,200), rgb(8,37,15));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: rgb(58,187,77);
 }
 
 .text-light {
-  font-weight: 900;
-  background: linear-gradient(to bottom, rgb(244,242,236), rgb(111,79,27));
-  background: -webkit-linear-gradient(to bottom, rgb(197,237,200), rgb(8,37,15));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: rgb(216,184,73);
 }
 
 .text-dark {
-  font-weight: 900;
-  background: linear-gradient(to bottom, rgb(231,226,235), rgb(50,28,70));
-  background: -webkit-linear-gradient(to bottom, rgb(231,226,235), rgb(50,28,70));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: rgb(106,59,136);
 }
