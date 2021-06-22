@@ -61,7 +61,7 @@ export function RoomRoad({ className }: RoomRoadProps) {
         <div
           className={clsx(
             "absolute top-0 w-full h-full flex font-kai",
-            "py-1 px-1.5",
+            "py-1 px-2",
             "lg:py-2 lg:px-3",
             "xl:py-4 xl:px-5"
           )}
