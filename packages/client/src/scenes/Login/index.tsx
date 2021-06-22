@@ -49,6 +49,7 @@ function InputField({
               : isMobile()
               ? `${Math.min(availHeight, availWidth) * 0.8}px`
               : `${480}px`,
+          maxWidth: `${480}px`,
         }}
       >
         <img src={Assets.Login.Login_Form} alt="input's background" />
@@ -187,7 +188,7 @@ export default function Login() {
 
   return (
     <ViewportProvider>
-      <UI>
+      <UI className="flex items-center justify-center">
         <div className="relative flex justify-center">
           <div className="w-full">
             <img src={Assets.Login.Login_Background} alt="background" />
