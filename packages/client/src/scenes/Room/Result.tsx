@@ -83,10 +83,6 @@ export default function GameResult() {
     <UI
       className="flex flex-col justify-center items-center pointer-events-auto z-50"
       onClick={() => setSkip(true)}
-      style={{
-        margin: '0 auto',
-        maxWidth: window.screen.width,
-      }}
     >
       <img
         className="absolute w-4/5"

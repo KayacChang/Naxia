@@ -129,19 +129,13 @@ export default function GameUI() {
 
   return (
     <UI className="flex flex-col text-white">
-      <header className="h-10 relative" style={{
-        margin: '0 auto',
-        width: window.screen.width,
-      }}>
+      <header className="h-10 relative">
         <Profile />
         <Location>{boss.name}</Location>
         <Status />
       </header>
 
-      <div className="flex-1 flex relative"style={{
-        margin: '0 auto',
-        maxWidth: window.screen.width,
-      }}>
+      <div className="flex-1 flex relative">
         <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <CountDown />
         </div>
