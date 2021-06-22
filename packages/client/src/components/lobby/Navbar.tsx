@@ -56,7 +56,10 @@ export function Navbar() {
   const location = useLocation();
 
   return (
-    <nav className="relative z-20">
+    <nav className="relative z-20" style={{
+      margin: '0 auto',
+      width: window.screen.width,
+    }}>
       <div className="transform lg:translate-y-1/3">
         <img src={Assets.Lobby.Narbar_Frame} alt="nav frame" />
       </div>

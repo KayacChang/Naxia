@@ -40,7 +40,10 @@ const LobbyUI = memo(() => {
 
   return (
     <UI className="flex flex-col">
-      <header className="h-12 relative">
+      <header className="h-12 relative" style={{
+        margin: '0 auto',
+        width: window.screen.width,
+      }}>
         <Profile />
 
         <Location>{map.name}</Location>
@@ -48,7 +51,10 @@ const LobbyUI = memo(() => {
         <Status />
       </header>
 
-      <main className="flex-1 flex justify-end">
+      <main className="flex-1 flex justify-end" style={{
+        margin: '0 auto',
+        width: window.screen.width,
+      }}>
         <NPC />
 
         <Switch>

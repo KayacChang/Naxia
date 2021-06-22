@@ -9,7 +9,9 @@ type ModalProps = {
 };
 export function Modal({ children, className, onClose }: ModalProps) {
   return (
-    <UI className={clsx("flex items-center justify-center", className)}>
+    <UI className={clsx("flex items-center justify-center", className)} style={{
+      maxWidth: window.screen.width,
+    }}>
       <div
         className="bg-black bg-opacity-75 absolute w-full h-full top-0 pointer-events-auto -z-10"
         onClick={onClose}

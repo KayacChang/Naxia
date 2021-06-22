@@ -12,7 +12,12 @@ function Progress() {
   const progress = useAppSelector(selectAssetProgress);
 
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative flex items-center justify-center"
+      style={{
+        margin: '0 auto',
+        maxWidth: window.screen.width,
+      }}
+    >
       <img src={Assets.System.Progress_Frame} alt="progress frame" />
 
       <div className="absolute">
