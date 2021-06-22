@@ -37,10 +37,11 @@ import { throttle } from "utils";
 
 const LobbyUI = memo(() => {
   const map = useMap();
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
   return (
     <UI className="flex flex-col">
-      <header className="h-12 relative">
+      <header className={`h-12 relative ${isiPad && 'set_iPad_style'}`}>
         <Profile />
 
         <Location>{map.name}</Location>
@@ -48,7 +49,7 @@ const LobbyUI = memo(() => {
         <Status />
       </header>
 
-      <main className="flex-1 flex justify-end">
+      <main className={`flex-1 flex justify-end ${isiPad && 'set_iPad_style'}`}>
         <NPC />
 
         <Switch>

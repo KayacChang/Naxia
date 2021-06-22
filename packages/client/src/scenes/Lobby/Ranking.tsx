@@ -108,6 +108,8 @@ export default function Rank({ className }: RankingProps) {
   const current = ranking?.[active.key].current;
   const updated = ranking?.[active.key].updated;
 
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   return (
     <>
       <article className={className}>
@@ -123,7 +125,8 @@ export default function Rank({ className }: RankingProps) {
             className={clsx(
               "absolute w-full h-full",
               "flex flex-col",
-              "pb-1/8 px-1/12 py-1/10"
+              "pb-1/8 px-1/12 py-1/10",
+              isiPad && 'iPad_set_margin'
             )}
           >
             <nav className="relative flex justify-between h-1/8">

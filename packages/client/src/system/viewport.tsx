@@ -97,6 +97,10 @@ export function isBarOpen() {
   return diff > trigger;
 }
 
+export function isiPad() {
+  return detect().match("iPad");
+}
+
 type Viewport = {
   width: number;
   height: number;
@@ -142,6 +146,7 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
     Boolean(document.fullscreenElement)
   );
   const isDesktop = !isMobile();
+  const isIpad = isiPad();
 
   useLayoutEffect(() => {
     if (isFullScreen) {
@@ -233,6 +238,8 @@ export function ViewportProvider({ children }: ViewportProviderProps) {
       document.getElementById("root") as HTMLElement
     );
   }
+
+  if (isIpad && orientation === "landscape") document.querySelector('html')?.classList.add('isIpad');
 
   if (isChrome() && !isIOS()) {
     return (

@@ -119,9 +119,11 @@ export default function Repository({ className }: RepositoryProps) {
 
   const [item, setItem] = useState<Item | undefined>();
 
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   return (
     <>
-      <article className={clsx("relative", className)}>
+      <article className={clsx("relative", className)} style={{marginTop: isiPad ? '5%' : 'auto'}}>
         <img src={Assets.Lobby.Repo_Frame_Outer} alt="repository frame outer" />
 
         <div className="absolute top-0 w-full h-full pt-1/12 px-1/24">

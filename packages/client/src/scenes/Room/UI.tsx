@@ -121,6 +121,8 @@ export default function GameUI() {
   const enable = status === TRoomStatus.Start && !hasSubmitted;
   const [submitEnable, setSubmitEnable] = useState(true);
 
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   useEffect(() => {
     if (status === TRoomStatus.Change) setSubmitEnable(true);
   }, [status, setSubmitEnable]);
@@ -129,13 +131,13 @@ export default function GameUI() {
 
   return (
     <UI className="flex flex-col text-white">
-      <header className="h-10 relative">
+      <header className={`h-10 relative ${isiPad && 'set_iPad_style'}`}>
         <Profile />
         <Location>{boss.name}</Location>
         <Status />
       </header>
 
-      <div className="flex-1 flex relative">
+      <div className={`flex-1 flex relative ${isiPad && 'set_iPad_style'}`}>
         <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <CountDown />
         </div>

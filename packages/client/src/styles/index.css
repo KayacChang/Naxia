@@ -166,3 +166,18 @@ img {
 .text-dark {
   color: rgb(106,59,136);
 }
+
+.isIpad .set_iPad_style {
+  width: 1366px !important;
+  margin: 0 auto !important;
+}
+
+.isIpad .iPad_set_padding {
+  margin-top: 5% !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .isIpad .set_iPad_style {
+    width: 1024px !important;
+  }
+}

@@ -54,9 +54,10 @@ const links = [
 
 export function Navbar() {
   const location = useLocation();
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
   return (
-    <nav className="relative z-20">
+    <nav className={`relative z-20 ${isiPad && 'set_iPad_style'}`}>
       <div className="transform lg:translate-y-1/3">
         <img src={Assets.Lobby.Narbar_Frame} alt="nav frame" />
       </div>

@@ -55,6 +55,8 @@ export default function GameResult() {
 
   const [skip, setSkip] = useState(status !== RoomStatus.Result);
 
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   useEffect(() => {
     if (status === RoomStatus.Result) {
       const id = setTimeout(() => {
@@ -81,7 +83,7 @@ export default function GameResult() {
 
   return (
     <UI
-      className="flex flex-col justify-center items-center pointer-events-auto z-50"
+      className={`flex flex-col justify-center items-center pointer-events-auto z-50 ${isiPad && 'set_iPad_style'}`}
       onClick={() => setSkip(true)}
     >
       <img

@@ -10,14 +10,13 @@ import {
 
 function Progress() {
   const progress = useAppSelector(selectAssetProgress);
-
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+  const setiPadStyle = {
+    margin: '0 auto',
+    maxWidth: window.screen.height,
+  }
   return (
-    <div className="relative flex items-center justify-center"
-      style={{
-        margin: '0 auto',
-        maxWidth: window.screen.width,
-      }}
-    >
+    <div className={`relative flex items-center justify-center ${isiPad && 'set_iPad_style'}`}>
       <img src={Assets.System.Progress_Frame} alt="progress frame" />
 
       <div className="absolute">
