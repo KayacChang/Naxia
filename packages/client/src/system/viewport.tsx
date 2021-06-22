@@ -77,7 +77,7 @@ export function getViewPort(ratio = 16 / 9) {
 
   const height = Math.min(window.screen.width, window.screen.height);
 
-  const width = height * ratio > window.screen.width ? window.screen.width : height * ratio;
+  const width = height * ratio;
 
   return {
     width,

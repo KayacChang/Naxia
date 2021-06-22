@@ -188,7 +188,7 @@ export default function Login() {
 
   return (
     <ViewportProvider>
-      <UI className="flex items-center justify-center">
+      <UI>
         <div className="relative flex justify-center">
           <div className="w-full">
             <img src={Assets.Login.Login_Background} alt="background" />

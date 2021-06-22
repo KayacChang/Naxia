@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Assets from "assets";
 import clsx from "clsx";
 import { UI } from "layers";
@@ -86,25 +85,12 @@ function TopText() {
 }
 
 export function Loading() {
-  const [ height, setHeight ] = useState(0);
-  const [ imageHeight, setImageHeight ] = useState(0);
-  const [ progressPosition, setProgressPosition ] = useState('');
-
-  useEffect(() => {
-    let diff = height > imageHeight ? Number(((window.screen.height - imageHeight) / 2).toFixed(2)) : 0;
-    height > 0 && imageHeight > 0 && diff > 0 ? setProgressPosition(`calc(5% + ${diff}px)`) : setProgressPosition('10%');
-  }, [imageHeight, height]);
-
   return (
     <UI className="z-50">
-      <div className="text-xl font-nota w-full h-full flex flex-col justify-center items-center"ref={(ref) => {
-        setHeight(ref?.clientHeight || 0);
-      }}>
-        <img ref={(ref) => {
-          setImageHeight(ref?.height || 0);
-        }} src={Assets.System.Progress_Background} alt="background" />
+      <div className="text-xl font-nota w-full h-full flex flex-col justify-center items-center">
+        <img src={Assets.System.Progress_Background} alt="background" />
 
-        <div className="absolute w-full" style={{ bottom: progressPosition }}>
+        <div className="absolute bottom-1/10 w-full">
           <Progress />
         </div>
       </div>
