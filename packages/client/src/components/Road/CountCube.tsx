@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Assets from "assets";
-
+import {cond, equals, always} from 'ramda';
 type CountCubePorps = {
   cubeClassName: string;
   color: string;
@@ -15,41 +15,17 @@ export function CountCube({
 }: CountCubePorps) {
   return (
     <div className="flex items-center"> 
-      { role === '莊' &&
-        <img
-          className="p-2 pr-1"
-          src={Assets.Room.Icon_Fire}
-          alt="room frame big"
-        />
-      }
-      { role === '閒' &&
-        <img
-          className="p-2 pr-1"
-          src={Assets.Room.Icon_Ice}
-          alt="room frame big"
-        />
-      }
-      { role === '和' &&
-        <img
-          className="p-2 pr-1"
-          src={Assets.Room.Icon_Wind}
-          alt="room frame big"
-        />
-      }
-      { role === '閒對' &&
-        <img
-          className="p-2 pr-1"
-          src={Assets.Room.Icon_Light}
-          alt="room frame big"
-        />
-      }
-      { role === '莊對' &&
-        <img
-          className="p-2 pr-1"
-          src={Assets.Room.Icon_Dark}
-          alt="room frame big"
-        />
-      }
+      <img
+        className="p-2 pr-1"
+        src={cond<string, string>([
+          [(role) => role === "莊", () => Assets.Room.Icon_Fire],
+          [(role) => role === "閒", () => Assets.Room.Icon_Ice],
+          [(role) => role === "和", () => Assets.Room.Icon_Wind],
+          [(role) => role === "閒對", () => Assets.Room.Icon_Light],
+          [(role) => role === "莊對", () => Assets.Room.Icon_Dark],
+        ])(role)}
+        alt="room frame big"
+      />
       <p className={clsx("px-4", color)}>{count}</p>
     </div>
   );
