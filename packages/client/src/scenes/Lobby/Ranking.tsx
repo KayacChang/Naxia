@@ -147,8 +147,9 @@ export default function Rank({ className }: RankingProps) {
               <div
                 className={clsx(
                   "relative flex justify-center items-center font-kai text-yellow-700",
-                  "text-xxs lg:text-base xl:text-xl",
-                  "w-48 lg:w-1/4 xl:w-1/3"
+                  "text-xxs xl:text-xl",
+                  "w-48 lg:w-1/4 xl:w-1/3",
+                  !isiPad && "lg:text-base"
                 )}
               >
                 <img
