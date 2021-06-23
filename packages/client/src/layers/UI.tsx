@@ -12,11 +12,12 @@ type UIProps = {
 export function UI({ style, className, children, onClick }: UIProps) {
   const { width, height } = useViewport();
   const ref = useRef<HTMLDivElement>(null);
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
   return createPortal(
     <div
       ref={ref}
-      style={{ width: `${width}px`, height: `${height}px`, ...style }}
+      style={{ width: `${width}px`, height: isiPad ? '100%' : `${height}px`, ...style }}
       className={clsx("fixed overflow-hidden", className)}
       onClick={onClick}
     >
