@@ -7,8 +7,9 @@ type SideButtonProps = {
   onClick: () => void;
 };
 export default function SideButton({ label, img, onClick }: SideButtonProps) {
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
   return (
-    <div className={clsx("relative", "transform lg:scale-150")}>
+    <div className={clsx("relative", isiPad ? "transform xl:scale-150" : "transform lg:scale-150")}>
       <div className="absolute text-yellow-100 text-shadow tracking-wider bottom-2 right-0 text-sm">
         {label}
       </div>

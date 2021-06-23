@@ -57,6 +57,7 @@ function InputRange({
                   className="transform translate-y-px lg:translate-y-2px"
                   style={{
                     clipPath: `inset(0 ${100 - value}% 0 0)`,
+                    WebkitClipPath: `inset(0 ${100 - value}% 0 0)`,
                   }}
                   src={Assets.Common.Setting_Volume_Bar}
                   alt="bar"
