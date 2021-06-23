@@ -106,17 +106,19 @@ export default function Store({ className }: StoreProps) {
                     "text-sm"
                   )}
                 >
-                  {store?.[active.key].map((item: StoreItem) => (
-                    <Item
-                      key={item.id}
-                      item={item}
-                      onExchange={() =>
-                        onExchange({
-                          store_id: Number(item.id),
-                        }).then(() => setOpen(true))
-                      }
-                    />
-                  ))}
+                  <div>
+                    {store?.[active.key].map((item: StoreItem) => (
+                      <Item
+                        key={item.id}
+                        item={item}
+                        onExchange={() =>
+                          onExchange({
+                            store_id: Number(item.id),
+                          }).then(() => setOpen(true))
+                        }
+                      />
+                    ))}
+                  </div>
                 </div>
 
                 <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-black to-transparent" />

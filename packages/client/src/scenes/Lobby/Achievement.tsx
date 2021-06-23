@@ -174,6 +174,8 @@ export default function _Achievement({ className }: AchievementProps) {
 
   const [item, setItem] = useState<Achievement>();
 
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   return (
     <>
       <article className={clsx("flex justify-center items-center", className)}>
@@ -184,7 +186,7 @@ export default function _Achievement({ className }: AchievementProps) {
 
           <div className="absolute top-0 w-full h-full">
             <div className="flex flex-col h-full relative px-1/14 pt-1/24 pb-1/16">
-              <nav className="flex">
+              <nav className={clsx("flex", isiPad && "items-center justify-start")}>
                 {filters.map((tab) => (
                   <Tab
                     className="w-2/12"
