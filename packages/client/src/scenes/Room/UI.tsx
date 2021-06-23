@@ -146,7 +146,7 @@ export default function GameUI() {
           <RoundStatus />
         </div>
 
-        <div className="w-2/3 flex flex-col justify-between px-2 mt-1/24 lg:mt-1/16">
+        <div className={`w-2/3 flex flex-col px-2 mt-1/24 ${isiPad ? 'justify-around' : 'lg:mt-1/16 justify-between'}`}>
           <RoomStatus className="w-1/2" />
 
           <Button
