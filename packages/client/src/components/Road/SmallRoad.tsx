@@ -13,6 +13,7 @@ type SmallRoadProps = {
 export function SmallRoad({ rounds }: SmallRoadProps) {
   const col = 34;
   const table = Algorithm(col, rounds.map(RoundToResult));
+  const tableData = table.reduce((acc, val) => acc.concat(val), []);
 
   return (
     <div
@@ -25,7 +26,7 @@ export function SmallRoad({ rounds }: SmallRoadProps) {
         gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
       }}
     >
-      {table.flat().map((col, index) =>
+      {tableData.map((col, index) =>
         col ? (
           <div key={index} className="w-full h-full" style={{ padding: `15%` }}>
             <Circle

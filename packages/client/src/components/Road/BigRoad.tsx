@@ -12,6 +12,7 @@ type BigRoadProps = {
 export function BigRoad({ rounds }: BigRoadProps) {
   const col = 34;
   const table = Algorithm(col, rounds.map(RoundToResult));
+  const tableData = table.reduce((acc, val) => acc.concat(val), []);
 
   return (
     <div
@@ -24,9 +25,7 @@ export function BigRoad({ rounds }: BigRoadProps) {
         gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
       }}
     >
-      {table
-        .flat()
-        .map((col, index) =>
+      {tableData.map((col, index) =>
           col ? (
             <Ring
               key={index}

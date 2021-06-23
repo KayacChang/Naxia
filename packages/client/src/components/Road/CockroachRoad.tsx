@@ -13,6 +13,7 @@ type CockroachRoadProps = {
 export function CockroachRoad({ rounds }: CockroachRoadProps) {
   const col = 34;
   const table = Algorithm(col, rounds.map(RoundToResult));
+  const tableData = table.reduce((acc, val) => acc.concat(val), []);
 
   return (
     <div
@@ -25,9 +26,7 @@ export function CockroachRoad({ rounds }: CockroachRoadProps) {
         gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
       }}
     >
-      {table
-        .flat()
-        .map((col, index) =>
+      {tableData.map((col, index) =>
           col ? (
             <Slash
               key={index}

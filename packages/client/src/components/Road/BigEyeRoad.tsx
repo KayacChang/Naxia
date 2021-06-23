@@ -13,6 +13,7 @@ type BigEyeRoadProps = {
 export function BigEyeRoad({ rounds }: BigEyeRoadProps) {
   const col = 34;
   const table = Algorithm(col, rounds.map(RoundToResult));
+  const tableData = table.reduce((acc, val) => acc.concat(val), []);
 
   return (
     <div
@@ -25,7 +26,8 @@ export function BigEyeRoad({ rounds }: BigEyeRoadProps) {
         gridTemplateColumns: `repeat(${col * 2}, minmax(0, 1fr))`,
       }}
     >
-      {table.flat().map((col, index) =>
+      {/* table.flat() */}
+      {tableData.map((col, index) =>
         col ? (
           <div key={index} className="w-full h-full" style={{ padding: `10%` }}>
             <Circle
