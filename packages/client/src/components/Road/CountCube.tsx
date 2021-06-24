@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Assets from "assets";
-import {cond, equals, always} from 'ramda';
+import { cond } from "ramda";
+
 type CountCubePorps = {
   cubeClassName: string;
   color: string;
@@ -14,7 +15,7 @@ export function CountCube({
   count,
 }: CountCubePorps) {
   return (
-    <div className="flex items-center"> 
+    <div className="flex items-center">
       <img
         className="p-2 pr-1"
         src={cond<string, string>([

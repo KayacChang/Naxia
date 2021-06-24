@@ -64,7 +64,6 @@ const Boss = memo(() => {
           spine.state.setAnimation(0, "Idle", true);
         }
       }}
-      unmount={(spine) => spine.state.clearListeners()}
     />
   );
 });

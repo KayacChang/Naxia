@@ -9,7 +9,7 @@ import {
   useAppDispatch,
   Dungeon as DungeonSystem,
 } from "system";
-import { Spine } from "components";
+import Spine from "components/Spine";
 import { Circle, filters } from "pixi.js";
 
 type DungeonProps = {

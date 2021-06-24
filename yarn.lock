@@ -1303,10 +1303,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inlet/react-pixi@^6.5.2":
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/@inlet/react-pixi/-/react-pixi-6.5.2.tgz#f7a9709f9e3adbd3366cc0142b544ef55463b297"
-  integrity sha512-2KZ7oBBwzsNeveRnGAEh+zxGIw/eq00MT3YZvKmLJy4BAGgBtVJgFoTRTnpgAd3G2a/Y3LJglcCbG38MQbViOA==
+"@inlet/react-pixi@^6.6.2":
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/@inlet/react-pixi/-/react-pixi-6.6.2.tgz#e154efb23abdb5dc937e4a14877b7bbd543e6b6a"
+  integrity sha512-9ZMsQCxhHcBuMmT5IB4MuVYC7scd9crsdaeemyqkmI+y+8+MfxoNysYRhe4bn5ODt5fNYUqPPKkApZfxUb1GUQ==
   dependencies:
     performance-now "2.1.0"
     react-reconciler "0.26.2"

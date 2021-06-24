@@ -13,6 +13,7 @@ import {
   getRoundsByDungeonID,
   unlock,
 } from "api";
+import { clamp } from "ramda";
 import {
   addAssets,
   AppDispatch,
@@ -93,6 +94,8 @@ export const Map = {
       return error;
     }
   }),
+
+  next: createAction<void>("map/map/next"),
 };
 
 export const Dungeon = {
@@ -304,6 +307,11 @@ const mapSlice = createSlice({
       })
       .addCase(Map.dungeons.fulfilled, (state, { payload }) => {
         state.dungeons = { ...state.dungeons, ...payload };
+      })
+      .addCase(Map.next, (state) => {
+        const max = state.maps.length - 1 || 0;
+
+        state.currentMap = clamp(0, max, state.currentMap + 1);
       })
       .addCase(Dungeon.anim.play, (state, { payload }) => {
         state.unlockAnim = payload;

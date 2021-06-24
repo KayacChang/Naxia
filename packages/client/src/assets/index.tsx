@@ -98,6 +98,9 @@ const Room = {
 };
 
 const Lobby = {
+  Swap_Background: assets('/lobby/swap/background.png'),
+  Swap_Arrow: assets('/lobby/swap/arrow.png'),
+
   // Lock
   Lock: assets("/lobby/lock.png"),
   Lock_Anim: assets("/animation/unlock/skeleton.json"),

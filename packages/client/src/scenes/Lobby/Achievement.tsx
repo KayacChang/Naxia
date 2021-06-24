@@ -181,8 +181,8 @@ export default function _Achievement({ className }: AchievementProps) {
   useEffect(() => {
     if (reset || !isiPad) return;
     setReset(true);
-    setTimeout(() => setReset(false), 10)
-  }, [active])
+    setTimeout(() => setReset(false), 10);
+  }, [active, reset, isiPad]);
 
   return (
     <>
@@ -192,12 +192,13 @@ export default function _Achievement({ className }: AchievementProps) {
             <img src={Assets.Lobby.Achievement_Frame} alt="frame" />
           </div>
 
-          <div className={clsx(
-            "absolute top-0 w-full h-full",
-            reset && "hidden"
-          )}>
+          <div
+            className={clsx("absolute top-0 w-full h-full", reset && "hidden")}
+          >
             <div className="flex flex-col h-full relative px-1/14 pt-1/24 pb-1/16">
-              <nav className={clsx("flex", isiPad && "items-center justify-start")}>
+              <nav
+                className={clsx("flex", isiPad && "items-center justify-start")}
+              >
                 {filters.map((tab) => (
                   <Tab
                     className="w-2/12"
@@ -212,8 +213,7 @@ export default function _Achievement({ className }: AchievementProps) {
               </nav>
 
               {active.key === "card" && (
-                <div
-                  className="overflow-auto m-2 grid grid-cols-3 gap-2 pointer-events-auto">
+                <div className="overflow-auto m-2 grid grid-cols-3 gap-2 pointer-events-auto">
                   {achievement?.[active.key].map((item) => (
                     <button
                       key={item.name}
@@ -227,7 +227,7 @@ export default function _Achievement({ className }: AchievementProps) {
               )}
 
               {active.key === "other" && (
-                <Special items={achievement?.[active.key]} reset={reset}/>
+                <Special items={achievement?.[active.key]} reset={reset} />
               )}
 
               <Close

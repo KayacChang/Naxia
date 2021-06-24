@@ -7,6 +7,7 @@ import {
   useViewport,
   getAssets,
   Dungeon as DungeonSystem,
+  Map,
   useMap,
   isMobile,
   ViewportProvider,
@@ -34,14 +35,16 @@ import Sound from "assets/sound";
 import { matchPath, useHistory } from "react-router";
 import { DungeonDetail, DungeonCondition } from "./Map";
 import { throttle } from "utils";
+import Assets from "assets";
 
 const LobbyUI = memo(() => {
+  const dispatch = useAppDispatch();
   const map = useMap();
   const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
   return (
     <UI className="flex flex-col">
-      <header className={`h-12 relative ${isiPad && 'set_iPad_style'}`}>
+      <header className={`h-12 relative ${isiPad && "set_iPad_style"}`}>
         <Profile />
 
         <Location>{map.name}</Location>
@@ -49,7 +52,11 @@ const LobbyUI = memo(() => {
         <Status />
       </header>
 
-      <main className={`flex-1 flex justify-end ${isiPad && 'set_iPad_style'}`}>
+      <main
+        className={`flex-1 flex justify-end relative ${
+          isiPad && "set_iPad_style"
+        }`}
+      >
         <NPC />
 
         <Switch>
@@ -79,6 +86,27 @@ const LobbyUI = memo(() => {
         </Switch>
 
         <Sidebar />
+
+        <button
+          className="absolute right-0 bottom-0 w-1/4 mb-12"
+          onClick={() => dispatch(Map.next())}
+        >
+          <div className="relative flex items-center justify-end">
+            <img src={Assets.Lobby.Swap_Background} alt="swap background" />
+
+            <div className="absolute flex-1">
+              <div className="flex items-center justify-end">
+                <span className="text-xl font-kai text-fansy text-shadow-xl filter contrast-125">
+                  切換地圖
+                </span>
+
+                <div className="w-1/4">
+                  <img src={Assets.Lobby.Swap_Arrow} alt="arrow" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
       </main>
 
       <Navbar />

@@ -3,7 +3,7 @@
   "version": "0.1.5",
   "private": true,
   "dependencies": {
-    "@inlet/react-pixi": "^6.5.2",
+    "@inlet/react-pixi": "^6.6.2",
     "@pixi-spine/all-3.8": "^3.0.1",
     "@pixi-spine/base": "^3.0.1",
     "@pixi-spine/runtime-3.8": "^3.0.1",
