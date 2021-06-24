@@ -1,8 +1,7 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { Tab, Modal, Button, Close } from "components";
-import { useState } from "react";
 import { Achievement } from "types";
 import { system, selectToken, useAppSelector, useAppDispatch } from "system";
 import invariant from "tiny-invariant";
@@ -73,84 +72,71 @@ function Detail({ item, onClose }: DetailProps) {
   );
 }
 
-type AchievementItemProps = {
+type SpecialProps = {
   items?: Achievement[];
-  updateItem?: any;
-  target?: String;
+  reset?: boolean;
 };
-function AchievementItem({ items = [], updateItem, target }: AchievementItemProps) {
-  const dom = useMemo(() => {
-    return (
-      <>
-        <div className={target === "other" ? "flex-1 overflow-auto pointer-events-auto mx-2" : "hidden"}>
-          {items.map(({ name, img, count }, index) => (
-            <div key={index} className="relative">
-              <img src={Assets.Lobby.Achievement_Special} alt="card" />
-              <div className="absolute top-0 w-full h-full flex px-1">
-                <div
-                  className={clsx(
-                    "relative flex justify-center items-center",
-                    "w-14 lg:w-1/6 lg:pb-1"
-                  )}
-                >
-                  <img
-                    src={Assets.Lobby.Achievement_Thumbnail_Frame}
-                    alt="thumbnail frame"
-                  />
-                  <img src={img} alt="thumbnail" className="absolute p-1" />
-                </div>
-    
-                <div className="flex-1 flex items-center px-2">
-                  <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
-                    {name}
-                  </h3>
-                </div>
-    
-                <div
-                  className={clsx(
-                    "flex flex-col items-end w-1/4",
-                    "py-2 lg:px-3 lg:py-3 xl:py-4"
-                  )}
-                >
-                  <h4
-                    className={clsx(
-                      "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
-                      "text-xs lg:text-lg xl:text-xl"
-                    )}
-                  >
-                    卡片獲得次數
-                  </h4>
-    
-                  <div
-                    className={clsx(
-                      "flex-1",
-                      "text-white w-full flex justify-center items-center pt-1",
-                      "text-lg lg:text-2xl xl:text-3xl"
-                    )}
-                  >
-                    <span>X</span>
-                    <span>{count}</span>
-                  </div>
-                </div>
+function Special({ items = [], reset }: SpecialProps) {
+  return (
+    <div
+      className="flex-1 overflow-auto pointer-events-auto mx-2"
+      style={{ pointerEvents: reset ? 'none' : 'auto' }}
+    >
+      {items.map(({ name, img, count }, index) => (
+        <div key={index} className="relative">
+          <img src={Assets.Lobby.Achievement_Special} alt="card" />
+
+          <div className="absolute top-0 w-full h-full flex px-1">
+            <div
+              className={clsx(
+                "relative flex justify-center items-center",
+                "w-14 lg:w-1/6 lg:pb-1"
+              )}
+            >
+              <img
+                src={Assets.Lobby.Achievement_Thumbnail_Frame}
+                alt="thumbnail frame"
+              />
+              <img src={img} alt="thumbnail" className="absolute p-1" />
+            </div>
+
+            <div className="flex-1 flex items-center px-2">
+              <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
+                {name}
+              </h3>
+            </div>
+
+            <div
+              className={clsx(
+                "flex flex-col items-end w-1/4",
+                "py-2 lg:px-3 lg:py-3 xl:py-4"
+              )}
+            >
+              <h4
+                className={clsx(
+                  "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
+                  "text-xs lg:text-lg xl:text-xl"
+                )}
+              >
+                卡片獲得次數
+              </h4>
+
+              <div
+                className={clsx(
+                  "flex-1",
+                  "text-white w-full flex justify-center items-center pt-1",
+                  "text-lg lg:text-2xl xl:text-3xl"
+                )}
+              >
+                <span>X</span>
+                <span>{count}</span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-        <div className={target === "card" ? "overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2" : "hidden"}>
-          {items.map((item) => (
-            <button
-              key={item.name}
-              onClick={() => updateItem(item)}
-              className="flex"
-            >
-              <img src={item.cardImg} alt="card" />
-            </button>
-          ))}
-        </div>
-      </>
-    );
-  }, [items, target]);
-  return dom;
+      ))}
+    </div>
+  );
 }
 
 function useAchievement() {
@@ -187,11 +173,23 @@ export default function _Achievement({ className }: AchievementProps) {
 
   const achievement = useAchievement();
 
+  const [reset, setReset] = useState(false);
+
   const [active, setActive] = useState(filters[0]);
 
   const [item, setItem] = useState<Achievement>();
 
   const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
+  useEffect(() => {
+    if (reset || !isiPad) return;
+    setReset(true);
+    setTimeout(() => setReset(false), 10)
+  }, [active])
+
+  useEffect(() => {
+    console.log(reset);
+  }, [reset])
 
   return (
     <>
@@ -217,7 +215,26 @@ export default function _Achievement({ className }: AchievementProps) {
                 ))}
               </nav>
 
-              <AchievementItem items={achievement?.[active.key]} updateItem={setItem} target={active.key}/>
+              {active.key === "card" && (
+                <div
+                  className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2"
+                  style={{ pointerEvents: reset ? 'none' : 'auto' }}
+                >
+                  {achievement?.[active.key].map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => setItem(item)}
+                      className="flex"
+                    >
+                      <img src={item.cardImg} alt="card" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {active.key === "other" && (
+                <Special items={achievement?.[active.key]} reset={reset}/>
+              )}
 
               <Close
                 className="absolute top-0 right-0 mr-1/24"
