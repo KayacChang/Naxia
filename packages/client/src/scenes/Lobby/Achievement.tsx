@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import clsx from "clsx";
 import Assets from "assets";
 import { Tab, Modal, Button, Close } from "components";
@@ -77,63 +77,65 @@ type SpecialProps = {
   items?: Achievement[];
 };
 function Special({ items = [] }: SpecialProps) {
-  return (
-    <div className="flex-1 overflow-auto pointer-events-auto mx-2">
-      {items.map(({ name, img, count }, index) => (
-        <div key={index} className="relative">
-          <img src={Assets.Lobby.Achievement_Special} alt="card" />
-
-          <div className="absolute top-0 w-full h-full flex px-1">
-            <div
-              className={clsx(
-                "relative flex justify-center items-center",
-                "w-14 lg:w-1/6 lg:pb-1"
-              )}
-            >
-              <img
-                src={Assets.Lobby.Achievement_Thumbnail_Frame}
-                alt="thumbnail frame"
-              />
-              <img src={img} alt="thumbnail" className="absolute p-1" />
-            </div>
-
-            <div className="flex-1 flex items-center px-2">
-              <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
-                {name}
-              </h3>
-            </div>
-
-            <div
-              className={clsx(
-                "flex flex-col items-end w-1/4",
-                "py-2 lg:px-3 lg:py-3 xl:py-4"
-              )}
-            >
-              <h4
-                className={clsx(
-                  "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
-                  "text-xs lg:text-lg xl:text-xl"
-                )}
-              >
-                卡片獲得次數
-              </h4>
-
+  const dom = useMemo(() => {
+    return (
+      <div className="flex-1 overflow-auto pointer-events-auto mx-2">
+        {items.map(({ name, img, count }, index) => (
+          <div key={index} className="relative">
+            <img src={Assets.Lobby.Achievement_Special} alt="card" />
+            <div className="absolute top-0 w-full h-full flex px-1">
               <div
                 className={clsx(
-                  "flex-1",
-                  "text-white w-full flex justify-center items-center pt-1",
-                  "text-lg lg:text-2xl xl:text-3xl"
+                  "relative flex justify-center items-center",
+                  "w-14 lg:w-1/6 lg:pb-1"
                 )}
               >
-                <span>X</span>
-                <span>{count}</span>
+                <img
+                  src={Assets.Lobby.Achievement_Thumbnail_Frame}
+                  alt="thumbnail frame"
+                />
+                <img src={img} alt="thumbnail" className="absolute p-1" />
+              </div>
+  
+              <div className="flex-1 flex items-center px-2">
+                <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
+                  {name}
+                </h3>
+              </div>
+  
+              <div
+                className={clsx(
+                  "flex flex-col items-end w-1/4",
+                  "py-2 lg:px-3 lg:py-3 xl:py-4"
+                )}
+              >
+                <h4
+                  className={clsx(
+                    "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
+                    "text-xs lg:text-lg xl:text-xl"
+                  )}
+                >
+                  卡片獲得次數
+                </h4>
+  
+                <div
+                  className={clsx(
+                    "flex-1",
+                    "text-white w-full flex justify-center items-center pt-1",
+                    "text-lg lg:text-2xl xl:text-3xl"
+                  )}
+                >
+                  <span>X</span>
+                  <span>{count}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  }, [items]);
+  return dom;
 }
 
 function useAchievement() {
