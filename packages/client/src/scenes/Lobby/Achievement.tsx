@@ -82,10 +82,7 @@ function AchievementItem({ items = [], updateItem, target }: AchievementItemProp
   const dom = useMemo(() => {
     return (
       <>
-        <div className={clsx(
-          "flex-1 overflow-auto pointer-events-auto mx-2",
-          target !== "other" && "hidden"
-        )}>
+        <div className={target === "other" ? "flex-1 overflow-auto pointer-events-auto mx-2" : "hidden"}>
           {items.map(({ name, img, count }, index) => (
             <div key={index} className="relative">
               <img src={Assets.Lobby.Achievement_Special} alt="card" />
@@ -139,10 +136,7 @@ function AchievementItem({ items = [], updateItem, target }: AchievementItemProp
             </div>
           ))}
         </div>
-        <div className={clsx(
-          "overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2",
-          target !== "card" && "hidden"
-        )}>
+        <div className={target === "card" ? "overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2" : "hidden"}>
           {items.map((item) => (
             <button
               key={item.name}
