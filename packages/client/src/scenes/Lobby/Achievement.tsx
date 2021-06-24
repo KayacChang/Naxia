@@ -75,8 +75,9 @@ function Detail({ item, onClose }: DetailProps) {
 
 type SpecialProps = {
   items?: Achievement[];
+  target?: String;
 };
-function Special({ items = [] }: SpecialProps) {
+function Special({ items = [], target }: SpecialProps) {
   const dom = useMemo(() => {
     return (
       <div className="flex-1 overflow-auto pointer-events-auto mx-2">
@@ -134,7 +135,31 @@ function Special({ items = [] }: SpecialProps) {
         ))}
       </div>
     );
-  }, [items]);
+  }, [items, target]);
+  return dom;
+}
+
+type GeneralProps = {
+  items?: Achievement[];
+  updateItem?: any;
+  target?: String;
+};
+function General({ items = [], updateItem, target }: GeneralProps) {
+  const dom = useMemo(() => {
+    return (
+      <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
+        {items.map((item) => (
+          <button
+            key={item.name}
+            onClick={() => updateItem(item)}
+            className="flex"
+          >
+            <img src={item.cardImg} alt="card" />
+          </button>
+        ))}
+      </div>
+    );
+  }, [items, target]);
   return dom;
 }
 
@@ -203,21 +228,11 @@ export default function _Achievement({ className }: AchievementProps) {
               </nav>
 
               {active.key === "card" && (
-                <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
-                  {achievement?.[active.key].map((item) => (
-                    <button
-                      key={item.name}
-                      onClick={() => setItem(item)}
-                      className="flex"
-                    >
-                      <img src={item.cardImg} alt="card" />
-                    </button>
-                  ))}
-                </div>
+                <General items={achievement?.[active.key]} updateItem={setItem} target={active.key}/>
               )}
 
               {active.key === "other" && (
-                <Special items={achievement?.[active.key]} />
+                <Special items={achievement?.[active.key]} target={active.key}/>
               )}
 
               <Close
