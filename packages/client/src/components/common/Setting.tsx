@@ -13,7 +13,6 @@ import {
   Effect,
 } from "system";
 import SideButton from "./SideButton";
-import clsx from "clsx";
 
 type InputRangeProps = {
   label: string;
@@ -31,6 +30,8 @@ function InputRange({
   max = 100,
   step = 1,
 }: InputRangeProps) {
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   return (
     <div className="flex-1 flex items-center space-x-8">
       <p className="whitespace-nowrap lg:text-2xl">{label}</p>
@@ -67,17 +68,17 @@ function InputRange({
               </div>
             </div>
           )}
-          renderThumb={({ props }) => (
-            <img
-              {...props}
-              className={clsx(
-                "absolute top-0  pointer-events-auto",
-                "w-5 lg:w-10"
-              )}
-              src={Assets.Common.Setting_Volume_Controller}
-              alt="controller"
-            />
-          )}
+          renderThumb={({ props }) => {
+            if (isiPad) props["aria-valuenow"] = value;
+            return (
+              <img
+                {...props}
+                className="absolute top-0 pointer-events-auto w-5 lg:w-10"
+                src={Assets.Common.Setting_Volume_Controller}
+                alt="controller"
+              />
+            )
+          }}
         />
       </div>
     </div>
