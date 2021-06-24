@@ -73,91 +73,87 @@ function Detail({ item, onClose }: DetailProps) {
   );
 }
 
-type SpecialProps = {
-  items?: Achievement[];
-  target?: String;
-};
-function Special({ items = [], target }: SpecialProps) {
-  const dom = useMemo(() => {
-    return (
-      <div className="flex-1 overflow-auto pointer-events-auto mx-2">
-        {items.map(({ name, img, count }, index) => (
-          <div key={index} className="relative">
-            <img src={Assets.Lobby.Achievement_Special} alt="card" />
-            <div className="absolute top-0 w-full h-full flex px-1">
-              <div
-                className={clsx(
-                  "relative flex justify-center items-center",
-                  "w-14 lg:w-1/6 lg:pb-1"
-                )}
-              >
-                <img
-                  src={Assets.Lobby.Achievement_Thumbnail_Frame}
-                  alt="thumbnail frame"
-                />
-                <img src={img} alt="thumbnail" className="absolute p-1" />
-              </div>
-  
-              <div className="flex-1 flex items-center px-2">
-                <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
-                  {name}
-                </h3>
-              </div>
-  
-              <div
-                className={clsx(
-                  "flex flex-col items-end w-1/4",
-                  "py-2 lg:px-3 lg:py-3 xl:py-4"
-                )}
-              >
-                <h4
-                  className={clsx(
-                    "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
-                    "text-xs lg:text-lg xl:text-xl"
-                  )}
-                >
-                  卡片獲得次數
-                </h4>
-  
-                <div
-                  className={clsx(
-                    "flex-1",
-                    "text-white w-full flex justify-center items-center pt-1",
-                    "text-lg lg:text-2xl xl:text-3xl"
-                  )}
-                >
-                  <span>X</span>
-                  <span>{count}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }, [items, target]);
-  return dom;
-}
-
-type GeneralProps = {
+type AchievementItemProps = {
   items?: Achievement[];
   updateItem?: any;
   target?: String;
 };
-function General({ items = [], updateItem, target }: GeneralProps) {
+function AchievementItem({ items = [], updateItem, target }: AchievementItemProps) {
   const dom = useMemo(() => {
     return (
-      <div className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2">
-        {items.map((item) => (
-          <button
-            key={item.name}
-            onClick={() => updateItem(item)}
-            className="flex"
-          >
-            <img src={item.cardImg} alt="card" />
-          </button>
-        ))}
-      </div>
+      <>
+        <div className={clsx(
+          "flex-1 overflow-auto pointer-events-auto mx-2",
+          target !== "other" && "hidden"
+        )}>
+          {items.map(({ name, img, count }, index) => (
+            <div key={index} className="relative">
+              <img src={Assets.Lobby.Achievement_Special} alt="card" />
+              <div className="absolute top-0 w-full h-full flex px-1">
+                <div
+                  className={clsx(
+                    "relative flex justify-center items-center",
+                    "w-14 lg:w-1/6 lg:pb-1"
+                  )}
+                >
+                  <img
+                    src={Assets.Lobby.Achievement_Thumbnail_Frame}
+                    alt="thumbnail frame"
+                  />
+                  <img src={img} alt="thumbnail" className="absolute p-1" />
+                </div>
+    
+                <div className="flex-1 flex items-center px-2">
+                  <h3 className="text-fansy font-kai text-base lg:text-2xl xl:text-4xl">
+                    {name}
+                  </h3>
+                </div>
+    
+                <div
+                  className={clsx(
+                    "flex flex-col items-end w-1/4",
+                    "py-2 lg:px-3 lg:py-3 xl:py-4"
+                  )}
+                >
+                  <h4
+                    className={clsx(
+                      "text-yellow-100 font-kai flex items-center lg:pt-2 h-1/3",
+                      "text-xs lg:text-lg xl:text-xl"
+                    )}
+                  >
+                    卡片獲得次數
+                  </h4>
+    
+                  <div
+                    className={clsx(
+                      "flex-1",
+                      "text-white w-full flex justify-center items-center pt-1",
+                      "text-lg lg:text-2xl xl:text-3xl"
+                    )}
+                  >
+                    <span>X</span>
+                    <span>{count}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={clsx(
+          "overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2",
+          target !== "card" && "hidden"
+        )}>
+          {items.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => updateItem(item)}
+              className="flex"
+            >
+              <img src={item.cardImg} alt="card" />
+            </button>
+          ))}
+        </div>
+      </>
     );
   }, [items, target]);
   return dom;
@@ -227,13 +223,7 @@ export default function _Achievement({ className }: AchievementProps) {
                 ))}
               </nav>
 
-              {active.key === "card" && (
-                <General items={achievement?.[active.key]} updateItem={setItem} target={active.key}/>
-              )}
-
-              {active.key === "other" && (
-                <Special items={achievement?.[active.key]} target={active.key}/>
-              )}
+              <AchievementItem items={achievement?.[active.key]} updateItem={setItem} target={active.key}/>
 
               <Close
                 className="absolute top-0 right-0 mr-1/24"
