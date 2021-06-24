@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Assets from "assets";
 import { Modal, SystemModal } from "components";
 import { Range } from "react-range";
@@ -68,17 +68,14 @@ function InputRange({
               </div>
             </div>
           )}
-          renderThumb={({ props }) => {
-            if (isiPad) props["aria-valuenow"] = value;
-            return (
-              <img
-                {...props}
-                className="absolute top-0 pointer-events-auto w-5 lg:w-10"
-                src={Assets.Common.Setting_Volume_Controller}
-                alt="controller"
-              />
-            )
-          }}
+          renderThumb={({ props }) => (
+            <img
+              {...props}
+              className="absolute top-0  pointer-events-auto w-5 lg:w-10"
+              src={Assets.Common.Setting_Volume_Controller}
+              alt="controller"
+            />
+          )}
         />
       </div>
     </div>
@@ -137,6 +134,14 @@ export function Setting() {
     dispatch(BGM.volume(0.8));
     dispatch(Effect.volume(0.8));
   }
+
+  useEffect(() => {
+    console.log("======================")
+    console.log(`effectVolume:${effectVolume}`)
+    console.log(`bgmVolume: ${bgmVolume}`)
+    console.log(`isShowNPC: ${isShowNPC}`)
+    console.log("======================")
+  }, [effectVolume, bgmVolume, isShowNPC])
 
   return (
     <>
