@@ -78,10 +78,7 @@ type SpecialProps = {
 };
 function Special({ items = [], reset }: SpecialProps) {
   return (
-    <div
-      className="flex-1 overflow-auto pointer-events-auto mx-2"
-      style={{ pointerEvents: reset ? 'none' : 'auto' }}
-    >
+    <div className="flex-1 pointer-events-auto overflow-auto mx-2">
       {items.map(({ name, img, count }, index) => (
         <div key={index} className="relative">
           <img src={Assets.Lobby.Achievement_Special} alt="card" />
@@ -199,7 +196,10 @@ export default function _Achievement({ className }: AchievementProps) {
             <img src={Assets.Lobby.Achievement_Frame} alt="frame" />
           </div>
 
-          <div className="absolute top-0 w-full h-full">
+          <div className={clsx(
+            "absolute top-0 w-full h-full",
+            reset && "hidden"
+          )}>
             <div className="flex flex-col h-full relative px-1/14 pt-1/24 pb-1/16">
               <nav className={clsx("flex", isiPad && "items-center justify-start")}>
                 {filters.map((tab) => (
@@ -217,9 +217,7 @@ export default function _Achievement({ className }: AchievementProps) {
 
               {active.key === "card" && (
                 <div
-                  className="overflow-auto pointer-events-auto m-2 grid grid-cols-3 gap-2"
-                  style={{ pointerEvents: reset ? 'none' : 'auto' }}
-                >
+                  className="overflow-auto m-2 grid grid-cols-3 gap-2 pointer-events-auto">
                   {achievement?.[active.key].map((item) => (
                     <button
                       key={item.name}
