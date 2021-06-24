@@ -135,13 +135,24 @@ export function Setting() {
     dispatch(Effect.volume(0.8));
   }
 
+  const [reset, setReset] = useState(false);
+
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
+
   useEffect(() => {
-    console.log("======================")
-    console.log(`effectVolume:${effectVolume}`)
-    console.log(`bgmVolume: ${bgmVolume}`)
-    console.log(`isShowNPC: ${isShowNPC}`)
-    console.log("======================")
-  }, [effectVolume, bgmVolume, isShowNPC])
+    if (reset || !isiPad) return;
+    setReset(true);
+    setTimeout(() => setReset(false), 10);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSettingOpen, isiPad]);
+
+  useEffect(() => {
+    if (!reset || !isiPad) return;
+    dispatch(BGM.volume(bgmVolume));
+    dispatch(Effect.volume(effectVolume));
+    dispatch(NPC.isShow(isShowNPC));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reset]);
 
   return (
     <>

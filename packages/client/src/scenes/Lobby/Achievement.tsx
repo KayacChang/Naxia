@@ -182,7 +182,8 @@ export default function _Achievement({ className }: AchievementProps) {
     if (reset || !isiPad) return;
     setReset(true);
     setTimeout(() => setReset(false), 10);
-  }, [active, reset, isiPad]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
 
   return (
     <>
