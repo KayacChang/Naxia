@@ -184,10 +184,6 @@ export default function _Achievement({ className }: AchievementProps) {
     setTimeout(() => setReset(false), 10)
   }, [active])
 
-  useEffect(() => {
-    console.log(reset);
-  }, [reset])
-
   return (
     <>
       <article className={clsx("flex justify-center items-center", className)}>
