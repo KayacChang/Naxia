@@ -144,6 +144,7 @@ const LobbyView = () => {
   const map = useMap();
 
   const history = useHistory();
+  const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
   return (
     <>
@@ -166,7 +167,7 @@ const LobbyView = () => {
           }}
         >
           <Sprite
-            scale={isMobile() ? 1 : 2}
+            scale={isMobile() && !isiPad ? 1 : 2}
             texture={getAssets(`Map.${map.id}`)}
           />
 
