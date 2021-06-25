@@ -32,6 +32,10 @@ function InputRange({
 }: InputRangeProps) {
   const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
+  useEffect(() => {
+    console.log(value);
+  }, [value])
+
   return (
     <div className="flex-1 flex items-center space-x-8">
       <p className="whitespace-nowrap lg:text-2xl">{label}</p>
@@ -39,44 +43,79 @@ function InputRange({
       <div className="relative flex items-center">
         <img src={Assets.Common.Setting_Volume_Bottom} alt="background" />
 
-        <Range
-          step={step}
-          min={min}
-          max={max}
-          values={[value]}
-          onChange={([value]) => onChange(value)}
-          renderTrack={({ props, children }) => (
-            <div className="absolute">
-              <div
-                {...props}
-                className="relative mx-1.5"
+        {
+          isiPad ? (
+            <div className="absolute custom_range_container mx-1.5 pr-3 w-11/12 h-full">
+              <img
+                className="absolute top-1/2 set_transform h-full"
                 style={{
-                  ...props.style,
+                  clipPath: `inset(0 ${100 - value}% 0 0)`,
+                  WebkitClipPath: `inset(0 ${100 - value}% 0 0)`,
                 }}
-              >
-                <img
-                  className="transform translate-y-px lg:translate-y-2px"
-                  style={{
-                    clipPath: `inset(0 ${100 - value}% 0 0)`,
-                    WebkitClipPath: `inset(0 ${100 - value}% 0 0)`,
-                  }}
-                  src={Assets.Common.Setting_Volume_Bar}
-                  alt="bar"
-                />
-
-                {children}
-              </div>
+                src={Assets.Common.Setting_Volume_Bar}
+                alt="bar"
+              />
+              <img
+                alt="controller"
+                src={Assets.Common.Setting_Volume_Controller}
+                className="absolute top-1/2 transform -translate-y-1/2 pointer-events-auto w-5 lg:w-10"
+                style={{
+                  left: `${
+                    value > 5 ? value - 5 : value
+                  }%`
+                }}
+              />
+              <input
+                max={max}
+                min={min}
+                step={step}
+                type="range"
+                value={value}
+                className="custom_range absolute w-full h-full top-1/2 set_transform"
+                onChange={({target}) => onChange(Number(target.value))}
+              />
             </div>
-          )}
-          renderThumb={({ props }) => (
-            <img
-              {...props}
-              className="absolute top-0  pointer-events-auto w-5 lg:w-10"
-              src={Assets.Common.Setting_Volume_Controller}
-              alt="controller"
+          ) : (
+            <Range
+              step={step}
+              min={min}
+              max={max}
+              values={[value]}
+              onChange={([value]) => onChange(value)}
+              renderTrack={({ props, children }) => (
+                <div className="absolute">
+                  <div
+                    {...props}
+                    className="relative mx-1.5"
+                    style={{
+                      ...props.style,
+                    }}
+                  >
+                    <img
+                      className="transform translate-y-px lg:translate-y-2px"
+                      style={{
+                        clipPath: `inset(0 ${100 - value}% 0 0)`,
+                        WebkitClipPath: `inset(0 ${100 - value}% 0 0)`,
+                      }}
+                      src={Assets.Common.Setting_Volume_Bar}
+                      alt="bar"
+                    />
+
+                    {children}
+                  </div>
+                </div>
+              )}
+              renderThumb={({ props }) => (
+                <img
+                  {...props}
+                  className="absolute top-0  pointer-events-auto w-5 lg:w-10"
+                  src={Assets.Common.Setting_Volume_Controller}
+                  alt="controller"
+                />
+              )}
             />
-          )}
-        />
+          )
+        }
       </div>
     </div>
   );
