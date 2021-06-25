@@ -32,10 +32,6 @@ function InputRange({
 }: InputRangeProps) {
   const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
-  useEffect(() => {
-    console.log(value);
-  }, [value])
-
   return (
     <div className="flex-1 flex items-center space-x-8">
       <p className="whitespace-nowrap lg:text-2xl">{label}</p>
