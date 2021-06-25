@@ -45,7 +45,7 @@ function InputRange({
 
         {
           isiPad ? (
-            <div className="absolute custom_range_container mx-1.5 pr-3 w-11/12 h-full">
+            <div className="absolute custom_range_container mx-1.5 w-11/12 h-full">
               <img
                 className="absolute top-1/2 set_transform h-full"
                 style={{

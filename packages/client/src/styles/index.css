@@ -183,11 +183,11 @@ img {
 }
 
 .custom_range {
+  outline: none;
   cursor: pointer;
-  background: none; /* 清除不必要的東西 */
-  outline: none; /* 清除不必要的東西 */
-  border-radius: 0; /* 清除不必要的東西 */
-  overflow: hidden; /* 晚點會用到 */
+  background: none;
+  border-radius: 0;
+  overflow: hidden;
   -webkit-appearance: none;
 }
 
@@ -197,8 +197,10 @@ img {
 
 /* 調整拖曳鈕 */
 .custom_range::-webkit-slider-thumb {
-  opacity: 0;
-  width: 20px;
-  height: 100%;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: transparent;
+  border: solid 1px transparent;
   -webkit-appearance: none; /* 一樣要消除 */
 }
