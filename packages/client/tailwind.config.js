@@ -37,11 +37,16 @@ module.exports = {
         ping: {
           "75%, 100%": { transform: "scale(1.4)", opacity: "0" },
         },
+        move: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
       },
       animation: {
         ping: "ping 1s cubic-bezier(0, 0, 0.2, 1)",
         "ping-loop": "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
         spin: "spin 10s linear infinite",
+        marquee: "move 10s linear infinite",
       },
       width: {
         54: "13.5rem",

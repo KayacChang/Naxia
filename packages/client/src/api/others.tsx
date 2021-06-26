@@ -1,4 +1,4 @@
-import { Ranking, StoreItem } from "types";
+import { Marquee, Ranking, StoreItem } from "types";
 import { API, get, post } from "./base";
 
 export interface GetStoreItemsResponse {
@@ -46,4 +46,8 @@ export function getRank(token: string) {
       updated: exp["updated_time"],
     },
   }));
+}
+
+export function getMarquee(token: string) {
+  return get<Marquee[]>(API(`marquee`), token);
 }

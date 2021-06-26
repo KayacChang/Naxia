@@ -22,7 +22,6 @@ const Room = {
 
   Road_Ring_Ice: assets("/road/icon-ice-ring.png"),
   Road_Ring_Fire: assets("/road/icon-fire-ring.png"),
-  
 
   // Bet
   Bet_Frame: assets("/room/bet/background.png"),
@@ -98,8 +97,13 @@ const Room = {
 };
 
 const Lobby = {
-  Swap_Background: assets('/lobby/swap/background.png'),
-  Swap_Arrow: assets('/lobby/swap/arrow.png'),
+  // Marquee
+  Marquee_Background: assets("/lobby/marquee/background.png"),
+  Marquee_Icon: assets("/lobby/marquee/icon.png"),
+
+  // Swap
+  Swap_Background: assets("/lobby/swap/background.png"),
+  Swap_Arrow: assets("/lobby/swap/arrow.png"),
 
   // Lock
   Lock: assets("/lobby/lock.png"),

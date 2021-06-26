@@ -192,3 +192,9 @@ export interface StoreItem {
   item_img: string | null;
   requirements: Requirement[];
 }
+
+export interface Marquee {
+  id: number;
+  content: string;
+  interval: number;
+}

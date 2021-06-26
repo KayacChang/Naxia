@@ -14,6 +14,8 @@ export * from "./lobby/InputField";
 export * from "./lobby/Navbar";
 export * from "./lobby/Modal";
 export * from "./lobby/Tab";
+export * from "./lobby/Marquee";
+export * from "./lobby/SwapMap";
 
 export * from "./Button";
 export * from "./Road";
