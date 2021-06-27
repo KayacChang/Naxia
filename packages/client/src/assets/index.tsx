@@ -134,6 +134,8 @@ const Lobby = {
   Dungeon_Info_Background: assets("/lobby/dungeon/background.png"),
   Dungeon_Info_Btn_Join: assets("/lobby/dungeon/btn_join.png"),
   Dungeon_Info_Btn_Back: assets("/lobby/dungeon/btn_back.png"),
+  Dungeon_Info_Btn_Reward: assets("/lobby/dungeon/btn_reward.png"),
+  Dungeon_Info_Reward: assets("/lobby/dungeon/reward.png"),
   Dungeon_Info_Preview_Frame: assets("/lobby/dungeon/preview_frame.png"),
   Dungeon_Info_Name_Frame: assets("/lobby/dungeon/name_frame.png"),
   Dungeon_Info_Bet_Frame: assets("/lobby/dungeon/bet_frame.png"),

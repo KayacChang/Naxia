@@ -131,13 +131,13 @@ export default function GameUI() {
 
   return (
     <UI className="flex flex-col text-white">
-      <header className={`h-10 relative ${isiPad && 'set_iPad_style'}`}>
+      <header className={`h-10 relative ${isiPad && "set_iPad_style"}`}>
         <Profile />
         <Location>{boss.name}</Location>
         <Status />
       </header>
 
-      <div className={`flex-1 flex relative ${isiPad && 'set_iPad_style'}`}>
+      <div className={`flex-1 flex relative ${isiPad && "set_iPad_style"}`}>
         <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <CountDown />
         </div>
@@ -146,14 +146,21 @@ export default function GameUI() {
           <RoundStatus />
         </div>
 
-        <div className={`w-2/3 flex flex-col px-2 mt-1/24 ${isiPad ? 'justify-around' : 'lg:mt-1/16 justify-between'}`}>
+        <div
+          className={`w-2/3 flex flex-col px-2 mt-1/24 ${
+            isiPad ? "justify-around" : "lg:mt-1/16 justify-between"
+          }`}
+        >
           <RoomStatus className="w-1/2" />
 
           <Button
             type="img"
             img={Assets.Room.Room_Back}
             className="w-1/16"
-            onClick={() => history.replace("/lobby")}
+            onClick={() => {
+              dispatch(room.leave());
+              history.replace("/lobby");
+            }}
           />
 
           <Road className="w-3/5" />

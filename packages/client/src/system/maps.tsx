@@ -10,6 +10,7 @@ import {
   getConditionsByDungeonID,
   getInfoByDungeonID,
   getNPCInMap,
+  getRewardsByDungeonID,
   getRoundsByDungeonID,
   unlock,
 } from "api";
@@ -22,7 +23,14 @@ import {
   useAppSelector,
 } from "system";
 import invariant from "tiny-invariant";
-import { Condition, Round, Map as TMap, Dungeon as IDungeon, NPC } from "types";
+import {
+  Condition,
+  Round,
+  Map as TMap,
+  Dungeon as IDungeon,
+  NPC,
+  Reward,
+} from "types";
 import { toTask } from "utils";
 import { system } from "./system";
 import { selectToken } from "./user";
@@ -177,6 +185,28 @@ export const Dungeon = {
         }
       }
     ),
+
+    rewards: createAsyncThunk<
+      { [id: string]: Reward[] },
+      { mapID: number; dungeonID: number },
+      { state: RootState; dispatch: AppDispatch }
+    >(
+      "map/dungeon/get/rewards",
+      async ({ mapID, dungeonID }, { getState, dispatch }) => {
+        const token = selectToken(getState());
+        try {
+          invariant(token, "Unauthorized");
+
+          const rewards = await getRewardsByDungeonID(token, mapID, dungeonID);
+
+          return { [`${mapID}.${dungeonID}`]: rewards };
+        } catch (error) {
+          dispatch(system.error(error));
+
+          return error;
+        }
+      }
+    ),
   },
 
   unlock: createAsyncThunk<
@@ -243,6 +273,7 @@ export const Dungeon = {
           dispatch(Dungeon.get.info({ mapID: map.id, dungeonID })),
           dispatch(Dungeon.get.rounds({ mapID: map.id, dungeonID })),
           dispatch(Dungeon.get.conditions({ mapID: map.id, dungeonID })),
+          dispatch(Dungeon.get.rewards({ mapID: map.id, dungeonID })),
         ]);
 
         return dungeonID;
@@ -277,6 +308,7 @@ type MapState = {
 
   conditions: { [id: string]: Condition[] };
   rounds: { [id: string]: Round[] };
+  rewards: { [id: string]: Reward[] };
 };
 
 const initialState: MapState = {
@@ -291,6 +323,7 @@ const initialState: MapState = {
 
   conditions: {},
   rounds: {},
+  rewards: {},
 };
 
 const mapSlice = createSlice({
@@ -328,6 +361,9 @@ const mapSlice = createSlice({
       .addCase(Dungeon.get.rounds.fulfilled, (state, { payload }) => {
         state.rounds = { ...state.rounds, ...payload };
       })
+      .addCase(Dungeon.get.rewards.fulfilled, (state, { payload }) => {
+        state.rewards = { ...state.rewards, ...payload };
+      })
       .addCase(Dungeon.modal.condition.fulfilled, (state, { payload }) => {
         state.currentDungeon = payload;
       })
@@ -351,6 +387,12 @@ export const selectDungeonRounds = (
   mapID: number,
   dungeonID?: number
 ) => (dungeonID ? state.map.rounds[`${mapID}.${dungeonID}`] : undefined);
+
+export const selectDungeonRewards = (
+  state: RootState,
+  mapID: number,
+  dungeonID?: number
+) => (dungeonID ? state.map.rewards[`${mapID}.${dungeonID}`] : undefined);
 
 export const selectDungeonConditions = (
   state: RootState,
@@ -441,10 +483,14 @@ export function useDungeon() {
   const rounds = useAppSelector((state) =>
     selectDungeonRounds(state, map.id, dungeonID)
   );
+  const rewards = useAppSelector((state) =>
+    selectDungeonRewards(state, map.id, dungeonID)
+  );
 
   return {
     info,
     conditions,
     rounds,
+    rewards,
   };
 }

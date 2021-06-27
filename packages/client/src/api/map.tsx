@@ -6,6 +6,7 @@ import {
   SkillSet,
   SkillOption,
   NPC,
+  Reward,
 } from "types";
 import { API, get, post } from "./base";
 
@@ -161,6 +162,39 @@ export function getRoundsByDungeonID(
     data.map(({ id, results }) => ({
       id,
       results,
+    }))
+  );
+}
+
+export interface GetRewardsByDungeonIDResponse {
+  name: string;
+  img: string;
+  item_wins: {
+    name: string;
+    img: string;
+  }[];
+  item_loses: {
+    name: string;
+    img: string;
+  }[];
+  item_all: {
+    name: string;
+    img: string;
+  }[];
+}
+export function getRewardsByDungeonID(
+  token: string,
+  mapID: number,
+  dungeonID: number
+): Promise<Reward[]> {
+  return get<GetRewardsByDungeonIDResponse[]>(
+    API(`maps/${mapID}/dungeons/${dungeonID}/monster`),
+    token
+  ).then((data) =>
+    data.map(({ name, img, item_all }) => ({
+      name,
+      img,
+      items: item_all,
     }))
   );
 }

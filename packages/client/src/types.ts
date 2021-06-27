@@ -96,6 +96,12 @@ export interface Round {
   results: SkillOption[];
 }
 
+export interface Reward {
+  name: string;
+  img: string;
+  items: Omit<Reward, "items">[];
+}
+
 export interface Skill {
   img: string;
   name: string;

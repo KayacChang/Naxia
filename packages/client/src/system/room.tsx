@@ -62,7 +62,7 @@ export const selectRoomRoundStatus = (state: RootState) => state.room.round;
 
 export const selectRoomStream = (state: RootState) => state.room.stream;
 
-let ws: WebSocket | undefined;
+let _ws: WebSocket | undefined;
 
 const game = {
   status: createAction<RoomStatus>("room/game/status"),
@@ -266,15 +266,17 @@ export const room = {
 
     invariant(token, "Unauthorized");
 
+    if (_ws) return roomID;
+
     const url = new URL(process.env.REACT_APP_WS || "");
     url.searchParams.append("roomID", roomID);
     url.searchParams.append("token", token);
 
-    ws = new WebSocket(url.toString());
+    const ws = new WebSocket(url.toString());
 
     let hasMessage = false;
 
-    ws.addEventListener("message", (event: MessageEvent) => {
+    function onMessage(event: MessageEvent) {
       if (event.data === "pong") return;
 
       if (!isJson(event.data)) return;
@@ -321,28 +323,29 @@ export const room = {
       if (data.event === "next_round_monster") {
         dispatch(game.boss(data.data));
       }
-    });
+    }
+
+    ws.addEventListener("message", onMessage);
 
     let ping: NodeJS.Timeout | undefined = undefined;
+    function onPing() {
+      const wait = Number(process.env.REACT_APP_PING_PER_SECONDS) * 1000;
 
-    ws.addEventListener(
-      "open",
-      () => {
-        const wait = Number(process.env.REACT_APP_PING_PER_SECONDS) * 1000;
+      ping = setInterval(() => {
+        if (!ws || ws.readyState !== ws.OPEN) return;
 
-        ping = setInterval(() => {
-          if (!ws || ws.readyState !== ws.OPEN) return;
+        ws.send("ping");
+      }, wait);
+    }
 
-          ws.send("ping");
-        }, wait);
-      },
-      { once: true }
-    );
+    ws.addEventListener("open", onPing, { once: true });
 
     const reconnectTime =
       Number(process.env.REACT_APP_RE_CONNECT_PER_SECONDS) * 1000;
+
     const reconnect = setTimeout(() => {
       if (hasMessage) {
+        clearTimeout(reconnect);
         return;
       }
 
@@ -351,23 +354,39 @@ export const room = {
       dispatch(room.join(roomID));
     }, reconnectTime);
 
-    ws.addEventListener("close", () => {
-      reconnect && clearTimeout(reconnect);
-      ping && clearInterval(ping);
-    });
-
-    ws.addEventListener("error", (error) => {
+    function onError(error: Event) {
       dispatch(room.leave());
       dispatch(system.error(String(error)));
-    });
+    }
+    ws.addEventListener("error", onError);
+
+    function onClose() {
+      reconnect && clearTimeout(reconnect);
+      ping && clearInterval(ping);
+
+      ws?.removeEventListener("message", onMessage);
+      ws?.removeEventListener("open", onPing);
+      ws?.removeEventListener("error", onError);
+      ws?.removeEventListener("close", onClose);
+    }
+
+    ws.addEventListener("close", onClose);
 
     return new Promise((resolve) => {
-      ws?.addEventListener("open", () => resolve(roomID), { once: true });
+      ws?.addEventListener(
+        "open",
+        () => {
+          _ws = ws;
+
+          return resolve(roomID);
+        },
+        { once: true }
+      );
     });
   }),
   leave: createAsyncThunk("room/leave", async () => {
-    ws?.close();
-    ws = undefined;
+    _ws?.close();
+    _ws = undefined;
   }),
 
   stream: createAction<void>("room/stream"),

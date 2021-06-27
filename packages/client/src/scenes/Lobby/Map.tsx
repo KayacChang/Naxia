@@ -5,6 +5,8 @@ import Assets from "assets";
 import { useEffect } from "react";
 import clsx from "clsx";
 import { currency } from "utils";
+import { useState } from "react";
+import { Reward as IReward } from "types";
 
 type DataFieldProps = {
   className?: string;
@@ -26,8 +28,10 @@ function DataField({ className, title, value }: DataFieldProps) {
 export function DungeonDetail() {
   const dispatch = useAppDispatch();
   const map = useMap();
-  const { info, rounds } = useDungeon();
+  const { info, rounds, rewards } = useDungeon();
   const history = useHistory();
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!info?.id) return;
@@ -47,193 +51,285 @@ export function DungeonDetail() {
     return () => clearInterval(id);
   }, [map.id, info?.id, dispatch]);
 
-  if (!info || !rounds || info.lock) return <></>;
+  if (!info || !rounds || info.lock || !rewards) return <></>;
 
   return (
-    <Modal className="z-20">
-      <div className="flex flex-col h-full relative text-white">
-        <div className="flex items-center mt-8 relative">
-          <div>
-            <img
-              src={Assets.Lobby.Dungeon_Info_Background}
-              alt="info background"
-            />
-          </div>
+    <>
+      <Modal className="z-20">
+        <div className="flex flex-col h-full relative text-white">
+          <div className="flex items-center mt-8 relative">
+            <div>
+              <img
+                src={Assets.Lobby.Dungeon_Info_Background}
+                alt="info background"
+              />
+            </div>
 
-          <div className="absolute h-full lg:h-5/6 w-full py-8 flex">
-            <div
-              className={clsx(
-                "flex flex-col h-full items-center justify-end relative w-5/6 gap-1",
-                "px-4"
-              )}
-            >
+            <div className="absolute h-full lg:h-5/6 w-full py-8 flex">
               <div
                 className={clsx(
-                  "absolute top-0 w-2/5 lg:w-2/6",
-                  "transform -translate-y-1/3 lg:-mt-2"
+                  "flex flex-col h-full items-center justify-end relative w-5/6 gap-1",
+                  "px-4"
                 )}
               >
-                <div className="relative flex justify-center items-center">
-                  <img
-                    src={Assets.Lobby.Dungeon_Info_Name_Frame}
-                    alt="name frame"
-                  />
-
-                  <div
-                    className={clsx(
-                      "absolute w-full h-full px-1/10 pt-1/16 flex items-center justify-center"
-                    )}
-                  >
-                    <h2
-                      className={clsx(
-                        "font-kai text-fansy text-shadow-xl filter contrast-125 text-center",
-                        "lg:text-2xl xl:text-3xl tracking-widest"
-                      )}
-                    >
-                      {info.name}
-                    </h2>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative flex justify-center">
-                <div className="absolute transform -translate-y-2/3 w-11/12">
+                <div
+                  className={clsx(
+                    "absolute top-0 w-2/5 lg:w-2/6",
+                    "transform -translate-y-1/3 lg:-mt-2"
+                  )}
+                >
                   <div className="relative flex justify-center items-center">
                     <img
-                      src={Assets.Lobby.Dungeon_Info_Info_Frame}
-                      alt="info frame"
+                      src={Assets.Lobby.Dungeon_Info_Name_Frame}
+                      alt="name frame"
                     />
 
                     <div
                       className={clsx(
-                        "absolute flex flex-wrap justify-center",
-                        "text-xs lg:text-lg xl:text-2xl"
+                        "absolute w-full h-full px-1/10 pt-1/16 flex items-center justify-center"
                       )}
                     >
-                      <DataField
-                        className="w-1/3"
-                        title="遊戲局號"
-                        value={info.roomInfo?.roundNumber || "-"}
-                      />
-                      <DataField
-                        className="w-1/3"
-                        title="遊戲編號"
-                        value={info.roomInfo?.roundID || "-"}
-                      />
-                      <DataField
-                        className="w-1/3"
-                        title="荷官名稱"
-                        value={info.roomInfo?.dealer || "-"}
-                      />
-                      <DataField
-                        className="w-1/3"
-                        title="房間人數"
-                        value={
-                          info.roomInfo?.users
-                            ? String(info.roomInfo.users)
-                            : "-"
-                        }
-                      />
-                      <DataField
-                        className="w-1/3"
-                        title="下注限紅"
-                        value={info.roomInfo?.limit || "-"}
-                      />
+                      <h2
+                        className={clsx(
+                          "font-kai text-fansy text-shadow-xl filter contrast-125 text-center",
+                          "lg:text-2xl xl:text-3xl tracking-widest"
+                        )}
+                      >
+                        {info.name}
+                      </h2>
                     </div>
                   </div>
                 </div>
 
-                <Road rounds={rounds} />
+                <div className="relative flex justify-center">
+                  <div className="absolute transform -translate-y-2/3 w-11/12">
+                    <div className="relative flex justify-center items-center">
+                      <img
+                        src={Assets.Lobby.Dungeon_Info_Info_Frame}
+                        alt="info frame"
+                      />
+
+                      <div
+                        className={clsx(
+                          "absolute flex flex-wrap justify-center",
+                          "text-xs lg:text-lg xl:text-2xl"
+                        )}
+                      >
+                        <DataField
+                          className="w-1/3"
+                          title="遊戲局號"
+                          value={info.roomInfo?.roundNumber || "-"}
+                        />
+                        <DataField
+                          className="w-1/3"
+                          title="遊戲編號"
+                          value={info.roomInfo?.roundID || "-"}
+                        />
+                        <DataField
+                          className="w-1/3"
+                          title="荷官名稱"
+                          value={info.roomInfo?.dealer || "-"}
+                        />
+                        <DataField
+                          className="w-1/3"
+                          title="房間人數"
+                          value={
+                            info.roomInfo?.users
+                              ? String(info.roomInfo.users)
+                              : "-"
+                          }
+                        />
+                        <DataField
+                          className="w-1/3"
+                          title="下注限紅"
+                          value={info.roomInfo?.limit || "-"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Road rounds={rounds} />
+                </div>
+
+                <div className="pb-1 relative flex items-center lg:w-2/3">
+                  <img
+                    src={Assets.Lobby.Dungeon_Info_Bet_Frame}
+                    alt="bet frame"
+                  />
+
+                  <div
+                    className={clsx(
+                      "absolute w-full flex px-1/16",
+                      "lg:text-lg xl:text-2xl"
+                    )}
+                  >
+                    <DataField
+                      className="flex-1"
+                      title="當局下注量"
+                      value={currency(info.currentBet || 0)}
+                    />
+
+                    <DataField
+                      className="flex-1"
+                      title="累積下注量"
+                      value={currency(info.historyBet || 0)}
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="pb-1 relative flex items-center lg:w-2/3">
-                <img
-                  src={Assets.Lobby.Dungeon_Info_Bet_Frame}
-                  alt="bet frame"
-                />
-
-                <div
-                  className={clsx(
-                    "absolute w-full flex px-1/16",
-                    "lg:text-lg xl:text-2xl"
-                  )}
-                >
-                  <DataField
-                    className="flex-1"
-                    title="當局下注量"
-                    value={currency(info.currentBet || 0)}
+              <div className="w-1/4 h-full flex flex-col justify-center pl-2 pr-4">
+                <div className="mt-1 relative flex justify-center items-center">
+                  <img
+                    className="p-1/12"
+                    src={info.preview || Assets.Lobby.Dungeon_Info_Preview_1}
+                    alt="preview"
                   />
 
-                  <DataField
-                    className="flex-1"
-                    title="累積下注量"
-                    value={currency(info.historyBet || 0)}
+                  <img
+                    className="absolute"
+                    src={Assets.Lobby.Dungeon_Info_Preview_Frame}
+                    alt="preview frame"
                   />
+                </div>
+
+                <div className="relative flex justify-center items-center">
+                  <img
+                    src={Assets.Lobby.Dungeon_Info_ID_Frame}
+                    alt="id background"
+                  />
+
+                  <div className="absolute -mb-1 font-kai text-sm lg:text-xl xl:text-3xl">
+                    <span className="text-fansy text-shadow-xl filter contrast-125">
+                      桌台編號:
+                    </span>
+                    <span>百家樂-{info.roomInfo?.table}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="w-1/4 h-full flex flex-col justify-center pl-2 pr-4">
-              <div className="mt-1 relative flex justify-center items-center">
-                <img
-                  className="p-1/12"
-                  src={info.preview || Assets.Lobby.Dungeon_Info_Preview_1}
-                  alt="preview"
-                />
+            <footer
+              className={clsx(
+                "absolute bottom-0 flex text-white w-full",
+                "transform translate-y-1/2",
+                "text-xs lg:text-lg xl:text-3xl"
+              )}
+            >
+              <div className="flex justify-between mx-1/24">
+                <div className="w-1/6">
+                  <Button
+                    type="img"
+                    img={Assets.Lobby.Dungeon_Info_Btn_Back}
+                    className="relative flex items-center"
+                    onClick={() => dispatch(Dungeon.modal.close())}
+                  >
+                    <div className="absolute w-full">{"返回"}</div>
+                  </Button>
+                </div>
 
-                <img
-                  className="absolute"
-                  src={Assets.Lobby.Dungeon_Info_Preview_Frame}
-                  alt="preview frame"
-                />
-              </div>
+                <div className="flex w-1/3">
+                  <Button
+                    type="img"
+                    img={Assets.Lobby.Dungeon_Info_Btn_Reward}
+                    className="relative flex items-center"
+                    onClick={() => setOpen(true)}
+                  >
+                    <div className="absolute w-full">{"怪物資訊"}</div>
+                  </Button>
 
-              <div className="relative flex justify-center items-center">
-                <img
-                  src={Assets.Lobby.Dungeon_Info_ID_Frame}
-                  alt="id background"
-                />
-
-                <div className="absolute -mb-1 font-kai text-sm lg:text-xl xl:text-3xl">
-                  <span className="text-fansy text-shadow-xl filter contrast-125">
-                    桌台編號:
-                  </span>
-                  <span>百家樂-{info.roomInfo?.table}</span>
+                  <Button
+                    type="img"
+                    img={Assets.Lobby.Dungeon_Info_Btn_Join}
+                    className="relative flex items-center"
+                    onClick={() => history.push("/room")}
+                  >
+                    <div className="absolute w-full">{"進入場景"}</div>
+                  </Button>
                 </div>
               </div>
+            </footer>
+          </div>
+        </div>
+      </Modal>
+
+      {open && (
+        <Modal onClose={() => setOpen(false)} className="z-20">
+          <SystemModal
+            title="怪物資訊"
+            button="確認"
+            onConfirm={() => setOpen(false)}
+          >
+            <div className=" overflow-scroll pointer-events-auto p-2 my-2">
+              {rewards.map((reward) => (
+                <Reward key={reward.name} {...reward} />
+              ))}
             </div>
+          </SystemModal>
+        </Modal>
+      )}
+    </>
+  );
+}
+
+type RewardProps = IReward;
+function Reward({ name, img, items }: RewardProps) {
+  return (
+    <div className="relative flex items-center">
+      <div>
+        <img src={Assets.Lobby.Dungeon_Info_Reward} alt="reward background" />
+      </div>
+
+      <div className="absolute w-full h-full flex items-center px-2">
+        <div className="w-1/6 relative flex justify-center items-center">
+          <img
+            className="z-10"
+            src={Assets.Lobby.Store_Item_Frame}
+            alt="boss frame"
+          />
+
+          <img className="absolute w-full h-full p-1" src={img} alt="boss" />
+        </div>
+
+        <div
+          className="h-full flex justify-center items-center"
+          style={{ width: `${30}%` }}
+        >
+          <p className="font-kai text-fansy text-shadow-xl filter contrast-150 text-xl">
+            {name}
+          </p>
+        </div>
+
+        <div className="flex-1 h-full py-2 px-1">
+          <div>
+            <p className="font-kai text-fansy text-shadow-xl filter contrast-150">
+              掉寶資訊
+            </p>
           </div>
 
-          <footer
-            className={clsx(
-              "absolute bottom-0 flex text-white w-full",
-              "transform translate-y-1/2",
-              "text-xs lg:text-lg xl:text-3xl"
-            )}
-          >
-            <div className="flex ml-auto mr-8 w-1/3">
-              <Button
-                type="img"
-                img={Assets.Lobby.Dungeon_Info_Btn_Back}
-                className="relative flex items-center"
-                onClick={() => dispatch(Dungeon.modal.close())}
+          <div className="flex px-1 gap-1">
+            {items.map(({ name, img }) => (
+              <div
+                key={name}
+                className="w-1/4 p-0.5 relative flex justify-center items-center"
               >
-                <div className="absolute w-full mb-1">{"返回"}</div>
-              </Button>
+                <img
+                  className="z-10"
+                  src={Assets.Lobby.Store_Item_Frame}
+                  alt="item frame"
+                />
 
-              <Button
-                type="img"
-                img={Assets.Lobby.Dungeon_Info_Btn_Join}
-                className="relative flex items-center"
-                onClick={() => history.push("/room")}
-              >
-                <div className="absolute w-full mb-1">{"進入場景"}</div>
-              </Button>
-            </div>
-          </footer>
+                <img
+                  className="absolute w-full h-full p-1"
+                  src={img}
+                  alt="item"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </Modal>
+    </div>
   );
 }
 
