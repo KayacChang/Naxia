@@ -1,8 +1,8 @@
-import React from "react";
 import { Link } from "components";
 import { useLocation } from "react-router";
 import Assets from "assets";
 import clsx from "clsx";
+import { useAppDispatch, Map } from "system";
 
 const links = [
   {
@@ -54,6 +54,7 @@ const links = [
 
 export function Navbar() {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const isiPad = document.querySelector("html")?.classList.contains("isIpad");
 
   return (
@@ -62,15 +63,15 @@ export function Navbar() {
         <img src={Assets.Lobby.Narbar_Frame} alt="nav frame" />
       </div>
 
-      <Link
-        to="#"
+      <button
+        onClick={() => dispatch(Map.previous())}
         className={clsx(
           "absolute bottom-0 left-0 w-32",
           "transform origin-bottom-left lg:scale-150"
         )}
       >
         <img src={Assets.Lobby.Narbar_Back} alt="back to home" />
-      </Link>
+      </button>
 
       <div
         className={clsx(
