@@ -123,7 +123,7 @@ export default function Repository({ className }: RepositoryProps) {
 
   return (
     <>
-      <article className={clsx("relative", className)} style={{marginTop: isiPad ? '5%' : 'auto'}}>
+      <article className={clsx("relative z-10", className)} style={{marginTop: isiPad ? '5%' : 'auto'}}>
         <img src={Assets.Lobby.Repo_Frame_Outer} alt="repository frame outer" />
 
         <div className="absolute top-0 w-full h-full pt-1/12 px-1/24">
