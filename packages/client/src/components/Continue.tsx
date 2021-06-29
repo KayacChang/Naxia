@@ -19,7 +19,8 @@ export function Continue({ className, text }: ContinueProps) {
       <span
         className={clsx(
           "absolute text-white",
-          "text-xl lg:text-3xl xl:text-4xl"
+          "text-xl lg:text-3xl xl:text-4xl",
+          "font-kai text-shadow-xl"
         )}
       >
         {text}

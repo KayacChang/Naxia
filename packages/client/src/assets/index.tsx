@@ -101,6 +101,9 @@ const Lobby = {
   Marquee_Background: assets("/lobby/marquee/background.png"),
   Marquee_Icon: assets("/lobby/marquee/icon.png"),
 
+  Achievement_Spine: assets("/animation/achievement/skeleton.json"),
+  Achievement_Title: assets("/animation/achievement/title.png"),
+
   // Swap
   Swap_Background: assets("/lobby/swap/background.png"),
   Swap_Arrow: assets("/lobby/swap/arrow.png"),

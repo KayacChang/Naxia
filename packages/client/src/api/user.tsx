@@ -82,6 +82,15 @@ export function getUserAchievement(token: string) {
   );
 }
 
+export function getUserNewAchievement(token: string) {
+  return get<Achievement[]>(API("achievement/new"), token).then((data) =>
+    data.map((props) => ({
+      ...props,
+      cardImg: props["card_img"],
+    }))
+  );
+}
+
 export interface BetResponse {
   status: "error" | "success";
   data: string;
