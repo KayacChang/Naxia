@@ -104,6 +104,7 @@ export const Map = {
   }),
 
   next: createAction<void>("map/map/next"),
+  previous: createAction<void>("map/map/previous"),
 };
 
 export const Dungeon = {
@@ -343,8 +344,10 @@ const mapSlice = createSlice({
       })
       .addCase(Map.next, (state) => {
         const max = state.maps.length - 1 || 0;
-
         state.currentMap = clamp(0, max, state.currentMap + 1);
+      })
+      .addCase(Map.previous, (state) => {
+        state.currentMap = clamp(0, 0, state.currentMap - 1);
       })
       .addCase(Dungeon.anim.play, (state, { payload }) => {
         state.unlockAnim = payload;

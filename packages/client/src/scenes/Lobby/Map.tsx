@@ -260,7 +260,7 @@ export function DungeonDetail() {
             button="確認"
             onConfirm={() => setOpen(false)}
           >
-            <div className=" overflow-scroll pointer-events-auto p-2 my-2">
+            <div className="overflow-auto pointer-events-auto p-2 my-2">
               {rewards.map((reward) => (
                 <Reward key={reward.name} {...reward} />
               ))}
@@ -302,7 +302,7 @@ function Reward({ name, img, items }: RewardProps) {
 
         <div className="flex-1 h-full py-2 px-1">
           <div>
-            <p className="font-kai text-fansy text-shadow-xl filter contrast-150">
+            <p className="font-kai text-fansy text-shadow-xl filter contrast-150 text-base lg:text-xl lg:mt-2 xl:mb-1">
               掉寶資訊
             </p>
           </div>
@@ -311,6 +311,7 @@ function Reward({ name, img, items }: RewardProps) {
             {items.map(({ name, img }) => (
               <div
                 key={name}
+                style={{ maxWidth: '5rem' }}
                 className="w-1/4 p-0.5 relative flex justify-center items-center"
               >
                 <img

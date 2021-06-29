@@ -112,7 +112,7 @@ export default function Rank({ className }: RankingProps) {
 
   return (
     <>
-      <article className={className}>
+      <article className={clsx("z-10", className)}>
         <div className="relative flex justify-center">
           <div>
             <img

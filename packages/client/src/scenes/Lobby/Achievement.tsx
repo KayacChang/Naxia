@@ -187,7 +187,7 @@ export default function _Achievement({ className }: AchievementProps) {
 
   return (
     <>
-      <article className={clsx("flex justify-center items-center", className)}>
+      <article className={clsx("flex justify-center items-center z-10", className)}>
         <div className="relative">
           <div>
             <img src={Assets.Lobby.Achievement_Frame} alt="frame" />

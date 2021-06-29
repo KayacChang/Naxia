@@ -75,7 +75,7 @@ export default function Store({ className }: StoreProps) {
     <>
       <div
         className={clsx(
-          "absolute w-full h-full left-0 top-0 bg-black bg-opacity-50 flex justify-center items-center",
+          "absolute w-full h-full left-0 top-0 flex justify-center items-center z-10",
           className
         )}
       >

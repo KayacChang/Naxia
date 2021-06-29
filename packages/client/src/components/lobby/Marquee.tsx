@@ -30,9 +30,9 @@ export function Marquee() {
   if (!message) return <></>;
 
   return (
-    <div className="absolute transition-opacity">
-      <div className="relative flex justify-center mt-4">
-        <div className="w-1/2 relative flex items-center">
+    <div className="absolute w-full transition-opacity">
+      <div className="relative flex justify-center mt-4 lg:mt-10">
+        <div className="w-1/2 max-w-lg relative flex items-center">
           <img
             src={Assets.Lobby.Marquee_Background}
             alt="marquee's background"
